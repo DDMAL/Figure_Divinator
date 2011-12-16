@@ -3,3 +3,4 @@
 + figured_bass.py: classes to represent a figured bass
 + work_browser.py: a class to manipulate a Music21 work (score)
 + engine.py:       contains the search routines
++ evaluation.py:   code to evaluate the quality of figured bass (unused for now)
