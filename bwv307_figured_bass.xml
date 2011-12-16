@@ -1,0 +1,1477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE score-partwise
+  PUBLIC '-//Recordare//DTD MusicXML 2.0 Partwise//EN'
+  'http://www.musicxml.org/dtds/partwise.dtd'>
+<score-partwise>
+  <movement-title>Music21 Fragment</movement-title>
+  <identification>
+    <creator type="composer">Music21</creator>
+  </identification>
+  <part-list>
+    <score-part id="P4">
+      <part-name>Bass</part-name>
+      <score-instrument id="I95d3a521c6b522f388f2dd51fabb5c1b">
+        <instrument-name>Instrument 4</instrument-name>
+      </score-instrument>
+      <midi-instrument id="I95d3a521c6b522f388f2dd51fabb5c1b">
+        <midi-channel>4</midi-channel>
+        <midi-program>1</midi-program>
+      </midi-instrument>
+    </score-part>
+  </part-list>
+  <part id="P4">
+    <measure number="0" width="182">
+      <attributes>
+        <divisions>10080</divisions>
+        <key>
+          <fifths>-2</fifths>
+          <mode>major</mode>
+        </key>
+        <time>
+          <beats>4</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>F</sign>
+          <line>4</line>
+        </clef>
+      </attributes>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="1" width="226">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>6</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="2" width="209">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="3" width="209">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="4" width="183">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="5" width="265">
+      <print new-system="yes">
+        <system-layout/>
+      </print>
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>6</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="6" width="183">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="7" width="174">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="8" width="174">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="9" width="213">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="10" width="266">
+      <print new-system="yes">
+        <system-layout/>
+      </print>
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <accidental>sharp</accidental>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="11" width="218">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>4</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="12" width="192">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>6</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>2</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="13" width="170">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>G</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>D</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>begin</beam>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>5040</duration>
+        <type>eighth</type>
+        <beam>end</beam>
+        <notations/>
+        <lyric number="1">
+          <text>4</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>5</text>
+        </lyric>
+        <lyric number="2">
+          <text>3</text>
+        </lyric>
+        <lyric number="3">
+          <text>2</text>
+        </lyric>
+      </note>
+    </measure>
+    <measure number="14" width="162">
+      <attributes>
+        <divisions>10080</divisions>
+      </attributes>
+      <note>
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>7</text>
+        </lyric>
+        <lyric number="2">
+          <text>4</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>B</step>
+          <alter>-1</alter>
+          <octave>2</octave>
+        </pitch>
+        <duration>10080</duration>
+        <type>quarter</type>
+        <notations/>
+        <lyric number="1">
+          <text>6</text>
+        </lyric>
+        <lyric number="2">
+          <text>5</text>
+        </lyric>
+        <lyric number="3">
+          <text>3</text>
+        </lyric>
+      </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+      </barline>
+    </measure>
+  </part>
+</score-partwise>
