@@ -1,0 +1,5 @@
++ extractor.py:    main file
++ rules.py:        extraction rules.
++ figured_bass.py: classes to represent a figured bass
++ work_browser.py: a class to manipulate a Music21 work (score)
++ engine.py:       contains the search routines
