@@ -16,7 +16,6 @@ from music21 import corpus
 from music21 import converter
 
 import rules
-import rulesSLC
 
 import engine # Searching an 'optimal' application of the rules found in rules.py (or other rule file)
 
@@ -36,23 +35,20 @@ class InputError(Exception):
 #Get, parse arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('input_file')
-parser.add_argument("-r", dest="rules_class",
-                default="rules", help="Class of rules to apply")
+parser.add_argument("-r", dest="rules_type",
+                default="rules", help="Set of rules to apply")
 parser.add_argument("-o", action="store_true",
                     dest="viewOutput", default=False, help="View output in MusicXML interface?")
 
 #Set flags
 args = parser.parse_args()
 scoreFile = args.input_file
-ruleClass = args.rules_class
+ruleSet = args.rules_type.uppercase
 viewOutput = args.viewOutput
 
-#housekeeping for set set of rules:
-#make sure right class/module is being used
-ruleclass =  getattr(sys.modules[__name__], ruleClass)
 #set output file additional string
-if ruleClass == "rulesSLC":
-    ext_rule = "_SLC"
+if ruleSet == "SL":
+    ext_rule = "_SL"
 else:
     ext_rule = ""
 
@@ -73,7 +69,7 @@ try:
         raise InputError("score is not compatible with Music21 input formats")
 
     # Get the extraction rules
-    extraction_rules = ruleclass.get_rules()
+    extraction_rules = rules.get_rules(ruleSet)
 
     # Create the engine
     #extraction_engine = engine.GreedyEngine(work,extraction_rules)
@@ -124,6 +120,6 @@ except engine.EngineParameterError as msg:
     print "Engine parameter error: " + str(msg)
     exit(1)
 
-except ruleclass.RuleImplementationError:
+except rules.RuleImplementationError:
     print "cannot find extraction rules in rules.py or rules are not all valid"
     exit(1)
