@@ -9,7 +9,7 @@ class SLRule(Rule):
     pass
 
 class SLRule1(SLRule):
-    # Status: limbo! #TODO-Hh{Konstantin clarification needed.}
+    # Status: limbo! #TODO-HhK{Konstantin clarification needed.}
 
     # def __init__(self):       #TODO-Hh{Note: only needs to be here if other stuff gets initialized}
     #     SLRule.__init__(self)

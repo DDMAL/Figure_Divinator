@@ -4,8 +4,6 @@
 # See http://mit.edu/music21/doc/html/contents.html 
 # for Music21 docs
 
-
-
 import music21
 from music21 import clef
 from music21 import note
@@ -49,6 +47,7 @@ class WorkBrowser(object):
         
 
     def get_bass_line(self):
+        #TODO-Hh{add work-around if no self-titled 'bass line' is present}
         try:
             return self.work['bass']
         except:
@@ -85,6 +84,8 @@ class WorkBrowser(object):
             return simultaneous_notes
 
     def get_harmonic_intervals(self,note,notes):
+        #TODO-HhK{Make sure it's okay that we're using generic intervals}
+
         # We are using  Music21 Generic interval, which gives a number (e.g. third = 3) w/o quality (m3 = M3 = 3)
         # For other kinds of intervals, see: http://mit.edu/music21/doc/html/moduleInterval.html
 

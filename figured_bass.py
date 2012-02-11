@@ -53,18 +53,21 @@ class FiguredBass(object):
             self.figures[note].remove_interval(interval)
 
     def clear_figure(self,note):
-        del self.figures[note]
+        try:
+            del self.figures[note]
+        except KeyError:
+            print "there wasn't a figure to clear!" #TODO-Hh{?decide whether to flag figure-less notes; maybe log?}
 
     def is_full(self,note):
         try:
             return self.figures[note].is_full()
-        except:
+        except KeyError:
             return False
 
     def has_interval(self,note,interval):
         try:
             return self.figures[note].has_interval(interval)
-        except:
+        except KeyError:
             return False
 
     def add_lyrics(self):

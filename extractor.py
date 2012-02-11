@@ -11,6 +11,7 @@
 import sys
 import os
 import argparse
+import logging #TODO-Hh{read about logging! implement this!}
 
 from music21 import corpus
 from music21 import converter
@@ -43,7 +44,7 @@ parser.add_argument("-o", action="store_true",
 #Set flags
 args = parser.parse_args()
 scoreFile = args.input_file
-ruleSet = args.rules_type.uppercase
+ruleSet = args.rules_type
 viewOutput = args.viewOutput
 
 #set output file additional string
