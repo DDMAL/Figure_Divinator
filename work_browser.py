@@ -62,7 +62,8 @@ class WorkBrowser(object):
         try:
             return self.overlapping_notes[note]
         except KeyError:
-            overlapping_notes = self.notes.getElementsByOffset(note.offset,note.offset + note.duration.quarterLength)
+            overlapping_notes = self.notes.getElementsByOffset(note.offset,
+                                    note.offset + note.duration.quarterLength)
             overlapping_notes.remove(note)
 
             # Cache
@@ -86,11 +87,14 @@ class WorkBrowser(object):
     def get_harmonic_intervals(self,note,notes):
         #TODO-HhK{Make sure it's okay that we're using generic intervals}
 
-        # We are using  Music21 Generic interval, which gives a number (e.g. third = 3) w/o quality (m3 = M3 = 3)
-        # For other kinds of intervals, see: http://mit.edu/music21/doc/html/moduleInterval.html
+        # We are using  Music21 Generic interval, which gives a number
+        # (e.g. third = 3) w/o quality (m3 = M3 = 3)
+        # For other kinds of intervals, see:
+        # http://mit.edu/music21/doc/html/moduleInterval.html
 
         # Compute all harmonic intervals with current note
-        harmonic_intervals = [interval.notesToGeneric(note,other_note) for other_note in notes]
+        harmonic_intervals = [interval.notesToGeneric(note,other_note) for
+                                other_note in notes]
 
         # Convert all intervals to mod7 intervals (e.g. 9th = 2nd)
         harmonic_intervals = [inter.mod7 for inter in harmonic_intervals]
@@ -162,6 +166,5 @@ class WorkBrowser(object):
                     previous_notes.insert(0,other_note)
                     if len(previous_notes) > N:
                         previous_notes.pop()
-
 
 

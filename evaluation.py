@@ -5,12 +5,12 @@ The search engine will call this to determine:
 
  - When to stop searching (self.accept = True)
  - When to disregard a figured bass (self.reject = True)
- - How good a partial figured bass is (self.quality), i.e. should we continue searching in that direction
+ - How good a partial figured bass is (self.quality), i.e. should we continue
+ searching in that direction
 """
 
 MIN_QUALITY=0.0
 MAX_QUALITY=1.0
-
 
 
 class Evaluator(object):

@@ -1,7 +1,7 @@
 """Python figured bass extractor using Music21 for score processing
 """
 
-# See http://mit.edu/music21/doc/html/contents.html 
+# See http://mit.edu/music21/doc/html/contents.html
 # for Music21 docs
 
 # See http://docs.python.org/modindex.html
@@ -18,7 +18,8 @@ from music21 import converter
 
 import rules
 
-import engine # Searching an 'optimal' application of the rules found in rules.py (or other rule file)
+import engine # Searching an 'optimal' application of the rules found in 
+              # rules.py (or other rule file)
 
 # Import Psyco if available...for a little speed.
 try:
@@ -39,7 +40,8 @@ parser.add_argument('input_file')
 parser.add_argument("-r", dest="rules_type",
                 default="rules", help="Set of rules to apply")
 parser.add_argument("-o", action="store_true",
-                    dest="viewOutput", default=False, help="View output in MusicXML interface?")
+                    dest="viewOutput", default=False,
+                    help="View output in MusicXML interface?")
 
 #Set flags
 args = parser.parse_args()
@@ -61,7 +63,8 @@ try:
 
     input_file_name = input_base + ext_sep+input_ext
 
-    output_file_name = input_base + "_figured_bass" + ext_rule + ext_sep + input_ext
+    output_file_name = (input_base + "_figured_bass" + ext_rule + 
+                        ext_sep + input_ext)
 
     # Open work with Music21
     try:
@@ -78,15 +81,20 @@ try:
 
     # Set the engine.explorer parameters
     # (this is specific to the kind of engine)
-    extraction_engine.explorer.WINDOW_SIZE=4      # Use bigger WINDOW_SIZE if rules have long-term dependencies (i.e. refer to notes 'far' from the current note)
-                                                  # Smaller WINDOW_SIZE = faster, but less exploration of how rules can combine.
 
-    extraction_engine.explorer.INCREMENT=2        # INCREMENT must be <= WINDOW_SIZE
-                                                  # Bigger increment = faster, but less exploration of how rules can combine.  
+    # Use bigger WINDOW_SIZE if rules have long-term dependencies (i.e. refer to
+    # notes 'far' from the current note); Smaller WINDOW_SIZE = faster, but less
+    # exploration of how rules can combine.
+    extraction_engine.explorer.WINDOW_SIZE=4
+
+    # INCREMENT must be <= WINDOW_SIZE 
+    # Bigger increment = faster, but less exploration of how rules can combine.
+    extraction_engine.explorer.INCREMENT=2
 
     # Fastest setting:
-    #extraction_engine.explorer.WINDOW_SIZE=1     # Computes one figure at a time, without any backtracking
-    #extraction_engine.explorer.INCREMENT=1       
+    # Computes one figure at a time, without any backtracking
+    #extraction_engine.explorer.WINDOW_SIZE=1
+    #extraction_engine.explorer.INCREMENT=1
     
 
     # Extract figures only for a subset of the work 
@@ -107,7 +115,6 @@ try:
         print "Displaying output if xml viewer has been installed."
         s = converter.parse(output_file_name)
         s.show()
-    
 
 except FileNotFoundError as file:
     print "file '%s' does not exists" % file

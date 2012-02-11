@@ -1,6 +1,29 @@
 + extractor.py:    main file
 + rules.py:        extraction rules.
++ rulesSL.py:	   additional rules for Saint-Lambert figured bass
++ rulesDummy.py:   additional dummy rules for figured bass
 + figured_bass.py: classes to represent a figured bass
 + work_browser.py: a class to manipulate a Music21 work (score)
 + engine.py:       contains the search routines
-+ evaluation.py:   code to evaluate the quality of figured bass (unused for now)
++ evaluation.py:   code to evaluate the quality of figured bass 
+				   (unused for now)
+
+Usage:
+
+	python extractor.py input_file [-o] [-r <rules>]
+
+
+Usage (for the fully uninitiated!):
+To run a file through the dummy rules, use:
+	python extractor.py yourfile.xml
+
+To have the output file open in your musicXML reader, add the -o flag:
+	python extractor.py yourfile.xml -o
+
+To use a particular set of extraction rules, add the -r <rules> flag:
+	python extractor.py yourfile.xml -r SL
+
+The -o and -r flags can be used together.
+
+The input file will remain unchanged; the output file will be saved in
+the same directory as yourfile_figured_bass_type.xml.

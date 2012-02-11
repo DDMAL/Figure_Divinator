@@ -1,12 +1,11 @@
-"""This modules searches for a good application of the figured bass extraction rules.
+"""This modules searches for a good application of the figured bass
+extraction rules.
 For now, the best implementation is a windowed greedy search.
 To improve search, consider implementing other strategies.
 """
 
 import sys
 import copy
-
-import figured_bass
 
 # Extraction rules
 import rules
@@ -21,7 +20,6 @@ from figured_bass import FiguredBass
 
 import work_browser
 from work_browser import WorkBrowser
-
 
 DEFAULT_WINDOW_SIZE = 4
 DEFAULT_INCREMENT = 2
@@ -39,6 +37,7 @@ class Region(object):
 
     def __init__(self,work_browser):
         self.work_browser = work_browser
+
 
 class FigureSpaceExplorer(object):
     """This decides how
@@ -88,7 +87,6 @@ class Engine(object):
         self.explorer = None
         self.extractor = None
 
-
     def compute_figured_bass(self):
         self.explorer.initialize()
         self.extractor.initialize()
@@ -105,7 +103,8 @@ class Engine(object):
 
     def write_figured_bass(self,output_file_name):
         self.explorer.figured_bass.add_lyrics()
-        self.work_browser.get_bass_line().write(fmt='musicxml',fp=output_file_name)
+        self.work_browser.get_bass_line().write(fmt='musicxml',
+                                            fp=output_file_name)
 
 
 class RangeRegion(Region):
@@ -119,6 +118,7 @@ class RangeRegion(Region):
     def next_note(self):
         for index in self.range:
             yield self.work_browser.note_of_index(index)
+
 
 class DummyFigureSpaceExplorer(FigureSpaceExplorer):
     """The dummy figure space explorer
@@ -136,14 +136,15 @@ class DummyFigureSpaceExplorer(FigureSpaceExplorer):
 
     def next_region(self):
         if self.current_region is None:
-            yield RangeRegion(self.work_browser,range(len(self.work_browser.bass_notes)))
+            yield RangeRegion(self.work_browser,
+                                range(len(self.work_browser.bass_notes)))
         else:
             raise StopIteration
 
 
 class WindowedFigureSpaceExplorer(FigureSpaceExplorer):
     """The windowed figure space explorer
-    splits the bass line in overlapping windows of WINDOW_SIZE 
+    splits the bass line in overlapping windows of WINDOW_SIZE
     notes, i.e. the extraction is done WINDOW_SIZE
     notes at a time, which speeds things up and is
     not harmful to the exploration of the search space
@@ -173,22 +174,23 @@ class WindowedFigureSpaceExplorer(FigureSpaceExplorer):
     def next_region(self):
         while(True):
             # Next region
-            self.current_window_start = self.current_window_start + self.INCREMENT
+            self.current_window_start = (self.current_window_start +
+                                        self.INCREMENT)
 
             if self.current_window_start > self.max_window_start:
                 raise StopIteration
             else:
                 # Clear the figures overlap two sucessive windows
                 # (these will be recomputed by for next window)
-                for index in range(self.current_window_start,self.previous_window_start+self.WINDOW_SIZE):
-                    self.figured_bass.clear_figure(self.work_browser.note_of_index(index))
+                for index in range(self.current_window_start,
+                                self.previous_window_start+self.WINDOW_SIZE):
+                    self.figured_bass.clear_figure(
+                                    self.work_browser.note_of_index(index))
 
             self.previous_window_start = self.current_window_start
 
-            yield RangeRegion(self.work_browser,range(self.current_window_start,self.current_window_start+self.WINDOW_SIZE))
-
-
-        
+            yield RangeRegion(self.work_browser,range(self.current_window_start,
+                                self.current_window_start+self.WINDOW_SIZE))
 
 
 class GreedyFigureExtractor(FigureExtractor):
@@ -220,7 +222,8 @@ class GreedyFigureExtractor(FigureExtractor):
 
                 for rule in self.rules:
                     rule.apply(Context(self.work_browser,note,figured_bass))
-                    if rule.applicability > best_applicability and rule.addition.is_applicable(figured_bass):
+                    if (rule.applicability > best_applicability and
+                                    rule.addition.is_applicable(figured_bass)):
                         best_applicability = rule.applicability
                         best_addition = rule.addition
 
@@ -249,8 +252,6 @@ class GreedyEngine(Engine):
         self.extractor = GreedyFigureExtractor(self.work_browser,rules)
 
 
-
-
 class WindowedGreedyEngine(Engine):
     """A simple windowed greedy engine.
     This combines the windowed figure space explorer
@@ -262,7 +263,3 @@ class WindowedGreedyEngine(Engine):
 
         self.explorer = WindowedFigureSpaceExplorer(self.work_browser)
         self.extractor = GreedyFigureExtractor(self.work_browser,rules)
-
-
-
-        

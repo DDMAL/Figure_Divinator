@@ -52,7 +52,7 @@ class IntervalAddition(Addition):
     def cancel(self,figured_bass):
         figured_bass.remove_interval(self.note,self.interval)
 
-        
+
 class MultipleIntervalAddition(Addition):
     def __init__(self,note,intervals):
         self.note = note
@@ -70,7 +70,8 @@ class MultipleIntervalAddition(Addition):
 
     def apply(self,figured_bass):
         for interval in self.intervals:
-            if not figured_bass.has_interval(self.note,interval) and not figured_bass.is_full(self.note):
+            if (not figured_bass.has_interval(self.note,interval) and
+                    not figured_bass.is_full(self.note)):
                 figured_bass.add_interval(self.note,interval)
 
     def cancel(self,figured_bass):
@@ -88,19 +89,19 @@ class Rule(object):
 
 
 def get_rules(ruleset):
-
+    # Put most important rules first (important = most likely to be applied)
     if ruleset == "SL":
         from rulesSL import *
         extraction_rules = [SLRule2(),
                             #SLRuleOthers(),
-                            #DummySimultaneousRule(),  # Put most important rules first (important = most likely to be applied)
+                            #DummySimultaneousRule(),
                             #DummyOverlappingRule(),
                             #DummyMelodicRule(),
                             #DummyRule(),
                             ]
     else:
         from rulesDummy import *
-        extraction_rules = [#DummySimultaneousRule(),  # Put most important rules first (important = most likely to be applied)
+        extraction_rules = [#DummySimultaneousRule(),
                             #DummyOverlappingRule(),
                             DummyMelodicRule(),
                             #DummyRule(),

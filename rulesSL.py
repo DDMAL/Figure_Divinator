@@ -11,7 +11,8 @@ class SLRule(Rule):
 class SLRule1(SLRule):
     # Status: limbo! #TODO-HhK{Konstantin clarification needed.}
 
-    # def __init__(self):       #TODO-Hh{Note: only needs to be here if other stuff gets initialized}
+    #TODO-Hh{Note: only needs to be here if otherstuff gets initialized}
+    # def __init__(self):
     #     SLRule.__init__(self)
 
     def get_harmonic_notes(self,context):
@@ -35,8 +36,10 @@ class SLRule2(SLRule):
         num_next = 1
 
         try:
-          # This will raise an exception for the last note as it does not have a next note
-          next_notes = context.work_browser.get_next_notes(current_note,num_next)
+          # This will raise an exception for the last note as it does not have
+          # a next note
+          next_notes = context.work_browser.get_next_notes(
+                                current_note,num_next)
           next_note = next_notes[0]
         
 
@@ -54,7 +57,8 @@ class SLRule2(SLRule):
           print "error on: ", current_note
 
 
-        # if (bass note down by a semitone) and (second note is on beat 1): # and (second note is a perfect chord)
+        # if (bass note down by a semitone) and (second note is on beat 1)
+        # and (second note is a perfect chord):
         # * First note gets a 6
 
 
