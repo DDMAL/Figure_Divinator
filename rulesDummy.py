@@ -80,8 +80,8 @@ class DummyMelodicRule(Rule):
                                     context.note,previous_notes[0])
             if not melodic_interval<=4:
                 raise
-            self.applicability = self.applicability_multiplier *
-                                    MAX_APPLICABILITY
+            self.applicability = (self.applicability_multiplier *
+                                    MAX_APPLICABILITY)
             self.addition = IntervalAddition(
                                 context.note,self.interval_to_add())
         except:
