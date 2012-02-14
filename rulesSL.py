@@ -1,4 +1,4 @@
-# Rules for figuring unfigured bass parts 
+# Rules for figuring unfigured bass parts
 # Monsieur de Saint-Lambert
 # Konstantin Bozhinov transcription - Version 1 (January 2011)
 
@@ -6,14 +6,29 @@ from rules import *
 from music21 import interval
 
 class SLRule(Rule):
-    pass
+    def __init__(self):
+        Rule.__init__(self)
+
+        # Can be redefined in sub-classes
+        self.applicability_multiplier = 1.0
+
+
+class SLRule_test(SLRule):
+    def apply(self,context):
+        self.addition = IntervalAddition(context.note,6)
+
+        self.applicability = (self.applicability_multiplier *
+                                    MAX_APPLICABILITY)
+        print "applicability is %s" % self.applicability
+
 
 class SLRule1(SLRule):
     # Status: limbo! #TODO-HhK{Konstantin clarification needed.}
 
-    #TODO-Hh{Note: only needs to be here if otherstuff gets initialized}
-    # def __init__(self):
-    #     SLRule.__init__(self)
+    # Rule 1:
+    # When the bass note goes up by a semitone
+    # * First note gets a 6, second nothing.
+    # * Or, first gets nothing, second gets 6.
 
     def get_harmonic_notes(self,context):
         """To be re-defined in sub-classess"""
@@ -21,46 +36,71 @@ class SLRule1(SLRule):
     def apply(self,context):
         pass
         #print "to implement: 1st SL rule"
-        # 1. When the bass note goes up by a semitone
-        # * First note gets a 6, second nothing.
-        # * Or, first gets nothing, second gets 6.
 
 class SLRule2(SLRule):
     # Status: in progress
+
+    # Rule 2:
+    # If (bass note down by a semitone) and (second note is on beat 1)
+    # and (second note is a perfect chord):
+    # * First note gets a 6
     def get_harmonic_notes(self,context):
         """To be re-defined in sub-classess"""
 
     def apply(self,context):
-
         current_note = context.note
-        num_next = 1
 
         try:
-          # This will raise an exception for the last note as it does not have
-          # a next note
-          next_notes = context.work_browser.get_next_notes(
-                                current_note,num_next)
-          next_note = next_notes[0]
-        
+            # check if if (bass note down by a semitone)
+            next_note = context.work_browser.get_next_bass_note(current_note)
+            melodic_interval = interval.notesToChromatic(
+                                current_note,next_note).semitones
 
-          melodic_interval = interval.notesToChromatic(current_note,next_note)
+            print current_note
+            if not melodic_interval == -1:
+                print "sorry, interval is %s rather than -1" % melodic_interval
+                self.applicability = MIN_APPLICABILITY
+                self.addition = NullAddition()
+                return
 
-          if melodic_interval == -1:
-            print "Awesome!"
-          else:
-            print "nope, sorry"
+            print "Awesome! Melodic interval is %s!" % melodic_interval
+
+            # check if (second note is on beat 1)
+            next_note_beat = next_note.beat
+            if not next_note_beat == 1:
+                print ("sorry, next note is on beat %s rather than beat 1"
+                        % next_note_beat)
+                self.applicability = MIN_APPLICABILITY
+                self.addition = NullAddition()
+                return
+
+            print "Awesome! Next note is on beat %s!" % next_note_beat
+
+            # check if (second note is a perfect chord):
+            #TODO-HhK{Konstantin clarification needed: "perfect chord is M?"}
+            next_note_chord = context.work_browser.get_chord(next_note)
+            if not next_note_chord.isMajorTriad():
+                print ("sorry, next note chord is '%s' rather than 'perfect'"
+                        % next_note_chord.commonName)
+                self.applicability = MIN_APPLICABILITY
+                self.addition = NullAddition()
+                return
+            print "Awesome! Next note chord is %s!" % next_note_chord
+
+
+            # * First note gets a 6
+            print "YOU PASS! Cool. This note, %s, gets a 6" % current_note
+            self.applicability = (self.applicability_multiplier *
+                                    MAX_APPLICABILITY)
+            self.addition = IntervalAddition(context.note,6)
+            print "applicability is %s" % self.applicability
+
 
         except IndexError:
           print "last note!"
 
         except AttributeError:
           print "error on: ", current_note
-
-
-        # if (bass note down by a semitone) and (second note is on beat 1)
-        # and (second note is a perfect chord):
-        # * First note gets a 6
-
 
 
 class SLRuleOthers(SLRule):
