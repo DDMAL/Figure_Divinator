@@ -57,7 +57,8 @@ class FiguredBass(object):
             del self.figures[note]
         except KeyError:
             #TODO-Hh{?decide whether to flag figure-less notes; maybe log?}
-            print "there wasn't a figure to clear!"
+            #print "there wasn't a figure to clear!"
+            pass
 
 
     def is_full(self,note):

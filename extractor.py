@@ -18,7 +18,7 @@ from music21 import converter
 
 import rules
 
-import engine # Searching an 'optimal' application of the rules found in 
+import engine # Searching an 'optimal' application of the rules found in
               # rules.py (or other rule file)
 
 # Import Psyco if available...for a little speed.
@@ -61,9 +61,9 @@ try:
 
     (input_base,ext_sep,input_ext) = scoreFile.rpartition(os.extsep)
 
-    input_file_name = input_base + ext_sep+input_ext
+    input_file_name = input_base + ext_sep + input_ext
 
-    output_file_name = (input_base + "_figured_bass" + ext_rule + 
+    output_file_name = (input_base + "_figured_bass" + ext_rule +
                         ext_sep + input_ext)
 
     # Open work with Music21
@@ -81,13 +81,14 @@ try:
 
     # Set the engine.explorer parameters
     # (this is specific to the kind of engine)
+    # TODO-Hh{Make specific to ruleset flag (e.g. SL probably only needs windowsize 1, increment 1 OR windowsize )}
 
     # Use bigger WINDOW_SIZE if rules have long-term dependencies (i.e. refer to
     # notes 'far' from the current note); Smaller WINDOW_SIZE = faster, but less
     # exploration of how rules can combine.
     extraction_engine.explorer.WINDOW_SIZE=4
 
-    # INCREMENT must be <= WINDOW_SIZE 
+    # INCREMENT must be <= WINDOW_SIZE
     # Bigger increment = faster, but less exploration of how rules can combine.
     extraction_engine.explorer.INCREMENT=2
 
@@ -95,22 +96,22 @@ try:
     # Computes one figure at a time, without any backtracking
     #extraction_engine.explorer.WINDOW_SIZE=1
     #extraction_engine.explorer.INCREMENT=1
-    
 
-    # Extract figures only for a subset of the work 
+
+    # Extract figures only for a subset of the work
     # (this is useful to quickly test new rules)
     #extraction_engine.explorer.FIRST_NOTE=3
     #extraction_engine.explorer.LAST_NOTE=10
     #
     # Comment-out the lines above to extract figures for the whole work
-    
+
     # Call the engine
     extraction_engine.compute_figured_bass()
 
     # Write the figured bass
     extraction_engine.write_figured_bass(output_file_name)
     print "\nGreat! It should have saved as '%s'\n" % output_file_name
-    
+
     if viewOutput:
         print "Displaying output if xml viewer has been installed."
         s = converter.parse(output_file_name)

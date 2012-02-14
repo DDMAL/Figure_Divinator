@@ -1,7 +1,7 @@
 """Code to facilitate manipulating Music21 work, notes, intervals, etc.
 """
 
-# See http://mit.edu/music21/doc/html/contents.html 
+# See http://mit.edu/music21/doc/html/contents.html
 # for Music21 docs
 
 import music21
@@ -20,6 +20,12 @@ class WorkBrowser(object):
         self.work = work
 
         # Extract the bass notes of the work
+        # TODO-Hh{??Do we want to chordify before getting bassline?
+        #           ...it would make sure we took all tonality changes
+        #           into account...}
+        # TODO-HhK{Is figured bass only notated when the bass line changes?
+        #           Or maybe when any above pitch is changed, a new bass note is
+        #           added and tied?}
         self.bass_notes =  self.get_bass_line().flat.getElementsByClass(Note)
 
         # Save a copy of the flatten work
@@ -30,6 +36,9 @@ class WorkBrowser(object):
 
         # Save a copy of the work notes
         self.notes = self.flat_work.getElementsByClass(Note)
+
+        # Save a copy of the work in chords
+        self.chords = self.notes.chordify()
 
         # Caching overlapping notes
         self.overlapping_notes={}
@@ -44,7 +53,7 @@ class WorkBrowser(object):
         # Caching previous notes
         # Each notes is mapped to a time-reversed sequence of notes
         self.previous_notes={}
-        
+
 
     def get_bass_line(self):
         #TODO-Hh{add work-around if no self-titled 'bass line' is present}
@@ -53,9 +62,23 @@ class WorkBrowser(object):
         except:
             raise InputError("cannot extract bass line from score")
 
+    def get_chord(self,note):
+        note_location = note.offset
+        chord = self.chords.getElementAtOrBefore(note_location)
+        print chord
+        return chord
 
     def note_of_index(self,index):
         return self.bass_notes[index]
+
+    def index_of_note(self,note):
+        index = 0
+        for bass_note in self.bass_notes:
+            if note == bass_note:
+                return index
+            else:
+                index = index + 1
+        raise KeyError #TODO-Hh{Check errors!}
 
     def get_overlapping_notes(self,note):
         # Cache
@@ -101,8 +124,8 @@ class WorkBrowser(object):
 
         return harmonic_intervals
 
-
     def get_next_notes(self,note,N=1):
+        #TODO-Hh{Flawed!!!!!!!! Don't use until fixed!}
         # TODO: is there a more efficient way to implement this?
         # using getElementsByOffset? (and ignoring rests)
         # getting the index in the part and slicing the list?
@@ -111,7 +134,7 @@ class WorkBrowser(object):
         try:
             cached_notes =  self.next_notes[note]
             if len(cached_notes)>=N:
-                return chached_notes
+                return cached_notes
             else:
                 raise
         except:
@@ -135,6 +158,7 @@ class WorkBrowser(object):
                     return next_notes
 
     def get_previous_notes(self,note,N=1):
+        #TODO-Hh{Flawed!!!!!!!! Don't use until fixed!}
         # TODO: is there a more efficient way to implement this?
         # using getElementsByOffset? (and ignoring rests)
         # getting the index in the part and slicing the list?
@@ -143,7 +167,7 @@ class WorkBrowser(object):
         try:
             cached_notes =  self.previous_notes[note]
             if len(cached_notes)>=N:
-                return chached_notes
+                return cached_notes
             else:
                 raise
         except:
@@ -167,4 +191,9 @@ class WorkBrowser(object):
                     if len(previous_notes) > N:
                         previous_notes.pop()
 
-
+    def get_next_bass_note(self,note,N=1):
+        index = self.index_of_note(note)
+        try:
+            return self.bass_notes[index+N]
+        except:
+            raise IndexError

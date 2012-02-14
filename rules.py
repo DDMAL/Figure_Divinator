@@ -1,4 +1,4 @@
-# Figured bass extractor rules: 
+# Figured bass extractor rules:
 # Implements basic rule class; imports specialized rule classes
 # depending on what rule set was called; tests the list of rules
 
@@ -15,6 +15,7 @@ class Context(object):
     def __init__(self,work_browser,note,figured_bass):
         self.work_browser = work_browser
         self.note = note
+        self.note_index = self.work_browser.index_of_note(note)
         self.figured_bass = figured_bass
 
 
@@ -92,7 +93,8 @@ def get_rules(ruleset):
     # Put most important rules first (important = most likely to be applied)
     if ruleset == "SL":
         from rulesSL import *
-        extraction_rules = [SLRule2(),
+        extraction_rules = [#SLRule_test(),
+                            SLRule2(),
                             #SLRuleOthers(),
                             #DummySimultaneousRule(),
                             #DummyOverlappingRule(),
@@ -103,8 +105,8 @@ def get_rules(ruleset):
         from rulesDummy import *
         extraction_rules = [#DummySimultaneousRule(),
                             #DummyOverlappingRule(),
-                            DummyMelodicRule(),
-                            #DummyRule(),
+                            #DummyMelodicRule(),
+                            DummyRule(),
                             ]
 
     # Test the list of rules
