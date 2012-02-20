@@ -2,6 +2,8 @@
 # Monsieur de Saint-Lambert
 # Konstantin Bozhinov transcription - Version 1 (January 2011)
 
+#TODO-Hh{*Need to account for multiple figures added by one rule? Make
+# sure it's possible if needed!}
 from rules import *
 from music21 import interval
 import random
@@ -19,11 +21,13 @@ class SLRule(Rule):
 
 class SLRule_test(SLRule):
     def apply(self,context):
-        if  random.randint(0,1) == 1:
-            self.addition = IntervalAddition(context.note,6)
-
+        self.applicability_multiplier = .3
+        thisrand = random.randint(1,9)
+        if thisrand > 4:
             self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
+            self.addition = IntervalAddition(context.note,thisrand)
+
 
 
 class SLRule1(SLRule):
@@ -151,6 +155,41 @@ class SLRule3(SLRule):
           print "error on: ", current_note
 
 
+class SLRule4(SLRule):
+    # Status: complete!
+
+    # Rule 4:
+    # When bass note goes down by a minor 3rd
+    # * If first chord is perfect, second gets false fifth (no figure)
+
+    def apply(self,context):
+        current_note = context.note
+
+        try:
+            next_note = context.work_browser.get_next_bass_note(current_note)
+            melodic_interval = interval.notesToChromatic(
+                                current_note,next_note).semitones
+            first_chord = context.work_browser.get_chord(current_note)
+
+            # check if (bass note down by a minor 3rd) and (first chord perfect)
+            #TODO-HhK{Konstantin clarification needed: "perfect chord is M?"}
+            if (melodic_interval == -4 and first_chord.isMajorTriad()):
+                print "YOU PASS RULE 4!"
+                # * Second note gets a false fifth (no figure)
+                #TODO-HhK{Konstantin clarification needed: details on what false
+                #fifth looks like in all cases}
+                self.applicability = (self.applicability_multiplier *
+                                    MAX_APPLICABILITY)
+
+                context.figured_bass.clear_figure(next_note)
+
+        except IndexError:
+          print "last note!"
+
+        except AttributeError:
+          print "error on: ", current_note
+
+
 class SLRuleOthers(SLRule):
     # SL rules yet to be implemented
     # Status: not started
@@ -162,8 +201,6 @@ class SLRuleOthers(SLRule):
         pass
         #print "to implement: SL rules"
 
-        # 4. When bass note goes down by a minor 3rd
-        # * If first chord is perfect, second gets false fifth (no figure)
 
         # 5. When bass note goes down by a major 3rd
         # * If first note is perfect and major, second gets a 6

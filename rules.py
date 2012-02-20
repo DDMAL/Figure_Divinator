@@ -88,19 +88,22 @@ class Rule(object):
     def apply(self,context):
         pass
 
+from rulesSL import *
+from rulesDummy import *
 
 def get_rules(ruleset):
     # Put most important rules first (important = most likely to be applied)
     if ruleset == "SL":
-        from rulesSL import *
-        extraction_rules = [#SLRule_test(),
+
+        extraction_rules = [SLRule_test(),
                             #SLRule1(),  #waiting on clarification
-                            SLRule2(),
-                            SLRule3(),
+                            #SLRule2(),
+                            #SLRule3(),
+                            SLRule4(),
                             #SLRuleOthers(),  #still in progress
                             ]
     else:
-        from rulesDummy import *
+
         extraction_rules = [#DummySimultaneousRule(),
                             #DummyOverlappingRule(),
                             #DummyMelodicRule(),

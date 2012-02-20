@@ -1,11 +1,10 @@
 """Module to store and save a figured bass line
 """
 
-
 from rules import NullAddition
 
+#TODO-HhK{Ask: what is the max. number of intervals??}
 MAX_NUMBER_OF_INTERVALS = 3
-
 
 class Figure(object):
     """A figure is a list of intervals"""
@@ -60,7 +59,6 @@ class FiguredBass(object):
             #print "there wasn't a figure to clear!"
             pass
 
-
     def is_full(self,note):
         try:
             return self.figures[note].is_full()
@@ -77,4 +75,5 @@ class FiguredBass(object):
         for (note,figure) in self.figures.items():
             figure.sort_intervals()
             for interval in figure.intervals:
+                #TODO-Hh{make figure part of "fig bass" not lyrics!}
                 note.addLyric(interval)

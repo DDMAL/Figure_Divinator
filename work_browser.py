@@ -65,7 +65,6 @@ class WorkBrowser(object):
     def get_chord(self,note):
         note_location = note.offset
         chord = self.chords.getElementAtOrBefore(note_location)
-        print chord
         return chord
 
     def note_of_index(self,index):
