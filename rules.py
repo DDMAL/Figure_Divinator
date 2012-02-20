@@ -94,8 +94,9 @@ def get_rules(ruleset):
     if ruleset == "SL":
         from rulesSL import *
         extraction_rules = [#SLRule_test(),
-                            SLRule1(),  #waiting on clarification
-                            #SLRule2(),
+                            #SLRule1(),  #waiting on clarification
+                            SLRule2(),
+                            SLRule3(),
                             #SLRuleOthers(),  #still in progress
                             ]
     else:
