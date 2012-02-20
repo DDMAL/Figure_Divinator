@@ -4,6 +4,7 @@
 
 from rules import *
 from music21 import interval
+import random
 
 class SLRule(Rule):
     def __init__(self):
@@ -29,13 +30,37 @@ class SLRule1(SLRule):
     # When the bass note goes up by a semitone
     # * First note gets a 6, second nothing.
     # * Or, first gets nothing, second gets 6.
-
-    def get_harmonic_notes(self,context):
-        """To be re-defined in sub-classess"""
-
     def apply(self,context):
-        pass
-        #print "to implement: 1st SL rule"
+        current_note = context.note
+
+        try:
+            # check if if (bass note down by a semitone)
+            next_note = context.work_browser.get_next_bass_note(current_note)
+            melodic_interval = interval.notesToChromatic(
+                                current_note,next_note).semitones
+
+            if melodic_interval == -1:
+                print "YOU PASS RULE 1! Cool."
+                self.applicability = (self.applicability_multiplier *
+                                    MAX_APPLICABILITY)
+                #TODO-HhK{Which rule to follow?}
+                outcome = random.randint(0,1)
+                print outcome
+                if outcome == 0:
+                    # * First note gets a 6, second nothing. #TODO-HhK{Does
+                    #"nothing" mean don't add anything new, or eliminate any
+                    #figure already there?}
+                    self.addition = IntervalAddition(current_note,6)
+                else:
+                    # * Or, first gets nothing, second gets 6.
+                    self.addition = IntervalAddition(next_note,6)
+
+        except IndexError:
+          print "last note!"
+
+        except AttributeError:
+          print "error on: ", current_note
+
 
 class SLRule2(SLRule):
     # Status: in progress
@@ -44,9 +69,6 @@ class SLRule2(SLRule):
     # If (bass note down by a semitone) and (second note is on beat 1)
     # and (second note is a perfect chord):
     # * First note gets a 6
-    def get_harmonic_notes(self,context):
-        """To be re-defined in sub-classess"""
-
     def apply(self,context):
         current_note = context.note
 
@@ -94,7 +116,6 @@ class SLRule2(SLRule):
                                     MAX_APPLICABILITY)
             self.addition = IntervalAddition(context.note,6)
             print "applicability is %s" % self.applicability
-
 
         except IndexError:
           print "last note!"

@@ -94,12 +94,9 @@ def get_rules(ruleset):
     if ruleset == "SL":
         from rulesSL import *
         extraction_rules = [#SLRule_test(),
-                            SLRule2(),
-                            #SLRuleOthers(),
-                            #DummySimultaneousRule(),
-                            #DummyOverlappingRule(),
-                            #DummyMelodicRule(),
-                            #DummyRule(),
+                            SLRule1(),  #waiting on clarification
+                            #SLRule2(),
+                            #SLRuleOthers(),  #still in progress
                             ]
     else:
         from rulesDummy import *
