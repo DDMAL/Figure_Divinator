@@ -95,12 +95,36 @@ def get_rules(ruleset):
     # Put most important rules first (important = most likely to be applied)
     if ruleset == "SL":
 
-        extraction_rules = [SLRule_test(),
-                            #SLRule1(),  #waiting on clarification
-                            #SLRule2(),
-                            #SLRule3(),
+        extraction_rules = [# SLRule_test(),
+                            SLRule1(),  #needs clarification
+                            SLRule2(),
+                            SLRule3(),
                             SLRule4(),
-                            #SLRuleOthers(),  #still in progress
+                            SLRule5(),
+                            SLRule6(),  #waiting on clarification
+                            SLRule7(),
+                            SLRule8(),
+                            SLRule9(),
+                            SLRule10(),
+                            SLRule11(),
+                            SLRule12(),
+                            SLRule13(),
+                            SLRule14(),
+                            SLRule15(),
+                            SLRule16(),
+                            SLRule17(),
+                            SLRule18(),
+                            SLRule19(),
+                            SLRule20(),
+                            SLRule21(),  #needs clarification
+                            SLRule22(),
+                            SLRule23(),
+                            SLRule24(),
+                            SLRule25(),  #waiting on clarification
+                            SLRule26(),  #waiting on clarification
+                            SLRule27(),  #waiting on clarification
+                            SLRule28(),  #waiting on clarification
+                            #SLRuleOthers(), #empty
                             ]
     else:
 
