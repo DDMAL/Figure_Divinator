@@ -68,7 +68,7 @@ try:
 
     # Open work with Music21
     try:
-        work = corpus.parseWork(input_file_name)
+        work = converter.parse(input_file_name)
     except:
         raise InputError("score is not compatible with Music21 input formats")
 

@@ -10,7 +10,8 @@ from music21 import note
 from music21.note import Note
 from music21 import interval
 
-
+class InputError(Exception):
+    pass
 
 class WorkBrowser(object):
     """Simple class to facilitate manipulating the work.
@@ -57,10 +58,15 @@ class WorkBrowser(object):
 
     def get_bass_line(self):
         #TODO-Hh{add work-around if no self-titled 'bass line' is present}
+        #TODO-Hh{fix this hacked version!}
         try:
             return self.work['bass']
         except:
-            raise InputError("cannot extract bass line from score")
+            try:
+                print len(self.work)
+                return self.work[len(self.work)-1]
+            except:
+                raise InputError("cannot extract bass line from score")
 
     def get_chord(self,note):
         note_location = note.offset
