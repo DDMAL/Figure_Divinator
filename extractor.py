@@ -34,14 +34,16 @@ class FileNotFoundError(Exception):
 class InputError(Exception):
     pass
 
+
 #Get, parse arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('input_file')
-parser.add_argument("-r", dest="rules_type",
-                default="rules", help="Set of rules to apply")
-parser.add_argument("-o", action="store_true",
-                    dest="viewOutput", default=False,
-                    help="View output in MusicXML interface?")
+parser.add_argument('-o', action='store_true',
+                    dest='viewOutput', default=False,
+                    help='View output in MusicXML interface?')
+parser.add_argument('-r', nargs='*', dest='rules_type', default=['dummyrules'], help='Set of rules to apply')
+
+# print parser.parse_args() #test
 
 #Set flags
 args = parser.parse_args()
@@ -50,10 +52,12 @@ ruleSet = args.rules_type
 viewOutput = args.viewOutput
 
 #set output file additional string
-if ruleSet == "SL":
+if ruleSet[0] == "SL":
     ext_rule = "_SL"
-else:
+elif ruleSet[0] == "dummyrules":
     ext_rule = ""
+else:
+    ext_rule = "_unique"
 
 try:
     if not os.path.isfile(scoreFile):

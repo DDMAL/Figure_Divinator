@@ -93,8 +93,15 @@ from rulesDummy import *
 
 def get_rules(ruleset):
     # Put most important rules first (important = most likely to be applied)
-    if ruleset == "SL":
 
+    if ruleset[0] == "dummyrules":
+        extraction_rules = [#DummySimultaneousRule(),
+                            #DummyOverlappingRule(),
+                            #DummyMelodicRule(),
+                            DummyRule(),
+                            ]
+
+    elif ruleset[0] == "SL":
         extraction_rules = [# SLRule_test(),
                             SLRule1(),  #needs clarification
                             SLRule2(),
@@ -127,15 +134,16 @@ def get_rules(ruleset):
                             #SLRuleOthers(), #empty
                             ]
     else:
+        print "note: trying unique ruleset input"
+        extraction_rules = []
+        for rule in ruleset:
+            new_rule = globals()[rule]()
+            extraction_rules.append(new_rule)
 
-        extraction_rules = [#DummySimultaneousRule(),
-                            #DummyOverlappingRule(),
-                            #DummyMelodicRule(),
-                            DummyRule(),
-                            ]
 
     # Test the list of rules
     try:
+
         if not len(extraction_rules)>0:
             raise
         if not all([isinstance(x,Rule) for x in extraction_rules]):
