@@ -60,7 +60,7 @@ class SLRule1(SLRule):
                                 current_note,next_note).semitones
 
             if melodic_interval == -1:
-                #LOG.debug("YOU PASS RULE 1! Cool.")
+                LOG.debug("YOU PASS RULE 1! Cool.")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
                 #TODO-HhK{Which rule to follow?}

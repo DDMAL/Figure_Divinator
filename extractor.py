@@ -46,7 +46,7 @@ parser.add_argument('-o', action='store_true',
                     help='View output in MusicXML interface?')
 parser.add_argument('-r', nargs='*', dest='rules_type', default=['dummyrules'], help='Set of rules to apply')
 
-# print parser.parse_args() #test
+LOG.debug("%s", parser.parse_args())
 
 #Set flags
 args = parser.parse_args()

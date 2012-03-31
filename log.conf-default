@@ -88,5 +88,5 @@ propagate=0
 [logger_work_browser]
 level=DEBUG
 handlers=console
-qualname=work_browser
+qualname=work-browser
 propagate=0

@@ -66,7 +66,7 @@ class WorkBrowser(object):
             return self.work['bass']
         except:
             try:
-                LOG.debug("%s",len(self.work))
+                LOG.debug("len(work): %s",len(self.work))
                 return self.work[len(self.work)-1]
             except:
                 raise InputError("cannot extract bass line from score")
