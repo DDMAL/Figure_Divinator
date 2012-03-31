@@ -28,6 +28,9 @@ try:
 except ImportError:
     pass
 
+import logging_setup as Logging
+LOG=Logging.getLogger('extractor')
+
 class FileNotFoundError(Exception):
     pass
 
@@ -114,25 +117,25 @@ try:
 
     # Write the figured bass
     extraction_engine.write_figured_bass(output_file_name)
-    print "\nGreat! It should have saved as '%s'\n" % output_file_name
+    LOG.info("Great! It should have saved as '%s'",output_file_name)
 
     if viewOutput:
-        print "Displaying output if xml viewer has been installed."
+        LOG.info("Displaying output if xml viewer has been installed.")
         s = converter.parse(output_file_name)
         s.show()
 
 except FileNotFoundError as file:
-    print "file '%s' does not exists" % file
+    LOG.critical("file '%s' does not exists", file)
     exit(1)
 
 except InputError as msg:
-    print "score %s is invalid: %s" % (sys.argv[1],msg)
+    LOG.critical("score %s is invalid: %s",sys.argv[1],msg)
     exit(1)
 
 except engine.EngineParameterError as msg:
-    print "Engine parameter error: " + str(msg)
+    LOG.critical("Engine parameter error: ",str(msg))
     exit(1)
 
 except rules.RuleImplementationError:
-    print "cannot find extraction rules in rules.py or rules are not all valid"
+    LOG.critical("cannot find extraction rules in rules.py or rules are not all valid")
     exit(1)

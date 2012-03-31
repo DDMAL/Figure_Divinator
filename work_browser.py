@@ -10,6 +10,9 @@ from music21 import note
 from music21.note import Note
 from music21 import interval
 
+import logging_setup as Logging
+LOG=Logging.getLogger('work-browser')
+
 class InputError(Exception):
     pass
 
@@ -63,7 +66,7 @@ class WorkBrowser(object):
             return self.work['bass']
         except:
             try:
-                print len(self.work)
+                LOG.debug("%s",len(self.work))
                 return self.work[len(self.work)-1]
             except:
                 raise InputError("cannot extract bass line from score")

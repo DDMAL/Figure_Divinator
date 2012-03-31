@@ -9,6 +9,9 @@ The search engine will call this to determine:
  searching in that direction
 """
 
+import logging_setup as Logging
+LOG=Logging.getLogger('evaluation')
+
 MIN_QUALITY=0.0
 MAX_QUALITY=1.0
 

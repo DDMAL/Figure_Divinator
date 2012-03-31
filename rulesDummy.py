@@ -4,6 +4,9 @@
 from rules import *
 from music21 import interval
 
+import logging_setup as Logging
+LOG=Logging.getLogger('rules')
+
 class DummyRule(Rule):
     def __init__(self):
         Rule.__init__(self)

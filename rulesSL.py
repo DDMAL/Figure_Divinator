@@ -17,6 +17,9 @@ from rules import *
 from music21 import interval
 import random
 
+import logging_setup as Logging
+LOG=Logging.getLogger('rules')
+
 class SLRule(Rule):
     def __init__(self):
         Rule.__init__(self)
@@ -57,7 +60,7 @@ class SLRule1(SLRule):
                                 current_note,next_note).semitones
 
             if melodic_interval == -1:
-                #print "YOU PASS RULE 1! Cool."
+                #LOG.debug("YOU PASS RULE 1! Cool.")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
                 #TODO-HhK{Which rule to follow?}
@@ -72,11 +75,10 @@ class SLRule1(SLRule):
                     self.addition = IntervalAddition(next_note,6)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule2(SLRule):
     # Status: complete!
@@ -102,17 +104,16 @@ class SLRule2(SLRule):
                 next_note_chord.isMajorTriad()):
 
                 # * First note gets a 6
-                print "YOU PASS RULE 2!"
+                LOG.debug("YOU PASS RULE 2!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
                 self.addition = IntervalAddition(context.note,6)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule3(SLRule):
     # Status: complete!
@@ -132,16 +133,16 @@ class SLRule3(SLRule):
                                 current_note,next_note).semitones
             if (melodic_interval == 1 and fig_has_6 == 1):
                  # * Second note gets a 6
-                print "YOU PASS RULE 3!"
+                LOG.debug("YOU PASS RULE 3!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
                 self.addition = IntervalAddition(next_note,6)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
+            LOG.warning("error on: %s", current_note)
 
 
 class SLRule4(SLRule):
@@ -163,7 +164,7 @@ class SLRule4(SLRule):
             # check if (bass note down by a minor 3rd) and (first chord perfect)
             #TODO-HhK{Konstantin clarification needed: "perfect chord is M?"}
             if (melodic_interval == -4 and first_chord.isMajorTriad()):
-                print "YOU PASS RULE 4!"
+                LOG.debug("YOU PASS RULE 4!")
                 # * Second note gets a false fifth (no figure)
                 #TODO-HhK{Konstantin clarification needed: details on what false
                 #fifth looks like in all cases}
@@ -173,10 +174,10 @@ class SLRule4(SLRule):
                 context.figured_bass.clear_figure(next_note)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
+            LOG.warning("error on: %s", current_note)
 
 
 class SLRule5(SLRule):
@@ -201,18 +202,17 @@ class SLRule5(SLRule):
             #TODO-HhK{Clarification: how is "perfect and major" not redundant?}
             if (melodic_interval == -4 and first_chord.isMajorTriad()):
                 # second gets a 6
-                print "YOU PASS RULE 5!"
+                LOG.debug("YOU PASS RULE 5!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
                 self.addition = IntervalAddition(next_note,6)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule6(SLRule):
     # Status: limbo! #TODO-HhK{Clarification: I don't understand this rule!}
@@ -245,17 +245,17 @@ class SLRule7(SLRule):
             if (melodic_interval == 3 or melodic_interval == 4 or
                     melodic_interval == 8 or melodic_interval == 9):
                 # * Second note gets a 6
-                print "YOU PASS RULE 7!"
+                LOG.debug("YOU PASS RULE 7!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
                 self.addition = IntervalAddition(next_note,6)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
+            LOG.warning("error on: %s", current_note)
 
 
 class SLRule8(SLRule):
@@ -283,7 +283,7 @@ class SLRule8(SLRule):
             # are being dealt with here, and are we talking chromatically
             # consecutive or scale consecutive or what?}
             if (melodic_interval == 1 and melodic_interval_2 == 1):
-                print "YOU PASS RULE 8!"
+                LOG.debug("YOU PASS RULE 8!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
                 # * 1st note gets a 6
@@ -298,11 +298,10 @@ class SLRule8(SLRule):
                 context.figured_bass.clear_figure(third_note)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule9(SLRule):
     # Status: complete!
@@ -332,7 +331,7 @@ class SLRule9(SLRule):
             # notes, but it is very possible this means 4 should be used.}
             if (melodic_interval == -1 and melodic_interval_2 == -1 and
                     first_chord.isMajorTriad()):
-                print "YOU PASS RULE 9!"
+                LOG.debug("YOU PASS RULE 9!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
                 # * 2nd gets '-'
@@ -344,11 +343,10 @@ class SLRule9(SLRule):
                 self.addition = IntervalAddition(third_note,6)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule10(SLRule):
     # Status: complete!
@@ -380,7 +378,7 @@ class SLRule10(SLRule):
             if (melodic_interval == -1 and melodic_interval_2 == -1 and
                     third_note_chord.containsSeventh()):
 
-                print "YOU PASS RULE 10!"
+                LOG.debug("YOU PASS RULE 10!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -392,11 +390,10 @@ class SLRule10(SLRule):
                 self.addition = IntervalAddition(next_note,'-')
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule11(SLRule):
     # Status: complete!
@@ -425,18 +422,17 @@ class SLRule11(SLRule):
             if ((melodic_interval == -3 or melodic_interval == -4) and
                     melodic_interval_2 == 2 and third_chord.isMajorTriad() and
                     third_note_beat == 1):
-                print "YOU PASS RULE 11!"
+                LOG.debug("YOU PASS RULE 11!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
                 # * 2nd gets a 6
                 self.addition = IntervalAddition(next_note,6)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule12(SLRule):
     # Status: complete!
@@ -461,7 +457,7 @@ class SLRule12(SLRule):
 
             # When bass note goes down a minor 3rd, then goes up a semitone
             if (melodic_interval == -3 and melodic_interval_2 == 1):
-                print "YOU PASS RULE 12!"
+                LOG.debug("You PASS RULE 12!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -476,11 +472,10 @@ class SLRule12(SLRule):
 
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule13(SLRule):
     # Status: complete!
@@ -509,7 +504,7 @@ class SLRule13(SLRule):
             #TODO-HhK{Clarification: *current* note is on the 1st beat, right?}
             if (melodic_interval == 1 and current_note_beat == 1 and
                     (melodic_interval_2 == 7 or melodic_interval_2 == -5)):
-                print "YOU PASS RULE 13!"
+                LOG.debug("You PASS RULE 13!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -524,11 +519,10 @@ class SLRule13(SLRule):
                 context.figured_bass.clear_figure(third_note)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule14(SLRule):
     # Status: complete!
@@ -551,7 +545,7 @@ class SLRule14(SLRule):
 
             # When bass note goes down a major 3rd, then goes up a 4th
             if (melodic_interval == -4 and melodic_interval_2 == 5):
-                print "YOU PASS RULE 14!"
+                LOG.debug("You PASS RULE 14!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -562,12 +556,11 @@ class SLRule14(SLRule):
                 #TODO-Hh{"no figure"...}
                 context.figured_bass.clear_figure(third_note)
 
-
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
+            LOG.warning("error on: %s", current_note)
 
 
 class SLRule15(SLRule):
@@ -596,7 +589,7 @@ class SLRule15(SLRule):
             # and the 3rd note is on 1st beat
             if (melodic_interval == 0 and melodic_interval_2 == 7 and
                     third_note_beat == 1):
-                print "YOU PASS RULE 15!"
+                LOG.debug("You PASS RULE 15!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
                 # * 1st note gets no figure #TODO-Hh{"no figure"...}
@@ -609,11 +602,10 @@ class SLRule15(SLRule):
                 context.figured_bass.clear_figure(third_note)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule16(SLRule):
     # Status: complete!
@@ -641,7 +633,7 @@ class SLRule16(SLRule):
             # down a 4th and is on the 1st beat
             if (melodic_interval == 0 and melodic_interval_2 == -5 and
                     third_note_beat == 1):
-                print "YOU PASS RULE 16!"
+                LOG.debug("You PASS RULE 16!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -656,11 +648,10 @@ class SLRule16(SLRule):
                 context.figured_bass.clear_figure(third_note)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule17(SLRule):
     # Status: complete!
@@ -692,7 +683,7 @@ class SLRule17(SLRule):
             # then up a semitone (sol la si ut) and last note is on 1st beat
             if (melodic_interval == 2 and melodic_interval_2 == 2 and
                     melodic_interval_3 == 1 and fourth_note_beat == 1):
-                print "YOU PASS RULE 17!"
+                LOG.debug("You PASS RULE 17!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -710,14 +701,11 @@ class SLRule17(SLRule):
                 # * 4th note gets no figure  #TODO-Hh{"no figure"...}
                 context.figured_bass.clear_figure(fourth_note)
 
-
-
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule18(SLRule):
     # Status: complete!
@@ -749,7 +737,7 @@ class SLRule18(SLRule):
             # then down a tone and the last note is on 1st beat
             if (melodic_interval == -1 and melodic_interval_2 == -2 and
                     melodic_interval_3 == -2 and fourth_note_beat == 1):
-                print "YOU PASS RULE 18!"
+                LOG.debug("You PASS RULE 18!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -767,11 +755,10 @@ class SLRule18(SLRule):
                 context.figured_bass.clear_figure(fourth_note)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule19(SLRule):
     # Status: complete!
@@ -801,7 +788,7 @@ class SLRule19(SLRule):
             # then down a tone
             if (melodic_interval == -2 and melodic_interval_2 == -1 and
                     melodic_interval_3 == -2):
-                print "YOU PASS RULE 19!"
+                LOG.debug("You PASS RULE 19!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -819,13 +806,11 @@ class SLRule19(SLRule):
                 # * 4th note gets no figure  #TODO-Hh{"no figure"...}
                 context.figured_bass.clear_figure(fourth_note)
 
-
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule20(SLRule):
     # Status: complete!
@@ -855,7 +840,7 @@ class SLRule20(SLRule):
             # then down a semitone
             if (melodic_interval == -2 and melodic_interval_2 == -2 and
                     melodic_interval_3 == -1):
-                print "YOU PASS RULE 20!"
+                LOG.debug("You PASS RULE 20!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -872,11 +857,10 @@ class SLRule20(SLRule):
                 context.figured_bass.clear_figure(fourth_note)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule21(SLRule):
     # Status: limbo! #TODO-HhK{Konstantin clarification needed: switching}
@@ -911,7 +895,7 @@ class SLRule21(SLRule):
             # then down a tone, then down a tone
             if (melodic_interval == -2 and melodic_interval_2 == -1 and
                     melodic_interval_3 == -2 and melodic_interval_4 == -2):
-                print "YOU PASS RULE 21!"
+                LOG.debug("You PASS RULE 21!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -942,11 +926,10 @@ class SLRule21(SLRule):
                 context.figured_bass.clear_figure(fifth_note)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule22(SLRule):
     # Status: complete!
@@ -981,7 +964,7 @@ class SLRule22(SLRule):
             # then down a semitone, then down a tone
             if (melodic_interval == -2 and melodic_interval_2 == -2 and
                     melodic_interval_3 == -1 and melodic_interval_4 == -2):
-                print "YOU PASS RULE 22!"
+                LOG.debug("You PASS RULE 22!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -1002,11 +985,10 @@ class SLRule22(SLRule):
                 context.figured_bass.clear_figure(fifth_note)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule23(SLRule):
     # Status: complete!
@@ -1041,7 +1023,7 @@ class SLRule23(SLRule):
             # then up a tone
             if (melodic_interval == 2 and melodic_interval_2 == 2 and
                     melodic_interval_3 == 1 and melodic_interval_4 == 2):
-                print "YOU PASS RULE 23!"
+                LOG.debug("You PASS RULE 23!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -1062,11 +1044,10 @@ class SLRule23(SLRule):
                 context.figured_bass.clear_figure(fifth_note)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule24(SLRule):
     # Status: complete!
@@ -1101,7 +1082,7 @@ class SLRule24(SLRule):
             # then up a tone, then up a tone
             if (melodic_interval == 2 and melodic_interval_2 == 1 and
                     melodic_interval_3 == 2 and melodic_interval_4 == 2):
-                print "YOU PASS RULE 24!"
+                LOG.debug("You PASS RULE 24!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
 
@@ -1123,11 +1104,10 @@ class SLRule24(SLRule):
                 context.figured_bass.clear_figure(fifth_note)
 
         except IndexError:
-          print "last note!"
+            LOG.info("last note!")
 
         except AttributeError:
-          print "error on: ", current_note
-
+            LOG.warning("error on: %s", current_note)
 
 class SLRule25(SLRule):
     # Status: limbo! #TODO-HhK{Konstantin clarification needed: candence???}

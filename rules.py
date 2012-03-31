@@ -7,6 +7,9 @@ MAX_APPLICABILITY=1.0
 
 from music21 import interval
 
+import logging_setup as Logging
+LOG=Logging.getLogger('rules')
+
 class RuleImplementationError(Exception):
     pass
 
@@ -134,7 +137,7 @@ def get_rules(ruleset):
                             #SLRuleOthers(), #empty
                             ]
     else:
-        print "note: trying unique ruleset input"
+        LOG.info("note: trying unique ruleset input")
         extraction_rules = []
         for rule in ruleset:
             new_rule = globals()[rule]()

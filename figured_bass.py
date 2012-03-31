@@ -3,6 +3,9 @@
 
 from rules import NullAddition
 
+import logging_setup as Logging
+LOG=Logging.getLogger('figured_bass')
+
 #TODO-HhK{Ask: what is the max. number of intervals??}
 MAX_NUMBER_OF_INTERVALS = 3
 
@@ -56,7 +59,7 @@ class FiguredBass(object):
             del self.figures[note]
         except KeyError:
             #TODO-Hh{?decide whether to flag figure-less notes; maybe log?}
-            #print "there wasn't a figure to clear!"
+            #LOG.warning("there wasn't a figure to clear!")
             pass
 
     def is_full(self,note):

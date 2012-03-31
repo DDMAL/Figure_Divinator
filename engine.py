@@ -21,6 +21,9 @@ from figured_bass import FiguredBass
 import work_browser
 from work_browser import WorkBrowser
 
+import logging_setup as Logging
+LOG=Logging.getLogger('engine')
+
 DEFAULT_WINDOW_SIZE = 4
 DEFAULT_INCREMENT = 2
 
