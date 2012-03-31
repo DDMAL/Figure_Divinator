@@ -1,0 +1,92 @@
+# Configuration file to set up python logging facilities for the figured bass extractor system
+# Each module gets its own logger; use existing definitions as models.
+# Each module can set the output level to one of DEBUG,INFO,WARN,CRITICAL,
+# and in a pinch, we can define finer-grained levels as needed.
+# NOTE how nicely the modular design works:
+# loggers use any of the defined handlers, which can use any of the defined formatters.
+#
+
+[loggers]
+keys=root,engine,evaluation,extractor,figured_bass,rules,work_browser
+
+[handlers]
+keys=console,stdout_plain,logfile
+
+[formatters]
+keys=date_level,date_level_module,plain,module_only
+
+[handler_console]
+class=StreamHandler
+level=DEBUG
+formatter=module_only
+args=(sys.stdout,)
+
+[handler_logfile]
+class=FileHandler
+level=DEBUG
+formatter=date_level_module
+args=("figured_bass.log","a")
+
+[handler_stdout_plain]
+class=StreamHandler
+level=DEBUG
+formatter=plain
+args=(sys.stdout,)
+
+[formatter_module_only]
+format=%(module)s %(lineno)s %(levelname)-8s %(message)s
+datefmt=%Y-%m-%d %H:%M:%S
+
+[formatter_date_level]
+format=%(asctime)s %(levelname)-8s %(message)s
+#datefmt=%a, %d %b %Y %H:%M:%S
+datefmt=%Y-%m-%d %H:%M:%S
+
+[formatter_date_level_module]
+format=%(asctime)s %(module)s %(lineno)s %(levelname)-8s %(message)s
+#datefmt=%a, %d %b %Y %H:%M:%S
+datefmt=%Y-%m-%d %H:%M:%S
+
+[formatter_plain]
+format=%(message)s
+datefmt=
+
+[logger_root]
+level=DEBUG
+handlers=stdout_plain
+
+[logger_engine]
+level=DEBUG
+handlers=console
+qualname=engine
+propagate=0
+
+[logger_evaluation]
+level=DEBUG
+handlers=console
+qualname=evaluation
+propagate=0
+
+[logger_extractor]
+level=DEBUG
+handlers=console
+qualname=extractor
+propagate=0
+
+[logger_figured_bass]
+level=DEBUG
+handlers=console
+qualname=figured_bass
+propagate=0
+
+[logger_rules]
+level=DEBUG
+handlers=console
+qualname=rules
+propagate=0
+
+[logger_work_browser]
+level=DEBUG
+handlers=console
+qualname=work_browser
+propagate=0
