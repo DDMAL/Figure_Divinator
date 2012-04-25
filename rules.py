@@ -106,7 +106,8 @@ def get_rules(ruleset):
 
     elif ruleset[0] == "SL":
         extraction_rules = [# SLRule_test(),
-                            SLRule1(),  #needs clarification
+                            SLRule1a(),  #needs clarification
+                            SLRule1b(),  #needs clarification
                             SLRule2(),
                             SLRule3(),
                             SLRule4(),
@@ -146,7 +147,6 @@ def get_rules(ruleset):
 
     # Test the list of rules
     try:
-
         if not len(extraction_rules)>0:
             raise
         if not all([isinstance(x,Rule) for x in extraction_rules]):
