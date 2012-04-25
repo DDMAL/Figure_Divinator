@@ -30,7 +30,7 @@ DEFAULT_INCREMENT = 2
 
 class EngineParameterError(Exception):
     pass
-    
+
 
 class Region(object):
     """A region is simply
@@ -104,6 +104,12 @@ class Engine(object):
         # when all figures are extracted
         # (according to self.explorer criteria)
 
+    # Returns figured bass
+    def apply_figured_bass(self):
+        self.explorer.figured_bass.add_lyrics()
+        return self.work_browser.get_bass_line()
+
+    # Returns and then writes figured bass to file
     def write_figured_bass(self,output_file_name):
         self.explorer.figured_bass.add_lyrics()
         self.work_browser.get_bass_line().write(fmt='musicxml',
@@ -151,7 +157,7 @@ class WindowedFigureSpaceExplorer(FigureSpaceExplorer):
     notes, i.e. the extraction is done WINDOW_SIZE
     notes at a time, which speeds things up and is
     not harmful to the exploration of the search space
-    is the WINDOW_SIZE is relevant to the temporal 
+    is the WINDOW_SIZE is relevant to the temporal
     dependency of rules (i.e. how 'far' a rule refers
     to past notes or future notes).
     """
@@ -162,10 +168,10 @@ class WindowedFigureSpaceExplorer(FigureSpaceExplorer):
         self.WINDOW_SIZE = DEFAULT_WINDOW_SIZE
         self.INCREMENT = DEFAULT_INCREMENT
 
-        self.FIRST_NOTE = 0 
+        self.FIRST_NOTE = 0
         self.LAST_NOTE = len(self.work_browser.bass_notes)
- 
- 
+
+
     def initialize(self):
         FigureSpaceExplorer.initialize(self)
 
@@ -235,7 +241,7 @@ class GreedyFigureExtractor(FigureExtractor):
             else:
                 raise StopIteration
 
-            
+
     def extract(self,region,figured_bass):
         # This returns when no additions are possible
         for addition in self.next_addition(region,figured_bass):
@@ -247,7 +253,7 @@ class GreedyEngine(Engine):
     This combines the dummy figure space explorer
     with the greedy figure extractor
     """
-    
+
     def __init__(self,work,rules):
         Engine.__init__(self,work,rules)
 

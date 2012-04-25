@@ -15,6 +15,8 @@ import logging #TODO-Hh{read about logging! implement this!}
 
 from music21 import corpus
 from music21 import converter
+from music21 import stream
+from music21 import * #todo-Hh{very bad!}
 
 import rules
 
@@ -45,6 +47,7 @@ parser.add_argument('-o', action='store_true',
                     dest='viewOutput', default=False,
                     help='View output in MusicXML interface?')
 parser.add_argument('-r', nargs='*', dest='rules_type', default=['dummyrules'], help='Set of rules to apply')
+parser.add_argument('-t', nargs='?', const='x', default=False, dest='test_string')
 
 LOG.debug("%s", parser.parse_args())
 
@@ -52,6 +55,7 @@ LOG.debug("%s", parser.parse_args())
 args = parser.parse_args()
 scoreFile = args.input_file
 ruleSet = args.rules_type
+testState = args.test_string
 viewOutput = args.viewOutput
 
 #set output file additional string
@@ -115,14 +119,43 @@ try:
     # Call the engine
     extraction_engine.compute_figured_bass()
 
-    # Write the figured bass
-    extraction_engine.write_figured_bass(output_file_name)
-    LOG.info("Great! It should have saved as '%s'",output_file_name)
 
-    if viewOutput:
-        LOG.info("Displaying output if xml viewer has been installed.")
-        s = converter.parse(output_file_name)
-        s.show()
+
+    if testState:
+        print "Testing:"
+
+        # original unfigured
+        original_work = stream.Score(work)
+
+        fb_stream = stream.Stream(extraction_engine.apply_figured_bass())
+
+        #for note in original_work.flat.getElementsByClass(note.Note):
+        #    if note.hasLyrics():
+        #        note.lyrics = ''
+
+        fb_stream.show()
+        original_work.insert(0,fb_stream)
+
+
+        # solution
+        if testState == 'x':
+            original_work.show()
+        else:
+            solution_stream = tinyNotation.TinyNotationStream(testState)
+            original_work.insert(0,solution_stream)
+            original_work.show()
+
+
+    # Write the figured bass if it isn't in test mode
+    else:
+        extraction_engine.write_figured_bass(output_file_name)
+        LOG.info("Great! It should have saved as '%s'",output_file_name)
+
+        if viewOutput:
+            LOG.info("Displaying output if xml viewer has been installed.")
+            s = converter.parse(output_file_name)
+            s.show()
+
 
 except FileNotFoundError as file:
     LOG.critical("file '%s' does not exists", file)
