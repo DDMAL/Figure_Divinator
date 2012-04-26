@@ -41,8 +41,16 @@ class WorkBrowser(object):
         # Save a copy of the work notes
         self.notes = self.flat_work.getElementsByClass(Note)
 
+        # Count the number of bass notes
+        self.note_count = len(self.notes)
+        LOG.debug("Bass note count is: %d", self.note_count)
+
         # Save a copy of the work in chords
-        self.chords = self.notes.chordify()
+        #self.chords = self.work.chordify()
+
+       # LOG.debug(self.chords.show('text'))
+        #for c in self.chords.getElementsByClass('Chord'):
+            #print c
 
         # Caching overlapping notes
         self.overlapping_notes={}
@@ -66,15 +74,16 @@ class WorkBrowser(object):
             return self.work['bass']
         except:
             try:
-                LOG.debug("len(work): %s",len(self.work))
                 return self.work[len(self.work)-1]
             except:
                 raise InputError("cannot extract bass line from score")
 
-    def get_chord(self,note):
+    def get_chord_notes(self,note):
         note_location = note.offset
-        chord = self.chords.getElementAtOrBefore(note_location)
-        return chord
+        LOG.debug("note location: %s", note_location)
+        chord_notes = self.flat_work.getElementsByOffset(note_location).pitches #getElementsByClass(note.Note)
+
+        return chord_notes
 
     def note_of_index(self,index):
         return self.bass_notes[index]

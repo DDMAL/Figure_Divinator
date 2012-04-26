@@ -39,7 +39,7 @@ class FileNotFoundError(Exception):
 class InputError(Exception):
     pass
 
-
+LOG.info("\n")
 #Get, parse arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('input_file')
@@ -49,7 +49,7 @@ parser.add_argument('-o', action='store_true',
 parser.add_argument('-r', nargs='*', dest='rules_type', default=['dummyrules'], help='Set of rules to apply')
 parser.add_argument('-t', nargs='?', const='x', default=False, dest='test_string')
 
-LOG.debug("%s", parser.parse_args())
+LOG.debug("Arguments: %s\n", parser.parse_args())
 
 #Set flags
 args = parser.parse_args()
@@ -116,13 +116,20 @@ try:
     #
     # Comment-out the lines above to extract figures for the whole work
 
+    # If the piece size is smaller than the window, resize window
+    length_piece = extraction_engine.work_browser.note_count
+
+    if extraction_engine.explorer.WINDOW_SIZE > length_piece:
+        LOG.debug("Window size too large for piece, switching to size %d", length_piece)
+        extraction_engine.explorer.WINDOW_SIZE = length_piece
+    if extraction_engine.explorer.INCREMENT < extraction_engine.explorer.WINDOW_SIZE:
+        extraction_engine.explorer.INCREMENT = extraction_engine.explorer.WINDOW_SIZE
+
     # Call the engine
     extraction_engine.compute_figured_bass()
 
-
-
     if testState:
-        print "Testing:"
+        LOG.info("-Testing-")
 
         # original unfigured
         original_work = stream.Score(work)
@@ -133,15 +140,22 @@ try:
         #    if note.hasLyrics():
         #        note.lyrics = ''
 
-        fb_stream.show()
-        original_work.insert(0,fb_stream)
+        #fb_stream.show('text')
 
+        notes1 = fb_stream.flat.notes
+        for thing in notes1:
+            thing.color = "red"
+
+        #original_work.insert(0,fb_stream)
 
         # solution
         if testState == 'x':
+            pass
             original_work.show()
         else:
             solution_stream = tinyNotation.TinyNotationStream(testState)
+            for n in solution_stream.flat.notes:
+                n.color = "blue"
             original_work.insert(0,solution_stream)
             original_work.show()
 
@@ -152,9 +166,14 @@ try:
         LOG.info("Great! It should have saved as '%s'",output_file_name)
 
         if viewOutput:
-            LOG.info("Displaying output if xml viewer has been installed.")
-            s = converter.parse(output_file_name)
-            s.show()
+            try:
+                s = converter.parse(output_file_name)
+                s.show()
+                LOG.info("Displaying output if xml viewer has been installed.")
+            except:
+                LOG.info("Unable to show .xml output through MusicXML,")
+                LOG.info("try opening the file directly.")
+    LOG.info("\n\n")
 
 
 except FileNotFoundError as file:
