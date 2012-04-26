@@ -949,7 +949,7 @@ class SLRule21(SLRule):
 
                 # * 2nd note gets a 6#42 or just '-' (Note: "-" part of cleanup step)
                 #TODO-Hh{When using fb module, this might be different}
-                self.addition = MultipleIntervalAddition(next_note,['2','#4','6']
+                self.addition = MultipleIntervalAddition(next_note,['2','#4','6'])
 
                 # * 3rd gets a 6
                 self.addition = IntervalAddition(third_note,6)

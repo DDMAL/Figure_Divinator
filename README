@@ -9,22 +9,63 @@
 				   (unused for now)
 + logging-setup.py:	module that provides log facilites for the system
 
-Usage:
+******
 
-	python python usage: extractor.py [-r RULES_TYPE] [-o] input_file
+Usage (basic):
 
+	python extractor.py [-o] input_file [-t ['test_string']] [-r [rule] [rule] ...]
+
+The input file will be unchanged; the output file will be saved in
+the same directory as the input file as: yourfile_figured_bass_type.xml.
+
+******
 
 Usage (for the fully uninitiated!):
-To run a file through the dummy rules, use:
+~To run a file through the dummy rules, use:
+
 	python extractor.py yourfile.xml
 
-To have the output file open in your musicXML reader, add the -o flag:
+
+~To AUTOMATICALLY OPEN THE OUTPUT FILE in your musicXML reader, add the -o flag:
+
 	python extractor.py yourfile.xml -o
 
-To use a particular set of extraction rules, add the -r <rules> flag:
-	python extractor.py yourfile.xml -r SL
 
-The -o and -r flags can be used together.
+~To use a PARTICULAR SET OF EXTRACTION RULES, add the -r <rules> flag:
 
-The input file will remain unchanged; the output file will be saved in
-the same directory as yourfile_figured_bass_type.xml.
+	python extractor.py yourfile.xml -r [rule] [rule] [rule]
+
+Without this flag, a dummy ruleset will be used; it won't output anything
+useful, but at least you'll be able to see that it is possible to add bogus
+figures! Possible rules can either be "-r SL" (all Saint Lambert rules) or any
+combination of rules thereof: "-r SLRule1a SLRule3 SLRule20".
+
+
+~To use in TESTING MODE, such that the extracted line is presented with the
+original input score, use the "-t" flag:
+
+    python extractor.py yourfile.xml -t ['optional_test_string']
+
+If you want to show a solution figured line on the same score, add that string
+(in quotes) after the flag, e.g. -t 'D2 BB2'. This solution won't be compared
+by the program's output, but displaying it together with the output makes it
+easy to look for discrepancies. The original score will be in BLACK, the
+figured bass line in RED, and the solution line in BLUE.
+The following are solution strings for the first five SL rules:
+    # 1a:   'BB2_6 C2'     (C half note no figure, B natural half note with 6)
+    # 1b:   'AA2  BB-2_6'     (A half note no figure, B flat half note with 6)
+    # 2:    'BB-2_6  AA2'    (B flat half note with 6, A half note no figure)
+    # 3:    'E2_#6 F2_6' (E half note with sharp 6, F natural half note with 6)
+    # 4:    'D2  BB2'   (d half note no figure, B natural half note no figure)
+    # 5:    'D2 BB-2'   (d half note no figure, B flat half note no figure)
+
+Example useage:
+
+    python extractor.py xml_test_files_SL/Lambert\ 1a.xml -t 'BB2_6 C2' -r SLRule1a
+    (The first rule on the first test file)
+
+    python extractor.py xml_test_files_SL/Lambert\ 1a.xml -t -rSL
+    (All Sl rules on the first test file)
+
+
+
