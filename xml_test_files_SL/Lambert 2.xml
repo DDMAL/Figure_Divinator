@@ -4,7 +4,7 @@
   <identification>
     <encoding>
       <software>MuseScore 1.1</software>
-      <encoding-date>2012-03-20</encoding-date>
+      <encoding-date>2012-04-25</encoding-date>
       </encoding>
     </identification>
   <defaults>
@@ -119,6 +119,18 @@
         <chord/>
         <pitch>
           <step>E</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <stem>up</stem>
+        <staff>1</staff>
+        </note>
+      <note default-x="117.91" default-y="-25.00">
+        <chord/>
+        <pitch>
+          <step>A</step>
           <octave>4</octave>
           </pitch>
         <duration>2</duration>

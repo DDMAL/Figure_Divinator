@@ -10,6 +10,7 @@
 # major" is different from "no figure has been added yet"....}
 
 #TODO-HhK{"tone" == 2 semitones? 1 scale note?}
+#TODO-Hh{Make sure all intervals are MODULO!!!!!!!}
 #TODO-Hh{Depending on answer above,
 #        double-check "up a tone" v "up a semitone" everywhere!!!!}
 
@@ -46,20 +47,22 @@ class SLRule_test(SLRule):
 class SLRule1a(SLRule):
     # Status: limbo! #TODO-HhK{Konstantin clarification needed: switching}
 
-    # Rule 1:
+    # Rule 1a:
     # When the bass note goes up by a semitone
     # * First note gets a 6, second nothing.
-    # * Or, first gets nothing, second gets 6.
+    # * ...
+
+    #TODO: if voices: use semitones; else, use scale degree (rule of octave)
     def apply(self,context):
         current_note = context.note
 
         try:
-            # check if if (bass note down by a semitone)
+            # check if if (bass note up by a semitone)
             next_note = context.work_browser.get_next_bass_note(current_note)
             melodic_interval = interval.notesToChromatic(
                                 current_note,next_note).semitones
 
-            if melodic_interval == -1:
+            if melodic_interval == 1:
                 LOG.debug("YOU PASS RULE 1! Cool.")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
@@ -81,17 +84,17 @@ class SLRule1b(SLRule):
 
     # Rule 1b:
     # When the bass note goes up by a semitone
-    # * Or, first gets nothing, second gets 6.
+    # ... second gets 6.
     def apply(self,context):
         current_note = context.note
 
         try:
-            # check if if (bass note down by a semitone)
+            # check if if (bass note up by a semitone)
             next_note = context.work_browser.get_next_bass_note(current_note)
             melodic_interval = interval.notesToChromatic(
                                 current_note,next_note).semitones
 
-            if melodic_interval == -1:
+            if melodic_interval == 1:
                 #print "YOU PASS RULE 1! Cool."
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
@@ -144,23 +147,39 @@ class SLRule3(SLRule):
 
     # Rule 3:
     # When bass note goes up by a semitone
-    # and the first note has a #6
+    # and the first note has a #6  #TODO-HhK{Check: "has a #6" is interval, not figure, right?}
     # * Second note gets a 6
     def apply(self,context):
         current_note = context.note
-        fig_has_6 =  context.figured_bass.has_interval(current_note,6)
 
         try:
-            # check if if (bass note down by a semitone)
+            LOG.debug("Trying rule 3 again, on note %s", current_note)
+            # check if (bass note down by a semitone)
             next_note = context.work_browser.get_next_bass_note(current_note)
             melodic_interval = interval.notesToChromatic(
                                 current_note,next_note).semitones
+
+            LOG.debug("Interval is: %d", melodic_interval)
+
+            # check if (first note has #6)
+            fig_has_6 = 0
+            current_pitches = context.work_browser.get_chord_notes(current_note)
+            for j in range(len(current_pitches)-1, -1, -1):
+                p = current_pitches[j]
+                i = interval.notesToChromatic(current_note,p).semitones
+                if i%12 == 9: #TODO-HhK{Major 6? Not sharp 6...}
+                    fig_has_6 = 1
+                LOG.debug("note is: %s, interval is: %d", p, i%12)
+
             if (melodic_interval == 1 and fig_has_6 == 1):
                  # * Second note gets a 6
                 LOG.debug("YOU PASS RULE 3!")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
                 self.addition = IntervalAddition(next_note,6)
+                #TODO: current_note: #6
+            else:
+                LOG.debug("You don't pass rule3.")
 
         except IndexError:
             LOG.info("last note!")
@@ -264,8 +283,6 @@ class SLRule7(SLRule):
             melodic_interval = interval.notesToChromatic(
                                 current_note,next_note).semitones
 
-            #TODO-HhK{Was "of any kind" interpreted correctly? (didn't include
-            # diminished 6th...is that also correct?)}
             if (melodic_interval == 3 or melodic_interval == 4 or
                     melodic_interval == 8 or melodic_interval == 9):
                 # * Second note gets a 6
@@ -398,7 +415,7 @@ class SLRule10(SLRule):
             # are being dealt with here, and are we talking chromatically
             # consecutive or scale consecutive or what?}
             #TODO-HhK{"third note has a 7" means it already has that figure or
-            # there's a 7 in the chord?}
+            # there's a 7 in the chord?}==there's a 10 or 11 semitones above this note
             if (melodic_interval == -1 and melodic_interval_2 == -1 and
                     third_note_chord.containsSeventh()):
 
@@ -512,10 +529,10 @@ class SLRule13(SLRule):
     # * 3rd no figure
 
     def apply(self,context):
-        current_note = context.note
-        current_note_beat = current_note.beat
-
         try:
+            current_note = context.note
+            current_note_beat = current_note.beat
+
             next_note = context.work_browser.get_next_bass_note(current_note)
             third_note = context.work_browser.get_next_bass_note(next_note)
             melodic_interval = interval.notesToChromatic(
@@ -525,7 +542,7 @@ class SLRule13(SLRule):
 
             # When bass note goes up a semitone,
             # then goes up a 5th or down a 4th and is on 1st beat
-            #TODO-HhK{Clarification: *current* note is on the 1st beat, right?}
+            #TODO-HhK{Clarification: *current* note is on the 1st beat, right?}{last but context}
             if (melodic_interval == 1 and current_note_beat == 1 and
                     (melodic_interval_2 == 7 or melodic_interval_2 == -5)):
                 LOG.debug("You PASS RULE 13!")
@@ -547,6 +564,10 @@ class SLRule13(SLRule):
 
         except AttributeError:
             LOG.warning("error on: %s", current_note)
+
+        except Exception as inst:
+            print type(inst)     # the exception instance
+            print inst.args      # arguments stored in .args
 
 class SLRule14(SLRule):
     # Status: complete!
@@ -926,19 +947,9 @@ class SLRule21(SLRule):
                 # * 1st note gets no figure #TODO-Hh{"no figure"...}
                 context.figured_bass.clear_figure(current_note)
 
-                # * 2nd note gets a 6#42 or just '-'
-                #TODO-HhK{Which rule to follow?? How to decide}
-                outcome = random.randint(0,1)
-                if outcome == 0:
-                    # * 2nd note gets a 6#42
-                    #TODO-HhK{"6#42"?? Really? Or miss-print?}
-                    #TODO-Hh{When using fb module, this might be different}
-                    self.addition = MultipleIntervalAddition(next_note,['#42','6'])
-
-                else:
-                    # * 2nd note gets a '-'
-                    self.addition = IntervalAddition(next_note,'-')
-
+                # * 2nd note gets a 6#42 or just '-' (Note: "-" part of cleanup step)
+                #TODO-Hh{When using fb module, this might be different}
+                self.addition = MultipleIntervalAddition(next_note,['2','#4','6']
 
                 # * 3rd gets a 6
                 self.addition = IntervalAddition(third_note,6)
@@ -1062,7 +1073,7 @@ class SLRule23(SLRule):
 
                 # * 4th note gets a 65
                 #TODO-HhK{"65"?? Really? Or miss-print?}
-                self.addition = IntervalAddition(fourth_note,65)
+                self.addition = MultipleIntervalAddition(fourth_note,['6','5'])
 
                 # * 5th gets no figure #TODO-Hh{"no figure"...}
                 context.figured_bass.clear_figure(fifth_note)
@@ -1121,8 +1132,7 @@ class SLRule24(SLRule):
                 self.addition = IntervalAddition(third_note,6)
 
                 # * 4th note gets a 65
-                #TODO-HhK{"65"?? Really? Or miss-print?}
-                self.addition = IntervalAddition(fourth_note,65)
+                self.addition = MultipleIntervalAddition(fourth_note,['6','5'])
 
                 # * 5th gets no figure #TODO-Hh{"no figure"...}
                 context.figured_bass.clear_figure(fifth_note)

@@ -93,13 +93,15 @@ class Engine(object):
     def compute_figured_bass(self):
         self.explorer.initialize()
         self.extractor.initialize()
+        LOG.info("Start computing figured bass.")
+
 
         # Iterate all the regions
         for region in self.explorer.next_region():
-
             # For every region, extract figures and add to current figures
             self.extractor.extract(region,self.explorer.figured_bass)
 
+        LOG.info("Done computing figured bass.")
         # The iteration above only stops
         # when all figures are extracted
         # (according to self.explorer criteria)
@@ -186,8 +188,12 @@ class WindowedFigureSpaceExplorer(FigureSpaceExplorer):
             self.current_window_start = (self.current_window_start +
                                         self.INCREMENT)
 
+
+            # If all the windows have been calculated...be done!
             if self.current_window_start > self.max_window_start:
                 raise StopIteration
+
+            # Otherwise, carry on. :)
             else:
                 # Clear the figures overlap two sucessive windows
                 # (these will be recomputed by for next window)
