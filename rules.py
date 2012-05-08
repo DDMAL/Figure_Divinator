@@ -87,6 +87,9 @@ class Rule(object):
     def __init__(self):
         self.applicability = MIN_APPLICABILITY
         self.addition = NullAddition()
+        self.umbrella = "undefined"
+        self.range = "undefined"
+        self.details = "undefined"
 
     def apply(self,context):
         pass

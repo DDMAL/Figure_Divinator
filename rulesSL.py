@@ -24,6 +24,7 @@ LOG=Logging.getLogger('rules')
 class SLRule(Rule):
     def __init__(self):
         Rule.__init__(self)
+        self.umbrella = "Saint Lambert"
 
         # Can be redefined in sub-classes
         self.applicability_multiplier = 1.0
@@ -45,7 +46,13 @@ class SLRule_test(SLRule):
 
 class SLRuleImplicit_1(SLRule):
     # Implicit rule 1:
-    # If a note has a #6, label it. TODO-HhH{Double-check rule!}
+    # If a note has a #6, label it.
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "to_define"
+        self.details = "to_define"
+
     def apply(self,context):
         current_note = context.note
 

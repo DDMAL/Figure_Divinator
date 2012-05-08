@@ -10,10 +10,11 @@ LOG=Logging.getLogger('rules')
 class DummyRule(Rule):
     def __init__(self):
         Rule.__init__(self)
+        self.umbrella = "Dummy"
 
     def apply(self,context):
         self.applicability = 0.1*MAX_APPLICABILITY
-        self.addition = IntervalAddition(context.note,6)
+        self.addition = MultipleIntervalAddition(context.note,['#4','6'])
 
 
 class DummyHarmonicRule(Rule):
