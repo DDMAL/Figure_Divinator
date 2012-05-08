@@ -2,17 +2,9 @@
 # Monsieur de Saint-Lambert
 # Konstantin Bozhinov transcription - Version 1 (January 2011)
 
-#TODO-Hh{"no figure" the same as "major - so no figure"? If not, check all
-# rules that say "no figure"!}
-#TODO-Hh{Figure out how "no figure" is different from not having added anything
-# yet -- how to prioritize no figure? save it as something different
-# temporarily? After all, "no figure" is different from "no figure signifying
-# major" is different from "no figure has been added yet"....}
-
 #TODO-HhK{"tone" == 2 semitones? 1 scale note?}
 #TODO-Hh{Make sure all intervals are MODULO!!!!!!!}
-#TODO-Hh{Depending on answer above,
-#        double-check "up a tone" v "up a semitone" everywhere!!!!}
+#TODO-Hh{Depending on answer above, double-check "up a tone" v "up a semitone" everywhere!!!!}
 
 from rules import *
 from music21 import interval
@@ -44,14 +36,16 @@ class SLRule_test(SLRule):
                                     MAX_APPLICABILITY)
             self.addition = IntervalAddition(current_note,65)
 
+
 class SLRuleImplicit_1(SLRule):
     # Implicit rule 1:
     # If a note has a #6, label it.
 
     def __init__(self):
         SLRule.__init__(self)
-        self.range = "to_define"
-        self.details = "to_define"
+        self.range = "1"
+        self.details = "semi->#6"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -68,7 +62,6 @@ class SLRuleImplicit_1(SLRule):
                 LOG.debug("note is: %s, interval is: %d", p, i%12)
 
             if (fig_has_6 == 1):
-                 # Note gets a 6
                 LOG.debug("YOU PASS INCIDENTAL RULE 1!")
                 self.applicability = (self.applicability_multiplier *
                                       MAX_APPLICABILITY)
@@ -86,10 +79,15 @@ class SLRule1a(SLRule):
 
     # Rule 1a:
     # When the bass note goes up by a semitone
-    # * First note gets a 6, second nothing.
+    # * First note gets a 6, second nothing. #TODO-HhK{"nothing"=="clear what is there"=="35"}
     # * ...
 
-    #TODO: if voices: use semitones; else, use scale degree (rule of octave)
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "2, both (maybe just first)"
+        self.details = "-"
+        self.todo = "clarify switch; clarify 'nothing';"
+
     def apply(self,context):
         current_note = context.note
 
@@ -100,15 +98,17 @@ class SLRule1a(SLRule):
                                 current_note,next_note).semitones
 
             if melodic_interval == 1:
-                LOG.debug("YOU PASS RULE 1! Cool.")
+                LOG.debug("YOU PASS RULE 1a! Cool.")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
                 #TODO-HhK{Which rule to follow?}
 
-                # * First note gets a 6, second nothing. #TODO-HhK{Does
+                # * First note gets a 6
+                self.addition = IntervalAddition(current_note,6)
+
+                # *...second nothing. #TODO-HhK{Does
                 #"nothing" mean don't add anything new, or eliminate any
                 #figure already there?}
-                self.addition = IntervalAddition(current_note,6)
 
         except IndexError:
           print "last note!"
@@ -116,12 +116,21 @@ class SLRule1a(SLRule):
         except AttributeError:
           print "error on: ", current_note
 
+
 class SLRule1b(SLRule):
     # Status: limbo! #TODO-HhK{Konstantin clarification needed: switching}
 
     # Rule 1b:
     # When the bass note goes up by a semitone
-    # ... second gets 6.
+    # ... 
+    # second gets 6.
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "2, both (maybe just second)"
+        self.details = "-"
+        self.todo = "clarify switch; clarify 'nothing';"
+
     def apply(self,context):
         current_note = context.note
 
@@ -132,10 +141,14 @@ class SLRule1b(SLRule):
                                 current_note,next_note).semitones
 
             if melodic_interval == 1:
-                #print "YOU PASS RULE 1! Cool."
+                LOG.debug("YOU PASS RULE 1b! Cool.")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
-                # * Or, first gets nothing, second gets 6.
+                # * Or, first gets nothing, ##TODO-HhK{Does
+                #"nothing" mean don't add anything new, or eliminate any
+                #figure already there?}
+
+                # * ...second gets 6.
                 self.addition = IntervalAddition(next_note,6)
 
         except IndexError:
@@ -144,6 +157,7 @@ class SLRule1b(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
+
 class SLRule2(SLRule):
     # Status: complete!
 
@@ -151,6 +165,13 @@ class SLRule2(SLRule):
     # If (bass note down by a semitone) and (second note is on beat 1)
     # and (second note is a perfect chord):
     # * First note gets a 6
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "2, first"
+        self.details = "chordqual->perfect,beat"
+        self.todo = "chord quality;"
+
     def apply(self,context):
         current_note = context.note
 
@@ -179,13 +200,19 @@ class SLRule2(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule3(SLRule):
-    # Status: complete!
 
+class SLRule3(SLRule):
     # Rule 3:
     # When bass note goes up by a semitone
     # and the first note has a #6
     # * Second note gets a 6
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "2, second"
+        self.details = "semi->#6"
+        self.todo = "-"  
+
     def apply(self,context):
         current_note = context.note
 
@@ -204,7 +231,7 @@ class SLRule3(SLRule):
             for j in range(len(current_pitches)-1, -1, -1):
                 p = current_pitches[j]
                 i = interval.notesToChromatic(current_note,p).semitones
-                if i%12 == 9: #TODO-HhK{Major 6? Not sharp 6...}
+                if i%12 == 9:
                     fig_has_6 = 1
                 LOG.debug("note is: %s, interval is: %d", p, i%12)
 
@@ -226,11 +253,15 @@ class SLRule3(SLRule):
 
 
 class SLRule4(SLRule):
-    # Status: complete!
-
     # Rule 4:
     # When bass note goes down by a minor 3rd
     # * If first chord is perfect, second gets false fifth (no figure)
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "2"
+        self.details = "chordqual->perfect"
+        self.todo = "chord quality; false fifth;"
 
     def apply(self,context):
         current_note = context.note
@@ -261,11 +292,15 @@ class SLRule4(SLRule):
 
 
 class SLRule5(SLRule):
-    # Status: complete!
-
     # Rule 5:
     # When bass note goes down by a major 3rd
     # * If first note is perfect and major, second gets a 6
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "2, second"
+        self.details = "chordqual->perfect,major"
+        self.todo = "chord quality;"
 
     def apply(self,context):
         current_note = context.note
@@ -294,6 +329,7 @@ class SLRule5(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
+
 class SLRule6(SLRule):
     # Status: limbo! #TODO-HhK{Clarification: I don't understand this rule!}
 
@@ -301,16 +337,26 @@ class SLRule6(SLRule):
     # When bass note goes down by a false 5th
     # * No figure ( include the b5 in second chord)
 
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "2, first (maybe both)"
+        self.details = "-"
+        self.todo = "Everything! false 5; clarify notes;"
+
     def apply(self,context):
         pass
 
 
 class SLRule7(SLRule):
-    # Status: complete!
-
     # Rule 7:
     # When bass note goes up by a 3rd or 6th (of any kind)
     # * Second note gets a 6
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "2, second"
+        self.details = "-"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -337,13 +383,17 @@ class SLRule7(SLRule):
 
 
 class SLRule8(SLRule):
-    # Status: complete!
-
     # Rule 8:
     # When bass note goes up 3 consecutive tones
     # * 1st note gets a 6
     # * 2nd note gets a 65
     # * 3rd note gets a major chord (no figure)
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "4 (maybe 3), first 3"
+        self.details = "-"
+        self.todo = "clarify 3 consec;"
 
     def apply(self,context):
         current_note = context.note
@@ -381,13 +431,18 @@ class SLRule8(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule9(SLRule):
-    # Status: complete!
 
+class SLRule9(SLRule):
     # Rule 9:
     # When bass note goes down 3 consecutive tones and if first chord is major
     # * 2nd gets '-'
     # * 3rd gets a 6
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "3 (maybe 4), first 3"
+        self.details = "chordqual->M"
+        self.todo = "clarify 3 consec;"
 
     def apply(self,context):
         current_note = context.note
@@ -426,13 +481,18 @@ class SLRule9(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule10(SLRule):
-    # Status: complete!
 
+class SLRule10(SLRule):
     # Rule 10:
     # When bass note goes down 3 consecutive tones and the third note has a 7
     # * 1st gets no figure
     # * Second gets '-'
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "4 (maybe 3), first 2"
+        self.details = "semi->7"
+        self.todo = "clarify 3 consec;"
 
     def apply(self,context):
         current_note = context.note
@@ -448,11 +508,6 @@ class SLRule10(SLRule):
 
             # When bass note goes down 3 consecutive tones
             # and the third note has a 7
-            #TODO-HhK{I'm not sure how to interpret this: how many bass notes
-            # are being dealt with here, and are we talking chromatically
-            # consecutive or scale consecutive or what?}
-            #TODO-HhK{"third note has a 7" means it already has that figure or
-            # there's a 7 in the chord?}==there's a 10 or 11 semitones above this note
             if (melodic_interval == -1 and melodic_interval_2 == -1 and
                     third_note_chord.containsSeventh()):
 
@@ -473,13 +528,18 @@ class SLRule10(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule11(SLRule):
-    # Status: complete!
 
+class SLRule11(SLRule):
     # Rule 11:
     # When bass note goes down by a major/minor 3rd,
     # then goes up a tone and third chord is major and is on first beat
     # * 2nd gets a 6
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "3, second"
+        self.details = "chordqual->M,beat"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -512,14 +572,19 @@ class SLRule11(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule12(SLRule):
-    # Status: complete!
 
+class SLRule12(SLRule):
     # Rule 12:
     # When bass note goes down a minor 3rd, then goes up a semitone
     # * 1st gets perfect major chord (no figure)
     # * 2nd gets a 6
     # * 3rd gets perfect major chord (no figure)
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "3, all three"
+        self.details = "-"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -555,15 +620,20 @@ class SLRule12(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule13(SLRule):
-    # Status: complete!
 
+class SLRule13(SLRule):
     # Rule 13:
     # When bass note goes up a semitone,
     # then goes up a 5th or down a 4th and is on 1st beat
     # * 1st gets 6 b5
     # * 2nd no figure
     # * 3rd no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "3, all three"
+        self.details = "beat"
+        self.todo = "-"
 
     def apply(self,context):
         try:
@@ -587,8 +657,7 @@ class SLRule13(SLRule):
                                     MAX_APPLICABILITY)
 
                 # * 1st gets 6 b5
-                #TODO-Hh{When using fb module, this might be different}
-                self.addition = MultipleIntervalAddition(context.note,['6','b5'])
+                self.addition = MultipleIntervalAddition(context.note,['b5','b5'])
 
                 # * 2nd no figure
                 context.figured_bass.clear_figure(next_note)
@@ -606,13 +675,18 @@ class SLRule13(SLRule):
             print type(inst)     # the exception instance
             print inst.args      # arguments stored in .args
 
-class SLRule14(SLRule):
-    # Status: complete!
 
+class SLRule14(SLRule):
     # Rule 14:
     # When bass note goes down a major 3rd, then goes up a 4th
     # * 2nd note gets a 7
     # * 3rd note gets perfect chord (no figure)
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "3, first two"
+        self.details = "-"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -646,14 +720,18 @@ class SLRule14(SLRule):
 
 
 class SLRule15(SLRule):
-    # Status: complete!
-
     # Rule 15:
     # When bass remains same for two notes and then goes up a 5th
     # and the 3rd note is on 1st beat
     # * 1st note gets no figure
     # * 2nd note gets a 6
     # * 3rd note gets no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "3"
+        self.details = "beat"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -689,15 +767,20 @@ class SLRule15(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule16(SLRule):
-    # Status: complete!
 
+class SLRule16(SLRule):
     # Rule 16:
     # When bass note remains same for two notes and then the 3rd goes down a
     # 4th and is on the 1st beat
     # * 1st gets no figure
     # * 2nd gets a 6 #4
     # * 3rd gets no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "3"
+        self.details = "beat"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -723,7 +806,6 @@ class SLRule16(SLRule):
                 context.figured_bass.clear_figure(current_note)
 
                 # * 2nd gets a 6 #4
-                #TODO-Hh{When using fb module, this might be different}
                 self.addition = MultipleIntervalAddition(context.note,['#4','6'])
 
                 # * 3rd gets no figure #TODO-Hh{"no figure"...}
@@ -735,16 +817,22 @@ class SLRule16(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule17(SLRule):
-    # Status: complete!
 
+class SLRule17(SLRule):
     # Rule 17:
     # When bass note goes up a tone, then up a tone,
     # then up a semitone (sol la si ut) and last note is on 1st beat
     # * 1st note gets no figure
     # * 2nd note gets a 6
-    # * 3rd note gets no figure (diminished chord)
+    # * 3rd note gets no figure (diminished chord) #TODO-HhK{is "diminished 
+    #           chord" a comment or something that needs to be programmed in?}
     # * 4th note gets no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "4, all"
+        self.details = "beat"
+        self.todo = "'diminished' figure(?)"
 
     def apply(self,context):
         current_note = context.note
@@ -789,6 +877,7 @@ class SLRule17(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
+
 class SLRule18(SLRule):
     # Status: complete!
 
@@ -799,6 +888,12 @@ class SLRule18(SLRule):
     # * 2nd note gets a 6
     # * 3rd note gets #6
     # * 4th note gets no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "4, all"
+        self.details = "beat"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -842,15 +937,20 @@ class SLRule18(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule19(SLRule):
-    # Status: complete!
 
+class SLRule19(SLRule):
     # Rule 19:
     # When bass note goes down a tone, then down a semitone, then down a tone
     # * 1st note gets no figure
     # * 2nd note get a '-'
     # * 3rd note gets a #6
     # * 4th note gets no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "4, all"
+        self.details = "-"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -894,15 +994,20 @@ class SLRule19(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule20(SLRule):
-    # Status: complete!
 
+class SLRule20(SLRule):
     # Rule 20:
     # When bass note goes down a tone, then down a tone, then down a semitone
     # * 1st note gets no figure
     # * 2nd note gets no figure
     # * 3rd note gets a 6
     # * 4th note gets no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "4, all"
+        self.details = "-"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -944,9 +1049,8 @@ class SLRule20(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule21(SLRule):
-    # Status: limbo! #TODO-HhK{Konstantin clarification needed: switching}
 
+class SLRule21(SLRule):
     # Rule 21:
     # When bass note goes down a tone, then down a semitone, then down a tone,
     # then down a tone
@@ -955,6 +1059,12 @@ class SLRule21(SLRule):
     # * 3rd gets a 6
     # * 4th gets a 6
     # * 5th gets no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "5, all"
+        self.details = "-"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -1003,9 +1113,8 @@ class SLRule21(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule22(SLRule):
-    # Status: complete!
 
+class SLRule22(SLRule):
     # Rule 22:
     # When bass note goes down a tone, then down a tone, then down a semitone,
     # then down a tone
@@ -1014,6 +1123,12 @@ class SLRule22(SLRule):
     # * 3rd note gets a 6
     # * 4th note gets a 6
     # * 5th note gets no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "5, all"
+        self.details = "-"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -1062,9 +1177,8 @@ class SLRule22(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule23(SLRule):
-    # Status: complete!
 
+class SLRule23(SLRule):
     # Rule 23:
     # When bass note goes up a tone, then up a tone, then up a semitone,
     # then up a tone
@@ -1073,6 +1187,12 @@ class SLRule23(SLRule):
     # * 3rd note gets a 6
     # * 4th note gets a 65
     # * 5th note gets no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "5, all"
+        self.details = "-"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -1110,7 +1230,7 @@ class SLRule23(SLRule):
 
                 # * 4th note gets a 65
                 #TODO-HhK{"65"?? Really? Or miss-print?}
-                self.addition = MultipleIntervalAddition(fourth_note,['6','5'])
+                self.addition = MultipleIntervalAddition(fourth_note,['5','6'])
 
                 # * 5th gets no figure #TODO-Hh{"no figure"...}
                 context.figured_bass.clear_figure(fifth_note)
@@ -1121,9 +1241,8 @@ class SLRule23(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
-class SLRule24(SLRule):
-    # Status: complete!
 
+class SLRule24(SLRule):
     # Rule 24:
     # When bass note goes up a tone, then up a semitone,
     # then up a tone, then up a tone
@@ -1132,6 +1251,12 @@ class SLRule24(SLRule):
     # * 3rd note gets a 6
     # * 4th note gets a 65
     # * 5th note gets no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "5, all"
+        self.details = "-"
+        self.todo = "-"
 
     def apply(self,context):
         current_note = context.note
@@ -1180,12 +1305,19 @@ class SLRule24(SLRule):
         except AttributeError:
             LOG.warning("error on: %s", current_note)
 
+
 class SLRule25(SLRule):
     # Status: limbo! #TODO-HhK{Konstantin clarification needed: candence???}
 
     # Rule 25:
     # When at a cadence -
     # -sol sol ut gets 4 7 no figure, respectively
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "3, all"
+        self.details = "-"
+        self.todo = "cadence!;"
 
     def apply(self,context):
         pass
@@ -1198,6 +1330,12 @@ class SLRule26(SLRule):
     # cadence - short sol ut
     # Short sol gets 7 (no 4) and ut gets no figure
 
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "2, both"
+        self.details = "-"
+        self.todo = "cadence!;"
+
     def apply(self,context):
         pass
 
@@ -1208,6 +1346,12 @@ class SLRule27(SLRule):
     # Rule 27:
     # When at a cadence - long sol ut
     # * Long sol gets 4 and 7 and ut gets no figure
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "2, both"
+        self.details = "-"
+        self.todo = "cadence!;"
 
     def apply(self,context):
         pass
@@ -1220,6 +1364,12 @@ class SLRule28(SLRule):
     # When at a cadence and sol is 3 beats in 3/4 time
     # * Sol gets 4, no figure, then a 7 (respectively on each beat)
 
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "3, all"
+        self.details = "beat"
+        self.todo = "cadence!; rhythm?!"
+
     def apply(self,context):
         pass
 
@@ -1227,6 +1377,11 @@ class SLRule28(SLRule):
 class SLRuleOthers(SLRule):
     # SL rules yet to be implemented
     # TODO-HhK{Are there any others? Have there been any updates?}
+
+    def __init__(self):
+        SLRule.__init__(self)
+        self.range = "to_define"
+        self.details = "to_define"
 
     def apply(self,context):
         pass
