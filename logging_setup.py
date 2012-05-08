@@ -44,7 +44,7 @@ http://docs.python.org/library/logging.html#module-logging.
 CONF_FILENAME='log.conf'
 DEFAULT_CONF_FILENAME='log.conf-default'
 
-class LoggingError(Exception):
+class LoggingError(Exception): 
     pass
 
 #from logging import getLogger,root

@@ -90,3 +90,9 @@ level=DEBUG
 handlers=console
 qualname=work-browser
 propagate=0
+
+[logger_rulesViewer]
+level=DEBUG
+handlers=console
+qualname=rulesViewer
+propagate=0
