@@ -43,6 +43,36 @@ class SLRule_test(SLRule):
                                     MAX_APPLICABILITY)
             self.addition = IntervalAddition(current_note,65)
 
+class SLRuleImplicit_1(SLRule):
+    # Implicit rule 1:
+    # If a note has a #6, label it. TODO-HhH{Double-check rule!}
+    def apply(self,context):
+        current_note = context.note
+
+        try:
+            # check if (first note has #6)
+            fig_has_6 = 0
+            current_pitches = context.work_browser.get_chord_notes(current_note)
+            for j in range(len(current_pitches)-1, -1, -1):
+                p = current_pitches[j]
+                i = interval.notesToChromatic(current_note,p).semitones
+                if i%12 == 9:
+                    fig_has_6 = 1
+                LOG.debug("note is: %s, interval is: %d", p, i%12)
+
+            if (fig_has_6 == 1):
+                 # Note gets a 6
+                LOG.debug("YOU PASS INCIDENTAL RULE 1!")
+                self.applicability = (self.applicability_multiplier *
+                                      MAX_APPLICABILITY)
+                self.addition = IntervalAddition(current_note,'#6')
+
+        except IndexError:
+            print "last note!"
+
+        except AttributeError:
+            print "error on: ", current_note
+
 
 class SLRule1a(SLRule):
     # Status: limbo! #TODO-HhK{Konstantin clarification needed: switching}
@@ -147,7 +177,7 @@ class SLRule3(SLRule):
 
     # Rule 3:
     # When bass note goes up by a semitone
-    # and the first note has a #6  #TODO-HhK{Check: "has a #6" is interval, not figure, right?}
+    # and the first note has a #6
     # * Second note gets a 6
     def apply(self,context):
         current_note = context.note
@@ -177,7 +207,7 @@ class SLRule3(SLRule):
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
                 self.addition = IntervalAddition(next_note,6)
-                #TODO: current_note: #6
+
             else:
                 LOG.debug("You don't pass rule3.")
 

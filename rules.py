@@ -106,6 +106,7 @@ def get_rules(ruleset):
 
     elif ruleset[0] == "SL":
         extraction_rules = [# SLRule_test(),
+                            SLRuleImplicit_1(),
                             SLRule1a(),  #needs clarification
                             SLRule1b(),  #needs clarification
                             SLRule2(),
