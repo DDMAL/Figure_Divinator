@@ -7,7 +7,7 @@
 #
 
 [loggers]
-keys=root,engine,evaluation,extractor,figured_bass,rules,work_browser
+keys=root,engine,evaluation,extractor,figured_bass,rules,work_browser,rules_Viewer, figure_extractor
 
 [handlers]
 keys=console,stdout_plain,logfile
@@ -95,4 +95,10 @@ propagate=0
 level=DEBUG
 handlers=console
 qualname=rulesViewer
+propagate=0
+
+[logger_figure_extractor]
+level=DEBUG
+handlers=console
+qualname=f_extractor
 propagate=0

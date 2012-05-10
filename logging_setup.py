@@ -68,7 +68,7 @@ del conf_filename
 ##############
 
 if __name__ == '__main__':
-    for target in ["root","engine","evaluation","extractor","figured_bass","rules","work_browser"]:
+    for target in ["root","engine","evaluation","extractor","figured_bass","rules","work_browser","rulesViewer","figure_extractor"]:
         log=logging.getLogger(target)
         print 'testing logger',target
         log.debug('debug')

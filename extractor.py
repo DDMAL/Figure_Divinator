@@ -11,7 +11,7 @@
 import sys
 import os
 import argparse
-import logging #TODO-Hh{read about logging! implement this!}
+import logging
 
 from music21 import corpus
 from music21 import converter
