@@ -391,7 +391,7 @@ class SLRule8(SLRule):
 
     def __init__(self):
         SLRule.__init__(self)
-        self.range = "4 (maybe 3), first 3"
+        self.range = "4 (3?), first 3"
         self.details = "-"
         self.todo = "clarify 3 consec;"
 
@@ -440,7 +440,7 @@ class SLRule9(SLRule):
 
     def __init__(self):
         SLRule.__init__(self)
-        self.range = "3 (maybe 4), first 3"
+        self.range = "3 (4?), first 3"
         self.details = "chordqual->M"
         self.todo = "clarify 3 consec;"
 
@@ -490,7 +490,7 @@ class SLRule10(SLRule):
 
     def __init__(self):
         SLRule.__init__(self)
-        self.range = "4 (maybe 3), first 2"
+        self.range = "4 (3?), first 2"
         self.details = "semi->7"
         self.todo = "clarify 3 consec;"
 
@@ -582,7 +582,7 @@ class SLRule12(SLRule):
 
     def __init__(self):
         SLRule.__init__(self)
-        self.range = "3, all three"
+        self.range = "3, all"
         self.details = "-"
         self.todo = "-"
 
@@ -631,7 +631,7 @@ class SLRule13(SLRule):
 
     def __init__(self):
         SLRule.__init__(self)
-        self.range = "3, all three"
+        self.range = "3, all"
         self.details = "beat"
         self.todo = "-"
 
