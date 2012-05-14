@@ -74,19 +74,16 @@ class SLRuleImplicit_1(SLRule):
             print "error on: ", current_note
 
 
-class SLRule1a(SLRule):
-    # Status: limbo! #TODO-HhK{Konstantin clarification needed: switching}
-
+class SLRule1(SLRule):
     # Rule 1a:
     # When the bass note goes up by a semitone
     # * First note gets a 6, second nothing. #TODO-HhK{"nothing"=="clear what is there"=="35"}
-    # * ...
 
     def __init__(self):
         SLRule.__init__(self)
         self.range = "2, both (maybe just first)"
         self.details = "-"
-        self.todo = "clarify switch; clarify 'nothing';"
+        self.todo = "'nothing'->35;"
 
     def apply(self,context):
         current_note = context.note
@@ -101,61 +98,18 @@ class SLRule1a(SLRule):
                 LOG.debug("YOU PASS RULE 1a! Cool.")
                 self.applicability = (self.applicability_multiplier *
                                     MAX_APPLICABILITY)
-                #TODO-HhK{Which rule to follow?}
 
                 # * First note gets a 6
                 self.addition = IntervalAddition(current_note,6)
 
-                # *...second nothing. #TODO-HhK{Does
-                #"nothing" mean don't add anything new, or eliminate any
-                #figure already there?}
+                # *...second nothing.
+                self.addition = MultipleIntervalAddition(next_note,['5','3'])
 
         except IndexError:
           print "last note!"
 
         except AttributeError:
           print "error on: ", current_note
-
-
-class SLRule1b(SLRule):
-    # Status: limbo! #TODO-HhK{Konstantin clarification needed: switching}
-
-    # Rule 1b:
-    # When the bass note goes up by a semitone
-    # ... 
-    # second gets 6.
-
-    def __init__(self):
-        SLRule.__init__(self)
-        self.range = "2, both (maybe just second)"
-        self.details = "-"
-        self.todo = "clarify switch; clarify 'nothing';"
-
-    def apply(self,context):
-        current_note = context.note
-
-        try:
-            # check if if (bass note up by a semitone)
-            next_note = context.work_browser.get_next_bass_note(current_note)
-            melodic_interval = interval.notesToChromatic(
-                                current_note,next_note).semitones
-
-            if melodic_interval == 1:
-                LOG.debug("YOU PASS RULE 1b! Cool.")
-                self.applicability = (self.applicability_multiplier *
-                                    MAX_APPLICABILITY)
-                # * Or, first gets nothing, ##TODO-HhK{Does
-                #"nothing" mean don't add anything new, or eliminate any
-                #figure already there?}
-
-                # * ...second gets 6.
-                self.addition = IntervalAddition(next_note,6)
-
-        except IndexError:
-            LOG.info("last note!")
-
-        except AttributeError:
-            LOG.warning("error on: %s", current_note)
 
 
 class SLRule2(SLRule):

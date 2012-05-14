@@ -4,15 +4,28 @@ Rules for figuring unfigured bass parts
 
 **Written out by Konstantin, Fall 2011
 
+******
+K skipped:
+@SL-Rule 4: ?? 5/# --> 6/3 /ascending diatonic semitone
+@SL-Rule 2: ?? voice leading!
+
+******
+
+
+
 1. When the bass note goes up by a semitone
 * First note gets a 6, second nothing.
-* Or, first gets nothing, second gets 6.
+[[* Or, first gets nothing, second gets 6.]]--#TODO-HhK{Hank says delete! problems?}
+@SL-Rule 3 (p45f, 1707) (generalization of SL1)(confirms that we don't want augmented unison)
 
-2. When bass note goes down by a semitone, second note is a perfect chord and is on beat 1
+2. When bass note goes down by a semitone, second note is a perfect chord (major triad) and is on beat 1
 * First note gets a 6
+@SL-Rule 5 (p46, 1707ed)
+Hh-{perfect chord == major triad; must have maj3, if more notes, must be 5th or octave}
 
-3. When bass note goes up by a semitone and the first note has a #6
+->3. When bass note goes up by a semitone and the first note has a #6
 * Second note gets a 6
+@SL-Rule 6 (p46)
 
 4. When bass note goes down by a minor 3rd
 * If first chord is perfect, second gets false fifth (no figure)
