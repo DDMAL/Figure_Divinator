@@ -27,123 +27,141 @@ class InputError(Exception):
     pass
 
 
-#When given a score, extract and return the figured bass
-def extract(original_score, extraction_score, ruleset=["SL"]):
-
-    extract = copy.deepcopy(original_score)
-
-    #Get the bassline from the original
-    bassline = get_bassline(original_score)
-
-    #Process the bassline
-    proc_bassline(bassline)
-
-    for n in bassline.flat:
-        n.color = "red"
-
-    #Get the chords from the original
-    chords = original_score.chordify()
-    for c in chords.flat.getElementsByClass('Chord'):
-        c.closedPosition(forceOctave=4, inPlace=True)
-        c.removeRedundantPitches(inPlace=True)
-        c.annotateIntervals()
-        c.color = "yellow"
-
-    #TODO -- run rules
-
-    #Put bassline in extraction score
-    extraction_score.insert(0,bassline)
-
-    return extraction_score
+class ExtractionWork(object):
+    """A class that holds both the original score and newly extracted portion"""
+    def __init__(self, score_file_input, **kwargs):
+        self.score_input = score_file_input
+        self.ruleset = kwargs.get('ruleset','SL')
+        self.input_filename = ''
+        self.output_filename = ''
+        self.original_score = ''
+        self.solution = kwargs.get('solution',False)
+        self.extracted_bassline
+        self.extracted_fbassline
+        
+        _load_score_from_file()        #...TODO -- accept straight score?
 
 
-def get_bassline(score, proc_type="all"):
-    
-    try:
-        return copy.deepcopy(score['bass'])
-        LOG.debug("Bassline is pre-labeled bass line")
+    def _load_score_from_file(self):
+        #set output file additional suffix
+        ext_rule = ''
+        if self.ruleset[0] == 'SL':
+            ext_rule = '_SL'
+        elif self.ruleset[0] == 'dummyrules':
+            ext_rule = '_dummy'
+        else:
+            ext_rule = '_unique'
 
-    except:
+        #read in score file 
+        if not os.path.isfile(self.score_input):
+            raise FileNotFoundError(self.score_input)
+
+        (input_base,ext_sep,input_ext) = self.score_input.rpartition(os.extsep)
+
+        self.input_filename = input_base + ext_sep + input_ext
+        self.output_filename = (input_base + '_figured_bass' + ext_rule +
+                            ext_sep + input_ext)
+
+        # Open score with Music21
         try:
-            #Get all of lowest staff
-            bassnum = len(score.getElementsByClass(stream.Part)) - 1
-            return copy.deepcopy(score.getElementsByClass(stream.Part)[ bassnum ])
-            LOG.debug("Bassline is lowest part")
+            self.original_score = converter.parse(self.input_filename)
         except:
-            raise InputError("cannot extract bass line from score")
+            raise InputError('Score is not compatible with Music21 input formats')
 
 
-def proc_bassline(line, proc_type="all"):
-    #Post-processing:
-    #TODO - keep all notes?
-    #TODO - check to make sure aren't multiple bass notes
-    pass
+    def extract_bassline_from_score(self):
+        """Extract the full bassline from the score"""
+        try:
+            self.extracted_bassline = copy.deepcopy(self.original_score['bass'])
+            LOG.debug('Bassline is pre-labeled bass line')
+
+        except:
+            try:
+                #Get all of lowest staff
+                bassnum = len(self.original_score.getElementsByClass(stream.Part)) - 1
+                self.extracted_bassline = copy.deepcopy(self.original_score.getElementsByClass(stream.Part)[ bassnum ])
+                LOG.debug('Bassline is lowest part')
+            except:
+                raise InputError('Cannot extract bass line from score')
 
 
-def create_comparison(extraction, original=False, solution="x" ):
-    
-    for n in extraction.flat.notes:
-            n.color = "blue"
+    def process_bassline(self, process_type = 'all'):
+        #Post-processing:
+        #TODO - keep all notes? eliminate passing tones?
+        #TODO - check to make sure aren't multiple bass notes/voicing
+        pass
 
-    #append the original to the extraction?
-    if original != False:
-        LOG.debug("appending original!")
-        for partline in original.getElementsByClass(stream.Part):
-            extraction.insert(-1,partline)
+    def extract(self):
+        """When given a score, this method extracts and returns the figured bass"""
+        #(original_score, extraction_score, ruleset=["SL"]):
 
-    #append the solution to the extraction?
-    if solution != "x":
-        LOG.debug("appending solution!")
-        #Insert the solution below the reduction
-        solutionline = tinyNotation.TinyNotationStream(solution) #'E2_#6 F2_6')
-        for n in solutionline.flat:
-            n.color="red"
-        extraction.insert(0,solutionline)
+        extract = copy.deepcopy(self.original_score)
 
-    return extraction
+        #Get the bassline from the original
+        bassline = extract_bassline_from_score(self.original_score) #TODO - get_bassline method???
 
+        #Process the bassline
+        proc_bassline(bassline) #TODO - get_bassline method???
 
-def open_score_in_music21(scoreFile, ruleset=[""]):
-    #...TODO -- accept straight score?
+        for n in bassline.flat:
+            n.color = 'red'
 
-    #set output file additional suffix
-    if ruleset[0] == "SL":
-        ext_rule = "_SL"
-    elif ruleset[0] == "dummyrules":
-        ext_rule = "_dummy"
-    else:
-        ext_rule = "_unique"
+        #Get the chords from the original
+        chords = self.original_score.chordify()
+        for c in chords.flat.getElementsByClass('Chord'):
+            c.closedPosition(forceOctave=4, inPlace=True)
+            c.removeRedundantPitches(inPlace=True)
+            c.annotateIntervals()
+            c.color = 'yellow'
 
-    #read in score file 
-    if not os.path.isfile(scoreFile):
-        raise FileNotFoundError(scoreFile)
+        #TODO -- run rules
 
-    (input_base,ext_sep,input_ext) = scoreFile.rpartition(os.extsep)
+        #Put bassline in extraction score
+        extraction_score.insert(0,bassline)
 
-    input_file_name = input_base + ext_sep + input_ext
-    output_file_name = (input_base + "_figured_bass" + ext_rule +
-                        ext_sep + input_ext)
-
-    # Open score with Music21
-    try:
-        score = converter.parse(input_file_name)
-    except:
-        raise InputError("score is not compatible with Music21 input formats")
-
-    return score,output_file_name
+        self.extracted_fbassline = extraction_score #TODO: MAKE fb not score
 
 
-def full_extraction(scorefile, ruleset='dummyrules', teststring = "x", display=True):
+    def create_extract_comparison(self): #TODO
+        #extraction, original=False, solution='x' ):
+        
+        for n in extraction.flat.notes:
+                n.color = 'blue'
 
-    #Read in score
-    original_score,output_file_name = open_score_in_music21(scorefile, ruleset)
+        #append the original to the extraction?
+        if original != False:
+            LOG.debug('appending original!')
+            for partline in original.getElementsByClass(stream.Part):
+                extraction.insert(-1,partline)
 
-    #Create new score to hold extraction
+        #append the solution to the extraction?
+        if solution != 'x':
+            LOG.debug('appending solution!')
+            #Insert the solution below the reduction
+            solutionline = tinyNotation.TinyNotationStream(solution) #'E2_#6 F2_6')
+            for n in solutionline.flat:
+                n.color='red'
+            extraction.insert(0,solutionline)
+
+        #TODO - selfcomparison = score
+
+
+
+def full_extraction(scorefile, **kwargs):
+#optional kwargs: ruleset, teststring, display
+
+    teststring = kwargs.get('teststring','x')
+    teststring = kwargs.get('display',True)
+
+    #Get, load score
+    my_score = ExtractionWork(scorefile, kwargs)
+
+    #Create new score to hold extraction #TODO wrong???
     reduction = stream.Score()
 
     #Add metadata
-    oldtitle = ""
-    oldcomposer = ""
+    oldtitle = ''
+    oldcomposer = ''
 
     try:
         oldtitle = score.metadata.title
@@ -160,9 +178,9 @@ def full_extraction(scorefile, ruleset='dummyrules', teststring = "x", display=T
     reduction.metadata.composer = oldcomposer + '\nFigure extraction: Auto'
 
     #extract figured bass
-    reduction = extract(original_score, reduction, ruleset)
+    reduction = my_score.extract() #original_score, reduction, ruleset)
 
-    #append original score and/or solution to test file
+    #append original score and/or solution to test file #TODO<--
     if teststring != False:
         create_comparison(reduction, original_score, teststring)
 
@@ -175,18 +193,18 @@ def full_extraction(scorefile, ruleset='dummyrules', teststring = "x", display=T
         try:
             new_score = converter.parse(output_file_name)
             new_score.show()
-            LOG.info("Displaying output if xml viewer has been installed.")
+            LOG.info('Displaying output if xml viewer has been installed.')
         except:
-            LOG.info("Unable to show .xml output through MusicXML,")
-            LOG.info("try opening the file directly.")
+            LOG.info('Unable to show .xml output through MusicXML,')
+            LOG.info('try opening the file directly.')
 
     #done!
     LOG.info('Done with full extraction.')
 
 
 # Run from command line
-if __name__ == "__main__":
-    LOG.info("cl start")
+if __name__ == '__main__':
+    LOG.info('cl start')
 
     #Get, parse arguments
     parser = argparse.ArgumentParser()
@@ -197,7 +215,7 @@ if __name__ == "__main__":
     parser.add_argument('-t', nargs='?', const='x', default=False, dest='test_string')
     parser.add_argument('-r', nargs='*', dest='rules_type', default=['dummyrules'], help='Set of rules to apply')
 
-    LOG.debug("Arguments: %s\n", parser.parse_args())
+    LOG.debug('Arguments: %s\n', parser.parse_args())
 
     #Set flags
     args = parser.parse_args()
@@ -207,4 +225,4 @@ if __name__ == "__main__":
     viewOutput = args.viewOutput
 
     full_extraction(scoreFile, ruleSet, testString, True)
-    LOG.info("cl done")
+    LOG.info('cl done')
