@@ -76,20 +76,20 @@ class SLRule_3(SLRule):
         self.figures[0] = '6'
         self.figures[1] = 'nothing'
 
-class SLRule_FOO(SLRule):
-    """RULE QUOTE FOO"""
+# class SLRule_FOO(SLRule):
+#     """RULE QUOTE FOO"""
 
-    #Was Konstantin's rule 2
-    def __init__(self):
-        SLRule.__init__(self,FOO)
+#     #Was Konstantin's rule 2
+#     def __init__(self):
+#         SLRule.__init__(self,FOO)
 
-        #"FOO-quote"
-        self.intervals[foo] = ['FOO']
-        self.beats[foo] = ['FOO']
-        self.harmonic_content[foo] = ['FOO']
+#         #"FOO-quote"
+#         self.intervals[foo] = ['FOO']
+#         self.beats[foo] = ['FOO']
+#         self.harmonic_content[foo] = ['FOO']
 
-        #"FOO-figures""
-        self.figures[FOO] = 'FOO'
+#         #"FOO-figures""
+#         self.figures[FOO] = 'FOO'
 
 
 #******

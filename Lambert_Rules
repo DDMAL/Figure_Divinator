@@ -1,207 +1,425 @@
-1:30 - 3 on May 31, meet with Hank
-
-
 Monsieur de Saint-Lambert
 Rules for figuring unfigured bass parts
-**Written out by Konstantin, Fall 2011
+Written out by Konstantin, Fall 2011; re-tooled by Hank & Hannah Spring 2012
 
-***TODO***
+*** TODO ***
     TODO: -re-number rules to match SL!
     TODO: test score that has some figures already (HARASS K FOR THIS)
     TODO: Hh - make sure we can read in pre-existing figures
 
-K: need all examples from SL, including figures, start new example at each double bar (17a, b, etc)(give page numbers!)(HANK NEEDS IT BY YESTERDAY GODDAMIT)exact transcription, can change clef but otherwise exact
+    K: need all examples from SL, including figures, start new example at each
+    double bar (17a, b, etc)(give page numbers!)(HANK NEEDS IT BY YESTERDAY
+    GODDAMIT)exact transcription, can change clef but otherwise exact
 
-******
-K skipped:
-    @SL-Rule 4: ?? 5/# --> 6/3 /ascending diatonic semitone
-    @SL-Rule 2: ?? voice leading!
-    to-add(hank might yank!):@SL-Rules 8:p47 when bass descends minor third, either directly or with intervening step, then the second chord maintains the minor third
-    to-add(hank might yank!)@SL-Rule 9:p47: if a bass note rises by a minor third, either directly or with an intervening passing tone, the first chord should have a minor third
-    to-add(hank might yank!)@SL-Rule 10: Same as 8 and 9, but with major thirds instead of minor thirds (10a and 10b!)
+*** NOTES ***
+    Using SL text from 1707
 
-    to-add @SL-Rule 19: (p50) Down a major third --> Up a perfect fourth, if the first chord has a diminished 5, second chord gets a 7 and third chord gets a perfect triad
+*** SKIPPED ***
+Rule 2
+    Notes: voice leading!
+Rule 4
+    Notes: 5/# --> 6/3 /ascending diatonic semitone
 
-    to-add @SL-Rule 21 (p51): two bass notes that are the same followed by rising 5th (onto 1st beat)
-        *perfect triad on 1st and 3rd notes,
-        *6 on 2nd
-        ("less important than the others")
+* * * * * * RULES * * * * * * * *
 
-    to-add @SL-Rule 22 (p51): two notes that are the same followed by descending 4th onto a downbeat, and first chord is a perfect major triad (no 7):
-    * 1st chord gets 53, second chord gets 64+ (6#4), third chord gets 53
+Rule 3 
+    K's rule:   1
+    Page:       45
+    Conditions: 
+        * When the bass note goes up by a semitone
+    Figures:
+        * First note gets a 6
+        * Second gets nothing.
+    Notes:      
+        * A generalization of SL1
+        * Confirms that we don't want augmented unison
+    Questions?
+        * Confirm what happens with second note!!!
 
-******
+Rule 5
+    K's rule:   2
+    Page:       46
+    Conditions: 
+        * When bass note goes down by a semitone
+        * second note is a perfect chord (major triad) 
+        * second note is on beat 1
+    Figures:
+        * First note gets a 6
+    Notes:      
+        * perfect chord == major triad; must have maj3, if more notes, must be 5th or octave
 
+Rule 6
+    K's rule:   3
+    Page:       46
+    Conditions: 
+        * bass note goes up by a semitone
+        * the first note has a #6
+    Figures:
+        * Second note gets a 6
+    Notes:      
+        * Hh{#6=='major6'}
 
-1. When the bass note goes up by a semitone
-    * First note gets a 6, second nothing.
-    [[* Or, first gets nothing, second gets 6.]]--#TODO-HhK{Hank says delete! problems?}
-    @SL-Rule 3 (p45f, 1707) (generalization of SL1)(confirms that we don't want augmented unison)
+Rule 7
+    K's rule:   4
+    Page:       47
+    Conditions: 
+        * Bass note goes down by a minor 3rd
+        * First chord is perfect
+    Figures:
+        * Second gets false fifth (no figure)
+    Notes:      
+        * Hh{perfect=='minor triad'}
+        * {explicitly says down minor third; should check (w/switch!) to see if modulated (up 6) is also okay}
 
-2. When bass note goes down by a semitone, second note is a perfect chord (major triad) and is on beat 1
-    * First note gets a 6
-    @SL-Rule 5 (p46, 1707ed)
-    Hh-{perfect chord == major triad; must have maj3, if more notes, must be 5th or octave}
+Rule 8
+    K's rule:   NA
+    Page:       47
+    Conditions: 
+        * bass descends minor third, either directly or with intervening step, 
+    Figures:
+        * the second chord maintains the minor third
+    Notes:      
+        * Hank might yank!
 
-3. When bass note goes up by a semitone and the first note has a #6
-    * Second note gets a 6
-    @SL-Rule 6 (p46)
-    Hh{#6=='major6'}
+Rule 9
+    K's rule:   NA
+    Page:       47
+    Conditions: 
+        * bass note rises by a minor third, either directly or with an intervening passing tone,
+    Figures:
+        * first chord should have a minor third
+    Notes:      
+        * Hank might yank!
 
-4. When bass note goes down by a minor 3rd
-    * If first chord is perfect, second gets false fifth (no figure)
-    @SL-Rule 7 (p47)
-    Hh{perfect=='minor triad'}{explicitly says down minor third; should check (w/switch!) to see if modulated (up 6) is also okay}
+Rule 10a
+    K's rule:   NA
+    Page:       ?
+    Conditions: 
+        * bass descends major third, either directly or with intervening step, 
+    Figures:
+        * the second chord maintains the major third
+    Notes:      
+        * Same as 8, but with major thirds instead of minor thirds
+        * Hank might yank!
 
-5. When bass note goes down by a 3rd, (either major or minor) AND the first chord is a perfect major triad {this case: could have a seven}
-    * If first note is perfect and major, second gets a 6
-    @SL-Rule 11 (p47)
-    Hh{redo!}
+Rule 10b
+    K's rule:   NA
+    Page:       ?
+    Conditions: 
+        * bass note rises by a major third, either directly or with an intervening passing tone,
+    Figures:
+        * first chord should have a major third
+    Notes:      
+        * Same as 9, but with major thirds instead of minor thirds
+        * Hank might yank!)
 
-6. When bass note goes down by a false 5th
-    * No figure ( include the b5 in second chord)
-    @SL-Rule 12 (p48)
-    Hh{if bass descends by tritone (dimished fifth), second note will have flat fifth.}
+Rule 11
+    K's rule:   5
+    Page:       47
+    Conditions: 
+        * bass note goes down by a 3rd, (either major or minor)
+        * first chord is a perfect major triad {this case: could have a seven}
+    Figures:
+        * second gets a 6
 
-7. When bass note goes up by a 3rd or DOWN by 6th (of any kind)
-    * Second note gets a 6
-    @SL-Rule 13 (p48)
-    Hh{tofix}
+Rule 12
+    K's rule:   6
+    Page:       48
+    Conditions: 
+        *  When bass note goes down by a false 5th
+    Figures:
+        * No figure ( include the b5 in second chord)
+    Notes:      
+        * Hh{if bass descends by tritone (dimished fifth), second note will have flat fifth.}
+    
+Rule 13
+    K's rule:   7
+    Page:       48
+    Conditions: 
+        * bass note goes up by a 3rd or DOWN by 6th (of any kind)
+    Figures:
+        * Second note gets a 6
 
-8. When bass note goes up 3 consecutive tones (MUST BE SEMITONE OR TONE)
-    @SL-Rule 14 (p48)
-    Hh{to fix}
-    (3rd chord is perfect major triad, no("unlikely") 7)
+Rule 14
+    K's rule:   8
+    Page:       48
+    Conditions: 
+        * When bass note goes up 3 consecutive tones (MUST BE SEMITONE OR TONE)
+        * 3rd chord is perfect major triad, no("unlikely") 7
+    Figures:
         * 1st note gets a 6
         * 2nd note gets a 65(minor3)
         * 3rd note gets a major chord (no figure)(5,#)
-    comment:{if there's trouble, the 1st chord might be on NOT the strong beat; "I^6 ii^{6/5} V I"}{some issues with major/minor aspect of 2nd chord; we're ignoring it for now -- mode issues}
+    Notes:      
+        * comment:{if there's trouble, the 1st chord might be on NOT the strong beat; "I^6 ii^{6/5} V I"}{some issues with major/minor aspect of 2nd chord; we're ignoring it for now -- mode issues}
 
-9. When bass note goes down 2 consecutive whole tone steps (3 notes!) and if first chord is perfect major triad (7 is fine)
-    * 2nd gets ‘-‘ or 6/4+/2
-    * 3rd gets a 6
-    @SL-Rule #15 (p49)
-    Hh{tofix}
+Rule 15
+    K's rule:   9
+    Page:       49
+    Conditions: 
+        * When bass note goes down 2 consecutive whole tone steps (3 notes!) 
+        * first chord is perfect major triad (7 is fine)
+    Figures:
+        * 2nd gets ‘-‘ or 6/4+/2
+        * 3rd gets a 6
 
-10. When bass note goes down 2 consecutive whole tone steps and the third note has a 7 and if first chord is perfect major OR minor triad (no 7)
-    * 1st gets no figure
-    * Second gets ’-‘
-    * Third gets a 7
-    @SL-Rule 16 (p49)
-    Hh{to fix}
+Rule 16
+    K's rule:   10
+    Page:       49
+    Conditions: 
+        * bass note goes down 2 consecutive whole tone steps 
+        * third note has a 7 
+        * first chord is perfect major OR minor triad (no 7)
+    Figures:
+        * 1st gets no figure
+        * Second gets ’-‘
+        * Third gets a 7
 
-11. When bass note goes down by a major/minor 3rd, then goes up a whole tone and third chord is major and is on first beat
-    * 2nd gets a 6
-    @SL-Rule 17 (p#)
-    Hh{note"might be something to do with the quality of the third in the second chord; may depend on the first note"}
+Rule 17
+    K's rule:   11
+    Page:       ?
+    Conditions: 
+        * When bass note goes down by a major/minor 3rd
+        * [second interval] up a whole tone 
+        * third chord is major 
+        * third chord is on first beat
+    Figures:
+        * 2nd gets a 6
+    Notes:      
+        * "might be something to do with the quality of the third in the second chord; may depend on the first note"
 
-12. When bass note goes down a minor 3rd, then goes up a semitone AND third note is on a downbeat
-    * 1st gets perfect major triad (#)
-    * 2nd gets a 6
-    * 3rd gets perfect major triad (#)
-    @SL-Rule 18 (p50)
-    Hh{fix}
+Rule 18
+    K's rule:   12
+    Page:       50
+    Conditions: 
+        * When bass note goes down a minor 3rd
+        * [second interval] then goes up a semitone 
+        * third note is on a downbeat
+    Figures:
+        * 1st gets perfect major triad (#)
+        * 2nd gets a 6
+        * 3rd gets perfect major triad (#)
 
-13. When bass note goes up a semitone, then goes up a 5th or down a 4th and third note on 1st beat
-    * 1st gets 6 b5
-    * 2nd perfect triad (major or minor) OR a six chord (SOOOOOOO 5(6)/3)
-    * 3rd perfect major chord (5,#)
-    @SL-Rule 20 (p50)
-    Hh{fix!}
+Rule 20
+    K's rule:   13
+    Page:       50
+    Conditions: 
+        * When bass note goes up a semitone
+        * [second interval] then goes up a 5th or down a 4th 
+        * third note on 1st beat
+    Figures:
+        * 1st gets 6 b5
+        * 2nd perfect triad (major or minor) OR a six chord (SOOOOOOO 5(6)/3)
+        * 3rd perfect major chord (5,#)
 
-14. When bass note goes down a major 3rd, then goes up a 4th
-    * 2nd note gets a 7
-    * 3rd note gets perfect chord (no figure)
-    @SL-Rule  (p51)
-    Hh{}
-    SEE ABOVE 19
+Rule 19
+    K's rule:   14
+    Page:       50
+    Conditions: 
+        * When bass note goes down a major 3rd
+        * [second interval] up a 4th
+        * first chord has a diminished 5
+    Figures:
+        * 2nd note gets a 7
+        * 3rd note gets perfect chord (no figure)
+        * second chord gets a 7 and third chord gets a perfect triad
 
-15. When bass remains same for two notes and then goes up a 5th and the 3rd note is on 1st beat
-    * 1st note gets no figure
-    * 2nd note gets a 6
-    * 3rd note gets no figure
-    @SL-Rule # (p#)
-    Hh{}
-    SEE ABOVE!21
+Rule 21
+    K's rule:   15
+    Page:       51
+    Conditions: 
+        * [first interval] bass remains same for two notes
+        * [second interval] then up a 5th 
+        * 3rd note is on 1st beat
+    Figures:
+        * 1st note gets perfect triad
+        * 2nd note gets a 6
+        * 3rd note gets perfect triad
+    Notes:      
+        * "less important than the others"
 
-16. When bass note remains same for two notes and then the 3rd goes down a 4th and is on the 1st beat
-    * 1st gets no figure
-    * 2nd gets a 6 #4
-    * 3rd gets no figure
-    @SL-Rule # (p#)
-    Hh{}
-SEE ABOVE!22
+Rule 22
+    K's rule:   16
+    Page:       51
+    Conditions: 
+        * When bass note remains same for two notes
+        * [second interval] then goes down a 4th
+        * third note is on the 1st beat
+        * first chord is a perfect major triad (no 7)
+    Figures:
+        * 1st gets 53
+        * 2nd gets a 64+ (6#4) 
+        * 3rd gets 53
 
-17. When bass note goes up a tone, then up a tone, then up a semitone (sol la si ut) and last note is on 1st beat
-    * 1st note gets (53)
-    * 2nd note gets a 6
-    * 3rd note gets (6 5/)(six flat five)
-    * 4th note gets (53)
-    @SL-Rule 23 (p51)
-    Hh{fix}
+Rule 23
+    K's rule:   17
+    Page:       51
+    Conditions: 
+        * When bass note goes up a tone
+        * [second interval] then up a tone
+        * [third interval] then up a semitone (sol la si ut) 
+        * last note is on 1st beat
+    Figures:
+        * 1st note gets (53)
+        * 2nd note gets a 6
+        * 3rd note gets (6 5/)(six flat five)
+        * 4th note gets (53)
 
-->*18. When bass note goes down a semitone, then down a tone, then down a tone and the last note is on 1st beat
-    * 1st note gets no figure
-    * 2nd note gets a 6
-    * 3rd note gets #6
-    * 4th note gets no figure
-    @SL-Rule # (p#)
-    Hh{}
+*-->
+Rule x
+    K's rule:   18
+    Page:       xx
+    Conditions: 
+        *bass note goes down a semitone
+        * [second interval] then down a tone
+        * [third interval] then down a tone 
+        * last note is on 1st beat
+    Figures:
+        * 1st note gets no figure
+        * 2nd note gets a 6
+        * 3rd note gets #6
+        * 4th note gets no figure
+    Questions?
+        * TBD!
 
-*19. When bass note goes down a tone, then down a semitone, then down a tone
-    * 1st note gets no figure
-    * 2nd note get a ‘-‘
-    * 3rd note gets a #6
-    * 4th note gets no figure
-    @SL-Rule # (p#)
-    Hh{}
+Rule x
+    K's rule:   19
+    Page:       xx
+    Conditions: 
+        * When bass note goes down a tone, 
+        * [second interval] then down a semitone
+        * [third interval] then down a tone
+    Figures:
+        * 1st note gets no figure
+        * 2nd note get a ‘-‘
+        * 3rd note gets a #6
+        * 4th note gets no figure
+    Questions?
+        * TBD!
 
-*20. When bass note goes down a tone, then down a tone, then down a semitone
-    * 1st note gets no figure
-    * 2nd note gets no figure
-    * 3rd note gets a 6
-    * 4th note gets no figure
+Rule x
+    K's rule:   20
+    Page:       xx
+    Conditions: 
+        * bass note goes down a tone
+        * [second interval] then down a tone
+        * [third interval] then down a semitone
+    Figures:
+        * 1st note gets no figure
+        * 2nd note gets no figure
+        * 3rd note gets a 6
+        * 4th note gets no figure
+    Questions?
+        * TBD!
 
-*21. When bass note goes down a tone, then down a semitone, then down a tone, then down a tone
-    * 1st note gets no figure
-    * 2nd note gets a 6#42 or just ‘-‘
-    * 3rd gets a 6
-    * 4th gets a 6
-    * 5th gets no figure
+Rule x
+    K's rule:   21
+    Page:       xx
+    Conditions: 
+        * When bass note goes down a tone
+        * [second interval] then down a semitone
+        * [third interval] then down a tone
+        * [fourth interval] then down a tone
+    Figures:
+        * 1st note gets no figure
+        * 2nd note gets a 6#42 or just ‘-‘
+        * 3rd gets a 6
+        * 4th gets a 6
+        * 5th gets no figure
+    Questions?
+        * TBD!
 
-*22. When bass note goes down a tone, then down a tone, then down a semitone, then down a tone
-    * 1st note gets no figure
-    * 2nd note gets a ‘-‘
-    * 3rd note gets a 6
-    * 4th note gets a 6
-    * 5th note gets no figure
+Rule x
+    K's rule:   22
+    Page:       xx
+    Conditions: 
+        * When bass note goes down a tone
+        * [second interval] then down a tone
+        * [third interval] then down a semitone
+        * [fourth interval] then down a tone
+    Figures:
+        * 1st note gets no figure
+        * 2nd note gets a ‘-‘
+        * 3rd note gets a 6
+        * 4th note gets a 6
+        * 5th note gets no figure
+    Questions?
+        * TBD!
 
-*23. When bass note goes up a tone, then up a tone, then up a semitone, then up a tone
-    * 1st note gets no figure
-    * 2nd note gets a 6
-    * 3rd note gets a 6
-    * 4th note gets a 65
-    * 5th note gets no figure
+Rule x
+    K's rule:   23
+    Page:       xx
+    Conditions: 
+        * When bass note goes up a tone
+        * [second interval] then up a tone
+        * [third interval] then up a semitone
+        * [fourth interval] then up a tone
+    Figures:
+        * 1st note gets no figure
+        * 2nd note gets a 6
+        * 3rd note gets a 6
+        * 4th note gets a 65
+        * 5th note gets no figure
+    Questions?
+        * TBD!
 
-*24. When bass note goes up a tone, then up a semitone, then up a tone, then up a tone
-    * 1st note gets no figure
-    * 2nd note gets a #6
-    * 3rd note gets a 6
-    * 4th note gets a 65
-    * 5th note gets no figure
+Rule x
+    K's rule:   24
+    Page:       xx
+    Conditions: 
+        * When bass note goes up a tone, 
+        * [second interval] then up a semitone, 
+        * [third interval] then up a tone, 
+        * [fourth interval] then up a tone
+    Figures:
+        * 1st note gets no figure
+        * 2nd note gets a #6
+        * 3rd note gets a 6
+        * 4th note gets a 65
+        * 5th note gets no figure
+    Questions?
+        * TBD!
 
-*25. When at a cadence –
+Rule x
+    K's rule:   25
+    Page:       xx
+    Conditions: 
+        * When at a cadence – -sol sol ut
+    Figures:  
+        * 1st note gets 4
+        * 2nd note gets 7
+        * 3rd note gets no figure
+    Questions?
+        * TBD!
 
-    -sol sol ut gets 4 7 no figure, respectively
+Rule x
+    K's rule:   26
+    Page:       xx
+    Conditions: 
+        * cadence – short sol ut
+    Figures:
+        * Short sol gets 7 (no 4) 
+        * ut gets no figure
+    Questions?
+        * TBD!
 
-*26. cadence – short sol ut
+Rule x
+    K's rule:   27
+    Page:       xx
+    Conditions: 
+        * When at a cadence – long sol ut
+    Figures:
+        * Long sol gets 4 and 7
+        * ut gets no figure
+    Questions?
+        * TBD!
 
-    Short sol gets 7 (no 4) and ut gets no figure
-
-*27. When at a cadence – long sol ut
-
-    * Long sol gets 4 and 7 and ut gets no figure
-
-*28. When at a cadence and sol is 3 beats in ¾ time
-
-    * Sol gets 4, no figure, then a 7 (respectively on each beat)
+Rule x
+    K's rule:   28
+    Page:       xx
+    Conditions: 
+        * When at a cadence and sol is 3 beats in ¾ time
+    Figures:
+        * Sol gets 4, no figure, then a 7 (respectively on each beat)
+    Questions?
+        * TBD!
