@@ -12,6 +12,8 @@ from music21 import corpus
 from music21 import metadata
 from music21 import stream
 from music21 import tinyNotation
+from music21 import note
+from music21.figuredBass import realizer
 
 #"rules" contains both the basic rules class and the additional rules sets
 import rules
@@ -26,23 +28,40 @@ class FileNotFoundError(Exception):
 class InputError(Exception):
     pass
 
-
 class ExtractionWork(object):
     """A class that holds both the original score and newly extracted portion"""
-    def __init__(self, score_file_input, **kwargs):
-        self.score_input = score_file_input
-        self.ruleset = kwargs.get('ruleset','SL')
-        self.input_filename = ''
-        self.output_filename = ''
-        self.original_score = ''
-        self.solution = kwargs.get('solution',False)
-        self.extracted_bassline
-        self.extracted_fbassline
-        
-        _load_score_from_file()        #...TODO -- accept straight score?
+    def __init__(self, score_file_input, *args, **kwargs):
+        #Possible kwargs: ruleset, solution, type_of_bass,  
 
+        #Input score details
+        self.score_input = score_file_input
+        self.input_filename = ''
+        self.original_score = stream.Score()
+        self.title = ''
+        self.composer = ''
+
+        #Input options
+        self.ruleset = kwargs.get('ruleset','SL')
+        self.solution = kwargs.get('solution',False)
+        self.bass_options = kwargs.get('type_of_bass','all')
+        self.display_option = kwargs.get('display', True)
+
+        #Output
+        self.output_filename = ''
+        self._fb_stream = stream.Stream()
+        self.fb = realizer.FiguredBassLine()
+        self.output_score = stream.Score()
+        self.output_fb_score = stream.Score()
+
+        #Inner workings
+        self._full_bassline = stream.Stream()
+        
+        #Load the file, get the original bassline!
+        self._load_score_from_file()      #...TODO-Hh{future:accept straight score?}
+        self.extract_bassline_from_score()
 
     def _load_score_from_file(self):
+        """Reads score into music21, harvests metadata"""
         #set output file additional suffix
         ext_rule = ''
         if self.ruleset[0] == 'SL':
@@ -68,24 +87,34 @@ class ExtractionWork(object):
         except:
             raise InputError('Score is not compatible with Music21 input formats')
 
+        # Collect metadata
+        try:
+            self.title = self.original_score.metadata.title
+        except:
+            self.title = str(score_input)
+
+        try:
+            self.composer = self.original_score.metadata.composer
+        except:
+            self.composer = ' - '
 
     def extract_bassline_from_score(self):
-        """Extract the full bassline from the score"""
+        """Extract the full bassline from the score""" #TODO-Hh{f:additional methods?}
+
         try:
-            self.extracted_bassline = copy.deepcopy(self.original_score['bass'])
+            self._bassline = copy.deepcopy(self.original_score['bass'])
             LOG.debug('Bassline is pre-labeled bass line')
 
         except:
             try:
                 #Get all of lowest staff
-                bassnum = len(self.original_score.getElementsByClass(stream.Part)) - 1
-                self.extracted_bassline = copy.deepcopy(self.original_score.getElementsByClass(stream.Part)[ bassnum ])
+                i = len(self.original_score.getElementsByClass(stream.Part)) - 1
+                self._bassline = copy.deepcopy(self.original_score.getElementsByClass(stream.Part)[ i ])
                 LOG.debug('Bassline is lowest part')
             except:
                 raise InputError('Cannot extract bass line from score')
 
-
-    def process_bassline(self, process_type = 'all'):
+    def process_bassline(self):
         #Post-processing:
         #TODO - keep all notes? eliminate passing tones?
         #TODO - check to make sure aren't multiple bass notes/voicing
@@ -93,113 +122,100 @@ class ExtractionWork(object):
 
     def extract(self):
         """When given a score, this method extracts and returns the figured bass"""
-        #(original_score, extraction_score, ruleset=["SL"]):
-
-        extract = copy.deepcopy(self.original_score)
-
-        #Get the bassline from the original
-        bassline = extract_bassline_from_score(self.original_score) #TODO - get_bassline method???
-
-        #Process the bassline
-        proc_bassline(bassline) #TODO - get_bassline method???
-
-        for n in bassline.flat:
-            n.color = 'red'
-
-        #Get the chords from the original
-        chords = self.original_score.chordify()
-        for c in chords.flat.getElementsByClass('Chord'):
-            c.closedPosition(forceOctave=4, inPlace=True)
-            c.removeRedundantPitches(inPlace=True)
-            c.annotateIntervals()
-            c.color = 'yellow'
+        #Process the bassline?
+        self.process_bassline()
 
         #TODO -- run rules
+        #temp rules:
+        for n in self._bassline.flat.getElementsByClass(note.Note):
+            self.fb.addElement(n,"6,4")
 
-        #Put bassline in extraction score
-        extraction_score.insert(0,bassline)
+        self.fb  = realizer.figuredBassFromStream(self._bassline)
 
-        self.extracted_fbassline = extraction_score #TODO: MAKE fb not score
+    def _setup_output(self): #TODO-Hh{non-critical: metadata fail!}
+        """Attempts to add metadata to new score. Doesn't work."""
+        #Create output metadata
+        my_metadata = metadata.Metadata()
+        my_metadata.title = 'Figured bass reduction of \n' + str(self.title)
+        my_metadata.composer = str(self.composer) + '\nFigure extraction: Auto'
 
+        #Add metadata to output score
+        self.output_score.metadata = my_metadata
+        self.output_fb_score.metadata = my_metadata
 
-    def create_extract_comparison(self): #TODO
-        #extraction, original=False, solution='x' ):
-        
-        for n in extraction.flat.notes:
-                n.color = 'blue'
+    def append_to_extraction(self): #TODO - fix!!!
+        for n in self.original_score.flat:
+            n.color = 'blue'
+
+        self.output_score.show()
 
         #append the original to the extraction?
-        if original != False:
+        if self.display_option == True:
             LOG.debug('appending original!')
-            for partline in original.getElementsByClass(stream.Part):
-                extraction.insert(-1,partline)
+            for partline in self.original_score.getElementsByClass(stream.Part):
+                self.output_score.append(partline)
 
         #append the solution to the extraction?
-        if solution != 'x':
+        if self.solution != False and self.solution != 'x':
             LOG.debug('appending solution!')
             #Insert the solution below the reduction
-            solutionline = tinyNotation.TinyNotationStream(solution) #'E2_#6 F2_6')
+            solutionline = tinyNotation.TinyNotationStream(self.solution) #'E2_#6 F2_6')
             for n in solutionline.flat:
                 n.color='red'
-            extraction.insert(0,solutionline)
+            self.output_score.append(solutionline)
 
+    def create_output(self):
+        #Make score from bassline
+        self.output_score.insert(0,self.fb.generateBassLine())
+        self.output_fb_score.insert(0,self.fb.generateBassLine())
+
+        #Set up output
+        self._setup_output()
+
+        #self.output_score.show()
+
+        #Showing solution and/or original with old?
+        #append original score and/or solution to test file
+        if self.solution != False:
+            self.append_to_extraction()
+
+        #save the file
+        LOG.debug('\tSaving the file!')
+        self.output_score.write(fmt='musicxml', fp=str(self.output_filename))
+
+        #display the new file?
+        if self.solution != False or self.display_option == True:
+            try:
+                new_score = converter.parse(self.output_filename)
+                new_score.show()
+                LOG.info('Displaying output if xml viewer has been installed.')
+            except:
+                LOG.info('Unable to show .xml output through MusicXML,')
+                LOG.info('try opening the file directly.')
+        else:
+            LOG.info('Not displaying file.')
         #TODO - selfcomparison = score
 
 
-
-def full_extraction(scorefile, **kwargs):
+def full_extraction(scorefile, *args, **kwargs):
 #optional kwargs: ruleset, teststring, display
 
-    teststring = kwargs.get('teststring','x')
-    teststring = kwargs.get('display',True)
-
     #Get, load score
-    my_score = ExtractionWork(scorefile, kwargs)
+    my_work = ExtractionWork(scorefile, *args, **kwargs)
 
-    #Create new score to hold extraction #TODO wrong???
-    reduction = stream.Score()
+    #Prepare output
+    my_work._setup_output()
 
-    #Add metadata
-    oldtitle = ''
-    oldcomposer = ''
+    #make extract
+    my_work.extract()
 
-    try:
-        oldtitle = score.metadata.title
-    except:
-        oldtitle = str(scorefile)
-
-    try:
-        oldcomposer= score.metadata.composer
-    except:
-        pass
-
-    reduction.insert(metadata.Metadata())
-    reduction.metadata.title = 'Figured bass reduction of \n' + oldtitle
-    reduction.metadata.composer = oldcomposer + '\nFigure extraction: Auto'
-
-    #extract figured bass
-    reduction = my_score.extract() #original_score, reduction, ruleset)
-
-    #append original score and/or solution to test file #TODO<--
-    if teststring != False:
-        create_comparison(reduction, original_score, teststring)
-
-    #save the file
-    LOG.debug('\tSaving the file!')
-    reduction.write(fmt='musicxml', fp=output_file_name)
-
-    #display the new file?
-    if teststring != False or display == True:
-        try:
-            new_score = converter.parse(output_file_name)
-            new_score.show()
-            LOG.info('Displaying output if xml viewer has been installed.')
-        except:
-            LOG.info('Unable to show .xml output through MusicXML,')
-            LOG.info('try opening the file directly.')
+    #do output
+    my_work.create_output()
 
     #done!
     LOG.info('Done with full extraction.')
+
+    return my_work
 
 
 # Run from command line
