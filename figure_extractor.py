@@ -144,40 +144,41 @@ class ExtractionWork(object):
         self.output_fb_score.metadata = my_metadata
 
     def append_to_extraction(self): #TODO - fix!!!
-        for n in self.original_score.flat:
-            n.color = 'blue'
-
-        self.output_score.show()
+        
 
         #append the original to the extraction?
         if self.display_option == True:
             LOG.debug('appending original!')
-            for partline in self.original_score.getElementsByClass(stream.Part):
-                self.output_score.append(partline)
+            for partline in (self.original_score.getElementsByClass(stream.Part)):
+                self.output_score.insert(partline)
+            
+
+        for n in self.output_score.flat:
+            n.color = 'blue'
 
         #append the solution to the extraction?
         if self.solution != False and self.solution != 'x':
             LOG.debug('appending solution!')
             #Insert the solution below the reduction
-            solutionline = tinyNotation.TinyNotationStream(self.solution) #'E2_#6 F2_6')
+            solutionline = tinyNotation.TinyNotationStream(self.solution)
             for n in solutionline.flat:
                 n.color='red'
-            self.output_score.append(solutionline)
+            self.output_score.insert(solutionline)
+
 
     def create_output(self):
-        #Make score from bassline
-        self.output_score.insert(0,self.fb.generateBassLine())
-        self.output_fb_score.insert(0,self.fb.generateBassLine())
-
         #Set up output
         self._setup_output()
-
-        #self.output_score.show()
 
         #Showing solution and/or original with old?
         #append original score and/or solution to test file
         if self.solution != False:
             self.append_to_extraction()
+
+        #Make score from bassline
+        self.output_score.insert(0,self.fb.generateBassLine())
+        self.output_fb_score.insert(0,self.fb.generateBassLine())
+        self.output_score.show()
 
         #save the file
         LOG.debug('\tSaving the file!')
@@ -187,7 +188,7 @@ class ExtractionWork(object):
         if self.solution != False or self.display_option == True:
             try:
                 new_score = converter.parse(self.output_filename)
-                new_score.show()
+               # new_score.show()
                 LOG.info('Displaying output if xml viewer has been installed.')
             except:
                 LOG.info('Unable to show .xml output through MusicXML,')
