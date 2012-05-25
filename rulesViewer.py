@@ -24,17 +24,41 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-todo', action='store_true',
                     dest='viewTodo', default=False,
                     help='Just todo')
-parser.add_argument('-range', action='store_true',
-                    dest='viewRange', default=False,
-                    help='Just range')
-parser.add_argument('-details', action='store_true',
-                    dest='viewDetails', default=False,
-                    help='Just details')
+parser.add_argument('-size', action='store_true',
+                    dest='viewSize', default=False,
+                    help='Just size')
+parser.add_argument('-interval', action='store_true',
+                    dest='viewIntervals', default=False,
+                    help='Just intervals')
+parser.add_argument('-beat', action='store_true',
+                    dest='viewBeats', default=False,
+                    help='Just intervals')
+parser.add_argument('-figures', action='store_true',
+                    dest='viewFigures', default=False,
+                    help='Just intervals')
+parser.add_argument('-content', action='store_true',
+                    dest='viewContent', default=False,
+                    help='Just harmonic content')
+parser.add_argument('-extra', action='store_true',
+                    dest='viewExtra', default=False,
+                    help='Just extras')
 parser.add_argument('-r', nargs='*', dest='rules_type', default=['SL'], help='Set of rules to list')
 
 #Set flags
 args = parser.parse_args()
 ruleSet = args.rules_type
+
+if (args.viewTodo == False and args.viewSize == False and 
+    args.viewIntervals == False and args.viewBeats == False and
+    args.viewFigures == False and args.viewContent == False and
+    args.viewExtra == False):
+        args.viewTodo = True
+        args.viewSize = True
+        args.viewIntervals = True
+        args.viewBeats = True
+        args.viewFigures = True
+        args.viewContent = True
+        args.viewExtra = True
 
 try:
     # Get the extraction rules
@@ -47,26 +71,53 @@ try:
             rules_umbrella = rule.umbrella
             LOG.info("* * RULE SET: %s * *", rules_umbrella)
 
-        if args.viewTodo == True and rule.todo != "-":
-            LOG.info("Rule: %s \t ...%s", rule.__class__.__name__, rule.todo)
+        named = False
 
-        elif args.viewRange == True:
-            if rule.todo != "-":
-                LOG.info("Rule: %s \t*...%s", rule.__class__.__name__, rule.range)
-            else:
-                LOG.info("Rule: %s \t ...%s", rule.__class__.__name__, rule.range)
+        def not_all_false(items): 
+            return not all(x == False for x in items)
 
-        elif args.viewDetails == True:
-            if rule.todo != "-":
-                LOG.info("Rule: %s \t*...%s", rule.__class__.__name__, rule.details)
-            else:
-                LOG.info("Rule: %s \t ...%s", rule.__class__.__name__, rule.details)
+        if args.viewSize == True:
+            if named == False:  
+                LOG.info("\n" + rule.__class__.__name__ + ":")
+                named = True
+            LOG.info("         size: " + str(rule.size))
 
-        elif args.viewTodo == False and args.viewDetails == False and args.viewRange == False:
-            LOG.info("Rule: %s", rule.__class__.__name__)
-            LOG.info(" .....range: %s", rule.range)
-            LOG.info(" ...details: %s", rule.details)
-            LOG.debug(" .....to do: %s", rule.todo)
+        if args.viewIntervals == True and not_all_false(rule.intervals):
+            if named == False:  
+                LOG.info("\n" + rule.__class__.__name__ + ":")
+                named = True
+            LOG.info("    intervals: " + str(rule.intervals))
+        
+        if args.viewBeats == True and not_all_false(rule.beats):
+            if named == False:  
+                LOG.info("\n" + rule.__class__.__name__ + ":")
+                named = True
+            LOG.info("       beats: " + str(rule.beats))
+        
+        if args.viewContent == True and not_all_false(rule.harmonic_content):
+            if named == False:  
+                LOG.info("\n" + rule.__class__.__name__ + ":")
+                named = True
+            LOG.info("      hcontent: " + str(rule.harmonic_content))
+        
+        if args.viewExtra == True and not_all_false(rule.extras):
+            if named == False:  
+                LOG.info("\n" + rule.__class__.__name__ + ":")
+                named = True
+            LOG.info("         extra: " + str(rule.extras))
+        
+        if args.viewFigures == True and not_all_false(rule.figures):
+            if named == False:  
+                LOG.info("\n" + rule.__class__.__name__ + ":")
+                named = True
+            LOG.info("       figures: " + str(rule.figures))
+
+        if args.viewTodo == True and rule.todo != "undefined":
+            if named == False:  
+                LOG.info("\n" + rule.__class__.__name__ + ":")
+                named = True
+            LOG.info("        to do: %s", rule.todo)
+
     LOG.info("* * DONE REVIEWING RULES. * *")
 
 except rules.RuleImplementationError:
