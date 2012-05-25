@@ -128,11 +128,9 @@ Rule 12
     K's rule:   6
     Page:       48
     Conditions: 
-        *  When bass note goes down by a false 5th
+        * bass note descends by a false 5th (aka tritone aka diminished fifth)
     Figures:
-        * No figure ( include the b5 in second chord)
-    Notes:      
-        * Hh{if bass descends by tritone (dimished fifth), second note will have flat fifth.}
+        * 2nd note has a flat fifth
     
 Rule 13
     K's rule:   7
@@ -170,8 +168,8 @@ Rule 16
     Page:       49
     Conditions: 
         * bass note goes down 2 consecutive whole tone steps 
-        * third note has a 7 
         * first chord is perfect major OR minor triad (no 7)
+        * third note has a 7 
     Figures:
         * 1st gets no figure
         * Second gets ’-‘
@@ -211,8 +209,7 @@ Rule 19
         * first chord has a diminished 5
     Figures:
         * 2nd note gets a 7
-        * 3rd note gets perfect chord (no figure)
-        * second chord gets a 7 and third chord gets a perfect triad
+        * 3rd note gets perfect triad (no figure)
 
 Rule 20
     K's rule:   13
@@ -247,8 +244,8 @@ Rule 22
     Conditions: 
         * When bass note remains same for two notes
         * [second interval] then goes down a 4th
-        * third note is on the 1st beat
         * first chord is a perfect major triad (no 7)
+        * third note is on the 1st beat
     Figures:
         * 1st gets 53
         * 2nd gets a 64+ (6#4) 
@@ -269,11 +266,11 @@ Rule 23
         * 4th note gets (53)
 
 *-->
-Rule x
+Rule x - 24 maybe
     K's rule:   18
     Page:       xx
     Conditions: 
-        *bass note goes down a semitone
+        * bass note goes down a semitone
         * [second interval] then down a tone
         * [third interval] then down a tone 
         * last note is on 1st beat
@@ -285,7 +282,7 @@ Rule x
     Questions?
         * TBD!
 
-Rule x
+Rule x - 25 maybe
     K's rule:   19
     Page:       xx
     Conditions: 
@@ -300,7 +297,7 @@ Rule x
     Questions?
         * TBD!
 
-Rule x
+Rule x - 26 maybe
     K's rule:   20
     Page:       xx
     Conditions: 
@@ -315,7 +312,7 @@ Rule x
     Questions?
         * TBD!
 
-Rule x
+Rule x - 27 maybe
     K's rule:   21
     Page:       xx
     Conditions: 
@@ -332,7 +329,7 @@ Rule x
     Questions?
         * TBD!
 
-Rule x
+Rule x - 28 maybe
     K's rule:   22
     Page:       xx
     Conditions: 
@@ -349,7 +346,7 @@ Rule x
     Questions?
         * TBD!
 
-Rule x
+Rule x - 29 maybe
     K's rule:   23
     Page:       xx
     Conditions: 
@@ -366,7 +363,7 @@ Rule x
     Questions?
         * TBD!
 
-Rule x
+Rule x - 30 maybe
     K's rule:   24
     Page:       xx
     Conditions: 
@@ -383,7 +380,7 @@ Rule x
     Questions?
         * TBD!
 
-Rule x
+Rule x - 31 maybe
     K's rule:   25
     Page:       xx
     Conditions: 
@@ -395,7 +392,7 @@ Rule x
     Questions?
         * TBD!
 
-Rule x
+Rule x - 32 maybe
     K's rule:   26
     Page:       xx
     Conditions: 
@@ -406,7 +403,7 @@ Rule x
     Questions?
         * TBD!
 
-Rule x
+Rule x - 33 maybe
     K's rule:   27
     Page:       xx
     Conditions: 
@@ -417,7 +414,7 @@ Rule x
     Questions?
         * TBD!
 
-Rule x
+Rule x - 34 maybe
     K's rule:   28
     Page:       xx
     Conditions: 

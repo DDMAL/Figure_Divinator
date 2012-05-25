@@ -18,6 +18,7 @@ class SLRule(Rule):
         self.beats = [False for x in range(size)]
         self.harmonic_content = [False for x in range(size)]
         self.figures = ['NA' for x in range(size)]
+        self.extras = [False for x in range(size)]
 
     def show_it_off(self):
         from pprint import pprint
@@ -30,13 +31,13 @@ class SLRule(Rule):
             #If the chunk doesn't fit this rule's interval, return false
             if chunk.interval[i] not in self.interval[i]: return False
         return True
+
     def check_qualities(self,chunk):
         for i in range(self.size - 1):
 
             #If the rule doesn't care about this note's quality, next up!
             if not self.quality[i]: continue
 
-            
             quality = chunk.quality[i]
             rule = self.quality[i]
 
@@ -51,10 +52,12 @@ class SLRule(Rule):
             #If the chunk doesn't fit this rule's beat needs, return false
             if chunk.beats[i] not in self.beats[i]: return False
         return True
+
     def test_rule(self,chunk):
         return (check_intervals(chunk) and 
                 check_qualities(chunk) and
                 check_beats(chunk))
+
     def apply_rule(self,chunk,write='notes'):
         for i in range(self.size - 1):
             chunk.notes[i].addLyrics()
@@ -74,10 +77,11 @@ class SLRule_3(SLRule):
     def __init__(self):
         SLRule.__init__(self,2)
 
-        #"When the bass note goes up by a semitone"
+        #Conditions: 
+        # * When the bass note goes up by a semitone
         self.intervals[0] = ['up by a semitone']
 
-        #"First note gets a 6, second nothing.""
+        #Figures:
         self.figures[0] = '6'
         self.figures[1] = 'nothing'
 
@@ -94,16 +98,16 @@ class SLRule_5(SLRule):
         * First note gets a 6
     """
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,2)
         self.todo = ''
 
-        #"FOO-quote"
-        self.intervals[foo] = ['FOO']
-        self.beats[foo] = ['FOO']
-        self.harmonic_content[foo] = ['FOO']
+        #Conditions
+        self.intervals[0] = ['down by a semitone']
+        self.beats[1] = [1]
+        self.harmonic_content[1] = ['perfect chord (major triad)']
 
-        #"FOO-figures""
-        self.figures[FOO] = 'FOO'
+        #Figures"
+        self.figures[0] = '6'
 
 
 class SLRule_6(SLRule):
@@ -118,16 +122,15 @@ class SLRule_6(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,2)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions:
+        self.intervals[0] = ["up by a semitone"]
+        self.harmonic_content[0] = ["has #6"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures:
+        self.figures[1] = "6"
 
 
 class SLRule_7(SLRule):
@@ -142,16 +145,15 @@ class SLRule_7(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,2)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down by minor 3rd"]
+        self.harmonic_content[0] = ["perfect"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[1] = "false fifth (no figure)"
 
 
 class SLRule_8(SLRule):
@@ -164,16 +166,14 @@ class SLRule_8(SLRule):
             * the second chord maintains the minor third
     """
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,2)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["minor third"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[1] = "maintains the minor third"
 
 
 class SLRule_9(SLRule):
@@ -187,16 +187,14 @@ class SLRule_9(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,2)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["rises minor third"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "minor third"
 
 
 class SLRule_10a(SLRule):
@@ -210,16 +208,14 @@ class SLRule_10a(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,2)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down major third"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[1] = "maintains the major third"
 
 
 class SLRule_10b(SLRule):
@@ -233,16 +229,14 @@ class SLRule_10b(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,2)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["rises major third"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "major 3"
 
 
 class SLRule_11(SLRule):
@@ -257,16 +251,15 @@ class SLRule_11(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,2)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down maj or min 3rd"]
+        self.harmonic_content[0] = ["perfect major triad, 7 okay"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[1] = "6"
 
 
 class SLRule_12(SLRule):
@@ -274,22 +267,20 @@ class SLRule_12(SLRule):
     K's rule:   6
     Page:       48
     Conditions: 
-        *  When bass note goes down by a false 5th
+        * bass note descends by a false 5th (aka tritone aka diminished fifth)
     Figures:
-        * No figure ( include the b5 in second chord)
+        * 2nd note has a flat fifth
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,2)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down diminished fifth"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[1] = "flat fifth"
 
 
 class SLRule_13(SLRule):
@@ -303,16 +294,14 @@ class SLRule_13(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,2)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["up by 3rd or down by 6th of any kind"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[1] = "6"
 
 
 class SLRule_14(SLRule):
@@ -329,16 +318,18 @@ class SLRule_14(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,3)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["semitone or tone"]
+        self.intervals[1] = ["semitone or tone"]
+        self.harmonic_content[2] = ["perfect major triad, no 7"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "6"
+        self.figures[1] = "65(minor3)"
+        self.figures[2] = "major chord (no figure)(5,#)"
 
 
 class SLRule_15(SLRule):
@@ -349,20 +340,21 @@ class SLRule_15(SLRule):
         * When bass note goes down 2 consecutive whole tone steps (3 notes!) 
         * first chord is perfect major triad (7 is fine)
     Figures:
-        * 2nd gets ‘-‘ or 6/4+/2
+        * 2nd gets '-' or 6/4+/2
         * 3rd gets a 6
     """
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,3)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down whole tone step"]
+        self.intervals[1] = ["down whole tone step"]
+        self.harmonic_content[0] = ["perfect major triad 7 okay"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[1] = "- or 6/4+/2"
+        self.figures[2] = "6"
 
 
 class SLRule_16(SLRule):
@@ -371,25 +363,28 @@ class SLRule_16(SLRule):
     Page:       49
     Conditions: 
         * bass note goes down 2 consecutive whole tone steps 
-        * third note has a 7 
         * first chord is perfect major OR minor triad (no 7)
+        * third note has a 7 
     Figures:
         * 1st gets no figure
-        * Second gets ’-‘
+        * Second gets '-'
         * Third gets a 7
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,3)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down whole tone"]
+        self.intervals[1] = ["down whole tone"]
+        self.harmonic_content[0] = ["perfect major or minor triad no 7"]
+        self.harmonic_content[2] = ["has 7"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "no figure"
+        self.figures[1] = "-"
+        self.figures[2] = "7"
 
 
 class SLRule_17(SLRule):
@@ -406,16 +401,17 @@ class SLRule_17(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,3)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down major/min 3"]
+        self.intervals[1] = ["up whole tone"]
+        self.harmonic_content[2] = ["major"]
+        self.beats[2] = ["on first beat"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[1] = "6"
 
 
 class SLRule_18(SLRule):
@@ -433,16 +429,18 @@ class SLRule_18(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,3)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down a minor 3rd"]
+        self.intervals[1] = ["up a semitone"]
+        self.beats[2] = ["downbeat"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "perfect major triad (#)"
+        self.figures[1] = "6"
+        self.figures[2] = "perfect major triad (#)"
 
 
 class SLRule_19(SLRule):
@@ -455,21 +453,21 @@ class SLRule_19(SLRule):
         * first chord has a diminished 5
     Figures:
         * 2nd note gets a 7
-        * 3rd note gets perfect chord (no figure)
-        * second chord gets a 7 and third chord gets a perfect triad
+        * 3rd note gets perfect triad (no figure)
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,3)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down major third"]
+        self.intervals[1] = ["up a 4th"]
+        self.harmonic_content[0] = ["has a diminished 5"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[1] = "7"
+        self.figures[2] = "perfect triad (no figure)"
 
 
 class SLRule_20(SLRule):
@@ -487,16 +485,18 @@ class SLRule_20(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,3)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["up semitone"]
+        self.intervals[1] = ["up 5th or down 4th"]
+        self.beats[2] = ["first beat"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "6 b5"
+        self.figures[1] = "perfect triad (maj or minor) OR a six chord (5(6)/3)"
+        self.figures[2] = "perfect major chord (5,#)"
 
 
 class SLRule_21(SLRule):
@@ -513,16 +513,18 @@ class SLRule_21(SLRule):
         * 3rd note gets perfect triad
     """
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,3)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["unison"]
+        self.intervals[1] = ["up 5th"]
+        self.beats[2] = ["1st beat"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "perfect triad"
+        self.figures[1] = "6"
+        self.figures[2] = "perfect triad"
 
 
 class SLRule_22(SLRule):
@@ -532,24 +534,27 @@ class SLRule_22(SLRule):
     Conditions: 
         * When bass note remains same for two notes
         * [second interval] then goes down a 4th
-        * third note is on the 1st beat
         * first chord is a perfect major triad (no 7)
+        * third note is on the 1st beat
     Figures:
         * 1st gets 53
         * 2nd gets a 64+ (6#4) 
         * 3rd gets 53
     """
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,3)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["unison"]
+        self.intervals[1] = ["down a 4th"]
+        self.harmonic_content[0] = ["perfect major triad (no 7)"]
+        self.beats[2] = ["1st beat"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "53"
+        self.figures[1] = "64+ (6#4)"
+        self.figures[2] = "53"
 
 
 class SLRule_23(SLRule):
@@ -568,16 +573,20 @@ class SLRule_23(SLRule):
         * 4th note gets (53)
     """
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,4)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["up a tone"]
+        self.intervals[1] = ["up a tone"]
+        self.intervals[2] = ["up a semitone"]
+        self.beats[3] = ["1st beat"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "53"
+        self.figures[1] = "6"
+        self.figures[2] = "6 flat5"
+        self.figures[3] = "53"
 
 
 class SLRule_24maybe(SLRule):
@@ -585,7 +594,7 @@ class SLRule_24maybe(SLRule):
     K's rule:   18
     Page:       xx
     Conditions: 
-        *bass note goes down a semitone
+        * bass note goes down a semitone
         * [second interval] then down a tone
         * [third interval] then down a tone 
         * last note is on 1st beat
@@ -597,16 +606,20 @@ class SLRule_24maybe(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
-        self.todo = ""
+        SLRule.__init__(self,4)
+        self.todo = "TBD"
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down a semitone"]
+        self.intervals[1] = ["down a tone"]
+        self.intervals[2] = ["down a tone"]
+        self.beats[3] = ["1st beat"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "no figure"
+        self.figures[1] = "6"
+        self.figures[2] = "#6"
+        self.figures[3] = "no figure"
 
 
 class SLRule_25maybe(SLRule):
@@ -619,22 +632,25 @@ class SLRule_25maybe(SLRule):
         * [third interval] then down a tone
     Figures:
         * 1st note gets no figure
-        * 2nd note get a ‘-‘
+        * 2nd note get a '-'
         * 3rd note gets a #6
         * 4th note gets no figure
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,4)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down a tone"]
+        self.intervals[1] = ["down a semitone"]
+        self.intervals[2] = ["down a tone"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "no figure"
+        self.figures[1] = "-"
+        self.figures[2] = "#6"
+        self.figures[3] = "no figure"
 
 
 class SLRule_26maybe(SLRule):
@@ -653,16 +669,19 @@ class SLRule_26maybe(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,4)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down a tone"]
+        self.intervals[1] = ["down a tone"]
+        self.intervals[2] = ["down a semitone"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "no figure"
+        self.figures[1] = "no figure"
+        self.figures[2] = "6"
+        self.figures[3] = "no figure"
 
 
 class SLRule_27maybe(SLRule):
@@ -676,23 +695,28 @@ class SLRule_27maybe(SLRule):
         * [fourth interval] then down a tone
     Figures:
         * 1st note gets no figure
-        * 2nd note gets a 6#42 or just ‘-‘
+        * 2nd note gets a 6#42 or just '-'
         * 3rd gets a 6
         * 4th gets a 6
         * 5th gets no figure
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
+        SLRule.__init__(self,5)
         self.todo = ""
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down a tone"]
+        self.intervals[1] = ["down a semitone"]
+        self.intervals[2] = ["down a tone"]
+        self.intervals[3] = ["down a tone"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "no figure"
+        self.figures[1] = "6#42 or just -"
+        self.figures[2] = "6"
+        self.figures[3] = "6"
+        self.figures[4] = "no figure"
 
 
 class SLRule_28maybe(SLRule):
@@ -706,23 +730,28 @@ class SLRule_28maybe(SLRule):
         * [fourth interval] then down a tone
     Figures:
         * 1st note gets no figure
-        * 2nd note gets a ‘-‘
+        * 2nd note gets a '-'
         * 3rd note gets a 6
         * 4th note gets a 6
         * 5th note gets no figure
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
-        self.todo = ""
+        SLRule.__init__(self,5)
+        self.todo = "TBD"
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["down a tone"]
+        self.intervals[1] = ["down a tone"]
+        self.intervals[2] = ["down a semitone"]
+        self.intervals[3] = ["down a tone"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "no figure"
+        self.figures[1] = "-"
+        self.figures[2] = "6"
+        self.figures[3] = "6"
+        self.figures[4] = "no figure"
 
 
 class SLRule_29maybe(SLRule):
@@ -743,13 +772,151 @@ class SLRule_29maybe(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,FOO)
-        self.todo = ""
+        SLRule.__init__(self,5)
+        self.todo = "TBD"
 
-        #"FOO-quote"
-        self.intervals[foo] = ["FOO"]
-        self.beats[foo] = ["FOO"]
-        self.harmonic_content[foo] = ["FOO"]
+        #Conditions
+        self.intervals[0] = ["up a tone"]
+        self.intervals[1] = ["up a tone"]
+        self.intervals[2] = ["up a semitone"]
+        self.intervals[3] = ["up a tone"]
 
-        #"FOO-figures"
-        self.figures[FOO] = "FOO"
+        #Figures
+        self.figures[0] = "no figure"
+        self.figures[1] = "6"
+        self.figures[2] = "6"
+        self.figures[3] = "65"
+        self.figures[4] = "no figure"
+
+
+class SLRule_30maybe(SLRule):
+    """
+    K's rule:   24
+    Page:       xx
+    Conditions:
+        * When bass note goes up a tone,
+        * [second interval] then up a semitone,
+        * [third interval] then up a tone,
+        * [fourth interval] then up a tone
+    Figures:
+        * 1st note gets no figure
+        * 2nd note gets a #6
+        * 3rd note gets a 6
+        * 4th note gets a 65
+        * 5th note gets no figure
+    """
+
+    def __init__(self):
+        SLRule.__init__(self,5)
+        self.todo = "TBD"
+
+        #Conditions
+        self.intervals[0] = ["up a tone"]
+        self.intervals[1] = ["up a semitone"]
+        self.intervals[2] = ["up a tone"]
+        self.intervals[3] = ["up a tone"]
+
+        #Figures
+        self.figures[0] = "no figure"
+        self.figures[1] = "#6"
+        self.figures[2] = "6"
+        self.figures[3] = "65"
+        self.figures[4] = "no figure"
+
+
+class SLRule_31maybe(SLRule):
+    """
+    K's rule:   25
+    Page:       xx
+    Conditions:
+        * When at a cadence - -sol sol ut
+    Figures:
+        * 1st note gets a 4
+        * 2nd note gets 7
+        * 3rd note gets no figure
+    """
+
+    def __init__(self):
+        SLRule.__init__(self,3)
+        self.todo = "TBD; also cadence."
+
+        #Conditions
+        self.intervals[0] = ["unison"]
+        self.intervals[1] = ["5 semitones"]
+
+        #Figures
+        self.figures[0] = "4"
+        self.figures[1] = "7"
+        self.figures[2] = "no figure"
+
+
+class SLRule_32maybe(SLRule):
+    """
+    K's rule:   26
+    Page:       xx
+    Conditions: 
+        * cadence - short sol ut
+    Figures:
+        * Short sol gets 7 (no 4) 
+        * ut gets no figure
+    """
+
+    def __init__(self):
+        SLRule.__init__(self,2)
+        self.todo = "TBD; also cadence."
+
+        #Conditions
+        self.intervals[0] = ["5 semitones"]
+
+        #Figures
+        self.figures[0] = "7 (no 4)"
+        self.figures[1] = "no figure"
+
+
+class SLRule_33maybe(SLRule):
+    """
+    K's rule:   27
+    Page:       xx
+    Conditions: 
+        * When at a cadence - long sol ut
+    Figures:
+        * Long sol gets 4 and 7
+        * ut gets no figure
+    """
+
+    def __init__(self):
+        SLRule.__init__(self,2)
+        self.todo = "TBD; also cadence."
+
+        #Conditions
+        self.intervals[0] = ["5 semitones"]
+
+        #Figures
+        self.figures[0] = "4 and 7"
+        self.figures[1] = "no figure"
+
+
+class SLRule_34maybe(SLRule):
+    """
+    K's rule:   28
+    Page:       xx
+    Conditions:
+        * When at a cadence and sol is 3 beats in 3/4 time
+    Figures:
+        * Sol gets 4,
+        * no figure,
+        * then a 7 (respectively on each beat)
+    """
+
+    def __init__(self):
+        SLRule.__init__(self,3)
+        self.todo = "TBD; also cadence."
+
+        #Conditions
+        self.intervals[0] = [""]
+        self.extras[0] = ["3 beats", "time signature is 3/4"]
+
+        #Figures
+        self.figures[0] = "4"
+        self.figures[1] = "no figure"
+        self.figures[2] = "7"
