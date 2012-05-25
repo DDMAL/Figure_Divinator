@@ -2,7 +2,7 @@
 # Monsieur de Saint-Lambert
 
 from figure_rules import *
-#from music21 import interval
+from music21 import interval
 #import random
 
 import logging_setup as Logging
@@ -63,6 +63,16 @@ class SLRule(Rule):
             chunk.notes[i].addLyrics()
         pass
 
+#* * * * Interval key:
+# unison:            interval.ChromaticInterval(0)
+# semitone up:       interval.ChromaticInterval(1)
+# semitone down:     interval.ChromaticInterval(-1)
+# tone up:           interval.ChromaticInterval(2)
+# tone down:         interval.ChromaticInterval(-2)
+# minor third up:    interval.ChromaticInterval(3)
+# minor third down:  interval.ChromaticInterval(-3)
+
+
 #* * * RULES * * *
 class SLRule_3(SLRule):
     """ 
@@ -79,7 +89,7 @@ class SLRule_3(SLRule):
 
         #Conditions: 
         # * When the bass note goes up by a semitone
-        self.intervals[0] = ['up by a semitone']
+        self.intervals[0] = [interval.ChromaticInterval(1)]
 
         #Figures:
         self.figures[0] = '6'
@@ -102,7 +112,7 @@ class SLRule_5(SLRule):
         self.todo = ''
 
         #Conditions
-        self.intervals[0] = ['down by a semitone']
+        self.intervals[0] = [interval.ChromaticInterval(-1)]
         self.beats[1] = [1]
         self.harmonic_content[1] = ['perfect chord (major triad)']
 
@@ -126,7 +136,7 @@ class SLRule_6(SLRule):
         self.todo = ""
 
         #Conditions:
-        self.intervals[0] = ["up by a semitone"]
+        self.intervals[0] = [interval.ChromaticInterval(1)]
         self.harmonic_content[0] = ["has #6"]
 
         #Figures:
@@ -322,8 +332,8 @@ class SLRule_14(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["semitone or tone"]
-        self.intervals[1] = ["semitone or tone"]
+        self.intervals[0] = [interval.ChromaticInterval(1),interval.ChromaticInterval(2)]
+        self.intervals[1] = [interval.ChromaticInterval(1),interval.ChromaticInterval(2)]
         self.harmonic_content[2] = ["perfect major triad, no 7"]
 
         #Figures
@@ -348,8 +358,8 @@ class SLRule_15(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["down whole tone step"]
-        self.intervals[1] = ["down whole tone step"]
+        self.intervals[0] = [interval.ChromaticInterval(-2)]
+        self.intervals[1] = [interval.ChromaticInterval(-2)]
         self.harmonic_content[0] = ["perfect major triad 7 okay"]
 
         #Figures
@@ -376,8 +386,8 @@ class SLRule_16(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["down whole tone"]
-        self.intervals[1] = ["down whole tone"]
+        self.intervals[0] = [interval.ChromaticInterval(-2)]
+        self.intervals[1] = [interval.ChromaticInterval(-2)]
         self.harmonic_content[0] = ["perfect major or minor triad no 7"]
         self.harmonic_content[2] = ["has 7"]
 
@@ -406,7 +416,7 @@ class SLRule_17(SLRule):
 
         #Conditions
         self.intervals[0] = ["down major/min 3"]
-        self.intervals[1] = ["up whole tone"]
+        self.intervals[1] = [interval.ChromaticInterval(2)]
         self.harmonic_content[2] = ["major"]
         self.beats[2] = ["on first beat"]
 
@@ -434,7 +444,7 @@ class SLRule_18(SLRule):
 
         #Conditions
         self.intervals[0] = ["down a minor 3rd"]
-        self.intervals[1] = ["up a semitone"]
+        self.intervals[1] = [interval.ChromaticInterval(1)]
         self.beats[2] = ["downbeat"]
 
         #Figures
@@ -489,7 +499,7 @@ class SLRule_20(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["up semitone"]
+        self.intervals[0] = [interval.ChromaticInterval(1)]
         self.intervals[1] = ["up 5th or down 4th"]
         self.beats[2] = ["first beat"]
 
@@ -517,7 +527,7 @@ class SLRule_21(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["unison"]
+        self.intervals[0] = [interval.ChromaticInterval(0)]
         self.intervals[1] = ["up 5th"]
         self.beats[2] = ["1st beat"]
 
@@ -546,7 +556,7 @@ class SLRule_22(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["unison"]
+        self.intervals[0] = [interval.ChromaticInterval(0)]
         self.intervals[1] = ["down a 4th"]
         self.harmonic_content[0] = ["perfect major triad (no 7)"]
         self.beats[2] = ["1st beat"]
@@ -577,9 +587,9 @@ class SLRule_23(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["up a tone"]
-        self.intervals[1] = ["up a tone"]
-        self.intervals[2] = ["up a semitone"]
+        self.intervals[0] = [interval.ChromaticInterval(2)]
+        self.intervals[1] = [interval.ChromaticInterval(2)]
+        self.intervals[2] = [interval.ChromaticInterval(1)]
         self.beats[3] = ["1st beat"]
 
         #Figures
@@ -610,9 +620,9 @@ class SLRule_24maybe(SLRule):
         self.todo = "TBD"
 
         #Conditions
-        self.intervals[0] = ["down a semitone"]
-        self.intervals[1] = ["down a tone"]
-        self.intervals[2] = ["down a tone"]
+        self.intervals[0] = [interval.ChromaticInterval(-1)]
+        self.intervals[1] = [interval.ChromaticInterval(-2)]
+        self.intervals[2] = [interval.ChromaticInterval(-2)]
         self.beats[3] = ["1st beat"]
 
         #Figures
@@ -642,9 +652,9 @@ class SLRule_25maybe(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["down a tone"]
-        self.intervals[1] = ["down a semitone"]
-        self.intervals[2] = ["down a tone"]
+        self.intervals[0] = [interval.ChromaticInterval(-2)]
+        self.intervals[1] = [interval.ChromaticInterval(-1)]
+        self.intervals[2] = [interval.ChromaticInterval(-2)]
 
         #Figures
         self.figures[0] = "no figure"
@@ -673,9 +683,9 @@ class SLRule_26maybe(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["down a tone"]
-        self.intervals[1] = ["down a tone"]
-        self.intervals[2] = ["down a semitone"]
+        self.intervals[0] = [interval.ChromaticInterval(-2)]
+        self.intervals[1] = [interval.ChromaticInterval(-2)]
+        self.intervals[2] = [interval.ChromaticInterval(-1)]
 
         #Figures
         self.figures[0] = "no figure"
@@ -706,10 +716,10 @@ class SLRule_27maybe(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["down a tone"]
-        self.intervals[1] = ["down a semitone"]
-        self.intervals[2] = ["down a tone"]
-        self.intervals[3] = ["down a tone"]
+        self.intervals[0] = [interval.ChromaticInterval(-2)]
+        self.intervals[1] = [interval.ChromaticInterval(-1)]
+        self.intervals[2] = [interval.ChromaticInterval(-2)]
+        self.intervals[3] = [interval.ChromaticInterval(-2)]
 
         #Figures
         self.figures[0] = "no figure"
@@ -741,10 +751,10 @@ class SLRule_28maybe(SLRule):
         self.todo = "TBD"
 
         #Conditions
-        self.intervals[0] = ["down a tone"]
-        self.intervals[1] = ["down a tone"]
-        self.intervals[2] = ["down a semitone"]
-        self.intervals[3] = ["down a tone"]
+        self.intervals[0] = [interval.ChromaticInterval(-2)]
+        self.intervals[1] = [interval.ChromaticInterval(-2)]
+        self.intervals[2] = [interval.ChromaticInterval(-1)]
+        self.intervals[3] = [interval.ChromaticInterval(-2)]
 
         #Figures
         self.figures[0] = "no figure"
@@ -776,10 +786,10 @@ class SLRule_29maybe(SLRule):
         self.todo = "TBD"
 
         #Conditions
-        self.intervals[0] = ["up a tone"]
-        self.intervals[1] = ["up a tone"]
-        self.intervals[2] = ["up a semitone"]
-        self.intervals[3] = ["up a tone"]
+        self.intervals[0] = [interval.ChromaticInterval(2)]
+        self.intervals[1] = [interval.ChromaticInterval(2)]
+        self.intervals[2] = [interval.ChromaticInterval(1)]
+        self.intervals[3] = [interval.ChromaticInterval(2)]
 
         #Figures
         self.figures[0] = "no figure"
@@ -811,10 +821,10 @@ class SLRule_30maybe(SLRule):
         self.todo = "TBD"
 
         #Conditions
-        self.intervals[0] = ["up a tone"]
-        self.intervals[1] = ["up a semitone"]
-        self.intervals[2] = ["up a tone"]
-        self.intervals[3] = ["up a tone"]
+        self.intervals[0] = [interval.ChromaticInterval(2)]
+        self.intervals[1] = [interval.ChromaticInterval(1)]
+        self.intervals[2] = [interval.ChromaticInterval(2)]
+        self.intervals[3] = [interval.ChromaticInterval(2)]
 
         #Figures
         self.figures[0] = "no figure"
@@ -838,11 +848,11 @@ class SLRule_31maybe(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = "TBD; also cadence."
+        self.todo = "TBD; also cadence; also sol->ut up or down?."
 
         #Conditions
-        self.intervals[0] = ["unison"]
-        self.intervals[1] = ["5 semitones"]
+        self.intervals[0] = [interval.ChromaticInterval(0)]
+        self.intervals[1] = [interval.ChromaticInterval(5)]
 
         #Figures
         self.figures[0] = "4"
@@ -863,10 +873,10 @@ class SLRule_32maybe(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = "TBD; also cadence."
+        self.todo = "TBD; also cadence; also sol->ut up or down?."
 
         #Conditions
-        self.intervals[0] = ["5 semitones"]
+        self.intervals[0] = [interval.ChromaticInterval(5)]
 
         #Figures
         self.figures[0] = "7 (no 4)"
@@ -886,10 +896,10 @@ class SLRule_33maybe(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = "TBD; also cadence."
+        self.todo = "TBD; also cadence; also sol->ut up or down?."
 
         #Conditions
-        self.intervals[0] = ["5 semitones"]
+        self.intervals[0] = [interval.ChromaticInterval(5)]
 
         #Figures
         self.figures[0] = "4 and 7"
@@ -913,7 +923,6 @@ class SLRule_34maybe(SLRule):
         self.todo = "TBD; also cadence."
 
         #Conditions
-        self.intervals[0] = [""]
         self.extras[0] = ["3 beats", "time signature is 3/4"]
 
         #Figures
