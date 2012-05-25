@@ -71,6 +71,8 @@ class SLRule(Rule):
 # tone down:         interval.ChromaticInterval(-2)
 # minor third up:    interval.ChromaticInterval(3)
 # minor third down:  interval.ChromaticInterval(-3)
+# major third up:    interval.ChromaticInterval(4)
+# major third down:  interval.ChromaticInterval(-4)
 
 
 #* * * RULES * * *
@@ -159,7 +161,7 @@ class SLRule_7(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["down by minor 3rd"]
+        self.intervals[0] = [interval.ChromaticInterval(-3)]
         self.harmonic_content[0] = ["perfect"]
 
         #Figures
@@ -180,7 +182,7 @@ class SLRule_8(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["minor third"]
+        self.intervals[0] = [interval.ChromaticInterval(-3)]
 
         #Figures
         self.figures[1] = "maintains the minor third"
@@ -201,7 +203,7 @@ class SLRule_9(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["rises minor third"]
+        self.intervals[0] = [interval.ChromaticInterval(3)]
 
         #Figures
         self.figures[0] = "minor third"
@@ -222,7 +224,7 @@ class SLRule_10a(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["down major third"]
+        self.intervals[0] = [interval.ChromaticInterval(-4)]
 
         #Figures
         self.figures[1] = "maintains the major third"
@@ -243,7 +245,7 @@ class SLRule_10b(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["rises major third"]
+        self.intervals[0] = [interval.ChromaticInterval(3)]
 
         #Figures
         self.figures[0] = "major 3"
@@ -265,7 +267,8 @@ class SLRule_11(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["down maj or min 3rd"]
+        self.intervals[0] = [interval.ChromaticInterval(-3),
+                            interval.ChromaticInterval(-4)]
         self.harmonic_content[0] = ["perfect major triad, 7 okay"]
 
         #Figures
@@ -415,10 +418,11 @@ class SLRule_17(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["down major/min 3"]
+        self.intervals[0] = [interval.ChromaticInterval(-3), 
+                             interval.ChromaticInterval(-4)]
         self.intervals[1] = [interval.ChromaticInterval(2)]
         self.harmonic_content[2] = ["major"]
-        self.beats[2] = ["on first beat"]
+        self.beats[2] = [1]
 
         #Figures
         self.figures[1] = "6"
@@ -443,9 +447,9 @@ class SLRule_18(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["down a minor 3rd"]
+        self.intervals[0] = [interval.ChromaticInterval(-3)]
         self.intervals[1] = [interval.ChromaticInterval(1)]
-        self.beats[2] = ["downbeat"]
+        self.beats[2] = [1]
 
         #Figures
         self.figures[0] = "perfect major triad (#)"
@@ -471,7 +475,7 @@ class SLRule_19(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = ["down major third"]
+        self.intervals[0] = [interval.ChromaticInterval(-4)]
         self.intervals[1] = ["up a 4th"]
         self.harmonic_content[0] = ["has a diminished 5"]
 
@@ -501,7 +505,7 @@ class SLRule_20(SLRule):
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(1)]
         self.intervals[1] = ["up 5th or down 4th"]
-        self.beats[2] = ["first beat"]
+        self.beats[2] = [1]
 
         #Figures
         self.figures[0] = "6 b5"
@@ -529,7 +533,7 @@ class SLRule_21(SLRule):
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(0)]
         self.intervals[1] = ["up 5th"]
-        self.beats[2] = ["1st beat"]
+        self.beats[2] = [1]
 
         #Figures
         self.figures[0] = "perfect triad"
@@ -559,7 +563,7 @@ class SLRule_22(SLRule):
         self.intervals[0] = [interval.ChromaticInterval(0)]
         self.intervals[1] = ["down a 4th"]
         self.harmonic_content[0] = ["perfect major triad (no 7)"]
-        self.beats[2] = ["1st beat"]
+        self.beats[2] = [1]
 
         #Figures
         self.figures[0] = "53"
@@ -590,7 +594,7 @@ class SLRule_23(SLRule):
         self.intervals[0] = [interval.ChromaticInterval(2)]
         self.intervals[1] = [interval.ChromaticInterval(2)]
         self.intervals[2] = [interval.ChromaticInterval(1)]
-        self.beats[3] = ["1st beat"]
+        self.beats[3] = [1]
 
         #Figures
         self.figures[0] = "53"
@@ -623,7 +627,7 @@ class SLRule_24maybe(SLRule):
         self.intervals[0] = [interval.ChromaticInterval(-1)]
         self.intervals[1] = [interval.ChromaticInterval(-2)]
         self.intervals[2] = [interval.ChromaticInterval(-2)]
-        self.beats[3] = ["1st beat"]
+        self.beats[3] = [1]
 
         #Figures
         self.figures[0] = "no figure"
