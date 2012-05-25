@@ -1,7 +1,7 @@
 # Rules for figuring unfigured bass parts
 # Monsieur de Saint-Lambert
 
-from figure_rules import *
+from rules import *
 from music21 import interval
 #import random
 

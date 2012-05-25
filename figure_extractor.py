@@ -15,8 +15,9 @@ from music21 import tinyNotation
 from music21 import note
 from music21.figuredBass import realizer
 
-#"rules" contains both the basic rules class and the additional rules sets
-import rules
+#import any potential rules
+import ruleset_SL
+import ruleset_octave
 
 #Set up logging
 import logging_setup as Logging
@@ -25,8 +26,10 @@ LOG=Logging.getLogger('f_extractor')
 class FileNotFoundError(Exception):
     pass
 
+
 class InputError(Exception):
     pass
+
 
 class ExtractionWork(object):
     """A class that holds both the original score and newly extracted portion"""
