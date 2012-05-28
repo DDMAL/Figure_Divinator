@@ -54,9 +54,12 @@ class SLRule(Rule):
         return True
 
     def test_rule(self,chunk):
-        return (check_intervals(chunk) and 
+        if (check_intervals(chunk) and
                 check_qualities(chunk) and
-                check_beats(chunk))
+                check_beats(chunk)):
+            return self.figures
+        else:
+            return False
 
     def apply_rule(self,chunk,write='notes'):
         for i in range(self.size - 1):
@@ -82,10 +85,10 @@ class SLRule(Rule):
 
 #* * * RULES * * *
 class SLRule_3(SLRule):
-    """ 
+    """
     K's rule:   1
     Page:       45
-    Conditions: 
+    Conditions:
         * When the bass note goes up by a semitone
     Figures:
         * First note gets a 6
@@ -94,7 +97,7 @@ class SLRule_3(SLRule):
     def __init__(self):
         SLRule.__init__(self,2)
 
-        #Conditions: 
+        #Conditions:
         # * When the bass note goes up by a semitone
         self.intervals[0] = [interval.ChromaticInterval(1)]
 
@@ -107,9 +110,9 @@ class SLRule_5(SLRule):
     """
     K's rule:   2
     Page:       46
-    Conditions: 
+    Conditions:
         * When bass note goes down by a semitone
-        * second note is a perfect chord (major triad) 
+        * second note is a perfect chord (major triad)
         * second note is on beat 1
     Figures:
         * First note gets a 6
@@ -131,7 +134,7 @@ class SLRule_6(SLRule):
     """
     K's rule:   3
     Page:       46
-    Conditions: 
+    Conditions:
         * bass note goes up by a semitone
         * the first note has a #6
     Figures:
@@ -154,7 +157,7 @@ class SLRule_7(SLRule):
     """
     K's rule:   4
     Page:       47
-    Conditions: 
+    Conditions:
         * Bass note goes down by a minor 3rd
         * First chord is perfect
     Figures:
@@ -177,8 +180,8 @@ class SLRule_8(SLRule):
     """
         K's rule:   NA
         Page:       47
-        Conditions: 
-            * bass descends minor third, either directly or with intervening step, 
+        Conditions:
+            * bass descends minor third, either directly or with intervening step,
         Figures:
             * the second chord maintains the minor third
     """
@@ -197,7 +200,7 @@ class SLRule_9(SLRule):
     """
     K's rule:   NA
     Page:       47
-    Conditions: 
+    Conditions:
         * bass note rises by a minor third, either directly or with an intervening passing tone,
     Figures:
         * first chord should have a minor third
@@ -218,8 +221,8 @@ class SLRule_10a(SLRule):
     """
     K's rule:   NA
     Page:       ?
-    Conditions: 
-        * bass descends major third, either directly or with intervening step, 
+    Conditions:
+        * bass descends major third, either directly or with intervening step,
     Figures:
         * the second chord maintains the major third
     """
@@ -239,7 +242,7 @@ class SLRule_10b(SLRule):
     """
     K's rule:   NA
     Page:       ?
-    Conditions: 
+    Conditions:
         * bass note rises by a major third, either directly or with an intervening passing tone,
     Figures:
         * first chord should have a major third
@@ -260,7 +263,7 @@ class SLRule_11(SLRule):
     """
     K's rule:   5
     Page:       47
-    Conditions: 
+    Conditions:
         * bass note goes down by a 3rd, (either major or minor)
         * first chord is a perfect major triad {this case: could have a seven}
     Figures:
@@ -284,7 +287,7 @@ class SLRule_12(SLRule):
     """
     K's rule:   6
     Page:       48
-    Conditions: 
+    Conditions:
         * bass note descends by a false 5th (aka tritone aka diminished fifth)
     Figures:
         * 2nd note has a flat fifth
@@ -305,7 +308,7 @@ class SLRule_13(SLRule):
     """
     K's rule:   7
     Page:       48
-    Conditions: 
+    Conditions:
         * bass note goes up by a 3rd or DOWN by 6th (of any kind)
     Figures:
         * Second note gets a 6
@@ -329,7 +332,7 @@ class SLRule_14(SLRule):
     """
     K's rule:   8
     Page:       48
-    Conditions: 
+    Conditions:
         * When bass note goes up 3 consecutive tones (MUST BE SEMITONE OR TONE)
         * 3rd chord is perfect major triad, no("unlikely") 7
     Figures:
@@ -357,8 +360,8 @@ class SLRule_15(SLRule):
     """
     K's rule:   9
     Page:       49
-    Conditions: 
-        * When bass note goes down 2 consecutive whole tone steps (3 notes!) 
+    Conditions:
+        * When bass note goes down 2 consecutive whole tone steps (3 notes!)
         * first chord is perfect major triad (7 is fine)
     Figures:
         * 2nd gets '-' or 6/4+/2
@@ -382,10 +385,10 @@ class SLRule_16(SLRule):
     """
     K's rule:   10
     Page:       49
-    Conditions: 
-        * bass note goes down 2 consecutive whole tone steps 
+    Conditions:
+        * bass note goes down 2 consecutive whole tone steps
         * first chord is perfect major OR minor triad (no 7)
-        * third note has a 7 
+        * third note has a 7
     Figures:
         * 1st gets no figure
         * Second gets '-'
@@ -412,10 +415,10 @@ class SLRule_17(SLRule):
     """
     K's rule:   11
     Page:       ?
-    Conditions: 
+    Conditions:
         * When bass note goes down by a major/minor 3rd
-        * [second interval] up a whole tone 
-        * third chord is major 
+        * [second interval] up a whole tone
+        * third chord is major
         * third chord is on first beat
     Figures:
         * 2nd gets a 6
@@ -426,7 +429,7 @@ class SLRule_17(SLRule):
         self.todo = ""
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-3), 
+        self.intervals[0] = [interval.ChromaticInterval(-3),
                              interval.ChromaticInterval(-4)]
         self.intervals[1] = [interval.ChromaticInterval(2)]
         self.harmonic_content[2] = ["major"]
@@ -440,9 +443,9 @@ class SLRule_18(SLRule):
     """
     K's rule:   12
     Page:       50
-    Conditions: 
+    Conditions:
         * When bass note goes down a minor 3rd
-        * [second interval] then goes up a semitone 
+        * [second interval] then goes up a semitone
         * third note is on a downbeat
     Figures:
         * 1st gets perfect major triad (#)
@@ -469,7 +472,7 @@ class SLRule_19(SLRule):
     """
     K's rule:   14
     Page:       50
-    Conditions: 
+    Conditions:
         * When bass note goes down a major 3rd
         * [second interval] up a 4th
         * first chord has a diminished 5
@@ -496,9 +499,9 @@ class SLRule_20(SLRule):
     """
     K's rule:   13
     Page:       50
-    Conditions: 
+    Conditions:
         * When bass note goes up a semitone
-        * [second interval] then goes up a 5th or down a 4th 
+        * [second interval] then goes up a 5th or down a 4th
         * third note on 1st beat
     Figures:
         * 1st gets 6 b5
@@ -526,9 +529,9 @@ class SLRule_21(SLRule):
     """
     K's rule:   15
     Page:       51
-    Conditions: 
+    Conditions:
         * [first interval] bass remains same for two notes
-        * [second interval] then up a 5th 
+        * [second interval] then up a 5th
         * 3rd note is on 1st beat
     Figures:
         * 1st note gets perfect triad
@@ -554,14 +557,14 @@ class SLRule_22(SLRule):
     """
     K's rule:   16
     Page:       51
-    Conditions: 
+    Conditions:
         * When bass note remains same for two notes
         * [second interval] then goes down a 4th
         * first chord is a perfect major triad (no 7)
         * third note is on the 1st beat
     Figures:
         * 1st gets 53
-        * 2nd gets a 64+ (6#4) 
+        * 2nd gets a 64+ (6#4)
         * 3rd gets 53
     """
     def __init__(self):
@@ -584,10 +587,10 @@ class SLRule_23(SLRule):
     """
     K's rule:   17
     Page:       51
-    Conditions: 
+    Conditions:
         * When bass note goes up a tone
         * [second interval] then up a tone
-        * [third interval] then up a semitone (sol la si ut) 
+        * [third interval] then up a semitone (sol la si ut)
         * last note is on 1st beat
     Figures:
         * 1st note gets (53)
@@ -616,10 +619,10 @@ class SLRule_24maybe(SLRule):
     """
     K's rule:   18
     Page:       xx
-    Conditions: 
+    Conditions:
         * bass note goes down a semitone
         * [second interval] then down a tone
-        * [third interval] then down a tone 
+        * [third interval] then down a tone
         * last note is on 1st beat
     Figures:
         * 1st note gets no figure
@@ -649,8 +652,8 @@ class SLRule_25maybe(SLRule):
     """
     K's rule:   19
     Page:       xx
-    Conditions: 
-        * When bass note goes down a tone, 
+    Conditions:
+        * When bass note goes down a tone,
         * [second interval] then down a semitone
         * [third interval] then down a tone
     Figures:
@@ -680,7 +683,7 @@ class SLRule_26maybe(SLRule):
     """
     K's rule:   20
     Page:       xx
-    Conditions: 
+    Conditions:
         * bass note goes down a tone
         * [second interval] then down a tone
         * [third interval] then down a semitone
@@ -711,7 +714,7 @@ class SLRule_27maybe(SLRule):
     """
     K's rule:   21
     Page:       xx
-    Conditions: 
+    Conditions:
         * When bass note goes down a tone
         * [second interval] then down a semitone
         * [third interval] then down a tone
@@ -746,7 +749,7 @@ class SLRule_28maybe(SLRule):
     """
     K's rule:   22
     Page:       xx
-    Conditions: 
+    Conditions:
         * When bass note goes down a tone
         * [second interval] then down a tone
         * [third interval] then down a semitone
@@ -781,7 +784,7 @@ class SLRule_29maybe(SLRule):
     """
     K's rule:   23
     Page:       xx
-    Conditions: 
+    Conditions:
         * When bass note goes up a tone
         * [second interval] then up a tone
         * [third interval] then up a semitone
@@ -877,10 +880,10 @@ class SLRule_32maybe(SLRule):
     """
     K's rule:   26
     Page:       xx
-    Conditions: 
+    Conditions:
         * cadence - short sol ut
     Figures:
-        * Short sol gets 7 (no 4) 
+        * Short sol gets 7 (no 4)
         * ut gets no figure
     """
 
@@ -900,7 +903,7 @@ class SLRule_33maybe(SLRule):
     """
     K's rule:   27
     Page:       xx
-    Conditions: 
+    Conditions:
         * When at a cadence - long sol ut
     Figures:
         * Long sol gets 4 and 7
