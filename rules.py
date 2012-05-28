@@ -113,7 +113,7 @@ class rule_crawler(object):
         return True
 
     def check_pre_figures(self,chunk,rule): #TODO-2ndTier
-    """Make sure there are no conflicts with pre-existing figures."""
+        """Make sure there are no conflicts with pre-existing figures."""
         return True
 
     def test_rule(self,chunk,rule):

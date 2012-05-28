@@ -1,17 +1,14 @@
 Monsieur de Saint-Lambert
 Rules for figuring unfigured bass parts
-Written out by Konstantin, Fall 2011; re-tooled by Hank & Hannah Spring 2012
+Written out by Konstantin, Fall 2011;
+Re-tooled by Hank & Hannah Spring 2012
 
 *** Questions:
     Intervals -- diatonic v chromatic? when? never v always? ahh! (currently chromatic)
 
-*** TODO ***
-    TODO: test score that has some figures already (HARASS K FOR THIS)
-    TODO: Hh - make sure we can read in pre-existing figures
+    Are the figures listed by music21 a comlete list of all whe'd ever need? see http://mit.edu/music21/doc/html/moduleFiguredBassNotation.html?highlight=figured#music21.figuredBass.notation
 
-    K: need all examples from SL, including figures, start new example at each
-    double bar (17a, b, etc)(give page numbers!)(HANK NEEDS IT BY YESTERDAY
-    GODDAMIT)exact transcription, can change clef but otherwise exact
+    Major third: Does 3# always mean major third? Does 3 ever not mean major third? Are we allowed to know key signature? Thirds and key in general.
 
 *** NOTES ***
     Using SL text from 1707

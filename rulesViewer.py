@@ -27,10 +27,10 @@ parser.add_argument('-todo', action='store_true',
 parser.add_argument('-size', action='store_true',
                     dest='viewSize', default=False,
                     help='Just size')
-parser.add_argument('-interval', action='store_true',
+parser.add_argument('-intervals', action='store_true',
                     dest='viewIntervals', default=False,
                     help='Just intervals')
-parser.add_argument('-beat', action='store_true',
+parser.add_argument('-beats', action='store_true',
                     dest='viewBeats', default=False,
                     help='Just intervals')
 parser.add_argument('-figures', action='store_true',
@@ -39,7 +39,7 @@ parser.add_argument('-figures', action='store_true',
 parser.add_argument('-content', action='store_true',
                     dest='viewContent', default=False,
                     help='Just harmonic content')
-parser.add_argument('-extra', action='store_true',
+parser.add_argument('-extras', action='store_true',
                     dest='viewExtra', default=False,
                     help='Just extras')
 parser.add_argument('-r', nargs='*', dest='rules_type', default=['SL'], help='Set of rules to list')
@@ -80,19 +80,26 @@ try:
             if named == False:  
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
-            LOG.info("         size: " + str(rule.size))
+            LOG.info("          size: " + str(rule.size))
 
         if args.viewIntervals == True and not_all_false(rule.intervals):
             if named == False:  
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
-            LOG.info("    intervals: " + str(rule.intervals))
-        
+            intstr = ''
+            for i in range(len(rule.intervals)):
+                intstr = intstr + '{'
+                for j in range(len(rule.intervals[i])):
+                    if j>0: intstr = intstr + ' or '
+                    intstr = intstr + str(rule.intervals[i][j].simpleDirected)
+                intstr = intstr + '} '
+            LOG.info("    intervals: " + intstr)
+
         if args.viewBeats == True and not_all_false(rule.beats):
             if named == False:  
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
-            LOG.info("       beats: " + str(rule.beats))
+            LOG.info("         beats: " + str(rule.beats))
         
         if args.viewContent == True and not_all_false(rule.harmonic_content):
             if named == False:  
@@ -110,13 +117,16 @@ try:
             if named == False:  
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
-            LOG.info("       figures: " + str(rule.figures))
+            figstr = '[' + rule.figures[0].notationColumn + ']'
+            for i in range(1,len(rule.figures)):
+                figstr = figstr + '; [' + rule.figures[i].notationColumn + ']'
+            LOG.info("       figures: " + figstr)
 
         if args.viewTodo == True and rule.todo != "undefined":
             if named == False:  
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
-            LOG.info("        to do: %s", rule.todo)
+            LOG.info("         to do: %s", rule.todo)
 
     LOG.info("* * DONE REVIEWING RULES. * *")
 

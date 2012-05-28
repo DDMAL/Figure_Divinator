@@ -449,7 +449,7 @@ class SLRule_20(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = "(1)5,3 always major?? (2)Ambiguous figure application"
+        self.todo = "(1)5,3 always major?? (2) 5(6)/3 (3)Ambiguous figure application"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(1)]
@@ -459,7 +459,7 @@ class SLRule_20(SLRule):
 
         #Figures
         self.figures[0] = notation.Notation('6,5b')
-        self.figures[1] = "perfect triad (maj or minor) OR a six chord (5(6)/3)"
+        self.figures[1] = notation.Notation('5,3')
         self.figures[2] = notation.Notation('5,3')
 
 
