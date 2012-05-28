@@ -4,7 +4,6 @@
 from rules import *
 from music21 import interval
 from music21.figuredBass import notation
-#import random
 
 import logging_setup as Logging
 LOG=Logging.getLogger('rules')
@@ -20,68 +19,6 @@ class SLRule(Rule):
         self.harmonic_content = [False for x in range(size)]
         self.figures = [notation.Notation("") for x in range(size)]
         self.extras = [False for x in range(size)]
-
-    def show_it_off(self):
-        from pprint import pprint
-        pprint (vars(self))
-
-    def check_intervals(self,chunk):
-        for i in range(self.size - 2):
-            #If the rule doesn't care about this note's interval, next up!
-            if not self.interval[i]: continue
-            #If the chunk doesn't fit this rule's interval, return false
-            if chunk.interval[i] not in self.interval[i]: return False
-        return True
-
-    def check_qualities(self,chunk):
-        for i in range(self.size - 1):
-
-            #If the rule doesn't care about this note's quality, next up!
-            if not self.quality[i]: continue
-
-            quality = chunk.quality[i]
-            rule = self.quality[i]
-
-            #If the chunk doesn't fit this rule's quality, return false
-            if chunk.quality[i] not in self.quality[i]: return False
-
-        return True
-    def check_beats(self,chunk):
-        for i in range(self.size - 1):
-            #If the rule doesn't care about this note's beat, next up!
-            if not self.beats[i]: continue
-            #If the chunk doesn't fit this rule's beat needs, return false
-            if chunk.beats[i] not in self.beats[i]: return False
-        return True
-
-    def test_rule(self,chunk):
-        if (check_intervals(chunk) and
-                check_qualities(chunk) and
-                check_beats(chunk)):
-            return self.figures
-        else:
-            return False
-
-    def apply_rule(self,chunk,write='notes'):
-        for i in range(self.size - 1):
-            chunk.notes[i].addLyrics()
-        pass
-
-#* * * * Interval key:
-# unison:            interval.ChromaticInterval(0)
-# semitone up:       interval.ChromaticInterval(1)
-# semitone down:     interval.ChromaticInterval(-1)
-# tone up:           interval.ChromaticInterval(2)
-# tone down:         interval.ChromaticInterval(-2)
-# minor third up:    interval.ChromaticInterval(3)
-# minor third down:  interval.ChromaticInterval(-3)
-# major third up:    interval.ChromaticInterval(4)
-# major third down:  interval.ChromaticInterval(-4)
-# perfect fourth:    interval.ChromaticInterval(5)
-# diminished fifth:  interval.ChromaticInterval(6)
-# perfect fifth:     interval.ChromaticInterval(7)
-# minor sixth:       interval.ChromaticInterval(8)
-# major sixth:       interval.ChromaticInterval(9)
 
 
 #* * * RULES * * *

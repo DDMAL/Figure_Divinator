@@ -14,27 +14,149 @@ class Rule(object):
     def __init__(self):
         self.umbrella = "undefined"
         self.todo = "undefined"
+        self.size = 0
+        self.intervals = []
+        self.beats = []
+        self.harmonic_content = []
+        self.figures = []
+        self.extras = []
 
-    def apply(self,context):
-        pass
+    def show_it_off(self):
+        from pprint import pprint
+        pprint (vars(self))
 
 #* * * * Interval key:
-# unison:            interval.ChromaticInterval(0)
-# semitone up:       interval.ChromaticInterval(1)
-# semitone down:     interval.ChromaticInterval(-1)
-# tone up:           interval.ChromaticInterval(2)
-# tone down:         interval.ChromaticInterval(-2)
-# minor third up:    interval.ChromaticInterval(3)
-# minor third down:  interval.ChromaticInterval(-3)
-# major third up:    interval.ChromaticInterval(4)
-# major third down:  interval.ChromaticInterval(-4)
-# perfect fourth:    interval.ChromaticInterval(5)
-# diminished fifth:  interval.ChromaticInterval(6)
-# perfect fifth:     interval.ChromaticInterval(7)
-# minor sixth:       interval.ChromaticInterval(8)
-# major sixth:       interval.ChromaticInterval(9)
+    # unison:            interval.ChromaticInterval(0)
+    # semitone up:       interval.ChromaticInterval(1)
+    # semitone down:     interval.ChromaticInterval(-1)
+    # tone up:           interval.ChromaticInterval(2)
+    # tone down:         interval.ChromaticInterval(-2)
+    # minor third up:    interval.ChromaticInterval(3)
+    # minor third down:  interval.ChromaticInterval(-3)
+    # major third up:    interval.ChromaticInterval(4)
+    # major third down:  interval.ChromaticInterval(-4)
+    # perfect fourth:    interval.ChromaticInterval(5)
+    # diminished fifth:  interval.ChromaticInterval(6)
+    # perfect fifth:     interval.ChromaticInterval(7)
+    # minor sixth:       interval.ChromaticInterval(8)
+    # major sixth:       interval.ChromaticInterval(9)
+
+class rule_crawler(object):
+    def __init__(self, score, ruleset):
+        self.score = score
+        self.ruleset = []
+        self.direction = kwargs.get('direction','backward')
+
+        self.total_length
+        self.rule_max
+        self.rule_min
+
+        self._load_score()
+        self._load_rules(ruleset)
+
+    def _load_score(self):
+        self.total_length = len(score._fbline_stream.flat.getElementsByClass(note.Note))
+        self.rule_min = self.total_length
+
+    def _load_rules(self):
+        self.ruleset = rules.getRules(self.ruleset) #TODO
+        for rule in self.ruleset:
+            if rule.size > self.rule_max: self.rule_max = rule.size
+            if rule.size < self.rule_min: self.rule_min = rule.size
+
+    def _chunkify(self,start_index,end_index): #TODO
+        chunk = self.score[start_index, end_index]
+
+        chunk.intervals = []
+        chunk.beats = []
+        chunk.harmonic_content = []
+        chunk.extras = []
+        chunk.figures = []
+        return chunk
+
+    def check_intervals(self,chunk,rule):
+        for i in range(rule.size - 1):
+
+            #If the rule doesn't care about this note's interval, next up!
+            if not rule.interval[i]: continue
+
+            #If the chunk doesn't fit this rule's interval, return false
+            if chunk.interval[i] not in rule.interval[i]: return False
+
+        return True
+
+    def check_qualities(self,chunk,rule): #TODO
+        for i in range(rule.size):
+
+            #If the rule doesn't care about this note's quality, next up!
+            if not rule.quality[i]: continue
+
+            quality = chunk.quality[i]
+            rule = rule.quality[i]
+
+            #If the chunk doesn't fit this rule's quality, return false
+            if chunk.quality[i] not in self.quality[i]: return False
+        return True
+        
+    def check_beats(self,chunk,rule):
+        for i in range(rule.size):
+
+            #If the rule doesn't care about this note's beat, next up!
+            if not rule.beats[i]: continue
+
+            #If the chunk doesn't fit this rule's beat needs, return false
+            if chunk.beats[i] not in self.beats[i]: return False
+
+        return True
+
+    def check_extra(self,chunk,rule): #TODO-2ndTier
+        return True
+
+    def check_pre_figures(self,chunk,rule): #TODO-2ndTier
+    """Make sure there are no conflicts with pre-existing figures."""
+        return True
+
+    def test_rule(self,chunk,rule):
+        if (
+            check_intervals(chunk,rule) and
+            check_qualities(chunk,rule) and
+            check_beats(chunk,rule) and
+            check_extras(chunk,rule) and
+            check_pre_figures(chunk,rule)
+            ):
+            return self.figures
+        else:
+            return False
+
+    def apply_figures(self,chunk,figures): #TODO - fix?
+        for i in range(len(figures)):
+            n = chunk._bassline.flat.getElementsByClass(note.Note)[i]
+            self.score.fb.addElement(n,figures[i])
+        pass
+
+    # def apply_rules(self,where='notes'):
+    #     applying = True
+
+    #     while applying == True:
+
+    #         #get chunk
+    #         START = 1 #TODO
+    #         END = 5 #TODO
+    #         chunk = self.score._chunkify(START,END)
+    #         if True: applying = False #todo update
+
+    #         #for each rule in rules, try rule
+    #         for rule in self.ruleset:
+    #             figures = rule.test_rule(chunk)
+    #             LOG.info("%s is %s at chunk for range %s - %s", rule.__class__.__name__, str(figures), str(START), str(END))
+    #             if figures:
+    #                 #write to notes? #write to log?
+    #                 #For now, notes (make optional)
+    #                 for i in range(len(figures)):
+    #                     score_note_[i].addlyricssomehow(figures[i])
 
 
+#* * *IMPORT ALL POSSIBLE RULESETS* * *
 from ruleset_octave import *
 from ruleset_SL import *
 
@@ -89,7 +211,6 @@ def get_rules(ruleset):
             except:
                 raise RuleImplementationError()
 
-
     # Test the list of rules
     try:
         if not len(extraction_rules)>0:
@@ -100,54 +221,3 @@ def get_rules(ruleset):
         raise RuleImplementationError()
 
     return extraction_rules
-
-class rule_crawler(object):
-    def __init__(self, score, ruleset):
-        self.score = score
-        self.ruleset = []
-        self.direction = kwargs.get('direction','backward')
-
-        self.total_length
-        self.rule_max
-        self.rule_min
-
-        self._load_score()
-        self._load_rules(ruleset)
-
-    def _load_score(self):
-        self.total_length = len(score._fbline_stream.flat.getElementsByClass(note.Note))
-        self.rule_min = self.total_length
-
-    def _load_rules(self):
-        self.ruleset = rules.getRules(self.ruleset) #TODO
-        for rule in self.ruleset:
-            if rule.size > self.rule_max: self.rule_max = rule.size
-            if rule.size < self.rule_min: self.rule_min = rule.size
-
-    def _chunkify(self,start_index,end_index):
-        chunk.intervals = []
-        chunk.content = []
-        chunk.extra = []
-        chunk.
-        return chunk
-
-    def apply_rules(self,where='notes'):
-        applying = True
-
-        while applying == True:
-
-            #get chunk
-            START = 1 #TODO
-            END = 5 #TODO
-            chunk = self.score._chunkify(START,END)
-            if True: applying = False #todo update
-
-            #for each rule in rules, try rule
-            for rule in self.ruleset:
-                figures = rule.test_rule(chunk)
-                LOG.info("%s is %s at chunk for range %s - %s", rule.__class__.__name__, str(figures), str(START), str(END))
-                if figures:
-                    #write to notes? #write to log?
-                    #For now, notes (make optional)
-                    for i in range(len(figures)):
-                        score_note_[i].addlyricssomehow(figures[i])

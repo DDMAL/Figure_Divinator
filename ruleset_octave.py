@@ -2,7 +2,7 @@
 
 from rules import *
 from music21 import interval
-#import random
+from music21.figuredBass import notation
 
 import logging_setup as Logging
 LOG=Logging.getLogger('rules')
@@ -18,22 +18,6 @@ class octaveRule(Rule):
         self.harmonic_content = [False for x in range(size)]
         self.figures = ['NA' for x in range(size)]
         self.extras = [False for x in range(size)]
-
-#* * * * Interval key:
-# unison:            interval.ChromaticInterval(0)
-# semitone up:       interval.ChromaticInterval(1)
-# semitone down:     interval.ChromaticInterval(-1)
-# tone up:           interval.ChromaticInterval(2)
-# tone down:         interval.ChromaticInterval(-2)
-# minor third up:    interval.ChromaticInterval(3)
-# minor third down:  interval.ChromaticInterval(-3)
-# major third up:    interval.ChromaticInterval(4)
-# major third down:  interval.ChromaticInterval(-4)
-# perfect fourth:    interval.ChromaticInterval(5)
-# diminished fifth:  interval.ChromaticInterval(6)
-# perfect fifth:     interval.ChromaticInterval(7)
-# minor sixth:       interval.ChromaticInterval(8)
-# major sixth:       interval.ChromaticInterval(9)
 
 
 #* * * RULES * * *
@@ -60,8 +44,8 @@ class octave_1(octaveRule):
                              ]
 
         #Figures:
-        self.figures[0] = 'up1'
-        self.figures[1] = 'up2'
+        self.figures[0] = notation.Notation('+')
+        self.figures[1] = notation.Notation('++')
 
 class octave_2(octaveRule):
     """ 
@@ -86,5 +70,5 @@ class octave_2(octaveRule):
                              ]
 
         #Figures:
-        self.figures[0] = 'down1'
-        self.figures[1] = 'down2'
+        self.figures[0] = notation.Notation('-')
+        self.figures[1] = notation.Notation('--')
