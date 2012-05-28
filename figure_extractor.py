@@ -135,6 +135,7 @@ class ExtractionWork(object):
             self.fb.addElement(n,"6,4")
 
         self.fb  = realizer.figuredBassFromStream(self._bassline)
+        return object
 
     def _setup_output(self): #TODO-Hh{non-critical: metadata fail!}
         """Attempts to add metadata to new score. Doesn't work."""
@@ -149,14 +150,12 @@ class ExtractionWork(object):
 
     def append_to_extraction(self): #TODO - fix!!!
         
-
         #append the original to the extraction?
-        if self.display_option == True:
+        if self.solution != False:
             LOG.debug('appending original!')
             for partline in (self.original_score.getElementsByClass(stream.Part)):
                 self.output_score.insert(partline)
             
-
         for n in self.output_score.flat:
             n.color = 'blue'
 
@@ -164,7 +163,8 @@ class ExtractionWork(object):
         if self.solution != False and self.solution != 'x':
             LOG.debug('appending solution!')
             #Insert the solution below the reduction
-            solutionline = tinyNotation.TinyNotationStream(self.solution)
+            solutionline = stream.Part()
+            solutionline.append(tinyNotation.TinyNotationStream(self.solution))
             for n in solutionline.flat:
                 n.color='red'
             self.output_score.insert(solutionline)
@@ -182,17 +182,19 @@ class ExtractionWork(object):
         #Make score from bassline
         self.output_score.insert(0,self.fb.generateBassLine())
         self.output_fb_score.insert(0,self.fb.generateBassLine())
-        self.output_score.show()
+        #self.output_score.show()
+        print "number of parts is " + str(len(self.output_score.getElementsByClass(stream.Part)))
 
         #save the file
         LOG.debug('\tSaving the file!')
         self.output_score.write(fmt='musicxml', fp=str(self.output_filename))
 
         #display the new file?
-        if self.solution != False or self.display_option == True:
+        if self.display_option == True:
             try:
                 new_score = converter.parse(self.output_filename)
-               # new_score.show()
+                #new_score.show()
+                self.output_score.show()
                 LOG.info('Displaying output if xml viewer has been installed.')
             except:
                 LOG.info('Unable to show .xml output through MusicXML,')
