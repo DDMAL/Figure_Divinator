@@ -3,6 +3,7 @@
 
 from rules import *
 from music21 import interval
+from music21.figuredBass import notation
 #import random
 
 import logging_setup as Logging
@@ -17,7 +18,7 @@ class SLRule(Rule):
         self.intervals = [False for x in range(size-1)]
         self.beats = [False for x in range(size)]
         self.harmonic_content = [False for x in range(size)]
-        self.figures = ['NA' for x in range(size)]
+        self.figures = [notation.Notation("") for x in range(size)]
         self.extras = [False for x in range(size)]
 
     def show_it_off(self):
@@ -102,8 +103,8 @@ class SLRule_3(SLRule):
         self.intervals[0] = [interval.ChromaticInterval(1)]
 
         #Figures:
-        self.figures[0] = '6'
-        self.figures[1] = 'nothing'
+        self.figures[0] = notation.Notation('6')
+        self.figures[1] = notation.Notation('5,3')
 
 
 class SLRule_5(SLRule):
@@ -127,7 +128,7 @@ class SLRule_5(SLRule):
         self.harmonic_content[1] = ['perfect chord (major triad)']
 
         #Figures"
-        self.figures[0] = '6'
+        self.figures[0] = notation.Notation('6')
 
 
 class SLRule_6(SLRule):
@@ -150,7 +151,7 @@ class SLRule_6(SLRule):
         self.harmonic_content[0] = ["has #6"]
 
         #Figures:
-        self.figures[1] = "6"
+        self.figures[1] = notation.Notation('6')
 
 
 class SLRule_7(SLRule):
@@ -166,14 +167,14 @@ class SLRule_7(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = ""
+        self.todo = "False fifth or no figure?"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-3)]
         self.harmonic_content[0] = ["perfect"]
 
         #Figures
-        self.figures[1] = "false fifth (no figure)"
+        self.figures[1] = notation.Notation('5b')
 
 
 class SLRule_8(SLRule):
@@ -187,13 +188,13 @@ class SLRule_8(SLRule):
     """
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = ""
+        self.todo = "Notation: 'maintains' == ??; Size: possibly make this a size 3 rule also? Only 1 intervening step?"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-3)]
 
         #Figures
-        self.figures[1] = "maintains the minor third"
+        self.figures[1] = notation.Notation('3b')
 
 
 class SLRule_9(SLRule):
@@ -208,13 +209,13 @@ class SLRule_9(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = ""
+        self.todo = "Size: possibly make this a size 3 rule also? Only 1 intervening step?"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(3)]
 
         #Figures
-        self.figures[0] = "minor third"
+        self.figures[0] = notation.Notation('3b')
 
 
 class SLRule_10a(SLRule):
@@ -229,13 +230,13 @@ class SLRule_10a(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = ""
+        self.todo = "Notation: 'maintains' == ??; Notation: major == 3#?; Size: possibly make this a size 3 rule also? Only 1 intervening step?"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-4)]
 
         #Figures
-        self.figures[1] = "maintains the major third"
+        self.figures[1] = notation.Notation('3#')
 
 
 class SLRule_10b(SLRule):
@@ -250,13 +251,13 @@ class SLRule_10b(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = ""
+        self.todo = "Size: possibly make this a size 3 rule also? Only 1 intervening step?"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(3)]
 
         #Figures
-        self.figures[0] = "major 3"
+        self.figures[0] = notation.Notation('3+')
 
 
 class SLRule_11(SLRule):
@@ -280,7 +281,7 @@ class SLRule_11(SLRule):
         self.harmonic_content[0] = ["perfect major triad, 7 okay"]
 
         #Figures
-        self.figures[1] = "6"
+        self.figures[1] = notation.Notation('6')
 
 
 class SLRule_12(SLRule):
@@ -301,7 +302,7 @@ class SLRule_12(SLRule):
         self.intervals[0] = [interval.ChromaticInterval(-6)]
 
         #Figures
-        self.figures[1] = "flat fifth"
+        self.figures[1] = notation.Notation('5b')
 
 
 class SLRule_13(SLRule):
@@ -325,7 +326,7 @@ class SLRule_13(SLRule):
                             interval.ChromaticInterval(-9)]
 
         #Figures
-        self.figures[1] = "6"
+        self.figures[1] = notation.Notation('6')
 
 
 class SLRule_14(SLRule):
@@ -351,9 +352,9 @@ class SLRule_14(SLRule):
         self.harmonic_content[2] = ["perfect major triad, no 7"]
 
         #Figures
-        self.figures[0] = "6"
-        self.figures[1] = "65(minor3)"
-        self.figures[2] = "major chord (no figure)(5,#)"
+        self.figures[0] = notation.Notation('6')
+        self.figures[1] = notation.Notation('6,5,3b')
+        self.figures[2] = notation.Notation('5,3')
 
 
 class SLRule_15(SLRule):
@@ -369,7 +370,7 @@ class SLRule_15(SLRule):
     """
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = ""
+        self.todo = "Figure clean-up: 6,4+,2 --> -"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -377,8 +378,8 @@ class SLRule_15(SLRule):
         self.harmonic_content[0] = ["perfect major triad 7 okay"]
 
         #Figures
-        self.figures[1] = "- or 6/4+/2"
-        self.figures[2] = "6"
+        self.figures[1] = notation.Notation('6,4+,2')
+        self.figures[2] = notation.Notation('6')
 
 
 class SLRule_16(SLRule):
@@ -397,7 +398,7 @@ class SLRule_16(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = ""
+        self.todo = "Notation: '-' represents '-' not figures!"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -406,9 +407,9 @@ class SLRule_16(SLRule):
         self.harmonic_content[2] = ["has 7"]
 
         #Figures
-        self.figures[0] = "no figure"
-        self.figures[1] = "-"
-        self.figures[2] = "7"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('----')
+        self.figures[2] = notation.Notation('7')
 
 
 class SLRule_17(SLRule):
@@ -436,7 +437,7 @@ class SLRule_17(SLRule):
         self.beats[2] = [1]
 
         #Figures
-        self.figures[1] = "6"
+        self.figures[1] = notation.Notation('6')
 
 
 class SLRule_18(SLRule):
@@ -463,9 +464,9 @@ class SLRule_18(SLRule):
         self.beats[2] = [1]
 
         #Figures
-        self.figures[0] = "perfect major triad (#)"
-        self.figures[1] = "6"
-        self.figures[2] = "perfect major triad (#)"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('6')
+        self.figures[2] = notation.Notation('5,3')
 
 
 class SLRule_19(SLRule):
@@ -491,8 +492,8 @@ class SLRule_19(SLRule):
         self.harmonic_content[0] = ["has a diminished 5"]
 
         #Figures
-        self.figures[1] = "7"
-        self.figures[2] = "perfect triad (no figure)"
+        self.figures[1] = notation.Notation('7')
+        self.figures[2] = notation.Notation('5,3')
 
 
 class SLRule_20(SLRule):
@@ -511,7 +512,7 @@ class SLRule_20(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = ""
+        self.todo = "(1)5,3 always major?? (2)Ambiguous figure application"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(1)]
@@ -520,9 +521,9 @@ class SLRule_20(SLRule):
         self.beats[2] = [1]
 
         #Figures
-        self.figures[0] = "6 b5"
+        self.figures[0] = notation.Notation('6,5b')
         self.figures[1] = "perfect triad (maj or minor) OR a six chord (5(6)/3)"
-        self.figures[2] = "perfect major chord (5,#)"
+        self.figures[2] = notation.Notation('5,3')
 
 
 class SLRule_21(SLRule):
@@ -548,9 +549,9 @@ class SLRule_21(SLRule):
         self.beats[2] = [1]
 
         #Figures
-        self.figures[0] = "perfect triad"
-        self.figures[1] = "6"
-        self.figures[2] = "perfect triad"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('6')
+        self.figures[2] = notation.Notation('5,3')
 
 
 class SLRule_22(SLRule):
@@ -578,9 +579,9 @@ class SLRule_22(SLRule):
         self.beats[2] = [1]
 
         #Figures
-        self.figures[0] = "53"
-        self.figures[1] = "64+ (6#4)"
-        self.figures[2] = "53"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('6,4+')
+        self.figures[2] = notation.Notation('5,3')
 
 
 class SLRule_23(SLRule):
@@ -609,10 +610,10 @@ class SLRule_23(SLRule):
         self.beats[3] = [1]
 
         #Figures
-        self.figures[0] = "53"
-        self.figures[1] = "6"
-        self.figures[2] = "6 flat5"
-        self.figures[3] = "53"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('6')
+        self.figures[2] = notation.Notation('6,5b')
+        self.figures[3] = notation.Notation('5,3')
 
 
 class SLRule_24maybe(SLRule):
@@ -642,10 +643,10 @@ class SLRule_24maybe(SLRule):
         self.beats[3] = [1]
 
         #Figures
-        self.figures[0] = "no figure"
-        self.figures[1] = "6"
-        self.figures[2] = "#6"
-        self.figures[3] = "no figure"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('6')
+        self.figures[2] = notation.Notation('6+')
+        self.figures[3] = notation.Notation('5,3')
 
 
 class SLRule_25maybe(SLRule):
@@ -665,7 +666,7 @@ class SLRule_25maybe(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,4)
-        self.todo = ""
+        self.todo = "Notation: '-' v figure"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -673,10 +674,10 @@ class SLRule_25maybe(SLRule):
         self.intervals[2] = [interval.ChromaticInterval(-2)]
 
         #Figures
-        self.figures[0] = "no figure"
-        self.figures[1] = "-"
-        self.figures[2] = "#6"
-        self.figures[3] = "no figure"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('----')
+        self.figures[2] = notation.Notation('6+')
+        self.figures[3] = notation.Notation('5,3')
 
 
 class SLRule_26maybe(SLRule):
@@ -704,10 +705,10 @@ class SLRule_26maybe(SLRule):
         self.intervals[2] = [interval.ChromaticInterval(-1)]
 
         #Figures
-        self.figures[0] = "no figure"
-        self.figures[1] = "no figure"
-        self.figures[2] = "6"
-        self.figures[3] = "no figure"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('5,3')
+        self.figures[2] = notation.Notation('6')
+        self.figures[3] = notation.Notation('5,3')
 
 
 class SLRule_27maybe(SLRule):
@@ -738,11 +739,11 @@ class SLRule_27maybe(SLRule):
         self.intervals[3] = [interval.ChromaticInterval(-2)]
 
         #Figures
-        self.figures[0] = "no figure"
-        self.figures[1] = "6#42 or just -"
-        self.figures[2] = "6"
-        self.figures[3] = "6"
-        self.figures[4] = "no figure"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('6,4+,2')
+        self.figures[2] = notation.Notation('6')
+        self.figures[3] = notation.Notation('6')
+        self.figures[4] = notation.Notation('5,3')
 
 
 class SLRule_28maybe(SLRule):
@@ -764,7 +765,7 @@ class SLRule_28maybe(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,5)
-        self.todo = "TBD"
+        self.todo = "TBD; Notation: ambiguous '-'"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -773,11 +774,11 @@ class SLRule_28maybe(SLRule):
         self.intervals[3] = [interval.ChromaticInterval(-2)]
 
         #Figures
-        self.figures[0] = "no figure"
-        self.figures[1] = "-"
-        self.figures[2] = "6"
-        self.figures[3] = "6"
-        self.figures[4] = "no figure"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('----')
+        self.figures[2] = notation.Notation('6')
+        self.figures[3] = notation.Notation('6')
+        self.figures[4] = notation.Notation('5,3')
 
 
 class SLRule_29maybe(SLRule):
@@ -808,11 +809,11 @@ class SLRule_29maybe(SLRule):
         self.intervals[3] = [interval.ChromaticInterval(2)]
 
         #Figures
-        self.figures[0] = "no figure"
-        self.figures[1] = "6"
-        self.figures[2] = "6"
-        self.figures[3] = "65"
-        self.figures[4] = "no figure"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('6')
+        self.figures[2] = notation.Notation('6')
+        self.figures[3] = notation.Notation('6,5')
+        self.figures[4] = notation.Notation('5,3')
 
 
 class SLRule_30maybe(SLRule):
@@ -843,11 +844,11 @@ class SLRule_30maybe(SLRule):
         self.intervals[3] = [interval.ChromaticInterval(2)]
 
         #Figures
-        self.figures[0] = "no figure"
-        self.figures[1] = "#6"
-        self.figures[2] = "6"
-        self.figures[3] = "65"
-        self.figures[4] = "no figure"
+        self.figures[0] = notation.Notation('5,3')
+        self.figures[1] = notation.Notation('6+')
+        self.figures[2] = notation.Notation('6')
+        self.figures[3] = notation.Notation('6,5')
+        self.figures[4] = notation.Notation('5,3')
 
 
 class SLRule_31maybe(SLRule):
@@ -871,9 +872,9 @@ class SLRule_31maybe(SLRule):
         self.intervals[1] = [interval.ChromaticInterval(5)]
 
         #Figures
-        self.figures[0] = "4"
-        self.figures[1] = "7"
-        self.figures[2] = "no figure"
+        self.figures[0] = notation.Notation('4')
+        self.figures[1] = notation.Notation('7')
+        self.figures[2] = notation.Notation('5,3')
 
 
 class SLRule_32maybe(SLRule):
@@ -895,8 +896,8 @@ class SLRule_32maybe(SLRule):
         self.intervals[0] = [interval.ChromaticInterval(5)]
 
         #Figures
-        self.figures[0] = "7 (no 4)"
-        self.figures[1] = "no figure"
+        self.figures[0] = notation.Notation('7')
+        self.figures[1] = notation.Notation('5,3')
 
 
 class SLRule_33maybe(SLRule):
@@ -918,8 +919,8 @@ class SLRule_33maybe(SLRule):
         self.intervals[0] = [interval.ChromaticInterval(5)]
 
         #Figures
-        self.figures[0] = "4 and 7"
-        self.figures[1] = "no figure"
+        self.figures[0] = notation.Notation('7,4')
+        self.figures[1] = notation.Notation('5,3')
 
 
 class SLRule_34maybe(SLRule):
@@ -942,6 +943,6 @@ class SLRule_34maybe(SLRule):
         self.extras[0] = ["3 beats", "time signature is 3/4"]
 
         #Figures
-        self.figures[0] = "4"
-        self.figures[1] = "no figure"
-        self.figures[2] = "7"
+        self.figures[0] = notation.Notation('4')
+        self.figures[1] = notation.Notation('5,3')
+        self.figures[2] = notation.Notation('7')
