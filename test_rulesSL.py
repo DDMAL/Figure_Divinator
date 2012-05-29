@@ -4,7 +4,7 @@ from music21 import *
 solutions = [
                 ('1a', 'BB2_6 C2_falsefifth'),
     			('1b', 'AA2  BB-2_6'),
-    			('2', 'BB-2_6  AA2'),
+    			('2', 'BB-1_6  AA1'),
     			('3', 'E2_#6 F2_6'),
     			('4', 'D2  BB2_falsefifth'),
     			('5', 'D2 BB-2_6')
