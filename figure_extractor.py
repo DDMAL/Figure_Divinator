@@ -52,7 +52,7 @@ class ExtractionWork(object):
         #Output
         self.output_filename = ''
         self._fb_stream = stream.Stream()
-        self._fb_figureString = [] #TODO
+        self._fb_figureString = []
         self.fb = realizer.FiguredBassLine()
         self.output_score = stream.Score()
         self.output_fb_score = stream.Score()
@@ -129,10 +129,20 @@ class ExtractionWork(object):
         #Process the bassline?
         self.process_bassline()
 
-        #TODO -- run rules
+        
+        #Set up the figure strings:
+        basslength = len(self._bassline.flat.getElementsByClass(note.Note))
+        self._fb_figureString = ['+++' for x in range(basslength)]
+
+        #Run through rules
+        ruler = rule_crawler(self)
+        ruler.full_apply_rules()
+
         #temp rules:
-        for n in self._bassline.flat.getElementsByClass(note.Note):
-            self.fb.addElement(n,"6,4")
+        for i in range(basslength):
+            n = self._bassline.flat.getElementsByClass(note.Note)[i]
+            f = self._fb_figureString[i]
+            self.fb.addElement(n,f)
 
         self.fb  = realizer.figuredBassFromStream(self._bassline)
         return object
@@ -148,7 +158,7 @@ class ExtractionWork(object):
         self.output_score.metadata = my_metadata
         self.output_fb_score.metadata = my_metadata
 
-    def append_to_extraction(self): #TODO - fix!!!
+    def append_to_extraction(self):
         
         #append the original to the extraction?
         if self.solution != False:
@@ -183,8 +193,7 @@ class ExtractionWork(object):
         self.output_score.insert(0,self.fb.generateBassLine())
         self.output_fb_score.insert(0,self.fb.generateBassLine())
         #self.output_score.show()
-        print "number of parts is " + str(len(self.output_score.getElementsByClass(stream.Part)))
-
+        
         #save the file
         LOG.debug('\tSaving the file!')
         self.output_score.write(fmt='musicxml', fp=str(self.output_filename))
