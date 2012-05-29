@@ -2,12 +2,12 @@ import figure_extractor
 from music21 import *
 
 solutions = [
-                ('1a', 'BB2_6 C2'),
+                ('1a', 'BB2_6 C2_falsefifth'),
     			('1b', 'AA2  BB-2_6'),
     			('2', 'BB-2_6  AA2'),
     			('3', 'E2_#6 F2_6'),
-    			('4', 'D2  BB2'),
-    			('5', 'D2 BB-2')
+    			('4', 'D2  BB2_falsefifth'),
+    			('5', 'D2 BB-2_6')
             ]
 SIZE = 2; #Number of parts in the test files -- hardcoded!
 
@@ -54,10 +54,3 @@ for x in solutions:
         
 resultsscore.show()
 print 'done'
-
-
-# r = note.Note('G5')
-# r.lyric = "hi"
-# m = stream.Measure()
-# m.append(r)
-# resultsscore.append(m.makeAccidentals(inPlace=True))
