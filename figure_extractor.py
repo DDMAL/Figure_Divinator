@@ -15,9 +15,10 @@ from music21 import tinyNotation
 from music21 import note
 from music21.figuredBass import realizer
 
-#import any potential rules
-import ruleset_SL
-import ruleset_octave
+#import rule dealings
+from rules import *
+# import ruleset_SL
+# import ruleset_octave
 
 #Set up logging
 import logging_setup as Logging
@@ -44,7 +45,7 @@ class ExtractionWork(object):
         self.composer = ''
 
         #Input options
-        self.ruleset = kwargs.get('ruleset','SL')
+        self.ruleset = kwargs.get('ruleset',['SL'])
         self.solution = kwargs.get('solution',False)
         self.bass_options = kwargs.get('type_of_bass','all')
         self.display_option = kwargs.get('display', True)
@@ -58,7 +59,8 @@ class ExtractionWork(object):
         self.output_fb_score = stream.Score()
 
         #Inner workings
-        self._full_bassline = stream.Stream()
+        self._bassline = stream.Stream()
+        self._chordscore = stream.Score()
         
         #Load the file, get the original bassline!
         self._load_score_from_file()      #...TODO-Hh{future:accept straight score?}
@@ -101,6 +103,9 @@ class ExtractionWork(object):
             self.composer = self.original_score.metadata.composer
         except:
             self.composer = ' - '
+
+        #Chordify
+        self._chordscore = self.original_score.chordify()
 
     def extract_bassline_from_score(self):
         """Extract the full bassline from the score""" #TODO-Hh{f:additional methods?}

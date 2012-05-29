@@ -2,7 +2,8 @@
 # Implements basic rule class; imports specialized rule classes
 # depending on what rule set was called; tests the list of rules
 
-#from music21 import interval
+from music21 import interval
+from music21 import note
 
 import logging_setup as Logging
 LOG=Logging.getLogger('rules')
@@ -42,46 +43,77 @@ class Rule(object):
     # major sixth:       interval.ChromaticInterval(9)
 
 class rule_crawler(object):
-    def __init__(self, score, ruleset):
-        self.score = score
+    def __init__(self, extraction_work,**kwargs):
+        self.score = extraction_work
         self.ruleset = []
-        self.direction = kwargs.get('direction','backward')
+        #self.direction = kwargs.get('direction','backward')
 
-        self.total_length
-        self.rule_max
-        self.rule_min
+        self.total_length = len(self.score._bassline.flat.getElementsByClass(note.Note))
+        self.rule_max = 0
+        self.rule_min = 0
 
         self._load_score()
-        self._load_rules(ruleset)
+        self._load_rules(extraction_work.ruleset)
+
+
+    def full_apply_rules(self):
+        L = self.total_length 
+        for rule in self.ruleset:
+            if rule.size == L:
+                chunk = self._chunkify(0,0+L)
+                LOG.debug('Rule %s fits!', rule.__class__.__name__)
+                if (self.check_intervals(chunk,rule) and 
+                    self.check_beats(chunk,rule)):
+                    for x in range(rule.size):
+                        if rule.figures[x]:
+                            self.score._fb_figureString[x] = rule.figures[x].notationColumn #TODO-wont work for larger than 2!
+            else:
+                pass
+                #LOG.debug('Rule %s doesn\'t fit here.', rule.__class__.__name__)
 
     def _load_score(self):
-        self.total_length = len(score._fbline_stream.flat.getElementsByClass(note.Note))
+        self.total_length = len(self.score._bassline.flat.getElementsByClass(note.Note))
         self.rule_min = self.total_length
 
-    def _load_rules(self):
-        self.ruleset = rules.getRules(self.ruleset) #TODO
+    def _load_rules(self,incomingrules):
+        self.ruleset = get_rules(incomingrules)
         for rule in self.ruleset:
             if rule.size > self.rule_max: self.rule_max = rule.size
             if rule.size < self.rule_min: self.rule_min = rule.size
 
     def _chunkify(self,start_index,end_index): #TODO
-        chunk = self.score[start_index, end_index]
+        L = end_index - start_index
+        bassfull = self.score._bassline.flat.getElementsByClass(note.Note)
+        chunk = bassfull[start_index:end_index]
 
-        chunk.intervals = []
-        chunk.beats = []
-        chunk.harmonic_content = []
-        chunk.extras = []
-        chunk.figures = []
+        #Get intervals
+        chunk.intervals = [False for x in range(L-1)]
+        for x in range(L-1):
+            chunk.intervals[x] = interval.Interval(noteStart=chunk[x],noteEnd=chunk[x+1])
+
+        #Get beats
+        chunk.beats = [x.beat for x in chunk]
+        
+        #Get harmonic content 
+        #TODO:Note - currently, only gets direct chord (not all notes until next chord)
+        chunk.harmonic_content = [False for x in range(L)]
+        for x in range(L-1):
+            chunk.harmonic_content[x] = self.score._chordscore.getElementAtOrBefore(chunk[x].offset)
+
+        #Get additional info
+        chunk.extras = [] #TODO-2ndTier
+        chunk.figures = [] #TODO-2ndTier
         return chunk
 
     def check_intervals(self,chunk,rule):
+        #Note: currently only checks chromatic intervals
         for i in range(rule.size - 1):
 
             #If the rule doesn't care about this note's interval, next up!
-            if not rule.interval[i]: continue
+            if not rule.intervals[i]: continue
 
             #If the chunk doesn't fit this rule's interval, return false
-            if chunk.interval[i] not in rule.interval[i]: return False
+            if chunk.intervals[i].chromatic not in rule.intervals[i]: return False
 
         return True
 
@@ -95,7 +127,7 @@ class rule_crawler(object):
             rule = rule.quality[i]
 
             #If the chunk doesn't fit this rule's quality, return false
-            if chunk.quality[i] not in self.quality[i]: return False
+            if chunk.quality[i] not in rule.quality[i]: return False
         return True
         
     def check_beats(self,chunk,rule):
@@ -105,7 +137,7 @@ class rule_crawler(object):
             if not rule.beats[i]: continue
 
             #If the chunk doesn't fit this rule's beat needs, return false
-            if chunk.beats[i] not in self.beats[i]: return False
+            if chunk.beats[i] not in rule.beats[i]: return False
 
         return True
 
