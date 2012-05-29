@@ -1,44 +1,63 @@
 import figure_extractor
 from music21 import *
 
-solutions = {	'1a': 'BB2_6 C2', 
-				'1b':'AA2  BB-2_6',
-				'2':'BB-2_6  AA2',
-				'3':'E2_#6 F2_6',
-				'4':'D2  BB2',
-				'5':'D2 BB-2'}
+solutions = [
+                ('1a', 'BB2_6 C2'),
+    			('1b', 'AA2  BB-2_6'),
+    			('2', 'BB-2_6  AA2'),
+    			('3', 'E2_#6 F2_6'),
+    			('4', 'D2  BB2'),
+    			('5', 'D2 BB-2')
+            ]
+SIZE = 2; #Number of parts in the test files -- hardcoded!
 
+
+#Setup
 resultsscore = stream.Score()
-m = stream.Measure()
+resultsscore.append(metadata.Metadata())
+resultsscore.metadata.title = "Saint Lambert's examples"
 
-for x in solutions.keys():
-    this_rule = 'SLRule' + x
-    this_file = 'xml_test_files_SL/Lambert ' + x + '.xml'
-    this_solution = solutions[x]
+numparts = SIZE + 2
+numstrings = ['Solution key:','Our extraction:']
+for i in range(numparts):
+    resultsscore.append(stream.Part())
+    n = note.Note()
+    n.duration.type = "whole"
+    n.color = 'blue'
+    n.lyric = ':'
+    if i == 0: n.lyric = '   Original:'
+    if i == SIZE:
+        n.lyric = 'Solution key:'
+        n.color = 'red'
+    if i == SIZE + 1:
+        n.lyric = 'Our extraction:'
+        n.color = 'black'
+    p = stream.Part()
+    p.append(n)
+    resultsscore.parts[i].append(p)
+
+for x in solutions:
+    #Get the extraction
+    this_rule = 'SLRule' + x[0]
+    this_file = 'xml_test_files_SL/Lambert ' + x[0] + '.xml'
+    this_solution = x[1]
     score = figure_extractor.full_extraction(this_file, this_rule, solution=this_solution, display=False)
 
-    #first time through
-    if x == solutions.keys()[0]:
-        numparts = len(score.output_score.getElementsByClass(stream.Stream))
-        print numparts
-        for i in range(numparts):
-            resultsscore.append(stream.Part())
+    #Label the extracted score
+    if score.output_score[2].flat.getElementsByClass(note.Note)[0]:
+        lyriclabel = '<File ' +  x[0] + '>'
+        score.output_score[2].flat.getElementsByClass(note.Note)[0].lyric = lyriclabel
 
-    #Every time
+    #Add this extracted score to full results
     for i in range(numparts):
-        r = note.Rest(type='whole')
-        r.lyric = "hi"
-        m = stream.Measure()
-        m.append(r)
-        resultsscore.append(m.makeAccidentals(inPlace=True))
-        resultsscore[i].append(score.output_score[i+1])
+        resultsscore.parts[i].append(score.output_score[i+1])
         
 resultsscore.show()
 print 'done'
 
 
-r = note.Rest(type='whole')
-r.lyric = "hi"
-m = stream.Measure()
-m.append(r)
-resultsscore.append(m.makeAccidentals(inPlace=True))
+# r = note.Note('G5')
+# r.lyric = "hi"
+# m = stream.Measure()
+# m.append(r)
+# resultsscore.append(m.makeAccidentals(inPlace=True))
