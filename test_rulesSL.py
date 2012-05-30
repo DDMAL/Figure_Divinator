@@ -3,7 +3,6 @@ from music21 import *
 
 solutions = [
                 ('1a', 'BB2_6 C2_falsefifth'),
-    			('1b', 'AA2  BB-2_6'),
     			('2', 'BB-1_6  AA1'),
     			('3', 'E2_#6 F2_6'),
     			('4', 'D2  BB2_falsefifth'),
@@ -37,6 +36,7 @@ for i in range(numparts):
     resultsscore.parts[i].append(p)
 
 for x in solutions:
+    print "* * * *Starting sample " + x[0] + "* * * * *"
     #Get the extraction
     this_rule = 'SLRule' + x[0]
     this_file = 'xml_test_files_SL/Lambert ' + x[0] + '.xml'
@@ -51,6 +51,6 @@ for x in solutions:
     #Add this extracted score to full results
     for i in range(numparts):
         resultsscore.parts[i].append(score.output_score[i+1])
-        
+
 resultsscore.show()
 print 'done'

@@ -17,7 +17,7 @@ class SLRule(Rule):
         self.intervals = [False for x in range(size-1)]
         self.beats = [False for x in range(size)]
         self.harmonic_content = [False for x in range(size)]
-        self.figures = [notation.Notation("") for x in range(size)]
+        self.figures = [False for x in range(size)]
         self.extras = [False for x in range(size)]
 
 
@@ -56,12 +56,12 @@ class SLRule_5(SLRule):
     """
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = ''
+        self.todo = '7 in triad? currently not...'
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-1)]
         self.beats[1] = [1]
-        self.harmonic_content[1] = ['isMajorTriad']
+        self.harmonic_content[1] = ['perfectMajorTriadNoSeven']
 
         #Figures"
         self.figures[0] = notation.Notation('6')
@@ -107,10 +107,10 @@ class SLRule_7(SLRule):
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-3)]
-        self.harmonic_content[0] = ["perfect"]
+        self.harmonic_content[0] = ['isPerfect']
 
         #Figures
-        self.figures[1] = notation.Notation('5b')
+        self.figures[1] = notation.Notation('5,3')
 
 
 class SLRule_8(SLRule):
@@ -130,7 +130,7 @@ class SLRule_8(SLRule):
         self.intervals[0] = [interval.ChromaticInterval(-3)]
 
         #Figures
-        self.figures[1] = notation.Notation('3b')
+        #self.figures[1] = notation.Notation('3b')
 
 
 class SLRule_9(SLRule):
@@ -172,7 +172,7 @@ class SLRule_10a(SLRule):
         self.intervals[0] = [interval.ChromaticInterval(-4)]
 
         #Figures
-        self.figures[1] = notation.Notation('3#')
+        #self.figures[1] = notation.Notation('3#')
 
 
 class SLRule_10b(SLRule):
@@ -214,7 +214,7 @@ class SLRule_11(SLRule):
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-3),
                             interval.ChromaticInterval(-4)]
-        self.harmonic_content[0] = ["perfect major triad, 7 okay"]
+        self.harmonic_content[0] = ['perfectMajorTriadOkSeven']
 
         #Figures
         self.figures[1] = notation.Notation('6')
@@ -285,7 +285,7 @@ class SLRule_14(SLRule):
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(1),interval.ChromaticInterval(2)]
         self.intervals[1] = [interval.ChromaticInterval(1),interval.ChromaticInterval(2)]
-        self.harmonic_content[2] = ["perfect major triad, no 7"]
+        self.harmonic_content[2] = ['perfectMajorTriadNoSeven']
 
         #Figures
         self.figures[0] = notation.Notation('6')
@@ -311,7 +311,7 @@ class SLRule_15(SLRule):
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
         self.intervals[1] = [interval.ChromaticInterval(-2)]
-        self.harmonic_content[0] = ["perfect major triad 7 okay"]
+        self.harmonic_content[0] = ['perfectMajorTriadOkSeven']
 
         #Figures
         self.figures[1] = notation.Notation('6,4+,2')
@@ -339,8 +339,8 @@ class SLRule_16(SLRule):
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
         self.intervals[1] = [interval.ChromaticInterval(-2)]
-        self.harmonic_content[0] = ["perfect major or minor triad no 7"]
-        self.harmonic_content[2] = ['containsSeventh']
+        self.harmonic_content[0] = ['perfectTriadNoSeven']
+        self.harmonic_content[2] = ['hasSeventh']
 
         #Figures
         self.figures[0] = notation.Notation('5,3')
@@ -369,7 +369,7 @@ class SLRule_17(SLRule):
         self.intervals[0] = [interval.ChromaticInterval(-3),
                              interval.ChromaticInterval(-4)]
         self.intervals[1] = [interval.ChromaticInterval(2)]
-        self.harmonic_content[2] = ["major"]
+        self.harmonic_content[2] = ['isMajor']
         self.beats[2] = [1]
 
         #Figures
@@ -425,7 +425,7 @@ class SLRule_19(SLRule):
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-4)]
         self.intervals[1] = [interval.ChromaticInterval(5)]
-        self.harmonic_content[0] = ["has a diminished 5"]
+        self.harmonic_content[0] = ['hasDiminishedFifth']
 
         #Figures
         self.figures[1] = notation.Notation('7')
@@ -511,7 +511,7 @@ class SLRule_22(SLRule):
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(0)]
         self.intervals[1] = [interval.ChromaticInterval(-5)]
-        self.harmonic_content[0] = ["perfect major triad (no 7)"]
+        self.harmonic_content[0] = ['perfectMajorTriadNoSeven']
         self.beats[2] = [1]
 
         #Figures
