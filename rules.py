@@ -71,8 +71,8 @@ class rule_crawler(object):
             if rule.size == L:
                 if not self.test_rule(chunk,rule): continue
 
-                LOG.info("  Passes: Rule %s, length %s.",
-                    rule.__class__.__name__, str(rule.size))
+                LOG.info("  Passes: Rule %s.",
+                    rule.__class__.__name__)
 
                 #Add figures
                 for x in range(rule.size):
@@ -122,11 +122,9 @@ class rule_crawler(object):
         cstring = ''
         for i in chunk.harmonic_content: cstring = cstring + str(i.pitches)
 
-        LOG.info('CHUNK@ %s: \n\t\t\t%s(intervals); \n\t\t\t%s(beats); \n\t\t\t%s(content)', str(start_index), istring,
+        LOG.info('CHUNK@ %s-%s (%s): \n\tintervals: %s; \n\t    beats: %s; \n\t   chords: %s', str(start_index), str(end_index), str(L), istring,
                     str(chunk.beats),
                     cstring)
-        LOG.debug('test')
-        LOG.debug('eaefawefawefawe')
         return chunk
 
     def check_intervals(self,chunk,rule):
@@ -148,39 +146,48 @@ class rule_crawler(object):
             if not rule.harmonic_content[i]: continue
 
             #Easier names
-            notes = chunk.harmonic_content[i]
+            chord = chunk.harmonic_content[i]
             rules = rule.harmonic_content[i]
 
-        #     'perfect chord (major triad)'
-        #     'has#6'
-        #     'perfect'
-        #     'perfect major triad, 7 okay'
-        #     'perfect major triad, no 7'
-        #     'perfect major or minor triad no 7'
-        #     'has 7'
-        #     'major'
-        #     'has a diminished 5'
+            rbool = True
+            for r in rules:
+                #Based on: http://mit.edu/music21/doc/html/moduleChord.html
 
+                if r == 'isMajor': #TODO: okay to rely on music21?
+                    if not chord.quality == 'major': rbool = False
+
+                elif r== 'isPerfect': #TODO: okay to rely on music21?
+                    if not chord.isConsonant(): rbool = False
+
+                elif r == 'hasSharpSix':
+                    #TODO: get rid of %12 semitones if direction matters!
+                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
+                    if not 9 in invls: rbool = False
+
+                elif r == 'hasSeventh':
+                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
+                    if 10 not in invls and 11 not in invls: rbool = False
+
+                elif r == 'hasDiminishedFifth':
+                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
+                    if 6 not in invls: rbool = False
+
+                elif r == 'perfectMajorTriadOkSeven': #TODO: okay to rely on music21?
+                    #"chord is a Major Triad or a Dominant Seventh"
+                    if not chord.canBeDominantV(): rbool = False
+
+                elif r == 'perfectMajorTriadNoSeven': #TODO: okay to rely on music21?
+                    #"chord is a Major Triad, that is, if it contains only notes that are either in unison with the root, a major third above the root, or a perfect fifth above the root. Additionally, must contain at least one of each third and fifth above the root."
+                    if not chord.isMajorTriad(): rbool = False
+
+                elif r == 'perfectTriadNoSeven': #TODO: okay to rely on music21?
+                    #"chord is a major or minor triad"
+                    if not chord.canBeTonic(): rbool = False
+
+                else:
+                    LOG.warning('Cannot yet check for rule property %s', r)
 
             #If the chunk doesn't fit this rule's quality, return false
-            rbool = True
-
-            for r in rules:
-                # if r == 'containsSeventh':
-                #     if not notes.containsSeventh(): rbool = False
-                # elif r == 'isSeventh':
-                #         if not notes.isSeventh(): rbool = False
-                if r == 'hasSharpSix':
-                    #Note: substitute "intervalClass" for "semitones" if direction invariant
-                    #Store the semitones in the interval for comparison
-                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in notes.pitches]
-                    if not 9 in invls: rbool = False
-                # elif r == 'canBeDominantV':
-                #     #Returns true if the chord is a major triad or a dominant seventh
-                #     if not quality.canBeDominantV(): rbool = False
-                # elif r == 'isMajorTriad':
-                #     if not quality.canBeDominantV(): rbool = False
-
             if rbool == False: return False
 
         return True
