@@ -4,6 +4,7 @@
 
 from music21 import interval
 from music21 import note
+from music21 import chord
 
 import logging_setup as Logging
 LOG=Logging.getLogger('rules')
@@ -57,19 +58,26 @@ class rule_crawler(object):
 
 
     def full_apply_rules(self):
-        L = self.total_length 
+
+        #Get a chunk!
+        L = self.total_length #TODO - cheater method! :)
+        c_start = 0
+        c_end = 0+L
+        chunk = self._chunkify(c_start,c_end)
+
+        #Test each rule in the ruleset on it
         for rule in self.ruleset:
             if rule.size == L:
-                chunk = self._chunkify(0,0+L)
-                LOG.debug('Rule %s fits!', rule.__class__.__name__)
-                if (self.check_intervals(chunk,rule) and 
-                    self.check_beats(chunk,rule)):
-                    for x in range(rule.size):
-                        if rule.figures[x]:
-                            self.score._fb_figureString[x] = rule.figures[x].notationColumn #TODO-wont work for larger than 2!
-            else:
-                pass
-                #LOG.debug('Rule %s doesn\'t fit here.', rule.__class__.__name__)
+                if not self.test_rule(chunk,rule): continue
+
+                LOG.debug("  Passes: Rule %s, length %s.",
+                    rule.__class__.__name__, str(rule.size))
+
+                #Add figures
+                for x in range(rule.size):
+                    if rule.figures[x]:
+                        self.score._fb_figureString[c_start+x] = rule.figures[x].notationColumn
+
 
     def _load_score(self):
         self.total_length = len(self.score._bassline.flat.getElementsByClass(note.Note))
@@ -93,16 +101,29 @@ class rule_crawler(object):
 
         #Get beats
         chunk.beats = [x.beat for x in chunk]
-        
-        #Get harmonic content 
+
+        #Get harmonic content
         #TODO:Note - currently, only gets direct chord (not all notes until next chord)
         chunk.harmonic_content = [False for x in range(L)]
-        for x in range(L-1):
-            chunk.harmonic_content[x] = self.score._chordscore.getElementAtOrBefore(chunk[x].offset)
+        for x in range(L):
+            o = chunk[x].offset
+            c = self.score._chordscore.flat.getElementsByClass(chord.Chord).getElementAtOrBefore(o)
+            chunk.harmonic_content[x] = c
 
         #Get additional info
         chunk.extras = [] #TODO-2ndTier
         chunk.figures = [] #TODO-2ndTier
+
+        #Display output
+        istring = ''
+        for i in chunk.intervals: istring = istring + str(i.directedName)
+
+        cstring = ''
+        for i in chunk.harmonic_content: cstring = cstring + str(i.pitches)
+
+        LOG.debug('CHUNK@ %s: %s(intervals); %s(beats); %s(content)', str(start_index), istring,
+                    str(chunk.beats),
+                    cstring)
         return chunk
 
     def check_intervals(self,chunk,rule):
@@ -121,15 +142,46 @@ class rule_crawler(object):
         for i in range(rule.size):
 
             #If the rule doesn't care about this note's quality, next up!
-            if not rule.quality[i]: continue
+            if not rule.harmonic_content[i]: continue
 
-            quality = chunk.quality[i]
-            rule = rule.quality[i]
+            #Easier names
+            notes = chunk.harmonic_content[i]
+            rules = rule.harmonic_content[i]
+
+        #     'perfect chord (major triad)'
+        #     'has#6'
+        #     'perfect'
+        #     'perfect major triad, 7 okay'
+        #     'perfect major triad, no 7'
+        #     'perfect major or minor triad no 7'
+        #     'has 7'
+        #     'major'
+        #     'has a diminished 5'
+
 
             #If the chunk doesn't fit this rule's quality, return false
-            if chunk.quality[i] not in rule.quality[i]: return False
+            rbool = True
+
+            for r in rules:
+                # if r == 'containsSeventh':
+                #     if not notes.containsSeventh(): rbool = False
+                # elif r == 'isSeventh':
+                #         if not notes.isSeventh(): rbool = False
+                if r == 'hasSharpSix':
+                    #Note: substitute "intervalClass" for "semitones" if direction invariant
+                    #Store the semitones in the interval for comparison
+                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in notes.pitches]
+                    if not 9 in invls: rbool = False
+                # elif r == 'canBeDominantV':
+                #     #Returns true if the chord is a major triad or a dominant seventh
+                #     if not quality.canBeDominantV(): rbool = False
+                # elif r == 'isMajorTriad':
+                #     if not quality.canBeDominantV(): rbool = False
+
+            if rbool == False: return False
+
         return True
-        
+
     def check_beats(self,chunk,rule):
         for i in range(rule.size):
 
@@ -141,7 +193,7 @@ class rule_crawler(object):
 
         return True
 
-    def check_extra(self,chunk,rule): #TODO-2ndTier
+    def check_extras(self,chunk,rule): #TODO-2ndTier
         return True
 
     def check_pre_figures(self,chunk,rule): #TODO-2ndTier
@@ -150,42 +202,15 @@ class rule_crawler(object):
 
     def test_rule(self,chunk,rule):
         if (
-            check_intervals(chunk,rule) and
-            check_qualities(chunk,rule) and
-            check_beats(chunk,rule) and
-            check_extras(chunk,rule) and
-            check_pre_figures(chunk,rule)
+            self.check_intervals(chunk,rule) and
+            self.check_qualities(chunk,rule) and
+            self.check_beats(chunk,rule) and
+            self.check_extras(chunk,rule) and
+            self.check_pre_figures(chunk,rule)
             ):
-            return self.figures
+            return rule.figures
         else:
             return False
-
-    def apply_figures(self,chunk,figures): #TODO - fix?
-        for i in range(len(figures)):
-            n = chunk._bassline.flat.getElementsByClass(note.Note)[i]
-            self.score.fb.addElement(n,figures[i])
-        pass
-
-    # def apply_rules(self,where='notes'):
-    #     applying = True
-
-    #     while applying == True:
-
-    #         #get chunk
-    #         START = 1 #TODO
-    #         END = 5 #TODO
-    #         chunk = self.score._chunkify(START,END)
-    #         if True: applying = False #todo update
-
-    #         #for each rule in rules, try rule
-    #         for rule in self.ruleset:
-    #             figures = rule.test_rule(chunk)
-    #             LOG.info("%s is %s at chunk for range %s - %s", rule.__class__.__name__, str(figures), str(START), str(END))
-    #             if figures:
-    #                 #write to notes? #write to log?
-    #                 #For now, notes (make optional)
-    #                 for i in range(len(figures)):
-    #                     score_note_[i].addlyricssomehow(figures[i])
 
 
 #* * *IMPORT ALL POSSIBLE RULESETS* * *

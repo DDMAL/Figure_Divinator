@@ -36,7 +36,6 @@ class SLRule_3(SLRule):
         SLRule.__init__(self,2)
 
         #Conditions:
-        # * When the bass note goes up by a semitone
         self.intervals[0] = [interval.ChromaticInterval(1)]
 
         #Figures:
@@ -62,7 +61,7 @@ class SLRule_5(SLRule):
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-1)]
         self.beats[1] = [1]
-        self.harmonic_content[1] = ['perfect chord (major triad)']
+        self.harmonic_content[1] = ['isMajorTriad']
 
         #Figures"
         self.figures[0] = notation.Notation('6')
@@ -85,7 +84,7 @@ class SLRule_6(SLRule):
 
         #Conditions:
         self.intervals[0] = [interval.ChromaticInterval(1)]
-        self.harmonic_content[0] = ["has #6"]
+        self.harmonic_content[0] = ['hasSharpSix']
 
         #Figures:
         self.figures[1] = notation.Notation('6')
@@ -341,7 +340,7 @@ class SLRule_16(SLRule):
         self.intervals[0] = [interval.ChromaticInterval(-2)]
         self.intervals[1] = [interval.ChromaticInterval(-2)]
         self.harmonic_content[0] = ["perfect major or minor triad no 7"]
-        self.harmonic_content[2] = ["has 7"]
+        self.harmonic_content[2] = ['containsSeventh']
 
         #Figures
         self.figures[0] = notation.Notation('5,3')
