@@ -7,7 +7,7 @@
 #
 
 [loggers]
-keys=root,engine,evaluation,extractor,figured_bass,rules,work_browser,rules_Viewer,figure_extractor
+keys=root,engine,evaluation,extractor,figured_bass,rules,work_browser,figure_extractor
 
 [handlers]
 keys=console,stdout_plain,logfile,rules_logfile
