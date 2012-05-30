@@ -58,6 +58,7 @@ class rule_crawler(object):
 
 
     def full_apply_rules(self):
+        LOG.info("\n* * * Applying rules to score: %s * * *", self.score.title)
 
         #Get a chunk!
         L = self.total_length #TODO - cheater method! :)
@@ -70,7 +71,7 @@ class rule_crawler(object):
             if rule.size == L:
                 if not self.test_rule(chunk,rule): continue
 
-                LOG.debug("  Passes: Rule %s, length %s.",
+                LOG.info("  Passes: Rule %s, length %s.",
                     rule.__class__.__name__, str(rule.size))
 
                 #Add figures
@@ -121,9 +122,11 @@ class rule_crawler(object):
         cstring = ''
         for i in chunk.harmonic_content: cstring = cstring + str(i.pitches)
 
-        LOG.debug('CHUNK@ %s: %s(intervals); %s(beats); %s(content)', str(start_index), istring,
+        LOG.info('CHUNK@ %s: \n\t\t\t%s(intervals); \n\t\t\t%s(beats); \n\t\t\t%s(content)', str(start_index), istring,
                     str(chunk.beats),
                     cstring)
+        LOG.debug('test')
+        LOG.debug('eaefawefawefawe')
         return chunk
 
     def check_intervals(self,chunk,rule):

@@ -7,10 +7,10 @@
 #
 
 [loggers]
-keys=root,engine,evaluation,extractor,figured_bass,rules,work_browser,rules_Viewer, figure_extractor
+keys=root,engine,evaluation,extractor,figured_bass,rules,work_browser,rules_Viewer,figure_extractor
 
 [handlers]
-keys=console,stdout_plain,logfile
+keys=console,stdout_plain,logfile,rules_logfile
 
 [formatters]
 keys=date_level,date_level_module,plain,module_only
@@ -21,11 +21,17 @@ level=DEBUG
 formatter=module_only
 args=(sys.stdout,)
 
+[handler_rules_logfile]
+class=FileHandler
+level=DEBUG
+formatter=plain
+args=("rule_results.log","w")
+
 [handler_logfile]
 class=FileHandler
 level=DEBUG
-formatter=date_level_module
-args=("figured_bass.log","a")
+formatter=module_only
+args=("figured_bass.log","w")
 
 [handler_stdout_plain]
 class=StreamHandler
@@ -81,7 +87,7 @@ propagate=0
 
 [logger_rules]
 level=DEBUG
-handlers=console
+handlers=console,rules_logfile
 qualname=rules
 propagate=0
 
