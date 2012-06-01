@@ -48,7 +48,7 @@ parser.add_argument('-r', nargs='*', dest='rules_type', default=['SL'], help='Se
 args = parser.parse_args()
 ruleSet = args.rules_type
 
-if (args.viewTodo == False and args.viewSize == False and 
+if (args.viewTodo == False and args.viewSize == False and
     args.viewIntervals == False and args.viewBeats == False and
     args.viewFigures == False and args.viewContent == False and
     args.viewExtra == False):
@@ -73,17 +73,17 @@ try:
 
         named = False
 
-        def not_all_false(items): 
+        def not_all_false(items):
             return not all(x == False for x in items)
 
         if args.viewSize == True:
-            if named == False:  
+            if named == False:
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
             LOG.info("          size: " + str(rule.size))
 
         if args.viewIntervals == True and not_all_false(rule.intervals):
-            if named == False:  
+            if named == False:
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
             intstr = ''
@@ -96,34 +96,42 @@ try:
             LOG.info("    intervals: " + intstr)
 
         if args.viewBeats == True and not_all_false(rule.beats):
-            if named == False:  
+            if named == False:
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
             LOG.info("         beats: " + str(rule.beats))
-        
+
         if args.viewContent == True and not_all_false(rule.harmonic_content):
-            if named == False:  
+            if named == False:
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
             LOG.info("      hcontent: " + str(rule.harmonic_content))
-        
+
         if args.viewExtra == True and not_all_false(rule.extras):
-            if named == False:  
+            if named == False:
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
             LOG.info("         extra: " + str(rule.extras))
-        
+
         if args.viewFigures == True and not_all_false(rule.figures):
-            if named == False:  
+            if named == False:
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
-            figstr = '[' + rule.figures[0].notationColumn + ']'
-            for i in range(1,len(rule.figures)):
-                figstr = figstr + '; [' + rule.figures[i].notationColumn + ']'
+            try:
+                figstr = '[' + rule.figures[0].notationColumn + ']'
+            except:
+                figstr = '[NA]'
+                for i in range(1,len(rule.figures)):
+                    try:
+                        figstr = figstr + '; [' + rule.figures[i].notationColumn + ']'
+                    except:
+                        figstr = figstr + '; [NA]'
+
+
             LOG.info("       figures: " + figstr)
 
         if args.viewTodo == True and rule.todo != "undefined":
-            if named == False:  
+            if named == False:
                 LOG.info("\n" + rule.__class__.__name__ + ":")
                 named = True
             LOG.info("         to do: %s", rule.todo)
