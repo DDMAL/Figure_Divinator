@@ -152,6 +152,7 @@ class rule_crawler(object):
             rbool = True
             for r in rules:
                 #Based on: http://mit.edu/music21/doc/html/moduleChord.html
+                #HANK! This is your bit to check.
 
                 if r == 'isMajor': #TODO: okay to rely on music21?
                     if not chord.quality == 'major': rbool = False

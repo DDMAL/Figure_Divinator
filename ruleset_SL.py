@@ -75,6 +75,7 @@ class SLRule_6(SLRule):
         * bass note goes up by a semitone
         * the first note has a #6
     Figures:
+        * First note gets a #6
         * Second note gets a 6
     """
 
@@ -87,6 +88,7 @@ class SLRule_6(SLRule):
         self.harmonic_content[0] = ['hasSharpSix']
 
         #Figures:
+        self.figures[0] = notation.Notation('6+')
         self.figures[1] = notation.Notation('6')
 
 
