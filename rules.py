@@ -77,8 +77,11 @@ class rule_crawler(object):
                 #Add figures
                 for x in range(rule.size):
                     if rule.figures[x]:
-                        self.score._fb_figureString[c_start+x] = rule.figures[x].notationColumn
-
+                        try:
+                            self.score._fb_figureString[c_start+x] = rule.figures[x].notationColumn
+                        except:
+                            print 'split note? ' + str(rule.figures[x])
+                            #TODO - deal with split notes
 
     def _load_score(self):
         self.total_length = len(self.score._bassline.flat.getElementsByClass(note.Note))
@@ -90,7 +93,7 @@ class rule_crawler(object):
             if rule.size > self.rule_max: self.rule_max = rule.size
             if rule.size < self.rule_min: self.rule_min = rule.size
 
-    def _chunkify(self,start_index,end_index): #TODO
+    def _chunkify(self,start_index,end_index):
         L = end_index - start_index
         bassfull = self.score._bassline.flat.getElementsByClass(note.Note)
         chunk = bassfull[start_index:end_index]
@@ -139,7 +142,7 @@ class rule_crawler(object):
 
         return True
 
-    def check_qualities(self,chunk,rule): #TODO
+    def check_qualities(self,chunk,rule):
         for i in range(rule.size):
 
             #If the rule doesn't care about this note's quality, next up!
@@ -160,6 +163,16 @@ class rule_crawler(object):
                 elif r== 'isPerfect': #TODO: okay to rely on music21?
                     if not chord.isConsonant(): rbool = False
 
+                elif r == 'hasSix':
+                    #TODO: get rid of %12 semitones if direction matters!
+                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
+                    if 9 not in invls and 8 not in invls: rbool = False
+
+                elif r == 'hasSix':
+                    #TODO: get rid of %12 semitones if direction matters!
+                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
+                    if 9 in invls or 8 in invls: rbool = False
+
                 elif r == 'hasSharpSix':
                     #TODO: get rid of %12 semitones if direction matters!
                     invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
@@ -176,6 +189,10 @@ class rule_crawler(object):
                 elif r == 'perfectMajorTriadOkSeven': #TODO: okay to rely on music21?
                     #"chord is a Major Triad or a Dominant Seventh"
                     if not chord.canBeDominantV(): rbool = False
+
+                elif r == 'minorTriadNoSeven': #TODO: okay to rely on music21?
+                    #"chord is a minor triad, no 7"
+                    if not chord.isMinorTriad(): rbool = False
 
                 elif r == 'perfectMajorTriadNoSeven': #TODO: okay to rely on music21?
                     #"chord is a Major Triad, that is, if it contains only notes that are either in unison with the root, a major third above the root, or a perfect fifth above the root. Additionally, must contain at least one of each third and fifth above the root."
@@ -205,7 +222,54 @@ class rule_crawler(object):
         return True
 
     def check_extras(self,chunk,rule): #TODO-2ndTier
+        for i in range(rule.size):
+
+            #If the rule doesn't care about this note's extras, next up!
+            if not rule.extras[i]: continue
+
+            rbool = True
+            for e in extras:
+
+                if e == 'accidental:flat': #TODO
+                    pass
+                    #if not chord.quality == 'major': rbool = False
+
+                elif e == 'accidental:sharp': #TODO
+                    pass
+                    #if not chord.quality == 'major': rbool = False
+
+                elif e == 'scale:on5th': #TODO
+                    pass
+                    #if not chord.quality == 'major': rbool = False
+
+                elif e == 'duration:two': #TODO  ("working hypothesis": half a measure in length or bigger or worth two of the denominator of the time signature)
+                    pass
+                    #if not chord.isConsonant(): rbool = False
+
+                elif e == 'duration:lessThanPreceding': #TODO
+                    pass
+                    #if not chord.isConsonant(): rbool = False
+
+                elif e == 'duration:twicePreviousTwo': #TODO
+                    pass
+                    #if not chord.isConsonant(): rbool = False
+
+                elif e == 'duration:shortAgainstSignature': #TODO #either only one or half of the denominator
+                    pass
+                    #if not chord.isConsonant(): rbool = False
+
+                elif e == 'meter:triple': #TODO
+                    pass
+                    #if not chord.isConsonant(): rbool = False
+
+                else:
+                    LOG.warning('Cannot yet check for rule extra %s', e)
+
+            #If the chunk doesn't fit this rule's extras, return false
+            if rbool == False: return False
+
         return True
+
 
     def check_pre_figures(self,chunk,rule): #TODO-2ndTier
         """Make sure there are no conflicts with pre-existing figures."""

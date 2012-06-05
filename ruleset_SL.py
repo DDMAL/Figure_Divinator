@@ -65,7 +65,7 @@ class SLRule_4(SLRule):
 
         #Conditions:
         self.intervals[0] = [interval.ChromaticInterval(1)] #TODO:diatonic semitone
-        self.harmonic_content[0] = 'hasMajorTriad7okyadda' #TODOcheck
+        self.harmonic_content[0] = ['perfectMajorTriadOkSeven']
 
         #Figures:
         self.figures[0] = notation.Notation('5,3+')
@@ -86,6 +86,7 @@ class SLRule_5(SLRule):
     """
     def __init__(self):
         SLRule.__init__(self,2)
+        self.todo = 'interval to diatonic'
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-1)] #TODOdiatonic
@@ -111,6 +112,7 @@ class SLRule_6(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
+        self.todo = 'diatonic'
 
         #Conditions:
         self.intervals[0] = [interval.ChromaticInterval(1)] #TODOdiatonic
@@ -164,11 +166,10 @@ class SLRule_8a(SLRule):
     """
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = 'add conditions: key, non-harmonic_content'
 
         #Conditions
-        #* first note has a flat (outside of the key signature) #TODO
-        #* second note does not have a 6 above it #TODO
+        self.extras[0] = ['accidental:flat']
+        self.harmonic_content[1] = ['notHasSix']
         self.intervals[0] = [interval.ChromaticInterval(-3)]
 
         #Figures
@@ -192,12 +193,11 @@ class SLRule_8b(SLRule):
     """
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = 'add conditions: key, harmonic_content'
 
         #Conditions
-        #* first note has a flat (outside of the key signature) #TODO
-        #* second note has a 6  #TODO
         self.intervals[0] = [interval.ChromaticInterval(-3)]
+        self.harmonic_content[1] = ['hasSix']
+        self.extras[0] = ['accidental:flat']
 
         #Figures
         self.figures[0] = notation.Notation('5,3')
@@ -221,11 +221,10 @@ class SLRule_10a(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = "add:key"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-4)]
-        #* first note has sharp outside of key signature #TODO
+        self.extras[0] = ['accidental:sharp']
 
         #Figures
         self.figures[0] = notation.Notation('6')
@@ -249,11 +248,10 @@ class SLRule_10b(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = "key"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(4)]
-        #* second note has sharp outside of key signature #TODO
+        self.extras[1] = ['accidental:sharp']
 
         #Figures
         self.figures[0] = notation.Notation('5,3+')
@@ -321,14 +319,13 @@ class SLRule_13(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = 'harmcont'
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(3),
                             interval.ChromaticInterval(4),
                             interval.ChromaticInterval(-8),
                             interval.ChromaticInterval(-9)]
-        #* first chord is perfect triad (no 7)     #TODO
+        self.harmonic_content[0] = ['perfectTriadNoSeven']
 
         #Figures
         self.figures[0] = notation.Notation('5,3')
@@ -375,7 +372,6 @@ class SLRule_15(SLRule):
     """
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = "Figure clean-up: 6,4+,2 --> -"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -432,7 +428,6 @@ class SLRule_17(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = ""
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-3),
@@ -461,7 +456,6 @@ class SLRule_18(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = ""
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-3)]
@@ -489,7 +483,6 @@ class SLRule_19(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = ""
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-4)]
@@ -517,7 +510,7 @@ class SLRule_20(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = "(1)5,3 always major?? (2) 5(6)/3 (3)Ambiguous figure application"
+        self.todo = "Ambiguous figure application"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(1)]
@@ -546,7 +539,6 @@ class SLRule_21(SLRule):
     """
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = ""
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(0)]
@@ -575,7 +567,6 @@ class SLRule_22(SLRule):
     """
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = ""
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(0)]
@@ -606,7 +597,6 @@ class SLRule_23(SLRule):
     """
     def __init__(self):
         SLRule.__init__(self,4)
-        self.todo = ""
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(2)]
@@ -675,14 +665,13 @@ class SLRule_24a1(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,4)
-        self.todo = "beatlength"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-1)]
         self.intervals[1] = [interval.ChromaticInterval(-2)]
         self.intervals[2] = [interval.ChromaticInterval(-2)]
         self.beats[3] = [1]
-        #* second note is smaller note value than first #TODO
+        self.extras[1] = ['duration:lessThanPreceding']
 
         #Figures
         self.figures[0] = notation.Notation('5,3')
@@ -713,15 +702,14 @@ class SLRule_24b1(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,4)
-        self.todo = "harmcont"
+        self.todo = "triad with or without 7?"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
         self.intervals[1] = [interval.ChromaticInterval(-1)]
         self.intervals[2] = [interval.ChromaticInterval(-2)]
         self.beats[3] = [1]
-
-        #* first chord has perfect (major) triad #TODO
+        self.harmonic_content[0] = ['perfectMajorTriadNoSeven'] #TODO-maybewrong
 
         #Figures
         self.figures[0] = notation.Notation('5,3+')
@@ -752,14 +740,14 @@ class SLRule_24b2(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,4)
-        self.todo = "harmcont"
+        self.todo = "minor triad has seven?"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
         self.intervals[1] = [interval.ChromaticInterval(-1)]
         self.intervals[2] = [interval.ChromaticInterval(-2)]
         self.beats[3] = [1]
-        #* first chord has minor triad #TODO
+        self.harmonic_content[0] = ['minorTriadNoSeven'] #TODO-maybewrong
 
         #Figures
         self.figures[0] = notation.Notation('5,3+')
@@ -827,85 +815,20 @@ class SLRule_24c1(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,4)
-        self.todo = 'length'
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
         self.intervals[1] = [interval.ChromaticInterval(-2)]
         self.intervals[2] = [interval.ChromaticInterval(-1)]
-        #* third note is at least twice as long as first two individually #TODO
         self.beats[3] = [1]
+        self.extras[2] = ['duration:twiceAsPreviousTwo']
 
         #Figures
         self.figures[0] = notation.Notation('5,3-')
         self.figures[1] = notation.Notation('6,4,2')
-        self.figures[2] = notation.Notation('7,5')
-        #self.figures[2] = notation.Notation('6,4,3') #TODO-length
+        self.figures[2] = ['split',notation.Notation('7,5'),
+                            notation.Notation('6,4,3')]
         self.figures[3] = notation.Notation('5,3+')
-
-
-
-
-class SLRule_25maybe(SLRule):
-    """
-    K's rule:   19
-    Page:       xx
-    Conditions:
-        * When bass note goes down a tone,
-        * [second interval] then down a semitone
-        * [third interval] then down a tone
-    Figures:
-        * 1st note gets no figure
-        * 2nd note get a '-'
-        * 3rd note gets a #6
-        * 4th note gets no figure
-    """
-
-    def __init__(self):
-        SLRule.__init__(self,4)
-        self.todo = "Notation: '-' v figure"
-
-        #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-1)]
-        self.intervals[2] = [interval.ChromaticInterval(-2)]
-
-        #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('----')
-        self.figures[2] = notation.Notation('6+')
-        self.figures[3] = notation.Notation('5,3')
-
-
-class SLRule_26maybe(SLRule):
-    """
-    K's rule:   20
-    Page:       xx
-    Conditions:
-        * bass note goes down a tone
-        * [second interval] then down a tone
-        * [third interval] then down a semitone
-    Figures:
-        * 1st note gets no figure
-        * 2nd note gets no figure
-        * 3rd note gets a 6
-        * 4th note gets no figure
-    """
-
-    def __init__(self):
-        SLRule.__init__(self,4)
-        self.todo = ""
-
-        #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-2)]
-        self.intervals[2] = [interval.ChromaticInterval(-1)]
-
-        #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('5,3')
-        self.figures[2] = notation.Notation('6')
-        self.figures[3] = notation.Notation('5,3')
 
 
 class SLRule_25a(SLRule):
@@ -918,7 +841,6 @@ class SLRule_25a(SLRule):
         * [third interval] then down a tone
         * [fourth interval] then down a tone
         * last note is on a down beat
-        * (all notes long enough to receive a figure)
         * first note has major triad (without 7)(Dominant chord)
         * Starts on the fifth degree of the scale
     Figures:
@@ -936,17 +858,15 @@ class SLRule_25a(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,5)
-        self.todo = "add rules!"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
         self.intervals[1] = [interval.ChromaticInterval(-1)]
         self.intervals[2] = [interval.ChromaticInterval(-2)]
         self.intervals[3] = [interval.ChromaticInterval(-2)]
-        # * last note is on a down beat
-        # * (all notes long enough to receive a figure)
-        # * first note has major triad (without 7)(Dominant chord)
-        # * Starts on the fifth degree of the scale
+        self.beats[4] = [1]
+        self.harmonic_content[0] = ['perfectMajorTriadNoSeven']
+        self.extras[0] = ['scale:on5th']
 
         #Figures
         self.figures[0] = notation.Notation('5,3+')
@@ -966,7 +886,6 @@ class SLRule_25b(SLRule):
         * [third interval] then down a semitone
         * [fourth interval] then down a tone
         * last note is on a down beat
-        * (all notes long enough to receive a figure)
         * first note has major triad (without 7)(Dominant chord)
         * Starts on the fifth degree of the scale
     Figures:
@@ -984,17 +903,15 @@ class SLRule_25b(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,5)
-        self.todo = "lots!"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
         self.intervals[1] = [interval.ChromaticInterval(-1)]
         self.intervals[2] = [interval.ChromaticInterval(-2)]
         self.intervals[3] = [interval.ChromaticInterval(-2)]
-        # * last note is on a down beat
-        # * (all notes long enough to receive a figure)
-        # * first note has major triad (without 7)(Dominant chord)
-        # * Starts on the fifth degree of the scale
+        self.beats[4] = [1]
+        self.harmonic_content[0] = ['perfectMajorTriadNoSeven']
+        self.extras[0] = ['scale:on5th']
 
         #Figures
         self.figures[0] = notation.Notation('5,3+')
@@ -1027,7 +944,6 @@ class SLRule_26a1(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,5)
-        self.todo = "beat,"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -1035,7 +951,7 @@ class SLRule_26a1(SLRule):
         self.intervals[2] = [interval.ChromaticInterval(-2)]
         self.intervals[3] = [interval.ChromaticInterval(-2)]
         self.intervals[4] = [interval.ChromaticInterval(-1)]
-        # * 6 note is on strong beat TODO
+        self.beats[5] = [1]
 
         #Figures
         self.figures[0] = notation.Notation('5,3+')
@@ -1069,15 +985,15 @@ class SLRule_26a2(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,5)
-        self.todo = "intervals,"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
         self.intervals[1] = [interval.ChromaticInterval(-1)]
         self.intervals[2] = [interval.ChromaticInterval(-2)]
         self.intervals[3] = [interval.ChromaticInterval(-2)]
-        self.intervals[4] = [interval.ChromaticInterval(-2)] #TODOdown semitone or up 5th or down 4th
-        # * 6 note is on strong beat TODO
+        self.intervals[4] = [interval.ChromaticInterval(7),
+                            interval.ChromaticInterval(-5)]
+        self.beats[5] = [1]
 
         #Figures
         self.figures[0] = notation.Notation('5,3+')
@@ -1111,7 +1027,6 @@ class SLRule_26b1(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,5)
-        self.todo = "beat"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -1119,7 +1034,7 @@ class SLRule_26b1(SLRule):
         self.intervals[2] = [interval.ChromaticInterval(-1)]
         self.intervals[3] = [interval.ChromaticInterval(-2)]
         self.intervals[4] = [interval.ChromaticInterval(-1)]
-        #* 6 note is on strong beat TODO
+        self.beats[5] = [1]
 
         #Figures
         self.figures[0] = notation.Notation('5,3+')
@@ -1152,15 +1067,15 @@ class SLRule_26b2(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,5)
-        self.todo = "beat"
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
         self.intervals[1] = [interval.ChromaticInterval(-2)]
         self.intervals[2] = [interval.ChromaticInterval(-1)]
         self.intervals[3] = [interval.ChromaticInterval(-2)]
-        self.intervals[4] = [interval.ChromaticInterval(-1)] #TODO up 5th or down 4th
-        #* 6 note is on strong beat TODO
+        self.intervals[4] = [interval.ChromaticInterval(7),
+                            interval.ChromaticInterval(-5)]
+        self.beats[5] = [1]
 
         #Figures
         self.figures[0] = notation.Notation('5,3+')
@@ -1264,15 +1179,14 @@ class SLRule_28(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = "conditions"
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(0)]
-        self.intervals[1] = [interval.ChromaticInterval(5)]
-        # * first interval is an octave (up or down) TODO
-        # * second interval either rising fourth or descending fifth
-        # * last note is a perfect triad (no 7)(major or minor)
-        # * Last note on first note
+        self.intervals[0] = [interval.ChromaticInterval(12),
+                             interval.ChromaticInterval(-12)]
+        self.intervals[1] = [interval.ChromaticInterval(-7),
+                            interval.ChromaticInterval(5)]
+        self.beats[2] = [1]
+        self.harmonic_content[2] = ['perfectTriadNoSeven']
 
         #Figures
         self.figures[0] = notation.Notation('5,4')
@@ -1299,20 +1213,17 @@ class SLRule_29(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = "conditions; figures"
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(5)]
-        # * only interval is either descending fifth or rising fourth TODO
-        # * first note must be long enough to support two chords ("working hypothesis": half a measure in length or bigger or worth two of the denominator of the time signature)
-        # * last note falls on first note
+        self.intervals[0] = [interval.ChromaticInterval(-7),
+                            interval.ChromaticInterval(5)]
+        self.beats[1] = [1]
+        self.extras[0] = ['duration:two']
 
         #Figures
-        self.figures[0] = notation.Notation('7')
+        self.figures[0] = ['split', notation.Notation('5,4'),
+                            notation.Notation('7,3+')]
         self.figures[1] = notation.Notation('5,3')
-        # * 1st half of first note gets 5,4 TODO
-        # * 2nd half of first note gets 7,3+
-        # * 2nd note gets 5,3
 
 
 class SLRule_30(SLRule):
@@ -1332,13 +1243,11 @@ class SLRule_30(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,2)
-        self.todo = "conditions"
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(5)]
-        # * first note is short relative to time signature: either only one or half of the denominator
-        # * second note is perfect triad (major or minor, no 7)
-        # * last note falls on first beat TODO
+        self.extras[0] = ['duration:shortAgainstSignature']
+        self.harmonic_content[1] = ['perfectTriadNoSeven']
+        self.beats[1] = [1]
 
         #Figures
         self.figures[0] = notation.Notation('5,3+(7)')
@@ -1350,7 +1259,7 @@ class SLRule_31(SLRule):
     K's rule:   28
     Page:       56
     Conditions:
-        * first note long enough to support two chords ("working hypothesis": half a measure in length or bigger or worth two of the denominator of the time signature)
+        * first note long enough to support two chords
         * second note on strong beat
     Figures:
         * First note gets 5,4
@@ -1364,10 +1273,10 @@ class SLRule_31(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = "conditions,figures"
 
         #Conditions
-        self.extras[0] = ["3 beats", "time signature is 3/4"]
+        self.extras[0] = ['duration:two']
+        self.beats[1] = [1]
 
         #Figures
         self.figures[0] = notation.Notation('5,4')
@@ -1379,7 +1288,7 @@ class SLRule_32(SLRule):
     K's rule:   NA
     Page:       56
     Conditions:
-        * first note long enough to support two chords ("working hypothesis": half a measure in length or bigger or worth two of the denominator of the time signature)
+        * first note long enough to support two chords
         * second note on strong beat
         * triple meter
     Figures:
@@ -1396,12 +1305,14 @@ class SLRule_32(SLRule):
 
     def __init__(self):
         SLRule.__init__(self,3)
-        self.todo = "conditions,figures"
 
-        #Conditions #TODO
-        self.extras[0] = ["3 beats", "time signature is 3/4"]
+        #Conditions
+        self.extras[0] = ['duration:two','meter:triple']
+        self.beats[1] = [1]
 
-        #Figures #TODO
-        self.figures[0] = notation.Notation('5,4')
-        self.figures[1] = notation.Notation('7,5,3+')
+        #Figures
+        self.figures[0] = ['split',
+                            notation.Notation('5,4'),
+                            notation.Notation('8,5,3+'),
+                            notation.Notation('7,5,3+')]
         self.figures[2] = notation.Notation('5,3')
