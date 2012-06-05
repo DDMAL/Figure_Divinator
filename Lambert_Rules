@@ -4,25 +4,33 @@ Written out by Konstantin, Fall 2011;
 Re-tooled by Hank & Hannah Spring 2012
 
 *** Questions:
-    Intervals -- diatonic v chromatic? when? never v always? ahh! (currently chromatic)
-
     Are the figures listed by music21 a comlete list of all whe'd ever need? see http://mit.edu/music21/doc/html/moduleFiguredBassNotation.html?highlight=figured#music21.figuredBass.notation
 
     Major third: Does 3# always mean major third? Does 3 ever not mean major third? Are we allowed to know key signature? Thirds and key in general.
 
-*** NOTES ***
-    Using SL text from 1707
+    *Figure out how to implement:
+        * Long notes  that require multiple figures, first note sol second note ut:
+            * in duple time (numerator even), first figure goes on first half, second on second
+            * In triple time (numerator is divisible by 3), first figure either 2/3 and second note on 1/3 or vice versa.
 
-*** SKIPPED ***
-Rule 1
-    Notes: ????TODO!
-Rule 2
-    Notes: voice leading!
-Rule 4
-    Notes: 5/# --> 6/3 /ascending diatonic semitone
-General:
-    *  Le petit accord --> #6,4,3?
-    * Need to insert SL's original terminology into each rule
+*** NOTES ***
+    * Using SL text from 1707
+    * These rules are from Chapter 7 - 'Rules for divining the figures when the bass isn't figured'
+    * Cadence assumption: last note falls on first note
+
+    SKIPPED:
+        * Rule 1: Covered by rule 3.
+        * Rule 2: More about the realization of the bass than about extraction.
+        * Rule 4: 5/# --> 6/3 /ascending diatonic semitone
+        * Rule 9
+            K's rule:   NA
+            Page:       47
+            Conditions:
+                * bass note rises by a minor third
+            Figures:
+                * first chord should have a minor third
+            Notes:
+                * Hank might yank!
 
 * * * * * * RULES * * * * * * * *
 
@@ -30,130 +38,157 @@ Rule 3
     K's rule:   1
     Page:       45
     Conditions:
-        * When the bass note goes up by a semitone
+        * When the bass note goes up by a diatonic semitone
     Figures:
-        * First note gets a 6
-        * Second gets nothing.
+        * First note gets a 6 (6,5-,3)
+            -> Realization: l'accord double or accord simple
+        * Second gets 5,3.
     Notes:
         * A generalization of SL1
         * Confirms that we don't want augmented unison
-    Questions?
-        * Confirm what happens with second note!!!
+
+Rule 4
+    K's rule:   NA
+    Page:       46
+    Conditions:
+        * When the bass note goes up by a diatonic semitone
+        * First note has a major triad (7 doesn't matter)
+    Figures:
+        * First note gets a 5,3+
+        * Second gets 6 (l'accord double)
+
 
 Rule 5
     K's rule:   2
     Page:       46
     Conditions:
-        * When bass note goes down by a semitone
-        * second note is a perfect chord (major triad)
+        * When bass note goes down by a diatonic semitone
+        * second note is a perfect chord (major triad) "accord majeur" (no 7)
         * second note is on beat 1
     Figures:
-        * First note gets a 6
-    Notes:
-        * perfect chord == major triad; must have maj3, if more notes, must be 5th or octave
+        * First note gets a 6 "accord double"
+        * Second note gets a 5,3+
+
 
 Rule 6
     K's rule:   3
     Page:       46
     Conditions:
-        * bass note goes up by a semitone
+        * bass note goes up by a diatonic semitone
         * the first note has a #6
     Figures:
-        * First note gets a #6
+        * First note gets a "6+(4)(3)"
         * Second note gets a 6
 
 Rule 7
     K's rule:   4
     Page:       47
     Conditions:
-        * Bass note goes down by a minor 3rd
-        * First chord is perfect
+        * Bass note goes down by a minor 3rd (ch)
+        * First chord is minor triad (no 7)
     Figures:
-        * Second gets false fifth (no figure)
+        * First gets 3-
+        * Second gets false fifth (5,3-) "fausse quinte"
     Notes:
-        * Hh{perfect=='minor triad'}
         * {explicitly says down minor third; should check (w/switch!) to see if modulated (up 6) is also okay}
 
-Rule 8
+Rule 8a
     K's rule:   NA
     Page:       47
     Conditions:
-        * bass descends minor third, either directly or with intervening step,
+        * first note has a flat (outside of the key signature)
+        * second note does not have a 6 above it
+        * bass descends minor third (ch)
     Figures:
-        * the second chord maintains the minor third
+        * first chord gets a 5,3
+        * second chord gets a 5,3-
     Notes:
         * Hank might yank!
 
-Rule 9
+Rule 8b
     K's rule:   NA
     Page:       47
     Conditions:
-        * bass note rises by a minor third, either directly or with an intervening passing tone,
+        * first note has a flat (outside of the key signature)
+        * second note has a 6 (maj,min)
+        * bass descends minor third (ch)
     Figures:
-        * first chord should have a minor third
+        * first chord gets a 5,3
+        * second chord gets a 6,3-
     Notes:
         * Hank might yank!
+
 
 Rule 10a
     K's rule:   NA
-    Page:       ?
+    Page:       47
     Conditions:
-        * bass descends major third, either directly or with intervening step,
+        * bass descends major third (ch)
+        * first note has sharp outside of key signature
     Figures:
-        * the second chord maintains the major third
+        * first note gets a 6
+        * the second chord gets 5,3+
     Notes:
         * Same as 8, but with major thirds instead of minor thirds
         * Hank might yank!
 
 Rule 10b
     K's rule:   NA
-    Page:       ?
+    Page:       47
     Conditions:
-        * bass note rises by a major third, either directly or with an intervening passing tone,
+        * bass note rises by a major third (ch)
+        * second note has sharp outside of key signature
     Figures:
-        * first chord should have a major third
+        * first chord gets 5,3+
+        * second chord gets 6
     Notes:
         * Same as 9, but with major thirds instead of minor thirds
-        * Hank might yank!)
+        * Hank might yank!
+
 
 Rule 11
     K's rule:   5
     Page:       47
     Conditions:
-        * bass note goes down by a 3rd, (either major or minor)
+        * bass note goes down by a 3rd, (either major or minor) (ch)
         * first chord is a perfect major triad {this case: could have a seven}
     Figures:
-        * second gets a 6
+        * first gets 5,3+
+        * second gets a 6 (l'accord simple)
 
 Rule 12
     K's rule:   6
     Page:       48
     Conditions:
-        * bass note descends by a false 5th (aka tritone aka diminished fifth)
+        * bass note descends by a false 5th (aka tritone aka diminished fifth) (ch)
     Figures:
-        * 2nd note has a flat fifth
+        * 1st gets 5,3
+        * 2nd gets 5-
 
 Rule 13
     K's rule:   7
     Page:       48
     Conditions:
-        * bass note goes up by a 3rd or DOWN by 6th (of any kind)
+        * bass note goes up by a 3rd or DOWN by 6th (of any kind) (ch)
+        * first chord is perfect triad (no 7)
     Figures:
-        * Second note gets a 6
+        * First gets 5,3
+        * Second note gets a 6 (l'accord simple)
 
 Rule 14
     K's rule:   8
     Page:       48
     Conditions:
         * When bass note goes up 3 consecutive tones (MUST BE SEMITONE OR TONE)
-        * 3rd chord is perfect major triad, no("unlikely") 7
+        * 3rd chord is perfect major triad, no 7
     Figures:
         * 1st note gets a 6
-        * 2nd note gets a 65(minor3)
-        * 3rd note gets a major chord (no figure)(5,#)
+        * 2nd note gets a 6,5,3
+        * 3rd note gets a major chord (5,3+)
     Notes:
         * comment:{if there's trouble, the 1st chord might be on NOT the strong beat; "I^6 ii^{6/5} V I"}{some issues with major/minor aspect of 2nd chord; we're ignoring it for now -- mode issues}
 
+*-->
 Rule 15
     K's rule:   9
     Page:       49
@@ -281,7 +316,8 @@ Rule 24a
         * 3rd note gets #6 (5b)
         * 4th note gets a major triad (5,3+)
     Note:
-        * SL calls all of 24 "Cadences imparfaites"
+        * SL calls all of 24 "Cadences imparfaites": half-cadences,
+            or first half of the descending 'Rule of the Octave'
 
 
 Rule 24a1
@@ -299,7 +335,8 @@ Rule 24a1
         * 3rd note gets #6 (5b)
         * 4th note gets a major triad (5,3+)
     Note:
-        * SL calls all of 24 "Cadences imparfaites"
+        * SL calls all of 24 "Cadences imparfaites": half-cadences,
+            or first half of the descending 'Rule of the Octave'
 
 
 Rule 24b1
@@ -310,13 +347,15 @@ Rule 24b1
         * [second interval] then down a semitone
         * [third interval] then down a tone
         * first chord has perfect (major) triad
+        * last note is on 1st beat
     Figures:
         * 1st note gets root position major triad (5,3+)
         * 2nd note get a (6,4+,2)
         * 3rd note gets a #6
         * 4th note gets minor triad (5,3-)
     Note:
-        * SL calls all of 24 "Cadences imparfaites"
+        * SL calls all of 24 "Cadences imparfaites": half-cadences,
+            or first half of the descending 'Rule of the Octave'
 
 
 Rule 24b2
@@ -327,13 +366,15 @@ Rule 24b2
         * [second interval] then down a semitone
         * [third interval] then down a tone
         * first chord has minor triad
+        * last note is on 1st beat
     Figures:
         * 1st note gets root position major triad (5,3+)
         * 2nd note get a (6,4,2)
         * 3rd note gets a #6,4,3 (petit accord)
         * 4th note gets minor triad (5,3-)
     Note:
-        * SL calls all of 24 "Cadences imparfaites"
+        * SL calls all of 24 "Cadences imparfaites": half-cadences,
+            or first half of the descending 'Rule of the Octave'
 
 
 Rule 24c
@@ -343,13 +384,15 @@ Rule 24c
         * bass note goes down a tone
         * [second interval] then down a tone
         * [third interval] then down a semitone
+        * last note is on 1st beat
     Figures:
         * 1st note gets minor triad (5,3-)
         * 2nd note gets perfect major triad (5,3+)  or (in paren (6,4,2))
         * 3rd note gets a 6 or (in paren (6,4+,3) "le petit accord")
         * 4th note gets major triad (5,3+) ("l'accord parfait majeur")
     Note:
-        * SL calls all of 24 "Cadences imparfaites"
+        * SL calls all of 24 "Cadences imparfaites": half-cadences,
+            or first half of the descending 'Rule of the Octave'
 
 
 Rule 24c1
@@ -360,6 +403,7 @@ Rule 24c1
         * [second interval] then down a tone
         * [third interval] then down a semitone
         * third note is at least twice as long as first two individually
+        * last note is on 1st beat
     Figures:
         * 1st note gets minor triad (5,3-)
         * 2nd note gets nothing or (6,4,2)
@@ -368,11 +412,11 @@ Rule 24c1
         ** 2nd chord (6,4,3) ("le petit accord")(in paren (6) "l'accord doublé")
         * 4th note gets major triad (5,3+) ("l'accord parfait majeur")
     Note:
-        * SL calls all of 24 "Cadences imparfaites"
+        * SL calls all of 24 "Cadences imparfaites": half-cadences,
+            or first half of the descending 'Rule of the Octave'
 
 
-*-->"It's gonna get messy!" -"that's what Hank say"
-Rule 25
+Rule 25a
     K's rule:   21
     Page:       54
     Conditions:
@@ -380,106 +424,235 @@ Rule 25
         * [second interval] then down a semitone
         * [third interval] then down a tone
         * [fourth interval] then down a tone
+        * last note is on a down beat
+        * (all notes long enough to receive a figure)
+        * first note has major triad (without 7)(Dominant chord)
+        * Starts on the fifth degree of the scale
     Figures:
-        * 1st note gets no figure
-        * 2nd note gets a 6#42 or just ‘-‘
-        * 3rd gets a 6
-        * 4th gets a 6
-        * 5th gets no figure
-    Questions?
-        * TBD!
+        * 1st note gets no figure (5,3+)
+        * 2nd note gets a 64+2
+        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
+    Note:
+        * Typo in last of the first SL examples! (off by a tone)
+        * This rule is last five notes of the descending 'rule of the octave': Sol fa mi re ut
+        * Major version
+        * Starts on the fifth degree of the scale
 
-Rule x - 28 maybe
-    K's rule:   22
-    Page:       xx
+
+Rule 25b
+    K's rule:   21
+    Page:       54
     Conditions:
         * When bass note goes down a tone
         * [second interval] then down a tone
         * [third interval] then down a semitone
         * [fourth interval] then down a tone
+        * last note is on a down beat
+        * (all notes long enough to receive a figure)
+        * first note has major triad (without 7)(Dominant chord)
+        * Starts on the fifth degree of the scale
     Figures:
-        * 1st note gets no figure
-        * 2nd note gets a ‘-‘
-        * 3rd note gets a 6
-        * 4th note gets a 6
-        * 5th note gets no figure
-    Questions?
-        * TBD!
+        * 1st note gets no figure (5,3+)
+        * 2nd note gets a 64+2
+        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
+    Note:
+        * Typo in last of the first SL examples! (off by a tone)
+        * This rule is last five notes of the descending 'rule of the octave': Sol fa mi re ut
+        * Major version
+        * Starts on the fifth degree of the scale
 
-Rule x - 29 maybe
+
+Rule 26a1
+    K's rule:   22
+    Page:       54
+    Conditions:
+        * When bass note goes down a tone
+        * [second interval] then down a semitone
+        * [third interval] then down a tone
+        * [fourth interval] then down a tone
+        * [fifth interval] down semitone
+        * 6 note is on strong beat
+
+    Figures:
+        * 1st note gets no figure (5,3+)
+        * 2nd note gets a 64+2
+        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
+        * 6th gets a 6
+
+Rule 26a2
+    K's rule:   22
+    Page:       54
+    Conditions:
+        * When bass note goes down a tone
+        * [second interval] then down a semitone
+        * [third interval] then down a tone
+        * [fourth interval] then down a tone
+        * [fifth interval] up 5th or down 4th
+        * 6 note is on strong beat
+
+    Figures:
+        * 1st note gets no figure (5,3+)
+        * 2nd note gets a 64+2
+        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
+        * 6th gets a major triad (5,3+)
+
+
+Rule 26b1
+    K's rule:   22
+    Page:       54
+    Conditions:
+        * When bass note goes down a tone
+        * [second interval] then down a tone
+        * [third interval] then down a semitone
+        * [fourth interval] then down a tone
+        * [fifth interval] down semitone
+        * 6 note is on strong beat
+
+    Figures:
+        * 1st note gets no figure (5,3+)
+        * 2nd note gets a 64+2
+        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
+        * 6th gets a 6
+
+
+Rule 26b2
+    K's rule:   22
+    Page:       54
+    Conditions:
+        * When bass note goes down a tone
+        * [second interval] then down a tone
+        * [third interval] then down a semitone
+        * [fourth interval] then down a tone
+        * [fifth interval] up 5th or down 4th
+        * 6 note is on strong beat
+
+    Figures:
+        * 1st note gets no figure (5,3+)
+        * 2nd note gets a 64+2
+        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
+        * 6th gets a major triad (5,3+)
+
+Rule 27a
     K's rule:   23
-    Page:       xx
+    Page:       55
     Conditions:
         * When bass note goes up a tone
         * [second interval] then up a tone
         * [third interval] then up a semitone
         * [fourth interval] then up a tone
     Figures:
-        * 1st note gets no figure
-        * 2nd note gets a 6
-        * 3rd note gets a 6
-        * 4th note gets a 65
-        * 5th note gets no figure
-    Questions?
-        * TBD!
+        * 1st note gets no figure (5,3) "l'accord parfait"
+        * 2nd note gets a 6+ "l'accord simple" or (6+,4,3) "l'petit accord"
+        * 3rd note gets a 6 "l'accord double" or (6,3) "l'accord simple" #Hnote: don't put in l'accord simple this time
+        * 4th note gets a 5,3 (l'accord parfait) or (6,5,3)
+        * 5th note gets l'accord parfait majeur (perfect major triad) 5,3+
+    Note:
+        * major version: ut re me fa sol
+        * SL prefers the variants to the simple version
+        * Note: pay attention to variants when doing the realization! :)
 
-Rule x - 30 maybe
+
+Rule 27b
     K's rule:   24
-    Page:       xx
+    Page:       55
     Conditions:
         * When bass note goes up a tone,
         * [second interval] then up a semitone,
         * [third interval] then up a tone,
         * [fourth interval] then up a tone
     Figures:
-        * 1st note gets no figure
-        * 2nd note gets a #6
-        * 3rd note gets a 6
-        * 4th note gets a 65
-        * 5th note gets no figure
-    Questions?
-        * TBD!
+        * 1st note gets no figure (5,3) "l'accord parfait"
+        * 2nd note gets a 6+ "l'accord simple" or (6+,4,3) "l'petit accord"
+        * 3rd note gets a 6 "l'accord double" or (6,3) "l'accord simple" #Hnote: don't put in l'accord simple this time
+        * 4th note gets a 5,3 (l'accord parfait) or (6,5,3)
+        * 5th note gets l'accord parfait majeur (perfect major triad) 5,3+
+    Note:
+        * minor version: re me fa sol la
 
-Rule x - 31 maybe
+
+Rule 28
     K's rule:   25
-    Page:       xx
+    Page:       55
     Conditions:
+        * first interval is an octave (up or down)
+        * second interval either rising fourth or descending fifth
+        * last note is a perfect triad (no 7)(major or minor)
+        * Last note on first note
+    Figures:
+        * 1st note gets 5,4
+        * 2nd note gets 7,3+
+        * 3rd note gets 5,3
+    Questions?
         * When at a cadence – -sol sol ut
-    Figures:
-        * 1st note gets 4
-        * 2nd note gets 7
-        * 3rd note gets no figure
-    Questions?
-        * TBD!
 
-Rule x - 32 maybe
+Rule 29
     K's rule:   26
-    Page:       xx
+    Page:       55
     Conditions:
-        * cadence – short sol ut
+        * only interval is either descending fifth or rising fourth
+        * first note must be long enough to support two chords ("working hypothesis": half a measure in length or bigger or worth two of the denominator of the time signature)
+        * last note falls on first note
     Figures:
-        * Short sol gets 7 (no 4)
-        * ut gets no figure
+        * 1st half of first note gets 5,4
+        * 2nd half of first note gets 7,3+
+        * 2nd note gets 5,3
     Questions?
-        * TBD!
+        * cadence – long sol ut
+        * variant of 28
 
-Rule x - 33 maybe
+Rule 30
     K's rule:   27
-    Page:       xx
+    Page:       56
     Conditions:
-        * When at a cadence – long sol ut
+        * first note is short relative to time signature: either only one or half of the denominator
+        * second note is perfect triad (major or minor, no 7)
+        * last note falls on first beat
     Figures:
-        * Long sol gets 4 and 7
-        * ut gets no figure
-    Questions?
-        * TBD!
+        * 1st note gets 5,3+(7)
+        * 2nd note gets 5,3
+    Note:
+        * When at a cadence – short sol ut
 
-Rule x - 34 maybe
+Rule 31
     K's rule:   28
-    Page:       xx
+    Page:       56
     Conditions:
-        * When at a cadence and sol is 3 beats in ¾ time
+        * first note long enough to support two chords ("working hypothesis": half a measure in length or bigger or worth two of the denominator of the time signature)
+        * second note on strong beat
     Figures:
-        * Sol gets 4, no figure, then a 7 (respectively on each beat)
-    Questions?
-        * TBD!
+        * First note gets 5,4
+        * Second placement of first note: 7,5,3+
+        * Second note gets 5,3
+    Note:
+        * has to do with 29!
+        * for placement of chords on long note, see additional chicken scratch
+        * choice between location on triple -- left for another day!
+
+Rule 32
+    Page:       56
+    Conditions:
+        * first note long enough to support two chords ("working hypothesis": half a measure in length or bigger or worth two of the denominator of the time signature)
+        * second note on strong beat
+        * triple meter
+    Figures:
+        * First note gets 5,4
+        * Second placement of first note: 8,5,3+
+        * Third placement of first note gets 7,5,3+
+        * Second note: 5,3
+    Note:
+        * has to do with 29!
+        * has to do with triple meter
+        * for placement of chords on long note, see additional chicken scratch
+        * choice between location on triple -- left for another day!
