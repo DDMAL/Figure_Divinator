@@ -228,7 +228,7 @@ class rule_crawler(object):
             if not rule.extras[i]: continue
 
             rbool = True
-            for e in extras:
+            for e in rule.extras[i]:
 
                 if e == 'accidental:flat': #TODO
                     pass
@@ -296,11 +296,12 @@ def get_rules(ruleset):
     if ruleset[0] == "SL":
         extraction_rules = [
                             SLRule_3(),
+                            SLRule_4(),
                             SLRule_5(),
                             SLRule_6(),
                             SLRule_7(),
-                            SLRule_8(),
-                            SLRule_9(),
+                            SLRule_8a(),
+                            SLRule_8b(),
                             SLRule_10a(),
                             SLRule_10b(),
                             SLRule_11(),
@@ -316,18 +317,25 @@ def get_rules(ruleset):
                             SLRule_21(),
                             SLRule_22(),
                             SLRule_23(),
-                            SLRule_24maybe(),
-                            SLRule_25maybe(),
-                            SLRule_26maybe(),
-                            SLRule_27maybe(),
-                            SLRule_28maybe(),
-                            SLRule_29maybe(),
-                            SLRule_29maybe(),
-                            SLRule_30maybe(),
-                            SLRule_31maybe(),
-                            SLRule_32maybe(),
-                            SLRule_33maybe(),
-                            SLRule_34maybe()
+                            SLRule_24a(),
+                            SLRule_24a1(),
+                            SLRule_24b1(),
+                            SLRule_24b2(),
+                            SLRule_24c(),
+                            SLRule_24c1(),
+                            SLRule_25a(),
+                            SLRule_25b(),
+                            SLRule_26a1(),
+                            SLRule_26a2(),
+                            SLRule_26b1(),
+                            SLRule_26b2(),
+                            SLRule_27a(),
+                            SLRule_27b(),
+                            SLRule_28(),
+                            SLRule_29(),
+                            SLRule_30(),
+                            SLRule_31(),
+                            SLRule_32()
                             ]
 
     elif ruleset[0] == "octave":

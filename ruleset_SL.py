@@ -119,7 +119,7 @@ class SLRule_6(SLRule):
         self.harmonic_content[0] = ['hasSharpSix']
 
         #Figures:
-        self.figures[0] = notation.Notation('6+,(4),(3)')
+        self.figures[0] = notation.Notation('6+') #TODO'6+,(4),(3)')
         self.figures[1] = notation.Notation('6')
 
 
@@ -642,7 +642,7 @@ class SLRule_24a(SLRule):
         #Figures
         self.figures[0] = notation.Notation('5,3')
         self.figures[1] = notation.Notation('6')
-        self.figures[2] = notation.Notation('6+(5-)')
+        self.figures[2] = notation.Notation('6+') #TODO'6+(5-)')
         self.figures[3] = notation.Notation('5,3+')
 
 
@@ -676,7 +676,7 @@ class SLRule_24a1(SLRule):
         #Figures
         self.figures[0] = notation.Notation('5,3')
         self.figures[1] = notation.Notation('6,4,2')
-        self.figures[2] = notation.Notation('6+(5-)')
+        self.figures[2] = notation.Notation('6+') #TODO'6+(5-)')
         self.figures[3] = notation.Notation('5,3+')
 
 
@@ -804,9 +804,9 @@ class SLRule_24c1(SLRule):
     Figures:
         * 1st note gets minor triad (5,3-)
         * 2nd note gets nothing or (6,4,2)
-        * 3rd note gets two figures: (in two halves)
-        ** (7,5)
-        ** 2nd chord (6,4,3) ("le petit accord")(in paren (6) "l'accord doublé")
+        * 3rd note gets two figures:(in two halves)
+        * (7,5)
+        * 2nd chord (6,4,3) ("le petit accord")(in paren (6)) "l'accord double")
         * 4th note gets major triad (5,3+) ("l'accord parfait majeur")
     Note:
         * SL calls all of 24 "Cadences imparfaites": half-cadences,
@@ -846,8 +846,8 @@ class SLRule_25a(SLRule):
     Figures:
         * 1st note gets no figure (5,3+)
         * 2nd note gets a 64+2
-        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
-        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 3rd gets a 6,3 ("l'accord double"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixieme majeur or le petit accord")
         * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
     Note:
         * Typo in last of the first SL examples! (off by a tone)
@@ -891,8 +891,8 @@ class SLRule_25b(SLRule):
     Figures:
         * 1st note gets no figure (5,3+)
         * 2nd note gets a 64+2
-        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
-        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 3rd gets a 6,3 ("l'accord double"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixieme majeur or le petit accord")
         * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
     Note:
         * Typo in last of the first SL examples! (off by a tone)
@@ -936,14 +936,14 @@ class SLRule_26a1(SLRule):
     Figures:
         * 1st note gets no figure (5,3+)
         * 2nd note gets a 64+2
-        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
-        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 3rd gets a 6,3 ("l'accord double"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixieme majeur or le petit accord")
         * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
         * 6th gets a 6
     """
 
     def __init__(self):
-        SLRule.__init__(self,5)
+        SLRule.__init__(self,6)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -977,14 +977,14 @@ class SLRule_26a2(SLRule):
     Figures:
         * 1st note gets no figure (5,3+)
         * 2nd note gets a 64+2
-        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
-        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 3rd gets a 6,3 ("l'accord double"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixieme majeur or le petit accord")
         * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
         * 6th gets a major triad (5,3+)
     """
 
     def __init__(self):
-        SLRule.__init__(self,5)
+        SLRule.__init__(self,6)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -1019,14 +1019,14 @@ class SLRule_26b1(SLRule):
     Figures:
         * 1st note gets no figure (5,3+)
         * 2nd note gets a 64+2
-        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
-        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 3rd gets a 6,3 ("l'accord double"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixieme majeur or le petit accord")
         * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
         * 6th gets a 6
     """
 
     def __init__(self):
-        SLRule.__init__(self,5)
+        SLRule.__init__(self,6)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -1059,14 +1059,14 @@ class SLRule_26b2(SLRule):
     Figures:
         * 1st note gets no figure (5,3+)
         * 2nd note gets a 64+2
-        * 3rd gets a 6,3 ("l'accord doublé"" or "l'accord simple")
-        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixième majeur or le petit accord")
+        * 3rd gets a 6,3 ("l'accord double"" or "l'accord simple")
+        * 4th gets a 6+ or (6+,4,3)("l'accord simple de la sixieme majeur or le petit accord")
         * 5th gets no figure (5,3) ("l'accord parfait")(major or minor)
         * 6th gets a major triad (5,3+)
     """
 
     def __init__(self):
-        SLRule.__init__(self,5)
+        SLRule.__init__(self,6)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -1174,7 +1174,7 @@ class SLRule_28(SLRule):
         * 2nd note gets 7,3+
         * 3rd note gets 5,3
     Questions?
-        * When at a cadence – -sol sol ut
+        * When at a cadence - -sol sol ut
     """
 
     def __init__(self):
@@ -1207,7 +1207,7 @@ class SLRule_29(SLRule):
         * 2nd half of first note gets 7,3+
         * 2nd note gets 5,3
     Questions?
-        * cadence – long sol ut
+        * cadence - long sol ut
         * variant of 28
     """
 
@@ -1238,7 +1238,7 @@ class SLRule_30(SLRule):
         * 1st note gets 5,3+(7)
         * 2nd note gets 5,3
     Note:
-        * When at a cadence – short sol ut
+        * When at a cadence - short sol ut
     """
 
     def __init__(self):
@@ -1250,7 +1250,7 @@ class SLRule_30(SLRule):
         self.beats[1] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+(7)')
+        self.figures[0] = notation.Notation('5,3+') #'5,3+(7)')
         self.figures[1] = notation.Notation('5,3')
 
 

@@ -93,7 +93,7 @@ try:
                     if j>0: intstr = intstr + ' or '
                     intstr = intstr + str(rule.intervals[i][j].simpleDirected)
                 intstr = intstr + '} '
-            LOG.info("    intervals: " + intstr)
+            LOG.info("     intervals: " + intstr)
 
         if args.viewBeats == True and not_all_false(rule.beats):
             if named == False:
