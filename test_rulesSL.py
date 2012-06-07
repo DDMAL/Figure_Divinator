@@ -1,5 +1,7 @@
 import figure_extractor
-from music21 import *
+from music21 import stream
+from music21 import metadata
+from music21 import note
 
 solutions = [
                 ('1a', 'BB2_6 C2_falsefifth'),

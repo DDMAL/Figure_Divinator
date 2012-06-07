@@ -1,7 +1,7 @@
 # Rules for figuring unfigured bass parts
 # Monsieur de Saint-Lambert
 
-from rules import *
+from rules import Rule
 from music21 import interval
 from music21.figuredBass import notation
 

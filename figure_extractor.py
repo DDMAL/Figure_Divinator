@@ -32,7 +32,7 @@ class InputError(Exception):
 class ExtractionWork(object):
     """A class that holds both the original score and newly extracted portion"""
     def __init__(self, score_file_input, *args, **kwargs):
-        #Possible kwargs: ruleset, solution, type_of_bass,  
+        #Possible kwargs: ruleset, solution, type_of_bass,
 
         #Input score details
         self.score_input = score_file_input
@@ -58,7 +58,7 @@ class ExtractionWork(object):
         #Inner workings
         self._bassline = stream.Stream()
         self._chordscore = stream.Score()
-        
+
         #Load the file, get the original bassline!
         self._load_score_from_file()      #...TODO-Hh{future:accept straight score?}
         self.extract_bassline_from_score()
@@ -74,7 +74,7 @@ class ExtractionWork(object):
         else:
             ext_rule = '_unique'
 
-        #read in score file 
+        #read in score file
         if not os.path.isfile(self.score_input):
             raise FileNotFoundError(self.score_input)
 
@@ -131,7 +131,7 @@ class ExtractionWork(object):
         #Process the bassline?
         self.process_bassline()
 
-        
+
         #Set up the figure strings:
         basslength = len(self._bassline.flat.getElementsByClass(note.Note))
         self._fb_figureString = ['+++' for x in range(basslength)]
@@ -161,13 +161,13 @@ class ExtractionWork(object):
         self.output_fb_score.metadata = my_metadata
 
     def append_to_extraction(self):
-        
+
         #append the original to the extraction?
         if self.solution != False:
             LOG.debug('appending original!')
             for partline in (self.original_score.getElementsByClass(stream.Part)):
                 self.output_score.insert(partline)
-            
+
         for n in self.output_score.flat:
             n.color = 'blue'
 
@@ -195,7 +195,7 @@ class ExtractionWork(object):
         self.output_score.insert(0,self.fb.generateBassLine())
         self.output_fb_score.insert(0,self.fb.generateBassLine())
         #self.output_score.show()
-        
+
         #save the file
         LOG.debug('\tSaving the file!')
         self.output_score.write(fmt='musicxml', fp=str(self.output_filename))

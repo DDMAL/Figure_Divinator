@@ -1,6 +1,6 @@
 # Rules of Octaves -- currently a dummy ruleset!
 
-from rules import *
+from rules import Rule
 from music21 import interval
 from music21.figuredBass import notation
 
