@@ -297,55 +297,105 @@ class rule_crawler(object):
             chord = chunk.harmonic_content[i]
             rules = rule.harmonic_content[i]
 
+            chordstr = '  chord notes {'
+            for x in reversed(chord.pitches):
+                chordstr=chordstr + ' ' + str(x)
+            chordstr = chordstr + ' }...'
+            LOG.debug(chordstr)
+
             rbool = True
             for r in rules:
                 #Based on: http://mit.edu/music21/doc/html/moduleChord.html
                 #HANK! This is your bit to check.
 
                 if r == 'isMajor': #TODO: okay to rely on music21?
-                    if not chord.quality == 'major': rbool = False
+                    if not chord.quality == 'major':
+                        rbool = False
+                        LOG.debug('   ...don\'t pass music21\'s chord.quality==major')
+                    else:
+                        LOG.debug('   ...pass music21\'s chord.quality==major')
 
                 elif r== 'isPerfect': #TODO: okay to rely on music21?
-                    if not chord.isConsonant(): rbool = False
+                    if not chord.isConsonant():
+                        rbool = False
+                        LOG.debug('   ...don\'t pass music21\'s chord.isConsonant()')
+                    else:
+                        LOG.debug('   ...pass music21\'s chord.isConsonant()')
 
                 elif r == 'hasSix':
                     #TODO: get rid of %12 semitones if direction matters!
                     invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
-                    if 9 not in invls and 8 not in invls: rbool = False
+                    if 9 not in invls and 8 not in invls:
+                        rbool = False
+                        LOG.debug('   ...don\'t pass our hasSix()')
+                    else:
+                        LOG.debug('   ...pass our hasSix()')
 
                 elif r == 'notHasSix':
                     #TODO: get rid of %12 semitones if direction matters!
                     invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
-                    if 9 in invls or 8 in invls: rbool = False
+                    if 9 in invls or 8 in invls:
+                        rbool = False
+                        LOG.debug('   ...don\'t pass our notHasSix()')
+                    else:
+                        LOG.debug('   ...pass our notHasSix()')
 
                 elif r == 'hasSharpSix':
                     #TODO: get rid of %12 semitones if direction matters!
                     invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
-                    if not 9 in invls: rbool = False
+                    if not 9 in invls:
+                        rbool = False
+                        LOG.debug('   ...don\'t pass our hasSharpSix()')
+                    else:
+                        LOG.debug('   ...pass our hasSharpSix()')
 
                 elif r == 'hasSeventh':
                     invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
-                    if 10 not in invls and 11 not in invls: rbool = False
+                    if 10 not in invls and 11 not in invls:
+                        rbool = False
+                        LOG.debug('   ...don\'t pass our hasSeventh()')
+                    else:
+                        LOG.debug('   ...pass our hasSeventh()')
 
                 elif r == 'hasDiminishedFifth':
                     invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
-                    if 6 not in invls: rbool = False
+                    if 6 not in invls:
+                        rbool = False
+                        LOG.debug('   ...don\'t pass our hasDiminishedFifth()')
+                    else:
+                        LOG.debug('   ...pass our hasDiminishedFifth()')
 
                 elif r == 'perfectMajorTriadOkSeven': #TODO: okay to rely on music21?
                     #"chord is a Major Triad or a Dominant Seventh"
-                    if not chord.canBeDominantV(): rbool = False
+                    if not chord.canBeDominantV():
+                        rbool = False
+                        LOG.debug('   ...don\'t pass music21\'s chord.canBeDominantV()')
+                    else:
+                        LOG.debug('   ...pass music21\'s chord.canBeDominantV()')
 
                 elif r == 'minorTriadNoSeven': #TODO: okay to rely on music21?
                     #"chord is a minor triad, no 7"
-                    if not chord.isMinorTriad(): rbool = False
+                    if not chord.isMinorTriad():
+                        rbool = False
+                        LOG.debug('   ...don\'t pass music21\'s chord.isMinorTriad()')
+                    else:
+                        LOG.debug('   ...pass music21\'s chord.isMinorTriad()')
 
                 elif r == 'perfectMajorTriadNoSeven': #TODO: okay to rely on music21?
                     #"chord is a Major Triad, that is, if it contains only notes that are either in unison with the root, a major third above the root, or a perfect fifth above the root. Additionally, must contain at least one of each third and fifth above the root."
-                    if not chord.isMajorTriad(): rbool = False
+                    if not chord.isMajorTriad():
+                        rbool = False
+                        LOG.debug('   ...don\'t pass music21\'s chord.isMajorTriad()')
+                    else:
+                        LOG.debug('   ...pass music21\'s chord.isMajorTriad()')
 
                 elif r == 'perfectTriadNoSeven': #TODO: okay to rely on music21?
                     #"chord is a major or minor triad"
-                    if not chord.canBeTonic(): rbool = False
+                    if not chord.canBeTonic():
+                        rbool = False
+                        LOG.debug('   ...don\'t pass music21\'s chord.canBeTonic()')
+                    else:
+                        LOG.debug('   ...pass music21\'s chord.canBeTonic()')
 
                 else:
                     LOG.warning('Cannot yet check for rule property %s', r)
