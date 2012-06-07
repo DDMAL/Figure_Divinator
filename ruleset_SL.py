@@ -8,6 +8,7 @@ from music21.figuredBass import notation
 import logging_setup as Logging
 LOG=Logging.getLogger('rules')
 
+
 class SLRule(Rule):
     def __init__(self,size): #size=1
         Rule.__init__(self)
@@ -19,6 +20,56 @@ class SLRule(Rule):
         self.harmonic_content = [False for x in range(size)]
         self.figures = [False for x in range(size)]
         self.extras = [False for x in range(size)]
+
+
+def all_rules():
+    """
+    All rules available in the SL ruleset
+    """
+    allrules=[
+        SLRule_3(),
+        SLRule_4(),
+        SLRule_5(),
+        SLRule_6(),
+        SLRule_7(),
+        SLRule_8a(),
+        SLRule_8b(),
+        SLRule_10a(),
+        SLRule_10b(),
+        SLRule_11(),
+        SLRule_12(),
+        SLRule_13(),
+        SLRule_14(),
+        SLRule_15(),
+        SLRule_16(),
+        SLRule_17(),
+        SLRule_18(),
+        SLRule_19(),
+        SLRule_20(),
+        SLRule_21(),
+        SLRule_22(),
+        SLRule_23(),
+        SLRule_24a(),
+        SLRule_24a1(),
+        SLRule_24b1(),
+        SLRule_24b2(),
+        SLRule_24c(),
+        SLRule_24c1(),
+        SLRule_25a(),
+        SLRule_25b(),
+        SLRule_26a1(),
+        SLRule_26a2(),
+        SLRule_26b1(),
+        SLRule_26b2(),
+        SLRule_27a(),
+        SLRule_27b(),
+        SLRule_28(),
+        SLRule_29(),
+        SLRule_30(),
+        SLRule_31(),
+        SLRule_32()
+        ]
+    return allrules
 
 
 #* * * RULES * * *
