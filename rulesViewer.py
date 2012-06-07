@@ -6,8 +6,7 @@ import os
 import argparse
 import logging
 
-import rules
-
+from rule_crawler import *
 
 import logging_setup as Logging
 LOG=Logging.getLogger('rulesViewer')
@@ -62,7 +61,7 @@ if (args.viewTodo == False and args.viewSize == False and
 
 try:
     # Get the extraction rules
-    extraction_rules = rules.get_rules(ruleSet)
+    extraction_rules = get_rules(ruleSet)
 
     rules_umbrella = ""
 
@@ -138,6 +137,6 @@ try:
 
     LOG.info("* * DONE REVIEWING RULES. * *")
 
-except rules.RuleImplementationError:
-    LOG.critical("cannot find extraction rules in rules.py or rules are not all valid")
+except RuleImplementationError:
+    LOG.critical("cannot find extraction rule or rules are not all valid")
     exit(1)

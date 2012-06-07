@@ -15,10 +15,7 @@ from music21 import tinyNotation
 from music21 import note
 from music21.figuredBass import realizer
 
-#import rule dealings
-from rules import *
-# import ruleset_SL
-# import ruleset_octave
+from rule_crawler import *
 
 #Set up logging
 import logging_setup as Logging
