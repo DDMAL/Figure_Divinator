@@ -6,16 +6,16 @@ from music21 import interval
 from music21.figuredBass import notation
 
 import logging_setup as Logging
-LOG=Logging.getLogger('rules')
+LOG = Logging.getLogger('rules')
 
 
 class SLRule(Rule):
-    def __init__(self,size): #size=1
+    def __init__(self, size):  # size=1
         Rule.__init__(self)
         self.umbrella = "Saint Lambert"
         self.size = size
 
-        self.intervals = [False for x in range(size-1)]
+        self.intervals = [False for x in range(size - 1)]
         self.beats = [False for x in range(size)]
         self.harmonic_content = [False for x in range(size)]
         self.figures = [False for x in range(size)]
@@ -26,7 +26,7 @@ def all_rules():
     """
     All rules available in the SL ruleset
     """
-    allrules=[
+    allrules = [
         SLRule_3(),
         SLRule_4(),
         SLRule_5(),
@@ -88,11 +88,11 @@ class SLRule_3(SLRule):
         * Confirms that we don't want augmented unison
     """
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
         self.todo = 'interval to diatonic!'
 
         #Conditions:
-        self.intervals[0] = [interval.ChromaticInterval(1)] #TODO:diatonic semitone
+        self.intervals[0] = [interval.ChromaticInterval(1)]  # TODO:diatonic semitone
 
         #Figures:
         self.figures[0] = notation.Notation('6,5-,3')
@@ -111,11 +111,11 @@ class SLRule_4(SLRule):
         * Second gets 6 (l'accord double)
     """
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
         self.todo = 'interval to diatonic!'
 
         #Conditions:
-        self.intervals[0] = [interval.ChromaticInterval(1)] #TODO:diatonic semitone
+        self.intervals[0] = [interval.ChromaticInterval(1)]  # TODO:diatonic semitone
         self.harmonic_content[0] = ['perfectMajorTriadOkSeven']
 
         #Figures:
@@ -136,11 +136,11 @@ class SLRule_5(SLRule):
         * Second note gets a 5,3+
     """
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
         self.todo = 'interval to diatonic'
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-1)] #TODOdiatonic
+        self.intervals[0] = [interval.ChromaticInterval(-1)]  # TODOdiatonic
         self.beats[1] = [1]
         self.harmonic_content[1] = ['perfectMajorTriadNoSeven']
 
@@ -162,15 +162,15 @@ class SLRule_6(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
         self.todo = 'diatonic'
 
         #Conditions:
-        self.intervals[0] = [interval.ChromaticInterval(1)] #TODOdiatonic
+        self.intervals[0] = [interval.ChromaticInterval(1)]  # TODOdiatonic
         self.harmonic_content[0] = ['hasSharpSix']
 
         #Figures:
-        self.figures[0] = notation.Notation('6+') #TODO'6+,(4),(3)')
+        self.figures[0] = notation.Notation('6+')  # TODO'6+,(4),(3)')
         self.figures[1] = notation.Notation('6')
 
 
@@ -190,7 +190,7 @@ class SLRule_7(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-3)]
@@ -216,7 +216,7 @@ class SLRule_8a(SLRule):
         * Hank might yank!
     """
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
 
         #Conditions
         self.extras[0] = ['accidental:flat']
@@ -243,7 +243,7 @@ class SLRule_8b(SLRule):
         * Hank might yank!
     """
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-3)]
@@ -271,7 +271,7 @@ class SLRule_10a(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-4)]
@@ -298,7 +298,7 @@ class SLRule_10b(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(4)]
@@ -322,7 +322,7 @@ class SLRule_11(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-3),
@@ -346,7 +346,7 @@ class SLRule_12(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-6)]
@@ -369,7 +369,7 @@ class SLRule_13(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(3),
@@ -397,11 +397,11 @@ class SLRule_14(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(1),interval.ChromaticInterval(2)]
-        self.intervals[1] = [interval.ChromaticInterval(1),interval.ChromaticInterval(2)]
+        self.intervals[0] = [interval.ChromaticInterval(1), interval.ChromaticInterval(2)]
+        self.intervals[1] = [interval.ChromaticInterval(1), interval.ChromaticInterval(2)]
         self.harmonic_content[2] = ['perfectMajorTriadNoSeven']
 
         #Figures
@@ -422,7 +422,7 @@ class SLRule_15(SLRule):
         * 3rd gets a 6
     """
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -449,7 +449,7 @@ class SLRule_16(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
         self.todo = "Notation: '-' represents '-' not figures!"
 
         #Conditions
@@ -478,7 +478,7 @@ class SLRule_17(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-3),
@@ -506,7 +506,7 @@ class SLRule_18(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-3)]
@@ -533,7 +533,7 @@ class SLRule_19(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-4)]
@@ -560,7 +560,7 @@ class SLRule_20(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
         self.todo = "Ambiguous figure application"
 
         #Conditions
@@ -589,7 +589,7 @@ class SLRule_21(SLRule):
         * 3rd note gets perfect triad
     """
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(0)]
@@ -617,7 +617,7 @@ class SLRule_22(SLRule):
         * 3rd gets 53
     """
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(0)]
@@ -647,7 +647,7 @@ class SLRule_23(SLRule):
         * 4th note gets (53)
     """
     def __init__(self):
-        SLRule.__init__(self,4)
+        SLRule.__init__(self, 4)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(2)]
@@ -682,7 +682,7 @@ class SLRule_24a(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,4)
+        SLRule.__init__(self, 4)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-1)]
@@ -693,7 +693,7 @@ class SLRule_24a(SLRule):
         #Figures
         self.figures[0] = notation.Notation('5,3')
         self.figures[1] = notation.Notation('6')
-        self.figures[2] = notation.Notation('6+') #TODO'6+(5-)')
+        self.figures[2] = notation.Notation('6+')  # TODO'6+(5-)')
         self.figures[3] = notation.Notation('5,3+')
 
 
@@ -715,7 +715,7 @@ class SLRule_24a1(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,4)
+        SLRule.__init__(self, 4)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-1)]
@@ -727,7 +727,7 @@ class SLRule_24a1(SLRule):
         #Figures
         self.figures[0] = notation.Notation('5,3')
         self.figures[1] = notation.Notation('6,4,2')
-        self.figures[2] = notation.Notation('6+') #TODO'6+(5-)')
+        self.figures[2] = notation.Notation('6+')  # TODO'6+(5-)')
         self.figures[3] = notation.Notation('5,3+')
 
 
@@ -752,7 +752,7 @@ class SLRule_24b1(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,4)
+        SLRule.__init__(self, 4)
         self.todo = "triad with or without 7?"
 
         #Conditions
@@ -760,7 +760,7 @@ class SLRule_24b1(SLRule):
         self.intervals[1] = [interval.ChromaticInterval(-1)]
         self.intervals[2] = [interval.ChromaticInterval(-2)]
         self.beats[3] = [1]
-        self.harmonic_content[0] = ['perfectMajorTriadNoSeven'] #TODO-maybewrong
+        self.harmonic_content[0] = ['perfectMajorTriadNoSeven']  # TODO-maybewrong
 
         #Figures
         self.figures[0] = notation.Notation('5,3+')
@@ -790,7 +790,7 @@ class SLRule_24b2(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,4)
+        SLRule.__init__(self, 4)
         self.todo = "minor triad has seven?"
 
         #Conditions
@@ -798,7 +798,7 @@ class SLRule_24b2(SLRule):
         self.intervals[1] = [interval.ChromaticInterval(-1)]
         self.intervals[2] = [interval.ChromaticInterval(-2)]
         self.beats[3] = [1]
-        self.harmonic_content[0] = ['minorTriadNoSeven'] #TODO-maybewrong
+        self.harmonic_content[0] = ['minorTriadNoSeven']  # TODO-maybewrong
 
         #Figures
         self.figures[0] = notation.Notation('5,3+')
@@ -827,7 +827,7 @@ class SLRule_24c(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,4)
+        SLRule.__init__(self, 4)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -865,7 +865,7 @@ class SLRule_24c1(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,4)
+        SLRule.__init__(self, 4)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -877,7 +877,7 @@ class SLRule_24c1(SLRule):
         #Figures
         self.figures[0] = notation.Notation('5,3-')
         self.figures[1] = notation.Notation('6,4,2')
-        self.figures[2] = ['split',notation.Notation('7,5'),
+        self.figures[2] = ['split', notation.Notation('7,5'),
                             notation.Notation('6,4,3')]
         self.figures[3] = notation.Notation('5,3+')
 
@@ -908,7 +908,7 @@ class SLRule_25a(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,5)
+        SLRule.__init__(self, 5)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -953,7 +953,7 @@ class SLRule_25b(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,5)
+        SLRule.__init__(self, 5)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -994,7 +994,7 @@ class SLRule_26a1(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,6)
+        SLRule.__init__(self, 6)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -1035,7 +1035,7 @@ class SLRule_26a2(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,6)
+        SLRule.__init__(self, 6)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -1077,7 +1077,7 @@ class SLRule_26b1(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,6)
+        SLRule.__init__(self, 6)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -1094,6 +1094,7 @@ class SLRule_26b1(SLRule):
         self.figures[3] = notation.Notation('6+')
         self.figures[4] = notation.Notation('5,3')
         self.figures[5] = notation.Notation('6')
+
 
 class SLRule_26b2(SLRule):
     """
@@ -1117,7 +1118,7 @@ class SLRule_26b2(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,6)
+        SLRule.__init__(self, 6)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-2)]
@@ -1159,7 +1160,7 @@ class SLRule_27a(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,5)
+        SLRule.__init__(self, 5)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(2)]
@@ -1195,7 +1196,7 @@ class SLRule_27b(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,5)
+        SLRule.__init__(self, 5)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(2)]
@@ -1229,7 +1230,7 @@ class SLRule_28(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(12),
@@ -1263,7 +1264,7 @@ class SLRule_29(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
 
         #Conditions
         self.intervals[0] = [interval.ChromaticInterval(-7),
@@ -1293,7 +1294,7 @@ class SLRule_30(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,2)
+        SLRule.__init__(self, 2)
 
         #Conditions
         self.extras[0] = ['duration:shortAgainstSignature']
@@ -1301,7 +1302,7 @@ class SLRule_30(SLRule):
         self.beats[1] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+') #'5,3+(7)')
+        self.figures[0] = notation.Notation('5,3+')  # '5,3+(7)')
         self.figures[1] = notation.Notation('5,3')
 
 
@@ -1323,7 +1324,7 @@ class SLRule_31(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
 
         #Conditions
         self.extras[0] = ['duration:two']
@@ -1333,6 +1334,7 @@ class SLRule_31(SLRule):
         self.figures[0] = notation.Notation('5,4')
         self.figures[1] = notation.Notation('7,5,3+')
         self.figures[2] = notation.Notation('5,3')
+
 
 class SLRule_32(SLRule):
     """
@@ -1355,10 +1357,10 @@ class SLRule_32(SLRule):
     """
 
     def __init__(self):
-        SLRule.__init__(self,3)
+        SLRule.__init__(self, 3)
 
         #Conditions
-        self.extras[0] = ['duration:two','meter:triple']
+        self.extras[0] = ['duration:two', 'meter:triple']
         self.beats[1] = [1]
 
         #Figures

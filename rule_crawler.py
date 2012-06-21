@@ -9,15 +9,17 @@ from music21 import chord
 from rules import Rule
 
 import logging_setup as Logging
-LOG=Logging.getLogger('rules')
+LOG = Logging.getLogger('rules')
 
 
 #* * *IMPORT ALL POSSIBLE RULESETS* * *
 import ruleset_SL as SL
 import ruleset_octave as octave
 
+
 class RuleImplementationError(Exception):
     pass
+
 
 #Get specific rules
 def get_rules(ruleset):
@@ -40,9 +42,9 @@ def get_rules(ruleset):
 
     # Test the list of rules (make sure they're all rules!)
     try:
-        if not len(extraction_rules)>0:
+        if not len(extraction_rules) > 0:
             raise
-        if not all([isinstance(x,Rule) for x in extraction_rules]):
+        if not all([isinstance(x, Rule) for x in extraction_rules]):
             raise
     except:
         raise RuleImplementationError()
@@ -253,13 +255,15 @@ class rule_crawler(object):
         self.total_length = len(self.score._bassline.flat.getElementsByClass(note.Note))
         self.rule_min = self.total_length
 
-    def _load_rules(self,incomingrules):
+    def _load_rules(self, incomingrules):
         self.ruleset = get_rules(incomingrules)
         for rule in self.ruleset:
-            if rule.size > self.rule_max: self.rule_max = rule.size
-            if rule.size < self.rule_min: self.rule_min = rule.size
+            if rule.size > self.rule_max:
+                self.rule_max = rule.size
+            if rule.size < self.rule_min:
+                self.rule_min = rule.size
 
-    def _chunkify(self,start_index,end_index):
+    def _chunkify(self, start_index, end_index):
         L = end_index - start_index
         bassfull = self.score._bassline.flat.getElementsByClass(note.Note)
         chunk = bassfull[start_index:end_index]
@@ -267,9 +271,9 @@ class rule_crawler(object):
         chunk.start_beat = chunk[0].beat
 
         #Get intervals
-        chunk.intervals = [False for x in range(L-1)]
-        for x in range(L-1):
-            chunk.intervals[x] = interval.Interval(noteStart=chunk[x],noteEnd=chunk[x+1])
+        chunk.intervals = [False for x in range(L - 1)]
+        for x in range(L - 1):
+            chunk.intervals[x] = interval.Interval(noteStart=chunk[x], noteEnd=chunk[x + 1])
 
         #Get beats
         chunk.beats = [x.beat for x in chunk]
@@ -283,15 +287,17 @@ class rule_crawler(object):
             chunk.harmonic_content[x] = c
 
         #Get additional info
-        chunk.extras = [] #TODO-2ndTier
-        chunk.figures = [] #TODO-2ndTier
+        chunk.extras = []  # TODO-2ndTier
+        chunk.figures = []  # TODO-2ndTier
 
         #Display output
         istring = ''
-        for i in chunk.intervals: istring = istring + str(i.directedName)
+        for i in chunk.intervals:
+            istring = istring + str(i.directedName)
 
         cstring = ''
-        for i in chunk.harmonic_content: cstring = cstring + str(i.pitches)
+        for i in chunk.harmonic_content:
+            cstring = cstring + str(i.pitches)
 
         LOG.info('CHUNK@ measure %s, beat %s (Length %s)\n\t indecies: %s-%s \n\tintervals: %s;'
                     ' \n\t    beats: %s; \n\t   chords: %s',
@@ -300,23 +306,26 @@ class rule_crawler(object):
                     str(chunk.beats), cstring)
         return chunk
 
-    def check_intervals(self,chunk,rule):
+    def check_intervals(self, chunk, rule):
         #Note: currently only checks chromatic intervals
         for i in range(rule.size - 1):
 
             #If the rule doesn't care about this note's interval, next up!
-            if not rule.intervals[i]: continue
+            if not rule.intervals[i]:
+                continue
 
             #If the chunk doesn't fit this rule's interval, return false
-            if chunk.intervals[i].chromatic not in rule.intervals[i]: return False
+            if chunk.intervals[i].chromatic not in rule.intervals[i]:
+                return False
 
         return True
 
-    def check_qualities(self,chunk,rule):
+    def check_qualities(self, chunk, rule):
         for i in range(rule.size):
 
             #If the rule doesn't care about this note's quality, next up!
-            if not rule.harmonic_content[i]: continue
+            if not rule.harmonic_content[i]:
+                continue
 
             #Easier names
             chord = chunk.harmonic_content[i]
@@ -324,7 +333,7 @@ class rule_crawler(object):
 
             chordstr = '  chord notes {'
             for x in reversed(chord.pitches):
-                chordstr=chordstr + ' ' + str(x)
+                chordstr = chordstr + ' ' + str(x)
             chordstr = chordstr + ' }...'
             LOG.debug(chordstr)
 
@@ -333,14 +342,14 @@ class rule_crawler(object):
                 #Based on: http://mit.edu/music21/doc/html/moduleChord.html
                 #HANK! This is your bit to check.
 
-                if r == 'isMajor': #TODO: okay to rely on music21?
+                if r == 'isMajor':  # TODO: okay to rely on music21?
                     if not chord.quality == 'major':
                         rbool = False
                         LOG.debug('   ...don\'t pass music21\'s chord.quality==major')
                     else:
                         LOG.debug('   ...pass music21\'s chord.quality==major')
 
-                elif r== 'isPerfect': #TODO: okay to rely on music21?
+                elif r == 'isPerfect':  # TODO: okay to rely on music21?
                     if not chord.isConsonant():
                         rbool = False
                         LOG.debug('   ...don\'t pass music21\'s chord.isConsonant()')
@@ -349,7 +358,7 @@ class rule_crawler(object):
 
                 elif r == 'hasSix':
                     #TODO: get rid of %12 semitones if direction matters!
-                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
+                    invls = [interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                     if 9 not in invls and 8 not in invls:
                         rbool = False
                         LOG.debug('   ...don\'t pass our hasSix()')
@@ -358,7 +367,7 @@ class rule_crawler(object):
 
                 elif r == 'notHasSix':
                     #TODO: get rid of %12 semitones if direction matters!
-                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
+                    invls = [interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                     if 9 in invls or 8 in invls:
                         rbool = False
                         LOG.debug('   ...don\'t pass our notHasSix()')
@@ -367,7 +376,7 @@ class rule_crawler(object):
 
                 elif r == 'hasSharpSix':
                     #TODO: get rid of %12 semitones if direction matters!
-                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
+                    invls = [interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                     if not 9 in invls:
                         rbool = False
                         LOG.debug('   ...don\'t pass our hasSharpSix()')
@@ -375,7 +384,7 @@ class rule_crawler(object):
                         LOG.debug('   ...pass our hasSharpSix()')
 
                 elif r == 'hasSeventh':
-                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
+                    invls = [interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                     if 10 not in invls and 11 not in invls:
                         rbool = False
                         LOG.debug('   ...don\'t pass our hasSeventh()')
@@ -383,14 +392,14 @@ class rule_crawler(object):
                         LOG.debug('   ...pass our hasSeventh()')
 
                 elif r == 'hasDiminishedFifth':
-                    invls = [interval.Interval(noteStart=chunk[i],noteEnd=p).semitones%12 for p in chord.pitches]
+                    invls = [interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                     if 6 not in invls:
                         rbool = False
                         LOG.debug('   ...don\'t pass our hasDiminishedFifth()')
                     else:
                         LOG.debug('   ...pass our hasDiminishedFifth()')
 
-                elif r == 'perfectMajorTriadOkSeven': #TODO: okay to rely on music21?
+                elif r == 'perfectMajorTriadOkSeven':  # TODO: okay to rely on music21?
                     #"chord is a Major Triad or a Dominant Seventh"
                     if not chord.canBeDominantV():
                         rbool = False
@@ -398,7 +407,7 @@ class rule_crawler(object):
                     else:
                         LOG.debug('   ...pass music21\'s chord.canBeDominantV()')
 
-                elif r == 'minorTriadNoSeven': #TODO: okay to rely on music21?
+                elif r == 'minorTriadNoSeven':  # TODO: okay to rely on music21?
                     #"chord is a minor triad, no 7"
                     if not chord.isMinorTriad():
                         rbool = False
@@ -406,7 +415,7 @@ class rule_crawler(object):
                     else:
                         LOG.debug('   ...pass music21\'s chord.isMinorTriad()')
 
-                elif r == 'perfectMajorTriadNoSeven': #TODO: okay to rely on music21?
+                elif r == 'perfectMajorTriadNoSeven':  # TODO: okay to rely on music21?
                     #"chord is a Major Triad, that is, if it contains only notes that are either in unison with the root, a major third above the root, or a perfect fifth above the root. Additionally, must contain at least one of each third and fifth above the root."
                     if not chord.isMajorTriad():
                         rbool = False
@@ -414,7 +423,7 @@ class rule_crawler(object):
                     else:
                         LOG.debug('   ...pass music21\'s chord.isMajorTriad()')
 
-                elif r == 'perfectTriadNoSeven': #TODO: okay to rely on music21?
+                elif r == 'perfectTriadNoSeven':  # TODO: okay to rely on music21?
                     #"chord is a major or minor triad"
                     if not chord.canBeTonic():
                         rbool = False
@@ -426,59 +435,63 @@ class rule_crawler(object):
                     LOG.warning('Cannot yet check for rule property %s', r)
 
             #If the chunk doesn't fit this rule's quality, return false
-            if rbool == False: return False
+            if rbool == False:
+                return False
 
         return True
 
-    def check_beats(self,chunk,rule):
+    def check_beats(self, chunk, rule):
         for i in range(rule.size):
 
             #If the rule doesn't care about this note's beat, next up!
-            if not rule.beats[i]: continue
+            if not rule.beats[i]:
+                continue
 
             #If the chunk doesn't fit this rule's beat needs, return false
-            if chunk.beats[i] not in rule.beats[i]: return False
+            if chunk.beats[i] not in rule.beats[i]:
+                return False
 
         return True
 
-    def check_extras(self,chunk,rule): #TODO-2ndTier-currently all false
+    def check_extras(self, chunk, rule):  # TODO-2ndTier-currently all false
         for i in range(rule.size):
 
             #If the rule doesn't care about this note's extras, next up!
-            if not rule.extras[i]: continue
+            if not rule.extras[i]:
+                continue
 
-            rbool = False #True
+            rbool = False  # True
             for e in rule.extras[i]:
 
-                if e == 'accidental:flat': #TODO
+                if e == 'accidental:flat':  # TODO
                     pass
                     #if not chord.quality == 'major': rbool = False
 
-                elif e == 'accidental:sharp': #TODO
+                elif e == 'accidental:sharp':  # TODO
                     pass
                     #if not chord.quality == 'major': rbool = False
 
-                elif e == 'scale:on5th': #TODO
+                elif e == 'scale:on5th':  # TODO
                     pass
                     #if not chord.quality == 'major': rbool = False
 
-                elif e == 'duration:two': #TODO  ("working hypothesis": half a measure in length or bigger or worth two of the denominator of the time signature)
+                elif e == 'duration:two':  # TODO  ("working hypothesis": half a measure in length or bigger or worth two of the denominator of the time signature)
                     pass
                     #if not chord.isConsonant(): rbool = False
 
-                elif e == 'duration:lessThanPreceding': #TODO
+                elif e == 'duration:lessThanPreceding':  # TODO
                     pass
                     #if not chord.isConsonant(): rbool = False
 
-                elif e == 'duration:twicePreviousTwo': #TODO
+                elif e == 'duration:twicePreviousTwo':  # TODO
                     pass
                     #if not chord.isConsonant(): rbool = False
 
-                elif e == 'duration:shortAgainstSignature': #TODO #either only one or half of the denominator
+                elif e == 'duration:shortAgainstSignature':  # TODO #either only one or half of the denominator
                     pass
                     #if not chord.isConsonant(): rbool = False
 
-                elif e == 'meter:triple': #TODO
+                elif e == 'meter:triple':  # TODO
                     pass
                     #if not chord.isConsonant(): rbool = False
 
@@ -486,22 +499,22 @@ class rule_crawler(object):
                     LOG.warning('Cannot yet check for rule extra %s', e)
 
             #If the chunk doesn't fit this rule's extras, return false
-            if rbool == False: return False
+            if rbool == False:
+                return False
 
         return True
 
-
-    def check_pre_figures(self,chunk,rule): #TODO-2ndTier
+    def check_pre_figures(self, chunk, rule):  # TODO-2ndTier
         """Make sure there are no conflicts with pre-existing figures."""
         return True
 
-    def test_rule(self,chunk,rule):
+    def test_rule(self, chunk, rule):
         if (
-            self.check_intervals(chunk,rule) and
-            self.check_qualities(chunk,rule) and
-            self.check_beats(chunk,rule) and
-            self.check_extras(chunk,rule) and
-            self.check_pre_figures(chunk,rule)
+            self.check_intervals(chunk, rule) and
+            self.check_qualities(chunk, rule) and
+            self.check_beats(chunk, rule) and
+            self.check_extras(chunk, rule) and
+            self.check_pre_figures(chunk, rule)
             ):
             return rule.figures
         else:
