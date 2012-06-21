@@ -131,20 +131,20 @@ class ExtractionWork(object):
         #Process the bassline?
         self.process_bassline()
 
-
         #Set up the figure strings:
         basslength = len(self._bassline.flat.getElementsByClass(note.Note))
         self._fb_figureString = ['+++' for x in range(basslength)]
 
         #Run through rules
         ruler = rule_crawler(self)
+        ruler.full_check_rules()
         ruler.full_apply_rules()
 
         #temp rules:
         for i in range(basslength):
             n = self._bassline.flat.getElementsByClass(note.Note)[i]
             f = self._fb_figureString[i]
-            self.fb.addElement(n,f)
+            self.fb.addElement(n, f)
 
         self.fb  = realizer.figuredBassFromStream(self._bassline)
         return object

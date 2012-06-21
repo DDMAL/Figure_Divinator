@@ -67,67 +67,88 @@ def get_rules(ruleset):
     # major sixth:       interval.ChromaticInterval(9)
 
 class rule_crawler(object):
-    def __init__(self, extraction_work,**kwargs):
+    def __init__(self, extraction_work, **kwargs):
         self.score = extraction_work
-        self.ruleset = []
+        self.ruleset = []  # TODO  = kwargs.get('ruleset', [])
         #self.direction = kwargs.get('direction','backward')
 
         self.total_length = len(self.score._bassline.flat.getElementsByClass(note.Note))
         self.rule_max = 0
         self.rule_min = 0
+        self.possible_rules = [{} for i in range(self.total_length)]
 
         self._load_score()
         self._load_rules(extraction_work.ruleset)
 
+    def full_check_rules(self):
+        LOG.info("\n* * * Matching rules to score: %s * * *", self.score.title)
+
+        #Initialize temporary variables
+        L = self.rule_max
+        c_start = 0
+
+        #Loop through the entire score
+        while c_start <= self.total_length - self.rule_min:
+            # Make sure length of score isn't exceeded by length of rules
+            while c_start + L > self.total_length:
+                L = L - 1
+
+            #Create chunk and it's possible rule array
+            chunk = self._chunkify(c_start, c_start + L)
+            poss_rules = self.possible_rules[c_start]
+
+            #Test each rule in the ruleset on it
+            for rule in self.ruleset:
+                if rule.size <= L:
+                    if not self.test_rule(chunk, rule):
+                        continue
+
+                    LOG.info('  Passes: Rule %s.',
+                        rule.__class__.__name__)
+
+                    #Add figures to dictionary
+                    poss_rules[rule] = rule.figures
+
+            #If the chunk didn't get any rules, say so
+            if len(poss_rules) == 0:
+                LOG.info('  Passed no rules.')
+
+            #Increase start index
+            c_start = c_start + 1
 
     def full_apply_rules(self):
-        LOG.info("\n* * * Applying rules to score: %s * * *", self.score.title)
+        c_start = 0  # TODO -- go through all chunks, not just first one! :)
+        poss_rules = self.possible_rules[c_start]
 
-        #Get a chunk!
-        L = self.total_length #TODO - cheater method! :)
-        c_start = 0
-        c_end = 0+L
-        chunk = self._chunkify(c_start,c_end)
-        poss_rules = {}
+        #Is there a choice of rules at this start?
+        if len(poss_rules) > 0:
+            LOG.info("\n* * * Applying rules * * *")
+            #Determine which rule to actually apply to the chunk
+            while len(poss_rules) > 1:
+                ruleA = poss_rules.keys()[0]
+                ruleB = poss_rules.keys()[1]
+                winner, loser = self.compare_rules(ruleA, ruleB)
+                del poss_rules[loser]
+            this_rule = poss_rules.keys()[0]
+            these_figures = poss_rules.values()[0]
+            LOG.info('  -> Applied %s.',
+                        this_rule.__class__.__name__)
 
-        #Test each rule in the ruleset on it
-        for rule in self.ruleset:
-            if rule.size == L:
-                if not self.test_rule(chunk,rule): continue
+            #Apply it
+            for x in range(len(these_figures)):
+                if these_figures[x]:
+                    try:
+                        self.score._fb_figureString[c_start + x] = these_figures[x].notationColumn
+                    except AttributeError as e:
+                        print e
+                        print 'split note? ' + str(these_figures[x])
+                    #TODO - deal with split notes
 
-                LOG.info('  Passes: Rule %s.',
-                    rule.__class__.__name__)
+            LOG.info("\n* * * * * * * * * * * * * *.")
+        else:
+            LOG.info("\n* * * No rules to apply to score. * * *")
 
-                #Add figures to dictionary
-                poss_rules[rule] = rule.figures
-
-        #If the chunk didn't get any rules, our work is done here
-        if len(poss_rules)==0:
-            LOG.info('  Passed no rules, applying no figures.')
-            return
-
-        #Determine which rule to actually apply to the chunk
-        while len(poss_rules) > 1:
-            ruleA = poss_rules.keys()[0]
-            ruleB = poss_rules.keys()[1]
-            winner,loser = self.compare_rules(ruleA,ruleB)
-            del poss_rules[loser]
-        this_rule = poss_rules.keys()[0]
-        these_figures = poss_rules.values()[0]
-        LOG.info('  -> Applied %s.',
-                    this_rule.__class__.__name__)
-
-        #Apply it
-        for x in range(len(these_figures)):
-            if these_figures[x]:
-                try:
-                    self.score._fb_figureString[c_start+x] = these_figures[x].notationColumn
-                except:
-                    print 'split note? ' + str(these_figures[x])
-                #TODO - deal with split notes
-
-
-    def compare_rules(self,ruleA,ruleB):
+    def compare_rules(self, ruleA, ruleB):
         #NOTE: right now, gives winner and loser
         #TODO: needs to take into account figure equivalences
         #TODO: assumes rules are same length
