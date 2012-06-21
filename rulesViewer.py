@@ -121,12 +121,12 @@ try:
                 named = True
             try:
                 figstr = '[' + rule.figures[0].notationColumn + ']'
-            except:
+            except:  # TODO - figure out type of exception
                 figstr = '[NA]'
                 for i in range(1, len(rule.figures)):
                     try:
                         figstr = figstr + '; [' + rule.figures[i].notationColumn + ']'
-                    except:
+                    except:  # TODO - figure out type of exception
                         figstr = figstr + '; [NA]'
 
             LOG.info("       figures: " + figstr)

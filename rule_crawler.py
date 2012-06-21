@@ -37,7 +37,7 @@ def get_rules(ruleset):
             try:
                 new_rule = globals()[rule]()
                 extraction_rules.append(new_rule)
-            except:
+            except:  # TODO - figure out type of exception
                 raise RuleImplementationError()
 
     # Test the list of rules (make sure they're all rules!)
@@ -46,7 +46,7 @@ def get_rules(ruleset):
             raise
         if not all([isinstance(x, Rule) for x in extraction_rules]):
             raise
-    except:
+    except:  # TODO - figure out type of exception
         raise RuleImplementationError()
 
     return extraction_rules

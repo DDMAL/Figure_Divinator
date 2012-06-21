@@ -88,18 +88,18 @@ class ExtractionWork(object):
         # Open score with Music21
         try:
             self.original_score = converter.parse(self.input_filename)
-        except:
+        except:  # TODO - figure out type of exception
             raise InputError('Score is not compatible with Music21 input formats')
 
         # Collect metadata
         try:
             self.title = self.original_score.metadata.title
-        except:
+        except:  # TODO - figure out type of exception
             self.title = str(score_input)
 
         try:
             self.composer = self.original_score.metadata.composer
-        except:
+        except:  # TODO - figure out type of exception
             self.composer = ' - '
 
         #Chordify
@@ -112,13 +112,13 @@ class ExtractionWork(object):
             self._bassline = copy.deepcopy(self.original_score['bass'])
             LOG.debug('Bassline is pre-labeled bass line')
 
-        except:
+        except:  # TODO - figure out type of exception
             try:
                 #Get all of lowest staff
                 i = len(self.original_score.getElementsByClass(stream.Part)) - 1
                 self._bassline = copy.deepcopy(self.original_score.getElementsByClass(stream.Part)[i])
                 LOG.debug('Bassline is lowest part')
-            except:
+            except:  # TODO - figure out type of exception
                 raise InputError('Cannot extract bass line from score')
 
     def process_bassline(self):
@@ -207,7 +207,7 @@ class ExtractionWork(object):
                 #new_score.show()
                 self.output_score.show()
                 LOG.info('Displaying output if xml viewer has been installed.')
-            except:
+            except:  # TODO - figure out type of exception
                 LOG.info('Unable to show .xml output through MusicXML,')
                 LOG.info('try opening the file directly.')
         else:
