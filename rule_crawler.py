@@ -114,7 +114,7 @@ class rule_crawler(object):
             del poss_rules[loser]
         this_rule = poss_rules.keys()[0]
         these_figures = poss_rules.values()[0]
-        LOG.info('  Applied %s.',
+        LOG.info('  -> Applied %s.',
                     this_rule.__class__.__name__)
 
         #Apply it
@@ -221,9 +221,9 @@ class rule_crawler(object):
             winner = ruleA
             reason = 'random assignment'
 
-        LOG.info(' Compared %s and %s:',
+        LOG.info('  Compared %s and %s:',
                     ruleA.__class__.__name__, ruleB.__class__.__name__,)
-        LOG.info('   %s trumps because of %s.',
+        LOG.info('    %s trumps because of %s.',
                     winner.__class__.__name__, reason)
 
         return winner, loser
@@ -242,6 +242,8 @@ class rule_crawler(object):
         L = end_index - start_index
         bassfull = self.score._bassline.flat.getElementsByClass(note.Note)
         chunk = bassfull[start_index:end_index]
+        chunk.start_measure = chunk[0].measureNumber
+        chunk.start_beat = chunk[0].beat
 
         #Get intervals
         chunk.intervals = [False for x in range(L-1)]
@@ -270,9 +272,11 @@ class rule_crawler(object):
         cstring = ''
         for i in chunk.harmonic_content: cstring = cstring + str(i.pitches)
 
-        LOG.info('CHUNK@ %s-%s (%s): \n\tintervals: %s; \n\t    beats: %s; \n\t   chords: %s', str(start_index), str(end_index), str(L), istring,
-                    str(chunk.beats),
-                    cstring)
+        LOG.info('CHUNK@ measure %s, beat %s (Length %s)\n\t indecies: %s-%s \n\tintervals: %s;'
+                    ' \n\t    beats: %s; \n\t   chords: %s',
+                    str(chunk.start_measure), str(chunk.start_beat), str(L),
+                    str(start_index), str(end_index), istring,
+                    str(chunk.beats), cstring)
         return chunk
 
     def check_intervals(self,chunk,rule):
