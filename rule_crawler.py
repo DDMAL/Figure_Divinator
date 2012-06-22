@@ -11,6 +11,17 @@ from rules import Rule
 import logging_setup as Logging
 LOG = Logging.getLogger('rules')
 
+#Planning to plot rules?
+plottable = True
+try:
+    from mpl_toolkits.mplot3d import Axes3D
+    from matplotlib.collections import PolyCollection
+    from matplotlib.colors import colorConverter
+    import matplotlib.pyplot as plt
+    import numpy as np
+except ImportError as e:
+    plottable = False
+
 
 #* * *IMPORT ALL POSSIBLE RULESETS* * *
 import ruleset_SL as SL
@@ -50,6 +61,14 @@ def get_rules(ruleset):
         raise RuleImplementationError()
 
     return extraction_rules
+
+
+def plot_rules(self):
+    if not plottable:
+        LOG.warning("Can't plot; make sure numpy and matplotlib are installed!")
+        return
+    LOG.debug("Plotting rules!")
+    fig = plt.figure()
 
 
 #* * * * Interval key:
@@ -105,8 +124,8 @@ class rule_crawler(object):
                     if not self.test_rule(chunk, rule):
                         continue
 
-                    LOG.info('  Passes: Rule %s.',
-                        rule.__class__.__name__)
+                    LOG.info('  Passes: Rule %s (length %s).',
+                        rule.__class__.__name__, str(rule.size))
 
                     #Add figures to dictionary
                     poss_rules[rule] = rule.figures
@@ -299,9 +318,9 @@ class rule_crawler(object):
         for i in chunk.harmonic_content:
             cstring = cstring + str(i.pitches)
 
-        LOG.info('CHUNK@ measure %s, beat %s (Length %s)\n\t indecies: %s-%s \n\tintervals: %s;'
+        LOG.info('CHUNK@ measure %s, beat %s\n\t indecies: %s-%s \n\tintervals: %s;'
                     ' \n\t    beats: %s; \n\t   chords: %s',
-                    str(chunk.start_measure), str(chunk.start_beat), str(L),
+                    str(chunk.start_measure), str(chunk.start_beat),
                     str(start_index), str(end_index), istring,
                     str(chunk.beats), cstring)
         return chunk
@@ -519,3 +538,4 @@ class rule_crawler(object):
             return rule.figures
         else:
             return False
+
