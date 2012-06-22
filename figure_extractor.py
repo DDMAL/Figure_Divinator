@@ -164,10 +164,9 @@ class ExtractionWork(object):
     def append_to_extraction(self):
 
         #append the original to the extraction?
-        if self.solution != False:
-            LOG.debug('appending original!')
-            for partline in (self.original_score.getElementsByClass(stream.Part)):
-                self.output_score.insert(partline)
+        LOG.debug('appending original!')
+        for partline in (self.original_score.getElementsByClass(stream.Part)):
+            self.output_score.insert(partline)
 
         for n in self.output_score.flat:
             n.color = 'blue'
@@ -188,8 +187,7 @@ class ExtractionWork(object):
 
         #Showing solution and/or original with old?
         #append original score and/or solution to test file
-        if self.solution != False:
-            self.append_to_extraction()
+        self.append_to_extraction()
 
         #Make score from bassline
         self.output_score.insert(0, self.fb.generateBassLine())
