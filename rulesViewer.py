@@ -9,10 +9,12 @@ import logging
 from rule_crawler import *
 
 import logging_setup as Logging
-LOG=Logging.getLogger('rulesViewer')
+LOG = Logging.getLogger('rulesViewer')
+
 
 class FileNotFoundError(Exception):
     pass
+
 
 class InputError(Exception):
     pass
@@ -89,7 +91,8 @@ try:
             for i in range(len(rule.intervals)):
                 intstr = intstr + '{'
                 for j in range(len(rule.intervals[i])):
-                    if j>0: intstr = intstr + ' or '
+                    if j > 0:
+                        intstr = intstr + ' or '
                     intstr = intstr + str(rule.intervals[i][j].simpleDirected)
                 intstr = intstr + '} '
             LOG.info("     intervals: " + intstr)
@@ -118,14 +121,13 @@ try:
                 named = True
             try:
                 figstr = '[' + rule.figures[0].notationColumn + ']'
-            except:
+            except:  # TODO - figure out type of exception
                 figstr = '[NA]'
-                for i in range(1,len(rule.figures)):
+                for i in range(1, len(rule.figures)):
                     try:
                         figstr = figstr + '; [' + rule.figures[i].notationColumn + ']'
-                    except:
+                    except:  # TODO - figure out type of exception
                         figstr = figstr + '; [NA]'
-
 
             LOG.info("       figures: " + figstr)
 

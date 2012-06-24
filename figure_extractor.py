@@ -19,7 +19,8 @@ from rule_crawler import *
 
 #Set up logging
 import logging_setup as Logging
-LOG=Logging.getLogger('f_extractor')
+LOG = Logging.getLogger('f_extractor')
+
 
 class FileNotFoundError(Exception):
     pass
@@ -42,9 +43,9 @@ class ExtractionWork(object):
         self.composer = ''
 
         #Input options
-        self.ruleset = kwargs.get('ruleset',['SL'])
-        self.solution = kwargs.get('solution',False)
-        self.bass_options = kwargs.get('type_of_bass','all')
+        self.ruleset = kwargs.get('ruleset', ['SL'])
+        self.solution = kwargs.get('solution', False)
+        self.bass_options = kwargs.get('type_of_bass', 'all')
         self.display_option = kwargs.get('display', True)
 
         #Output
@@ -60,7 +61,7 @@ class ExtractionWork(object):
         self._chordscore = stream.Score()
 
         #Load the file, get the original bassline!
-        self._load_score_from_file()      #...TODO-Hh{future:accept straight score?}
+        self._load_score_from_file()      # ...TODO-Hh{future:accept straight score?}
         self.extract_bassline_from_score()
 
     def _load_score_from_file(self):
@@ -78,7 +79,7 @@ class ExtractionWork(object):
         if not os.path.isfile(self.score_input):
             raise FileNotFoundError(self.score_input)
 
-        (input_base,ext_sep,input_ext) = self.score_input.rpartition(os.extsep)
+        (input_base, ext_sep, input_ext) = self.score_input.rpartition(os.extsep)
 
         self.input_filename = input_base + ext_sep + input_ext
         self.output_filename = (input_base + '_figured_bass' + ext_rule +
@@ -87,37 +88,37 @@ class ExtractionWork(object):
         # Open score with Music21
         try:
             self.original_score = converter.parse(self.input_filename)
-        except:
+        except:  # TODO - figure out type of exception
             raise InputError('Score is not compatible with Music21 input formats')
 
         # Collect metadata
         try:
             self.title = self.original_score.metadata.title
-        except:
+        except:  # TODO - figure out type of exception
             self.title = str(score_input)
 
         try:
             self.composer = self.original_score.metadata.composer
-        except:
+        except:  # TODO - figure out type of exception
             self.composer = ' - '
 
         #Chordify
         self._chordscore = self.original_score.chordify()
 
     def extract_bassline_from_score(self):
-        """Extract the full bassline from the score""" #TODO-Hh{f:additional methods?}
+        """Extract the full bassline from the score"""  # TODO-Hh{f:additional methods?}
 
         try:
             self._bassline = copy.deepcopy(self.original_score['bass'])
             LOG.debug('Bassline is pre-labeled bass line')
 
-        except:
+        except:  # TODO - figure out type of exception
             try:
                 #Get all of lowest staff
                 i = len(self.original_score.getElementsByClass(stream.Part)) - 1
-                self._bassline = copy.deepcopy(self.original_score.getElementsByClass(stream.Part)[ i ])
+                self._bassline = copy.deepcopy(self.original_score.getElementsByClass(stream.Part)[i])
                 LOG.debug('Bassline is lowest part')
-            except:
+            except:  # TODO - figure out type of exception
                 raise InputError('Cannot extract bass line from score')
 
     def process_bassline(self):
@@ -131,25 +132,25 @@ class ExtractionWork(object):
         #Process the bassline?
         self.process_bassline()
 
-
         #Set up the figure strings:
         basslength = len(self._bassline.flat.getElementsByClass(note.Note))
         self._fb_figureString = ['+++' for x in range(basslength)]
 
         #Run through rules
         ruler = rule_crawler(self)
+        ruler.full_check_rules()
         ruler.full_apply_rules()
 
         #temp rules:
         for i in range(basslength):
             n = self._bassline.flat.getElementsByClass(note.Note)[i]
             f = self._fb_figureString[i]
-            self.fb.addElement(n,f)
+            self.fb.addElement(n, f)
 
-        self.fb  = realizer.figuredBassFromStream(self._bassline)
+        self.fb = realizer.figuredBassFromStream(self._bassline)
         return object
 
-    def _setup_output(self): #TODO-Hh{non-critical: metadata fail!}
+    def _setup_output(self):  # TODO-Hh{non-critical: metadata fail!}
         """Attempts to add metadata to new score. Doesn't work."""
         #Create output metadata
         my_metadata = metadata.Metadata()
@@ -163,10 +164,9 @@ class ExtractionWork(object):
     def append_to_extraction(self):
 
         #append the original to the extraction?
-        if self.solution != False:
-            LOG.debug('appending original!')
-            for partline in (self.original_score.getElementsByClass(stream.Part)):
-                self.output_score.insert(partline)
+        LOG.debug('appending original!')
+        for partline in (self.original_score.getElementsByClass(stream.Part)):
+            self.output_score.insert(partline)
 
         for n in self.output_score.flat:
             n.color = 'blue'
@@ -178,9 +178,8 @@ class ExtractionWork(object):
             solutionline = stream.Part()
             solutionline.append(tinyNotation.TinyNotationStream(self.solution))
             for n in solutionline.flat:
-                n.color='red'
+                n.color = 'red'
             self.output_score.insert(solutionline)
-
 
     def create_output(self):
         #Set up output
@@ -188,12 +187,11 @@ class ExtractionWork(object):
 
         #Showing solution and/or original with old?
         #append original score and/or solution to test file
-        if self.solution != False:
-            self.append_to_extraction()
+        self.append_to_extraction()
 
         #Make score from bassline
-        self.output_score.insert(0,self.fb.generateBassLine())
-        self.output_fb_score.insert(0,self.fb.generateBassLine())
+        self.output_score.insert(0, self.fb.generateBassLine())
+        self.output_fb_score.insert(0, self.fb.generateBassLine())
         #self.output_score.show()
 
         #save the file
@@ -207,7 +205,7 @@ class ExtractionWork(object):
                 #new_score.show()
                 self.output_score.show()
                 LOG.info('Displaying output if xml viewer has been installed.')
-            except:
+            except:  # TODO - figure out type of exception
                 LOG.info('Unable to show .xml output through MusicXML,')
                 LOG.info('try opening the file directly.')
         else:

@@ -1,6 +1,7 @@
 # Figured bass extractor rules:
 # basic rule class; tests the list of rules
 
+
 class Rule(object):
     def __init__(self):
         self.umbrella = "undefined"
@@ -14,4 +15,4 @@ class Rule(object):
 
     def show_it_off(self):
         from pprint import pprint
-        pprint (vars(self))
+        pprint(vars(self))

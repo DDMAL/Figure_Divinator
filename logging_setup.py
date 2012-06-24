@@ -39,12 +39,13 @@ log.conf-default file is used to initialise the log.conf in each cloned
 repository.
 
 For more details about the Python logging facilites, see
-http://docs.python.org/library/logging.html#module-logging. 
+http://docs.python.org/library/logging.html#module-logging.
 """
-CONF_FILENAME='log.conf'
-DEFAULT_CONF_FILENAME='log.conf-default'
+CONF_FILENAME = 'log.conf'
+DEFAULT_CONF_FILENAME = 'log.conf-default'
 
-class LoggingError(Exception): 
+
+class LoggingError(Exception):
     pass
 
 #from logging import getLogger,root
@@ -53,14 +54,14 @@ import logging.config
 import os.path
 import shutil
 import logging
-getLogger=logging.getLogger
-logging.raiseException=True
+getLogger = logging.getLogger
+logging.raiseException = True
 
 # check that we have a configuration file, if not, copy the default template to config file.
-conf_filename=os.path.abspath(CONF_FILENAME)
+conf_filename = os.path.abspath(CONF_FILENAME)
 if not os.path.exists(conf_filename):
     print 'copying logging defaults to local file %s' % conf_filename
-    shutil.copy(os.path.abspath(DEFAULT_CONF_FILENAME),conf_filename)
+    shutil.copy(os.path.abspath(DEFAULT_CONF_FILENAME), conf_filename)
 
 # load the configuration
 logging.config.fileConfig(conf_filename)
@@ -68,9 +69,9 @@ del conf_filename
 ##############
 
 if __name__ == '__main__':
-    for target in ["root","engine","evaluation","extractor","figured_bass","rules","work_browser","rulesViewer","figure_extractor"]:
-        log=logging.getLogger(target)
-        print 'testing logger',target
+    for target in ["root", "engine", "evaluation", "extractor", "figured_bass", "rules", "work_browser", "rulesViewer", "figure_extractor"]:
+        log = logging.getLogger(target)
+        print 'testing logger', target
         log.debug('debug')
         log.info('info')
         log.warning('warning')
