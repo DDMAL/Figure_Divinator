@@ -137,6 +137,9 @@ class rule_crawler(object):
             #Increase start index
             c_start = c_start + 1
 
+        #Return possible rules to the original score
+        self.score.possible_rules = self.possible_rules
+
     def full_apply_rules(self):
         c_start = 0  # TODO -- go through all chunks, not just first one! :)
         poss_rules = self.possible_rules[c_start]

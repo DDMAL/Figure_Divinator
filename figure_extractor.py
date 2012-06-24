@@ -55,6 +55,7 @@ class ExtractionWork(object):
         self.fb = realizer.FiguredBassLine()
         self.output_score = stream.Score()
         self.output_fb_score = stream.Score()
+        self.possible_rules = []
 
         #Inner workings
         self._bassline = stream.Stream()
