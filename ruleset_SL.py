@@ -155,6 +155,20 @@ class SLRule_5(SLRule):
         self.figures[1] = notation.Notation('5,3+')
 
 
+    #     class SLRule_5(SLRule):
+    # def __init__(self):
+    #     SLRule.__init__(self,2)
+
+    #     #Conditions
+    #     self.intervals[0] = [interval.DiatonicInterval('major', -2)]
+    #     self.beats[1] = [1]
+    #     self.harmonic_content[1] = ['perfectMajorTriadNoSeven']
+
+    #     #Figures"
+    #     self.figures[0] = notation.Notation('6')
+    #     self.figures[1] = notation.Notation('5,3+')
+
+
 class SLRule_6(SLRule):
     """
     K's rule:   3
