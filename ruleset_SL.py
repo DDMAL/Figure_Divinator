@@ -93,12 +93,8 @@ class SLRule_3(SLRule):
         self.todo = 'interval to diatonic!'
 
         #Conditions:
-<<<<<<< HEAD
         self.intervals[0] = [interval.ChromaticInterval(1)] #TODO:diatonic semitone
         self.harmonic_content[1] = ['perfectTriadNoSeven'] #TODO:diatonic semitone
-=======
-        self.intervals[0] = [interval.ChromaticInterval(1)]  # TODO:diatonic semitone
->>>>>>> 4284ccac9a32987d82c4156ce7244e42cf10c4d3
 
         #Figures:
         self.figures[0] = notation.Notation('6,3')
