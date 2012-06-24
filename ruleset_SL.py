@@ -79,8 +79,9 @@ class SLRule_3(SLRule):
     Page:       45
     Conditions:
         * When the bass note goes up by a diatonic semitone
+        * Second chord should be a triad (maj or min)(no 7)TODO
     Figures:
-        * First note gets a 6 (6,5-,3)
+        * First note gets a 6 (6,3)
             -> Realization: l'accord double or accord simple
         * Second gets 5,3.
     Notes:
@@ -93,9 +94,10 @@ class SLRule_3(SLRule):
 
         #Conditions:
         self.intervals[0] = [interval.ChromaticInterval(1)] #TODO:diatonic semitone
+        self.harmonic_content[1] = ['perfectTriadNoSeven'] #TODO:diatonic semitone
 
         #Figures:
-        self.figures[0] = notation.Notation('6,5-,3')
+        self.figures[0] = notation.Notation('6,3')
         self.figures[1] = notation.Notation('5,3')
 
 
@@ -147,6 +149,20 @@ class SLRule_5(SLRule):
         #Figures"
         self.figures[0] = notation.Notation('6')
         self.figures[1] = notation.Notation('5,3+')
+
+
+    #     class SLRule_5(SLRule):
+    # def __init__(self):
+    #     SLRule.__init__(self,2)
+
+    #     #Conditions
+    #     self.intervals[0] = [interval.DiatonicInterval('major', -2)]
+    #     self.beats[1] = [1]
+    #     self.harmonic_content[1] = ['perfectMajorTriadNoSeven']
+
+    #     #Figures"
+    #     self.figures[0] = notation.Notation('6')
+    #     self.figures[1] = notation.Notation('5,3+')
 
 
 class SLRule_6(SLRule):
