@@ -16,6 +16,7 @@ from music21 import note
 from music21.figuredBass import realizer
 
 from rule_crawler import *
+from rule_plotter import *
 
 #Set up logging
 import logging_setup as Logging
@@ -56,6 +57,7 @@ class ExtractionWork(object):
         self.output_score = stream.Score()
         self.output_fb_score = stream.Score()
         self.possible_rules = []
+        self.chosen_rules = []
 
         #Inner workings
         self._bassline = stream.Stream()
@@ -143,7 +145,10 @@ class ExtractionWork(object):
         ruler.full_check_rules()
         ruler.full_apply_rules()
 
-        #temp rules:
+        #Plot the results
+        makePlot(self)
+
+        #Add figures into score:
         for i in range(basslength):
             n = self._bassline.flat.getElementsByClass(note.Note)[i]
             f = self._fb_figureString[i]
