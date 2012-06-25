@@ -135,7 +135,7 @@ class ExtractionWork(object):
 
         #Set up the figure strings:
         basslength = len(self._bassline.flat.getElementsByClass(note.Note))
-        self._fb_figureString = ['+++' for x in range(basslength)]
+        self._fb_figureString = ['n' for x in range(basslength)]
 
         #Run through rules
         ruler = rule_crawler(self)
@@ -146,7 +146,10 @@ class ExtractionWork(object):
         for i in range(basslength):
             n = self._bassline.flat.getElementsByClass(note.Note)[i]
             f = self._fb_figureString[i]
-            self.fb.addElement(n, f)
+            try:
+                self.fb.addElement(n, f)
+            except KeyError as e:
+                print e
 
         self.fb = realizer.figuredBassFromStream(self._bassline)
         return object
