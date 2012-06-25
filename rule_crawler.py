@@ -11,18 +11,6 @@ from rules import Rule
 import logging_setup as Logging
 LOG = Logging.getLogger('rules')
 
-#Planning to plot rules?
-plottable = True
-try:
-    from mpl_toolkits.mplot3d import Axes3D
-    from matplotlib.collections import PolyCollection
-    from matplotlib.colors import colorConverter
-    import matplotlib.pyplot as plt
-    import numpy as np
-except ImportError as e:
-    plottable = False
-
-
 #* * *IMPORT ALL POSSIBLE RULESETS* * *
 import ruleset_SL as SL
 import ruleset_octave as octave
@@ -61,14 +49,6 @@ def get_rules(ruleset):
         raise RuleImplementationError()
 
     return extraction_rules
-
-
-def plot_rules(self):
-    if not plottable:
-        LOG.warning("Can't plot; make sure numpy and matplotlib are installed!")
-        return
-    LOG.debug("Plotting rules!")
-    fig = plt.figure()
 
 
 #* * * * Interval key:
@@ -279,6 +259,7 @@ class rule_crawler(object):
 
     def _load_rules(self, incomingrules):
         self.ruleset = get_rules(incomingrules)
+        self.score._allrules = self.ruleset  # Save to orig score, too.
         for rule in self.ruleset:
             if rule.size > self.rule_max:
                 self.rule_max = rule.size

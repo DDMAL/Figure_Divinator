@@ -60,6 +60,7 @@ class ExtractionWork(object):
         #Inner workings
         self._bassline = stream.Stream()
         self._chordscore = stream.Score()
+        self._allrules = []
 
         #Load the file, get the original bassline!
         self._load_score_from_file()      # ...TODO-Hh{future:accept straight score?}
