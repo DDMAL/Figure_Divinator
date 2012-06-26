@@ -159,7 +159,7 @@ class rule_crawler(object):
                 #Increase start index by length of applied rule
                 c_start = c_start + this_rule.size
             else:
-                LOG.info("@Note index %s: No rule to apply.", str(c_start))
+                #LOG.info("@Note index %s: No rule to apply.", str(c_start))
                 #Increase start index by one
                 c_start = c_start + 1
 

@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
+from matplotlib.ticker import NullLocator
 import os
 from music21 import note
 
@@ -10,12 +11,15 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
                     ',\'\nfrom rule set ' + str(score.ruleset))
     fig = plt.figure()
     ax = fig.add_subplot(111, title=plottitle)
+    ax.set_axisbelow(True)
 
     # Function to plot each measure as a bar
-    def makemeasure(startIndex, endIndex, number):
-        L = endIndex - startIndex + 1
-        ax.barh(0, L, x=(startIndex - .5), height=H, align='center', \
-                color='yellow', alpha=None)
+    def makemeasure(startIndex, endIndex, number, h=H):
+        L = endIndex - startIndex
+        if h != H:
+            h = 2 * (h + 1)
+        ax.barh(0, L, x=(startIndex - .5), height=h, align='center', \
+                color='none', alpha=None)
         ax.text(startIndex, 0.05, str(number))
 
     # Function to plot each rule as a bar
@@ -24,26 +28,13 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
         if chosen:
             barcolor = 'green'
         ax.barh(1 + ruleIndex, ruleLength, x=startIndex, \
-            height=H, alpha=.5, align='center', color=barcolor)
+            height=H, alpha=.7, align='center', color=barcolor)
         ax.hlines(1 + ruleIndex, startIndex, startIndex + ruleLength, \
-            linewidth=3, color='r')
+            linewidth=3, color='red')
         ax.vlines(startIndex, 1 + ruleIndex - H / 2, 1 + ruleIndex + H / 2, \
             color='red', linewidth=4)
         ax.vlines(startIndex + ruleLength, 1 + ruleIndex - H / 2, \
             1 + ruleIndex + H / 2, linewidth=2, color='red')
-
-    # Plot all the measures across the bottom
-    start_index = 0
-    start_measure = score._bassline.flat.getElementsByClass(note.Note)[0].measureNumber
-    for i in range(len(score._bassline.flat.getElementsByClass(note.Note))):
-        n = score._bassline.flat.getElementsByClass(note.Note)[i]
-        if n.measureNumber == start_measure:
-            pass
-        else:
-            makemeasure(start_index, i, start_measure)
-            start_index = i
-            start_measure = n.measureNumber
-    makemeasure(start_index, len(score._bassline.flat.getElementsByClass(note.Note)) - 1, start_measure)
 
     #What rules are we plotting here?
     these_rules = []
@@ -56,6 +47,22 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
                 for r in score.possible_rules[i]:
                     temp_rules.append(r)
         these_rules = [x for x in score._allrules if x in temp_rules]
+    yticks = [a.__class__.__name__ for a in these_rules]
+
+    # Plot all the measures across the bottom
+    start_index = 0
+    start_measure = score._bassline.flat.getElementsByClass(note.Note)[0].measureNumber
+    for i in range(len(score._bassline.flat.getElementsByClass(note.Note))):
+        n = score._bassline.flat.getElementsByClass(note.Note)[i]
+        if n.measureNumber == start_measure:
+            pass
+        else:
+            makemeasure(start_index, i, start_measure, len(yticks))
+            start_index = i
+            start_measure = n.measureNumber
+    makemeasure(start_index,
+        len(score._bassline.flat.getElementsByClass(note.Note)) - 1,
+        start_measure, len(yticks))
 
     #Plot each rule possible
     for i in range(len(score.possible_rules)):
@@ -67,10 +74,7 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
                 makeline(i, these_rules.index(r), r.size, applied)
 
     #Time to format plot!
-    minorLocator = MultipleLocator(1)
-
     #Deal with y-axis
-    yticks = [a.__class__.__name__ for a in these_rules]
     yticks.insert(0, 'Measures:\n')
     ax.set_ylim(0, len(yticks))
     ax.set_ylabel('Rule')
@@ -78,16 +82,17 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
     ax.set_yticklabels(yticks)
 
     #Deal with x-axis
-    ax.set_xlabel('Note indicies \n(each vertical line represents a single note in the bass line)')
+    ax.set_xlabel('Note indicies: \nEach vertical dotted ' + \
+                    'line represents a single note in the score\'s bass line)')
     ax.set_xlim(0, len(score.possible_rules) - 1)
-    ax.xaxis.set_major_locator(MultipleLocator(20))
-    ax.xaxis.set_minor_locator(minorLocator)
+    ax.xaxis.set_major_locator(NullLocator())
+    ax.xaxis.set_minor_locator(MultipleLocator(1))
     ax.grid(True, which='minor')
     ax.grid(True, linestyle='-')
 
     #Save it!
-    filepath = filepath + '.eps'
-    fig.savefig(filepath)
+    filepath = filepath + '.png'
+    fig.savefig(filepath, dpi=800)
 
     #Open it?
     if viewResults:
