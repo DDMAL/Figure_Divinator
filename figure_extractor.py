@@ -51,7 +51,6 @@ class ExtractionWork(object):
 
         #Output
         self.output_filename = ''
-        self._fb_stream = stream.Stream()
         self._fb_figureString = []
         self.fb = realizer.FiguredBassLine()
         self.output_score = stream.Score()

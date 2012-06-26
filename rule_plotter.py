@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
-from matplotlib.ticker import NullLocator
 import os
 from music21 import note
 
@@ -35,16 +34,16 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
 
     # Plot all the measures across the bottom
     start_index = 0
-    start_measure = score.output_fb_score.flat.getElementsByClass(note.Note)[0].measureNumber
-    for i in range(len(score.output_fb_score.flat.getElementsByClass(note.Note))):
-        n = score.output_fb_score.flat.getElementsByClass(note.Note)[i]
+    start_measure = score._bassline.flat.getElementsByClass(note.Note)[0].measureNumber
+    for i in range(len(score._bassline.flat.getElementsByClass(note.Note))):
+        n = score._bassline.flat.getElementsByClass(note.Note)[i]
         if n.measureNumber == start_measure:
             pass
         else:
             makemeasure(start_index, i, start_measure)
             start_index = i
             start_measure = n.measureNumber
-    makemeasure(start_index, len(score.output_fb_score.flat.getElementsByClass(note.Note)) - 1, start_measure)
+    makemeasure(start_index, len(score._bassline.flat.getElementsByClass(note.Note)) - 1, start_measure)
 
     #What rules are we plotting here?
     these_rules = []
@@ -79,7 +78,7 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
     ax.set_yticklabels(yticks)
 
     #Deal with x-axis
-    ax.set_xlabel('Note indecies \n(each vertical line represents a single note in the bass line)')
+    ax.set_xlabel('Note indicies \n(each vertical line represents a single note in the bass line)')
     ax.set_xlim(0, len(score.possible_rules) - 1)
     ax.xaxis.set_major_locator(MultipleLocator(20))
     ax.xaxis.set_minor_locator(minorLocator)
