@@ -122,41 +122,48 @@ class rule_crawler(object):
         self.score.possible_rules = self.possible_rules
 
     def full_apply_rules(self):
+        LOG.info("\n* * * Rule Selection/Application * * *")
         c_start = 0  # TODO -- go through all chunks, not just first one! :)
-        poss_rules = self.possible_rules[c_start]
 
-        #Is there a choice of rules at this start?
-        if len(poss_rules) > 0:
-            LOG.info("\n* * * Applying rules * * *")
-            #Determine which rule to actually apply to the chunk
-            while len(poss_rules) > 1:
-                ruleA = poss_rules.keys()[0]
-                ruleB = poss_rules.keys()[1]
-                winner, loser = self.compare_rules(ruleA, ruleB)
-                del poss_rules[loser]
+        #For the entirety of the piece...
+        while c_start < self.total_length:
+            poss_rules = self.possible_rules[c_start]
 
-            #Remaining rule is the chosen rule
-            this_rule = poss_rules.keys()[0]
-            these_figures = poss_rules.values()[0]
-            self.chosen_rules[c_start] = poss_rules #TODO-check_back
-            LOG.info('  -> Applied %s.',
-                        this_rule.__class__.__name__)
+            #Is there a choice of rules at this start?
+            if len(poss_rules) > 0:
 
-            #Apply it to the score
-            for x in range(len(these_figures)):
-                if these_figures[x]:
-                    try:
-                        self.score._fb_figureString[c_start + x] = these_figures[x].notationColumn
-                    except AttributeError as e:
-                        print e
-                        print 'split note? ' + str(these_figures[x])
-                    #TODO - deal with split notes
+                #Determine which rule to actually apply to the chunk
+                while len(poss_rules) > 1:
+                    ruleA = poss_rules.keys()[0]
+                    ruleB = poss_rules.keys()[1]
+                    winner, loser = self.compare_rules(ruleA, ruleB)
+                    del poss_rules[loser]
 
+                #Remaining rule is the chosen rule
+                this_rule = poss_rules.keys()[0]
+                these_figures = poss_rules.values()[0]
+                self.chosen_rules[c_start] = poss_rules  # TODO-check_back
+                LOG.info('@Note index %s: Applied %s.',
+                            str(c_start), this_rule.__class__.__name__)
 
+                #Apply it to the score
+                for x in range(len(these_figures)):
+                    if these_figures[x]:
+                        try:
+                            self.score._fb_figureString[c_start + x] = these_figures[x].notationColumn
+                        except AttributeError as e:
+                            print e
+                            print 'split note? ' + str(these_figures[x])
+                        #TODO - deal with split notes
 
-            LOG.info("\n* * * * * * * * * * * * * *.")
-        else:
-            LOG.info("\n* * * No rules to apply to score. * * *")
+                #Increase start index by length of applied rule
+                c_start = c_start + this_rule.size
+            else:
+                LOG.info("@Note index %s: No rule to apply.", str(c_start))
+                #Increase start index by one
+                c_start = c_start + 1
+
+        LOG.info("\n* * * * * * * * * * * * * *.")
         self.score.chosen_rules = self.chosen_rules
 
     def compare_rules(self, ruleA, ruleB):
