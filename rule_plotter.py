@@ -5,36 +5,46 @@ import os
 from music21 import note
 
 
+def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
+    """
+    Function to plot each measure as a bar
+    """
+    L = endIndex - startIndex
+    if H != .8:
+        H = 2 * H
+    axes_handle.barh(0, L, x=(startIndex - .5), height=H, align='center', \
+            color='none', alpha=None)
+    axes_handle.text(startIndex, 0.05, str(number))
+
+
+def makeline(axes_handle, startIndex, ruleIndex, ruleLength,
+            chosen='maybe', H=.8, barcolor='yellow', stickcolor='purple'):
+    """
+    Function to plot each rule as a bar
+    """
+    if chosen == 'yes':
+        barcolor = 'green'
+    elif chosen == 'no':
+        barcolor = 'red'
+    axes_handle.barh(1 + ruleIndex, ruleLength, x=startIndex, \
+        height=H, alpha=.7, align='center', color=barcolor)
+    axes_handle.hlines(1 + ruleIndex, startIndex, startIndex + ruleLength, \
+        linewidth=3, color=stickcolor)
+    axes_handle.vlines(startIndex, 1 + ruleIndex - H / 2, 1 + ruleIndex + H / 2, \
+        color=stickcolor, linewidth=4)
+    axes_handle.vlines(startIndex + ruleLength, 1 + ruleIndex - H / 2, \
+        1 + ruleIndex + H / 2, linewidth=2, color=stickcolor)
+
+
 def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=True):
-    H = .8
+    """
+    Given a score (including extraction), show all rules and the chosen rules.
+    """
     plottitle = ('All rules that match score \'' + score.title +
                     ',\'\nfrom rule set ' + str(score.ruleset))
     fig = plt.figure()
     ax = fig.add_subplot(111, title=plottitle)
     ax.set_axisbelow(True)
-
-    # Function to plot each measure as a bar
-    def makemeasure(startIndex, endIndex, number, h=H):
-        L = endIndex - startIndex
-        if h != H:
-            h = 2 * (h + 1)
-        ax.barh(0, L, x=(startIndex - .5), height=h, align='center', \
-                color='none', alpha=None)
-        ax.text(startIndex, 0.05, str(number))
-
-    # Function to plot each rule as a bar
-    def makeline(startIndex, ruleIndex, ruleLength, chosen=False):
-        barcolor = 'blue'
-        if chosen:
-            barcolor = 'green'
-        ax.barh(1 + ruleIndex, ruleLength, x=startIndex, \
-            height=H, alpha=.7, align='center', color=barcolor)
-        ax.hlines(1 + ruleIndex, startIndex, startIndex + ruleLength, \
-            linewidth=3, color='red')
-        ax.vlines(startIndex, 1 + ruleIndex - H / 2, 1 + ruleIndex + H / 2, \
-            color='red', linewidth=4)
-        ax.vlines(startIndex + ruleLength, 1 + ruleIndex - H / 2, \
-            1 + ruleIndex + H / 2, linewidth=2, color='red')
 
     #What rules are we plotting here?
     these_rules = []
@@ -48,6 +58,7 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
                     temp_rules.append(r)
         these_rules = [x for x in score._allrules if x in temp_rules]
     yticks = [a.__class__.__name__ for a in these_rules]
+    yticks.insert(0, 'Measures:\n')
 
     # Plot all the measures across the bottom
     start_index = 0
@@ -57,10 +68,10 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
         if n.measureNumber == start_measure:
             pass
         else:
-            makemeasure(start_index, i, start_measure, len(yticks))
+            makemeasure(ax, start_index, i, start_measure, len(yticks))
             start_index = i
             start_measure = n.measureNumber
-    makemeasure(start_index,
+    makemeasure(ax, start_index,
         len(score._bassline.flat.getElementsByClass(note.Note)) - 1,
         start_measure, len(yticks))
 
@@ -68,14 +79,13 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
     for i in range(len(score.possible_rules)):
         if score.possible_rules[i]:
             for r in score.possible_rules[i]:
-                applied = False
+                applied = 'maybe'
                 if r in score.chosen_rules[i]:
-                    applied = True
-                makeline(i, these_rules.index(r), r.size, applied)
+                    applied = 'yes'
+                makeline(ax, i, these_rules.index(r), r.size, applied)
 
     #Time to format plot!
     #Deal with y-axis
-    yticks.insert(0, 'Measures:\n')
     ax.set_ylim(0, len(yticks))
     ax.set_ylabel('Rule')
     ax.set_yticks(range(len(yticks)))
