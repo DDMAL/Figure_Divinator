@@ -1357,5 +1357,5 @@ class SLRule_32(SLRule):
                             notation.Notation('7,5,3+')]
         self.figures[2] = notation.Notation('5,3')
 
-
-rules.fullRulesets[key_name] = full_ruleset()
+#Create Ruleset from all these rules, add to dictionary
+rules.packagedRulesets[key_name] = full_ruleset()

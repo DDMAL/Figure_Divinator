@@ -96,4 +96,4 @@ class octave_2(octaveRule):
         self.figures[0] = notation.Notation('-')
         self.figures[1] = notation.Notation('--')
 
-rules.fullRulesets[key_name] = full_ruleset()
+rules.packagedRulesets[key_name] = full_ruleset()

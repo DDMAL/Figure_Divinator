@@ -63,4 +63,4 @@ class Yourrulename(YOURRule):            # ADJUST: "YOURRule", "Yourrulename"
 #* * * * * * * * *
 #* * * * * * * * *
 
-rules.fullRulesets[key_name] = full_ruleset()
+rules.packagedRulesets[key_name] = full_ruleset()

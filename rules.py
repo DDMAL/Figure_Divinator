@@ -33,17 +33,18 @@ class Ruleset(object):
             for rule in rules:
                 #Try adding it from string
                 try:
-                    new_rule = globals()[rule]()
+                    new_rule = rule()
                     self.rulelist.append(new_rule)
                 except Exception:
-                    print rule + ' doesn\'t register as a rule...'
+                    raise
+                    print rule + " doesn't register as a rule..."
 
     def check_validity(self):
         pass  # TODO: make sure all rules are valid
 
 
 #Import all the rulesets in the 'rulesets' directory:
-fullRulesets = {}
+packagedRulesets = {}
 for filename in os.listdir('rulesets'):
     if (filename == 'ruleset_template.py' or
         filename[-3:] != '.py' or filename == '__init__.py'):
