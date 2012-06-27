@@ -7,6 +7,7 @@ from music21 import interval
 from music21 import note
 from music21 import chord
 from rules import Rule
+from rules import Ruleset
 
 import logging_setup as Logging
 LOG = Logging.getLogger('rules')
@@ -14,10 +15,6 @@ LOG = Logging.getLogger('rules')
 #* * *IMPORT ALL POSSIBLE RULESETS* * *
 import ruleset_SL as SL
 import ruleset_octave as octave
-
-
-class RuleImplementationError(Exception):
-    pass
 
 
 #Get specific rules
@@ -30,23 +27,7 @@ def get_rules(ruleset):
         extraction_rules = octave.all_rules()
 
     else:
-        LOG.info("note: trying unique ruleset input")
-        extraction_rules = []
-        for rule in ruleset:
-            try:
-                new_rule = globals()[rule]()
-                extraction_rules.append(new_rule)
-            except:  # TODO - figure out type of exception
-                raise RuleImplementationError()
-
-    # Test the list of rules (make sure they're all rules!)
-    try:
-        if not len(extraction_rules) > 0:
-            raise
-        if not all([isinstance(x, Rule) for x in extraction_rules]):
-            raise
-    except:  # TODO - figure out type of exception
-        raise RuleImplementationError()
+        extraction_rules = Ruleset(ruleset).rulelist
 
     return extraction_rules
 
