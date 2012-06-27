@@ -1,17 +1,22 @@
 # Rules for figuring unfigured bass parts
 # Monsieur de Saint-Lambert
 
-from rules import Rule
+import rules
+import sys
+import inspect
 from music21 import interval
 from music21.figuredBass import notation
 
 import logging_setup as Logging
 LOG = Logging.getLogger('rules')
 
+key_name = "SL"
+long_name = "Saint Lambert (Full)"
 
-class SLRule(Rule):
+
+class SLRule(rules.Rule):
     def __init__(self, size):  # size=1
-        Rule.__init__(self)
+        rules.Rule.__init__(self)
         self.umbrella = "Saint Lambert"
         self.size = size
 
@@ -22,54 +27,20 @@ class SLRule(Rule):
         self.extras = [False for x in range(size)]
 
 
-def all_rules():
+def full_ruleset():
     """
-    All rules available in the SL ruleset
+    All rules available in this ruleset
     """
-    allrules = [
-        SLRule_3(),
-        SLRule_4(),
-        SLRule_5(),
-        SLRule_6(),
-        SLRule_7(),
-        SLRule_8a(),
-        SLRule_8b(),
-        SLRule_10a(),
-        SLRule_10b(),
-        SLRule_11(),
-        SLRule_12(),
-        SLRule_13(),
-        SLRule_14(),
-        SLRule_15(),
-        SLRule_16(),
-        SLRule_17(),
-        SLRule_18(),
-        SLRule_19(),
-        SLRule_20(),
-        SLRule_21(),
-        SLRule_22(),
-        SLRule_23(),
-        SLRule_24a(),
-        SLRule_24a1(),
-        SLRule_24b1(),
-        SLRule_24b2(),
-        SLRule_24c(),
-        SLRule_24c1(),
-        SLRule_25a(),
-        SLRule_25b(),
-        SLRule_26a1(),
-        SLRule_26a2(),
-        SLRule_26b1(),
-        SLRule_26b2(),
-        SLRule_27a(),
-        SLRule_27b(),
-        SLRule_28(),
-        SLRule_29(),
-        SLRule_30(),
-        SLRule_31(),
-        SLRule_32()
-        ]
-    return allrules
+    allrules = []
+    for name, rule in inspect.getmembers(sys.modules[__name__]):
+        try:
+            if issubclass(rule, SLRule):
+                allrules.append(rule())
+        except TypeError:
+            pass
+
+    fullruleset = rules.Ruleset(allrules, from_module=True, name=long_name)
+    return fullruleset
 
 
 #* * * RULES * * *
@@ -1385,3 +1356,6 @@ class SLRule_32(SLRule):
                             notation.Notation('8,5,3+'),
                             notation.Notation('7,5,3+')]
         self.figures[2] = notation.Notation('5,3')
+
+
+rules.fullRulesets[key_name] = full_ruleset()

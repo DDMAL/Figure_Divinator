@@ -1,16 +1,21 @@
 # Rules of Octaves -- currently a dummy ruleset!
 
-from rules import Rule
+import rules
+import sys
+import inspect
 from music21 import interval
 from music21.figuredBass import notation
 
 import logging_setup as Logging
 LOG = Logging.getLogger('rules')
 
+key_name = "ROO"
+long_name = "Rule of Octave (Currently a dummy set)"
 
-class octaveRule(Rule):
+
+class octaveRule(rules.Rule):
     def __init__(self, size):  # size=1
-        Rule.__init__(self)
+        rules.Rule.__init__(self)
         self.umbrella = "Rule of Octaves"
         self.size = size
 
@@ -21,15 +26,20 @@ class octaveRule(Rule):
         self.extras = [False for x in range(size)]
 
 
-def all_rules():
+def full_ruleset():
     """
-    All rules available in the octave ruleset
+    All rules available in this ruleset
     """
-    allrules = [
-        octave_1(),
-        octave_2()
-        ]
-    return allrules
+    allrules = []
+    for name, rule in inspect.getmembers(sys.modules[__name__]):
+        try:
+            if issubclass(rule, octaveRule):
+                allrules.append(rule())
+        except TypeError:
+            pass
+
+    fullruleset = rules.Ruleset(allrules, from_module=True, name=long_name)
+    return fullruleset
 
 
 #* * * RULES * * *
@@ -85,3 +95,5 @@ class octave_2(octaveRule):
         #Figures:
         self.figures[0] = notation.Notation('-')
         self.figures[1] = notation.Notation('--')
+
+rules.fullRulesets[key_name] = full_ruleset()
