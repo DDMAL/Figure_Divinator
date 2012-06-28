@@ -39,8 +39,10 @@ def makePlot(score, allRules=False, filepath='results/temporary_rule_plot', view
     """
     Given a score (including extraction), show all rules and the chosen rules.
     """
-    plottitle = ('All rules that match score \'' + score.title +
-                    ',\'\nfrom rule set ' + str(score.ruleset))
+    plottitle = (unicode('All rules that match score \'') + score.title.decode('utf-8') +
+                    unicode(',\'\nfrom rule set ') + unicode(str(score.ruleset)))
+
+    #plottitle = 'yay'
     fig = plt.figure()
     ax = fig.add_subplot(111, title=plottitle)
     ax.set_axisbelow(True)
