@@ -3,7 +3,7 @@
 import rules
 import sys
 import inspect
-from music21 import interval
+import music21 as m21
 from music21.figuredBass import notation
 
 import logging_setup as Logging
@@ -55,17 +55,17 @@ class octave_1(octaveRule):
 
         #Conditions:
         # * When the bass note goes up
-        self.intervals[0] = [interval.ChromaticInterval(1),
-                             interval.ChromaticInterval(2),
-                             interval.ChromaticInterval(3),
-                             interval.ChromaticInterval(4),
-                             interval.ChromaticInterval(5),
-                             interval.ChromaticInterval(6),
-                             interval.ChromaticInterval(7),
-                             interval.ChromaticInterval(8),
-                             interval.ChromaticInterval(9),
-                             interval.ChromaticInterval(10),
-                             interval.ChromaticInterval(11)
+        self.intervals[0] = [m21.interval.ChromaticInterval(1),
+                             m21.interval.ChromaticInterval(2),
+                             m21.interval.ChromaticInterval(3),
+                             m21.interval.ChromaticInterval(4),
+                             m21.interval.ChromaticInterval(5),
+                             m21.interval.ChromaticInterval(6),
+                             m21.interval.ChromaticInterval(7),
+                             m21.interval.ChromaticInterval(8),
+                             m21.interval.ChromaticInterval(9),
+                             m21.interval.ChromaticInterval(10),
+                             m21.interval.ChromaticInterval(11)
                              ]
 
         #Figures:
@@ -82,17 +82,17 @@ class octave_2(octaveRule):
 
         #Conditions:
         # * When the bass note goes down
-        self.intervals[0] = [interval.ChromaticInterval(-1),
-                             interval.ChromaticInterval(-2),
-                             interval.ChromaticInterval(-3),
-                             interval.ChromaticInterval(-4),
-                             interval.ChromaticInterval(-5),
-                             interval.ChromaticInterval(-6),
-                             interval.ChromaticInterval(-7),
-                             interval.ChromaticInterval(-8),
-                             interval.ChromaticInterval(-9),
-                             interval.ChromaticInterval(-10),
-                             interval.ChromaticInterval(-11)
+        self.intervals[0] = [m21.interval.ChromaticInterval(-1),
+                             m21.interval.ChromaticInterval(-2),
+                             m21.interval.ChromaticInterval(-3),
+                             m21.interval.ChromaticInterval(-4),
+                             m21.interval.ChromaticInterval(-5),
+                             m21.interval.ChromaticInterval(-6),
+                             m21.interval.ChromaticInterval(-7),
+                             m21.interval.ChromaticInterval(-8),
+                             m21.interval.ChromaticInterval(-9),
+                             m21.interval.ChromaticInterval(-10),
+                             m21.interval.ChromaticInterval(-11)
                              ]
 
         #Figures:

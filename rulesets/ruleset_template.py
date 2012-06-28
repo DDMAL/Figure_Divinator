@@ -57,7 +57,7 @@ class Yourrulename(YOURRule):            # ADJUST: "YOURRule", "Yourrulename"
         self.todo = 'interval to diatonic!'
 
         #Conditions:
-        self.intervals[0] = [interval.ChromaticInterval(1)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(1)]
         self.harmonic_content[1] = ['perfectTriadNoSeven']
 
         #Figures:

@@ -4,7 +4,7 @@
 import rules
 import sys
 import inspect
-from music21 import interval
+import music21 as m21
 from music21.figuredBass import notation
 
 import logging_setup as Logging
@@ -67,7 +67,7 @@ class SLRule_3(SLRule):
         self.todo = 'interval to diatonic!'
 
         #Conditions:
-        self.intervals[0] = [interval.ChromaticInterval(1)]  # TODO:diatonic semitone
+        self.intervals[0] = [m21.interval.ChromaticInterval(1)]  # TODO:diatonic semitone
         self.harmonic_content[1] = ['perfectTriadNoSeven']  # TODO:diatonic semitone
 
         #Figures:
@@ -91,7 +91,7 @@ class SLRule_4(SLRule):
         self.todo = 'interval to diatonic!'
 
         #Conditions:
-        self.intervals[0] = [interval.ChromaticInterval(1)]  # TODO:diatonic semitone
+        self.intervals[0] = [m21.interval.ChromaticInterval(1)]  # TODO:diatonic semitone
         self.harmonic_content[0] = ['perfectMajorTriadOkSeven']
 
         #Figures:
@@ -116,7 +116,7 @@ class SLRule_5(SLRule):
         self.todo = 'interval to diatonic'
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-1)]  # TODOdiatonic
+        self.intervals[0] = [m21.interval.ChromaticInterval(-1)]  # TODOdiatonic
         self.beats[1] = [1]
         self.harmonic_content[1] = ['perfectMajorTriadNoSeven']
 
@@ -130,7 +130,7 @@ class SLRule_5(SLRule):
     #     SLRule.__init__(self,2)
 
     #     #Conditions
-    #     self.intervals[0] = [interval.DiatonicInterval('major', -2)]
+    #     self.intervals[0] = [m21.interval.DiatonicInterval('major', -2)]
     #     self.beats[1] = [1]
     #     self.harmonic_content[1] = ['perfectMajorTriadNoSeven']
 
@@ -156,7 +156,7 @@ class SLRule_6(SLRule):
         self.todo = 'diatonic'
 
         #Conditions:
-        self.intervals[0] = [interval.ChromaticInterval(1)]  # TODOdiatonic
+        self.intervals[0] = [m21.interval.ChromaticInterval(1)]  # TODOdiatonic
         self.harmonic_content[0] = ['hasSharpSix']
 
         #Figures:
@@ -183,7 +183,7 @@ class SLRule_7(SLRule):
         SLRule.__init__(self, 2)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-3)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-3)]
         self.harmonic_content[0] = ['isPerfect']
 
         #Figures
@@ -211,7 +211,7 @@ class SLRule_8a(SLRule):
         #Conditions
         self.extras[0] = ['accidental:flat']
         self.harmonic_content[1] = ['notHasSix']
-        self.intervals[0] = [interval.ChromaticInterval(-3)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-3)]
 
         #Figures
         self.figures[0] = notation.Notation('5,3')
@@ -236,7 +236,7 @@ class SLRule_8b(SLRule):
         SLRule.__init__(self, 2)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-3)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-3)]
         self.harmonic_content[1] = ['hasSix']
         self.extras[0] = ['accidental:flat']
 
@@ -264,7 +264,7 @@ class SLRule_10a(SLRule):
         SLRule.__init__(self, 2)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-4)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-4)]
         self.extras[0] = ['accidental:sharp']
 
         #Figures
@@ -291,7 +291,7 @@ class SLRule_10b(SLRule):
         SLRule.__init__(self, 2)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(4)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(4)]
         self.extras[1] = ['accidental:sharp']
 
         #Figures
@@ -315,8 +315,8 @@ class SLRule_11(SLRule):
         SLRule.__init__(self, 2)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-3),
-                            interval.ChromaticInterval(-4)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-3),
+                            m21.interval.ChromaticInterval(-4)]
         self.harmonic_content[0] = ['perfectMajorTriadOkSeven']
 
         #Figures
@@ -339,7 +339,7 @@ class SLRule_12(SLRule):
         SLRule.__init__(self, 2)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-6)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-6)]
 
         #Figures
         self.figures[0] = notation.Notation('5,3')
@@ -362,10 +362,10 @@ class SLRule_13(SLRule):
         SLRule.__init__(self, 2)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(3),
-                            interval.ChromaticInterval(4),
-                            interval.ChromaticInterval(-8),
-                            interval.ChromaticInterval(-9)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(3),
+                            m21.interval.ChromaticInterval(4),
+                            m21.interval.ChromaticInterval(-8),
+                            m21.interval.ChromaticInterval(-9)]
         self.harmonic_content[0] = ['perfectTriadNoSeven']
 
         #Figures
@@ -390,8 +390,8 @@ class SLRule_14(SLRule):
         SLRule.__init__(self, 3)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(1), interval.ChromaticInterval(2)]
-        self.intervals[1] = [interval.ChromaticInterval(1), interval.ChromaticInterval(2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(1), m21.interval.ChromaticInterval(2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(1), m21.interval.ChromaticInterval(2)]
         self.harmonic_content[2] = ['perfectMajorTriadNoSeven']
 
         #Figures
@@ -415,8 +415,8 @@ class SLRule_15(SLRule):
         SLRule.__init__(self, 3)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-2)]
         self.harmonic_content[0] = ['perfectMajorTriadOkSeven']
 
         #Figures
@@ -443,8 +443,8 @@ class SLRule_16(SLRule):
         self.todo = "Notation: '-' represents '-' not figures!"
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-2)]
         self.harmonic_content[0] = ['perfectTriadNoSeven']
         self.harmonic_content[2] = ['hasSeventh']
 
@@ -471,9 +471,9 @@ class SLRule_17(SLRule):
         SLRule.__init__(self, 3)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-3),
-                             interval.ChromaticInterval(-4)]
-        self.intervals[1] = [interval.ChromaticInterval(2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-3),
+                             m21.interval.ChromaticInterval(-4)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(2)]
         self.harmonic_content[2] = ['isMajor']
         self.beats[2] = [1]
 
@@ -499,8 +499,8 @@ class SLRule_18(SLRule):
         SLRule.__init__(self, 3)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-3)]
-        self.intervals[1] = [interval.ChromaticInterval(1)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-3)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(1)]
         self.beats[2] = [1]
 
         #Figures
@@ -526,8 +526,8 @@ class SLRule_19(SLRule):
         SLRule.__init__(self, 3)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-4)]
-        self.intervals[1] = [interval.ChromaticInterval(5)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-4)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(5)]
         self.harmonic_content[0] = ['hasDiminishedFifth']
 
         #Figures
@@ -554,9 +554,9 @@ class SLRule_20(SLRule):
         self.todo = "Ambiguous figure application"
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(1)]
-        self.intervals[1] = [interval.ChromaticInterval(7),
-                            interval.ChromaticInterval(-5)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(1)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(7),
+                            m21.interval.ChromaticInterval(-5)]
         self.beats[2] = [1]
 
         #Figures
@@ -582,8 +582,8 @@ class SLRule_21(SLRule):
         SLRule.__init__(self, 3)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(0)]
-        self.intervals[1] = [interval.ChromaticInterval(7)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(0)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(7)]
         self.beats[2] = [1]
 
         #Figures
@@ -610,8 +610,8 @@ class SLRule_22(SLRule):
         SLRule.__init__(self, 3)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(0)]
-        self.intervals[1] = [interval.ChromaticInterval(-5)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(0)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-5)]
         self.harmonic_content[0] = ['perfectMajorTriadNoSeven']
         self.beats[2] = [1]
 
@@ -640,9 +640,9 @@ class SLRule_23(SLRule):
         SLRule.__init__(self, 4)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(2)]
-        self.intervals[1] = [interval.ChromaticInterval(2)]
-        self.intervals[2] = [interval.ChromaticInterval(1)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(2)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(1)]
         self.beats[3] = [1]
 
         #Figures
@@ -675,9 +675,9 @@ class SLRule_24a(SLRule):
         SLRule.__init__(self, 4)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-1)]
-        self.intervals[1] = [interval.ChromaticInterval(-2)]
-        self.intervals[2] = [interval.ChromaticInterval(-2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-1)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-2)]
         self.beats[3] = [1]
 
         #Figures
@@ -708,9 +708,9 @@ class SLRule_24a1(SLRule):
         SLRule.__init__(self, 4)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-1)]
-        self.intervals[1] = [interval.ChromaticInterval(-2)]
-        self.intervals[2] = [interval.ChromaticInterval(-2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-1)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-2)]
         self.beats[3] = [1]
         self.extras[1] = ['duration:lessThanPreceding']
 
@@ -746,9 +746,9 @@ class SLRule_24b1(SLRule):
         self.todo = "triad with or without 7?"
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-1)]
-        self.intervals[2] = [interval.ChromaticInterval(-2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-1)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-2)]
         self.beats[3] = [1]
         self.harmonic_content[0] = ['perfectMajorTriadNoSeven']  # TODO-maybewrong
 
@@ -784,9 +784,9 @@ class SLRule_24b2(SLRule):
         self.todo = "minor triad has seven?"
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-1)]
-        self.intervals[2] = [interval.ChromaticInterval(-2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-1)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-2)]
         self.beats[3] = [1]
         self.harmonic_content[0] = ['minorTriadNoSeven']  # TODO-maybewrong
 
@@ -820,9 +820,9 @@ class SLRule_24c(SLRule):
         SLRule.__init__(self, 4)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-2)]
-        self.intervals[2] = [interval.ChromaticInterval(-1)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-1)]
         self.beats[3] = [1]
 
         #Figures
@@ -858,9 +858,9 @@ class SLRule_24c1(SLRule):
         SLRule.__init__(self, 4)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-2)]
-        self.intervals[2] = [interval.ChromaticInterval(-1)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-1)]
         self.beats[3] = [1]
         self.extras[2] = ['duration:twiceAsPreviousTwo']
 
@@ -901,10 +901,10 @@ class SLRule_25a(SLRule):
         SLRule.__init__(self, 5)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-1)]
-        self.intervals[2] = [interval.ChromaticInterval(-2)]
-        self.intervals[3] = [interval.ChromaticInterval(-2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-1)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[3] = [m21.interval.ChromaticInterval(-2)]
         self.beats[4] = [1]
         self.harmonic_content[0] = ['perfectMajorTriadNoSeven']
         self.extras[0] = ['scale:on5th']
@@ -946,10 +946,10 @@ class SLRule_25b(SLRule):
         SLRule.__init__(self, 5)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-1)]
-        self.intervals[2] = [interval.ChromaticInterval(-2)]
-        self.intervals[3] = [interval.ChromaticInterval(-2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-1)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[3] = [m21.interval.ChromaticInterval(-2)]
         self.beats[4] = [1]
         self.harmonic_content[0] = ['perfectMajorTriadNoSeven']
         self.extras[0] = ['scale:on5th']
@@ -987,11 +987,11 @@ class SLRule_26a1(SLRule):
         SLRule.__init__(self, 6)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-1)]
-        self.intervals[2] = [interval.ChromaticInterval(-2)]
-        self.intervals[3] = [interval.ChromaticInterval(-2)]
-        self.intervals[4] = [interval.ChromaticInterval(-1)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-1)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[3] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[4] = [m21.interval.ChromaticInterval(-1)]
         self.beats[5] = [1]
 
         #Figures
@@ -1028,12 +1028,12 @@ class SLRule_26a2(SLRule):
         SLRule.__init__(self, 6)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-1)]
-        self.intervals[2] = [interval.ChromaticInterval(-2)]
-        self.intervals[3] = [interval.ChromaticInterval(-2)]
-        self.intervals[4] = [interval.ChromaticInterval(7),
-                            interval.ChromaticInterval(-5)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-1)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[3] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[4] = [m21.interval.ChromaticInterval(7),
+                            m21.interval.ChromaticInterval(-5)]
         self.beats[5] = [1]
 
         #Figures
@@ -1070,11 +1070,11 @@ class SLRule_26b1(SLRule):
         SLRule.__init__(self, 6)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-2)]
-        self.intervals[2] = [interval.ChromaticInterval(-1)]
-        self.intervals[3] = [interval.ChromaticInterval(-2)]
-        self.intervals[4] = [interval.ChromaticInterval(-1)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-1)]
+        self.intervals[3] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[4] = [m21.interval.ChromaticInterval(-1)]
         self.beats[5] = [1]
 
         #Figures
@@ -1111,12 +1111,12 @@ class SLRule_26b2(SLRule):
         SLRule.__init__(self, 6)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-2)]
-        self.intervals[1] = [interval.ChromaticInterval(-2)]
-        self.intervals[2] = [interval.ChromaticInterval(-1)]
-        self.intervals[3] = [interval.ChromaticInterval(-2)]
-        self.intervals[4] = [interval.ChromaticInterval(7),
-                            interval.ChromaticInterval(-5)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(-1)]
+        self.intervals[3] = [m21.interval.ChromaticInterval(-2)]
+        self.intervals[4] = [m21.interval.ChromaticInterval(7),
+                            m21.interval.ChromaticInterval(-5)]
         self.beats[5] = [1]
 
         #Figures
@@ -1153,10 +1153,10 @@ class SLRule_27a(SLRule):
         SLRule.__init__(self, 5)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(2)]
-        self.intervals[1] = [interval.ChromaticInterval(2)]
-        self.intervals[2] = [interval.ChromaticInterval(1)]
-        self.intervals[3] = [interval.ChromaticInterval(2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(2)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(1)]
+        self.intervals[3] = [m21.interval.ChromaticInterval(2)]
 
         #Figures
         self.figures[0] = notation.Notation('5,3')
@@ -1189,10 +1189,10 @@ class SLRule_27b(SLRule):
         SLRule.__init__(self, 5)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(2)]
-        self.intervals[1] = [interval.ChromaticInterval(1)]
-        self.intervals[2] = [interval.ChromaticInterval(2)]
-        self.intervals[3] = [interval.ChromaticInterval(2)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(2)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(1)]
+        self.intervals[2] = [m21.interval.ChromaticInterval(2)]
+        self.intervals[3] = [m21.interval.ChromaticInterval(2)]
 
         #Figures
         self.figures[0] = notation.Notation('5,3')
@@ -1223,10 +1223,10 @@ class SLRule_28(SLRule):
         SLRule.__init__(self, 3)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(12),
-                             interval.ChromaticInterval(-12)]
-        self.intervals[1] = [interval.ChromaticInterval(-7),
-                            interval.ChromaticInterval(5)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(12),
+                             m21.interval.ChromaticInterval(-12)]
+        self.intervals[1] = [m21.interval.ChromaticInterval(-7),
+                            m21.interval.ChromaticInterval(5)]
         self.beats[2] = [1]
         self.harmonic_content[2] = ['perfectTriadNoSeven']
 
@@ -1257,8 +1257,8 @@ class SLRule_29(SLRule):
         SLRule.__init__(self, 2)
 
         #Conditions
-        self.intervals[0] = [interval.ChromaticInterval(-7),
-                            interval.ChromaticInterval(5)]
+        self.intervals[0] = [m21.interval.ChromaticInterval(-7),
+                            m21.interval.ChromaticInterval(5)]
         self.beats[1] = [1]
         self.extras[0] = ['duration:two']
 
