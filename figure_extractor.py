@@ -1,22 +1,13 @@
 """Python figured bass extractor using Music21 for score processing
 """
 
-import sys
 import os
 import argparse
-import logging
 import copy
+import music21 as m21
 
-from music21 import converter
-from music21 import corpus
-from music21 import metadata
-from music21 import stream
-from music21 import tinyNotation
-from music21 import note
-from music21.figuredBass import realizer
-
-from rule_crawler import *
-from rule_plotter import *
+import rule_crawler
+import rule_plotter
 
 #Set up logging
 import logging_setup as Logging
@@ -39,7 +30,7 @@ class ExtractionWork(object):
         #Input score details
         self.score_input = score_file_input
         self.input_filename = ''
-        self.original_score = stream.Score()
+        self.original_score = m21.stream.Score()
         self.title = ''
         self.composer = ''
 
@@ -52,15 +43,15 @@ class ExtractionWork(object):
         #Output
         self.output_filename = ''
         self._fb_figureString = []
-        self.fb = realizer.FiguredBassLine()
-        self.output_score = stream.Score()
-        self.output_fb_score = stream.Score()
+        self.fb = m21.figuredBass.realizer.FiguredBassLine()
+        self.output_score = m21.stream.Score()
+        self.output_fb_score = m21.stream.Score()
         self.possible_rules = []
         self.chosen_rules = []
 
         #Inner workings
-        self._bassline = stream.Stream()
-        self._chordscore = stream.Score()
+        self._bassline = m21.stream.Stream()
+        self._chordscore = m21.stream.Score()
         self._allrules = []
 
         #Load the file, get the original bassline!
@@ -90,7 +81,7 @@ class ExtractionWork(object):
 
         # Open score with Music21
         try:
-            self.original_score = converter.parse(self.input_filename)
+            self.original_score = m21.converter.parse(self.input_filename)
         except:  # TODO - figure out type of exception
             raise InputError('Score is not compatible with Music21 input formats')
 
@@ -98,7 +89,7 @@ class ExtractionWork(object):
         try:
             self.title = self.original_score.metadata.title
         except:  # TODO - figure out type of exception
-            self.title = str(score_input)
+            self.title = str(self.score_input)
 
         try:
             self.composer = self.original_score.metadata.composer
@@ -118,8 +109,8 @@ class ExtractionWork(object):
         except:  # TODO - figure out type of exception
             try:
                 #Get all of lowest staff
-                i = len(self.original_score.getElementsByClass(stream.Part)) - 1
-                self._bassline = copy.deepcopy(self.original_score.getElementsByClass(stream.Part)[i])
+                i = len(self.original_score.getElementsByClass(m21.stream.Part)) - 1
+                self._bassline = copy.deepcopy(self.original_score.getElementsByClass(m21.stream.Part)[i])
                 LOG.debug('Bassline is lowest part')
             except:  # TODO - figure out type of exception
                 raise InputError('Cannot extract bass line from score')
@@ -136,7 +127,7 @@ class ExtractionWork(object):
         self.process_bassline()
 
         #Set up the figure strings:
-        basslength = len(self._bassline.flat.getElementsByClass(note.Note))
+        basslength = len(self._bassline.flat.getElementsByClass(m21.note.Note))
         self._fb_figureString = ['n' for x in range(basslength)]
 
         #Run through rules
@@ -145,24 +136,24 @@ class ExtractionWork(object):
         ruler.full_apply_rules()
 
         #Plot the results
-        makePlot(self)
+        rule_plotter.makePlot(self)
 
         #Add figures into score:
         for i in range(basslength):
-            n = self._bassline.flat.getElementsByClass(note.Note)[i]
+            n = self._bassline.flat.getElementsByClass(m21.note.Note)[i]
             f = self._fb_figureString[i]
             try:
                 self.fb.addElement(n, f)
             except KeyError as e:
                 print e
 
-        self.fb = realizer.figuredBassFromStream(self._bassline)
+        self.fb = m21.figuredBass.realizer.figuredBassFromStream(self._bassline)
         return object
 
     def _setup_output(self):  # TODO-Hh{non-critical: metadata fail!}
         """Attempts to add metadata to new score. Doesn't work."""
         #Create output metadata
-        my_metadata = metadata.Metadata()
+        my_metadata = m21.metadata.Metadata()
         my_metadata.title = 'Figured bass reduction of \n' + str(self.title)
         my_metadata.composer = str(self.composer) + '\nFigure extraction: Auto'
 
@@ -174,7 +165,7 @@ class ExtractionWork(object):
 
         #append the original to the extraction?
         LOG.debug('appending original!')
-        for partline in (self.original_score.getElementsByClass(stream.Part)):
+        for partline in (self.original_score.getElementsByClass(m21.stream.Part)):
             self.output_score.insert(partline)
 
         for n in self.output_score.flat:
@@ -184,8 +175,8 @@ class ExtractionWork(object):
         if self.solution != False and self.solution != 'x':
             LOG.debug('appending solution!')
             #Insert the solution below the reduction
-            solutionline = stream.Part()
-            solutionline.append(tinyNotation.TinyNotationStream(self.solution))
+            solutionline = m21.stream.Part()
+            solutionline.append(m21.tinyNotation.TinyNotationStream(self.solution))
             for n in solutionline.flat:
                 n.color = 'red'
             self.output_score.insert(solutionline)
@@ -210,7 +201,7 @@ class ExtractionWork(object):
         #display the new file?
         if self.display_option == True:
             try:
-                new_score = converter.parse(self.output_filename)
+                new_score = m21.converter.parse(self.output_filename)
                 #new_score.show()
                 self.output_score.show()
                 LOG.info('Displaying output if xml viewer has been installed.')
