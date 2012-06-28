@@ -4,7 +4,6 @@ import rules
 import sys
 import inspect
 import music21 as m21
-from music21.figuredBass import notation
 
 import logging_setup as Logging
 LOG = Logging.getLogger('rules')
@@ -69,8 +68,8 @@ class octave_1(octaveRule):
                              ]
 
         #Figures:
-        self.figures[0] = notation.Notation('+')
-        self.figures[1] = notation.Notation('++')
+        self.figures[0] = m21.figuredBass.notation.Notation('+')
+        self.figures[1] = m21.figuredBass.notation.Notation('++')
 
 
 class octave_2(octaveRule):
@@ -96,8 +95,8 @@ class octave_2(octaveRule):
                              ]
 
         #Figures:
-        self.figures[0] = notation.Notation('-')
-        self.figures[1] = notation.Notation('--')
+        self.figures[0] = m21.figuredBass.notation.Notation('-')
+        self.figures[1] = m21.figuredBass.notation.Notation('--')
 
 #*************************
 

@@ -5,7 +5,6 @@ import rules
 import sys
 import inspect
 import music21 as m21
-from music21.figuredBass import notation
 
 import logging_setup as Logging
 LOG = Logging.getLogger('rules')
@@ -71,8 +70,8 @@ class SLRule_3(SLRule):
         self.harmonic_content[1] = ['perfectTriadNoSeven']  # TODO:diatonic semitone
 
         #Figures:
-        self.figures[0] = notation.Notation('6,3')
-        self.figures[1] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('6,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_4(SLRule):
@@ -95,8 +94,8 @@ class SLRule_4(SLRule):
         self.harmonic_content[0] = ['perfectMajorTriadOkSeven']
 
         #Figures:
-        self.figures[0] = notation.Notation('5,3+')
-        self.figures[1] = notation.Notation('6')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[1] = m21.figuredBass.notation.Notation('6')
 
 
 class SLRule_5(SLRule):
@@ -121,8 +120,8 @@ class SLRule_5(SLRule):
         self.harmonic_content[1] = ['perfectMajorTriadNoSeven']
 
         #Figures"
-        self.figures[0] = notation.Notation('6')
-        self.figures[1] = notation.Notation('5,3+')
+        self.figures[0] = m21.figuredBass.notation.Notation('6')
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3+')
 
 
     #     class SLRule_5(SLRule):
@@ -135,8 +134,8 @@ class SLRule_5(SLRule):
     #     self.harmonic_content[1] = ['perfectMajorTriadNoSeven']
 
     #     #Figures"
-    #     self.figures[0] = notation.Notation('6')
-    #     self.figures[1] = notation.Notation('5,3+')
+    #     self.figures[0] = m21.figuredBass.notation.Notation('6')
+    #     self.figures[1] = m21.figuredBass.notation.Notation('5,3+')
 
 
 class SLRule_6(SLRule):
@@ -160,8 +159,8 @@ class SLRule_6(SLRule):
         self.harmonic_content[0] = ['hasSharpSix']
 
         #Figures:
-        self.figures[0] = notation.Notation('6+')  # TODO'6+,(4),(3)')
-        self.figures[1] = notation.Notation('6')
+        self.figures[0] = m21.figuredBass.notation.Notation('6+')  # TODO'6+,(4),(3)')
+        self.figures[1] = m21.figuredBass.notation.Notation('6')
 
 
 class SLRule_7(SLRule):
@@ -187,8 +186,8 @@ class SLRule_7(SLRule):
         self.harmonic_content[0] = ['isPerfect']
 
         #Figures
-        self.figures[0] = notation.Notation('3-')
-        self.figures[1] = notation.Notation('5,3-')
+        self.figures[0] = m21.figuredBass.notation.Notation('3-')
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3-')
 
 
 class SLRule_8a(SLRule):
@@ -214,8 +213,8 @@ class SLRule_8a(SLRule):
         self.intervals[0] = [m21.interval.ChromaticInterval(-3)]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('5,3-')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3-')
 
 
 class SLRule_8b(SLRule):
@@ -241,8 +240,8 @@ class SLRule_8b(SLRule):
         self.extras[0] = ['accidental:flat']
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('6,3-')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,3-')
 
 
 class SLRule_10a(SLRule):
@@ -268,8 +267,8 @@ class SLRule_10a(SLRule):
         self.extras[0] = ['accidental:sharp']
 
         #Figures
-        self.figures[0] = notation.Notation('6')
-        self.figures[1] = notation.Notation('5,3+')
+        self.figures[0] = m21.figuredBass.notation.Notation('6')
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3+')
 
 
 class SLRule_10b(SLRule):
@@ -295,8 +294,8 @@ class SLRule_10b(SLRule):
         self.extras[1] = ['accidental:sharp']
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+')
-        self.figures[1] = notation.Notation('6')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[1] = m21.figuredBass.notation.Notation('6')
 
 
 class SLRule_11(SLRule):
@@ -320,8 +319,8 @@ class SLRule_11(SLRule):
         self.harmonic_content[0] = ['perfectMajorTriadOkSeven']
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+')
-        self.figures[1] = notation.Notation('6')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[1] = m21.figuredBass.notation.Notation('6')
 
 
 class SLRule_12(SLRule):
@@ -342,8 +341,8 @@ class SLRule_12(SLRule):
         self.intervals[0] = [m21.interval.ChromaticInterval(-6)]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('5-')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('5-')
 
 
 class SLRule_13(SLRule):
@@ -369,8 +368,8 @@ class SLRule_13(SLRule):
         self.harmonic_content[0] = ['perfectTriadNoSeven']
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('6')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6')
 
 
 class SLRule_14(SLRule):
@@ -395,9 +394,9 @@ class SLRule_14(SLRule):
         self.harmonic_content[2] = ['perfectMajorTriadNoSeven']
 
         #Figures
-        self.figures[0] = notation.Notation('6')
-        self.figures[1] = notation.Notation('6,5,3')
-        self.figures[2] = notation.Notation('5,3+')
+        self.figures[0] = m21.figuredBass.notation.Notation('6')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,5,3')
+        self.figures[2] = m21.figuredBass.notation.Notation('5,3+')
 
 
 class SLRule_15(SLRule):
@@ -420,8 +419,8 @@ class SLRule_15(SLRule):
         self.harmonic_content[0] = ['perfectMajorTriadOkSeven']
 
         #Figures
-        self.figures[1] = notation.Notation('6,4+,2')
-        self.figures[2] = notation.Notation('6')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4+,2')
+        self.figures[2] = m21.figuredBass.notation.Notation('6')
 
 
 class SLRule_16(SLRule):
@@ -449,9 +448,9 @@ class SLRule_16(SLRule):
         self.harmonic_content[2] = ['hasSeventh']
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('----')
-        self.figures[2] = notation.Notation('7')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('----')
+        self.figures[2] = m21.figuredBass.notation.Notation('7')
 
 
 class SLRule_17(SLRule):
@@ -478,7 +477,7 @@ class SLRule_17(SLRule):
         self.beats[2] = [1]
 
         #Figures
-        self.figures[1] = notation.Notation('6')
+        self.figures[1] = m21.figuredBass.notation.Notation('6')
 
 
 class SLRule_18(SLRule):
@@ -504,9 +503,9 @@ class SLRule_18(SLRule):
         self.beats[2] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('6')
-        self.figures[2] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6')
+        self.figures[2] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_19(SLRule):
@@ -531,8 +530,8 @@ class SLRule_19(SLRule):
         self.harmonic_content[0] = ['hasDiminishedFifth']
 
         #Figures
-        self.figures[1] = notation.Notation('7')
-        self.figures[2] = notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('7')
+        self.figures[2] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_20(SLRule):
@@ -560,9 +559,9 @@ class SLRule_20(SLRule):
         self.beats[2] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('6,5b')
-        self.figures[1] = notation.Notation('5,3')
-        self.figures[2] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('6,5b')
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[2] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_21(SLRule):
@@ -587,9 +586,9 @@ class SLRule_21(SLRule):
         self.beats[2] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('6')
-        self.figures[2] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6')
+        self.figures[2] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_22(SLRule):
@@ -616,9 +615,9 @@ class SLRule_22(SLRule):
         self.beats[2] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('6,4+')
-        self.figures[2] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4+')
+        self.figures[2] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_23(SLRule):
@@ -646,10 +645,10 @@ class SLRule_23(SLRule):
         self.beats[3] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('6')
-        self.figures[2] = notation.Notation('6,5b')
-        self.figures[3] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6')
+        self.figures[2] = m21.figuredBass.notation.Notation('6,5b')
+        self.figures[3] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_24a(SLRule):
@@ -681,10 +680,10 @@ class SLRule_24a(SLRule):
         self.beats[3] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('6')
-        self.figures[2] = notation.Notation('6+')  # TODO'6+(5-)')
-        self.figures[3] = notation.Notation('5,3+')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6')
+        self.figures[2] = m21.figuredBass.notation.Notation('6+')  # TODO'6+(5-)')
+        self.figures[3] = m21.figuredBass.notation.Notation('5,3+')
 
 
 class SLRule_24a1(SLRule):
@@ -715,10 +714,10 @@ class SLRule_24a1(SLRule):
         self.extras[1] = ['duration:lessThanPreceding']
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('6,4,2')
-        self.figures[2] = notation.Notation('6+')  # TODO'6+(5-)')
-        self.figures[3] = notation.Notation('5,3+')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4,2')
+        self.figures[2] = m21.figuredBass.notation.Notation('6+')  # TODO'6+(5-)')
+        self.figures[3] = m21.figuredBass.notation.Notation('5,3+')
 
 
 class SLRule_24b1(SLRule):
@@ -753,10 +752,10 @@ class SLRule_24b1(SLRule):
         self.harmonic_content[0] = ['perfectMajorTriadNoSeven']  # TODO-maybewrong
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+')
-        self.figures[1] = notation.Notation('6,4+,2')
-        self.figures[2] = notation.Notation('6+')
-        self.figures[3] = notation.Notation('5,3-')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4+,2')
+        self.figures[2] = m21.figuredBass.notation.Notation('6+')
+        self.figures[3] = m21.figuredBass.notation.Notation('5,3-')
 
 
 class SLRule_24b2(SLRule):
@@ -791,10 +790,10 @@ class SLRule_24b2(SLRule):
         self.harmonic_content[0] = ['minorTriadNoSeven']  # TODO-maybewrong
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+')
-        self.figures[1] = notation.Notation('6,4,2')
-        self.figures[2] = notation.Notation('6+,4,3')
-        self.figures[3] = notation.Notation('5,3-')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4,2')
+        self.figures[2] = m21.figuredBass.notation.Notation('6+,4,3')
+        self.figures[3] = m21.figuredBass.notation.Notation('5,3-')
 
 
 class SLRule_24c(SLRule):
@@ -826,10 +825,10 @@ class SLRule_24c(SLRule):
         self.beats[3] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3-')
-        self.figures[1] = notation.Notation('5,3+')
-        self.figures[2] = notation.Notation('6,4+,3')
-        self.figures[3] = notation.Notation('5,3+')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3-')
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[2] = m21.figuredBass.notation.Notation('6,4+,3')
+        self.figures[3] = m21.figuredBass.notation.Notation('5,3+')
 
 
 class SLRule_24c1(SLRule):
@@ -865,11 +864,11 @@ class SLRule_24c1(SLRule):
         self.extras[2] = ['duration:twiceAsPreviousTwo']
 
         #Figures
-        self.figures[0] = notation.Notation('5,3-')
-        self.figures[1] = notation.Notation('6,4,2')
-        self.figures[2] = ['split', notation.Notation('7,5'),
-                            notation.Notation('6,4,3')]
-        self.figures[3] = notation.Notation('5,3+')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3-')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4,2')
+        self.figures[2] = ['split', m21.figuredBass.notation.Notation('7,5'),
+                            m21.figuredBass.notation.Notation('6,4,3')]
+        self.figures[3] = m21.figuredBass.notation.Notation('5,3+')
 
 
 class SLRule_25a(SLRule):
@@ -910,11 +909,11 @@ class SLRule_25a(SLRule):
         self.extras[0] = ['scale:on5th']
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+')
-        self.figures[1] = notation.Notation('6,4+,2')
-        self.figures[2] = notation.Notation('6,3')
-        self.figures[3] = notation.Notation('6+')
-        self.figures[4] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4+,2')
+        self.figures[2] = m21.figuredBass.notation.Notation('6,3')
+        self.figures[3] = m21.figuredBass.notation.Notation('6+')
+        self.figures[4] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_25b(SLRule):
@@ -955,11 +954,11 @@ class SLRule_25b(SLRule):
         self.extras[0] = ['scale:on5th']
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+')
-        self.figures[1] = notation.Notation('6,4+,2')
-        self.figures[2] = notation.Notation('6,3')
-        self.figures[3] = notation.Notation('6+')
-        self.figures[4] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4+,2')
+        self.figures[2] = m21.figuredBass.notation.Notation('6,3')
+        self.figures[3] = m21.figuredBass.notation.Notation('6+')
+        self.figures[4] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_26a1(SLRule):
@@ -995,12 +994,12 @@ class SLRule_26a1(SLRule):
         self.beats[5] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+')
-        self.figures[1] = notation.Notation('6,4+,2')
-        self.figures[2] = notation.Notation('6,3')
-        self.figures[3] = notation.Notation('6+')
-        self.figures[4] = notation.Notation('5,3')
-        self.figures[5] = notation.Notation('6')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4+,2')
+        self.figures[2] = m21.figuredBass.notation.Notation('6,3')
+        self.figures[3] = m21.figuredBass.notation.Notation('6+')
+        self.figures[4] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[5] = m21.figuredBass.notation.Notation('6')
 
 
 class SLRule_26a2(SLRule):
@@ -1037,12 +1036,12 @@ class SLRule_26a2(SLRule):
         self.beats[5] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+')
-        self.figures[1] = notation.Notation('6,4+,2')
-        self.figures[2] = notation.Notation('6,3')
-        self.figures[3] = notation.Notation('6+')
-        self.figures[4] = notation.Notation('5,3')
-        self.figures[5] = notation.Notation('5,3+')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4+,2')
+        self.figures[2] = m21.figuredBass.notation.Notation('6,3')
+        self.figures[3] = m21.figuredBass.notation.Notation('6+')
+        self.figures[4] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[5] = m21.figuredBass.notation.Notation('5,3+')
 
 
 class SLRule_26b1(SLRule):
@@ -1078,12 +1077,12 @@ class SLRule_26b1(SLRule):
         self.beats[5] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+')
-        self.figures[1] = notation.Notation('6,4+,2')
-        self.figures[2] = notation.Notation('6,3')
-        self.figures[3] = notation.Notation('6+')
-        self.figures[4] = notation.Notation('5,3')
-        self.figures[5] = notation.Notation('6')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4+,2')
+        self.figures[2] = m21.figuredBass.notation.Notation('6,3')
+        self.figures[3] = m21.figuredBass.notation.Notation('6+')
+        self.figures[4] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[5] = m21.figuredBass.notation.Notation('6')
 
 
 class SLRule_26b2(SLRule):
@@ -1120,12 +1119,12 @@ class SLRule_26b2(SLRule):
         self.beats[5] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+')
-        self.figures[1] = notation.Notation('6,4+,2')
-        self.figures[2] = notation.Notation('6,3')
-        self.figures[3] = notation.Notation('6+')
-        self.figures[4] = notation.Notation('5,3')
-        self.figures[5] = notation.Notation('5,3+')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4+,2')
+        self.figures[2] = m21.figuredBass.notation.Notation('6,3')
+        self.figures[3] = m21.figuredBass.notation.Notation('6+')
+        self.figures[4] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[5] = m21.figuredBass.notation.Notation('5,3+')
 
 
 class SLRule_27a(SLRule):
@@ -1159,11 +1158,11 @@ class SLRule_27a(SLRule):
         self.intervals[3] = [m21.interval.ChromaticInterval(2)]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('6+')
-        self.figures[2] = notation.Notation('6')
-        self.figures[3] = notation.Notation('5,3')
-        self.figures[4] = notation.Notation('5,3+')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6+')
+        self.figures[2] = m21.figuredBass.notation.Notation('6')
+        self.figures[3] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[4] = m21.figuredBass.notation.Notation('5,3+')
 
 
 class SLRule_27b(SLRule):
@@ -1195,11 +1194,11 @@ class SLRule_27b(SLRule):
         self.intervals[3] = [m21.interval.ChromaticInterval(2)]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3')
-        self.figures[1] = notation.Notation('6+')
-        self.figures[2] = notation.Notation('6')
-        self.figures[3] = notation.Notation('5,3')
-        self.figures[4] = notation.Notation('5,3+')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6+')
+        self.figures[2] = m21.figuredBass.notation.Notation('6')
+        self.figures[3] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[4] = m21.figuredBass.notation.Notation('5,3+')
 
 
 class SLRule_28(SLRule):
@@ -1231,9 +1230,9 @@ class SLRule_28(SLRule):
         self.harmonic_content[2] = ['perfectTriadNoSeven']
 
         #Figures
-        self.figures[0] = notation.Notation('5,4')
-        self.figures[1] = notation.Notation('7,3+')
-        self.figures[2] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,4')
+        self.figures[1] = m21.figuredBass.notation.Notation('7,3+')
+        self.figures[2] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_29(SLRule):
@@ -1263,9 +1262,9 @@ class SLRule_29(SLRule):
         self.extras[0] = ['duration:two']
 
         #Figures
-        self.figures[0] = ['split', notation.Notation('5,4'),
-                            notation.Notation('7,3+')]
-        self.figures[1] = notation.Notation('5,3')
+        self.figures[0] = ['split', m21.figuredBass.notation.Notation('5,4'),
+                            m21.figuredBass.notation.Notation('7,3+')]
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_30(SLRule):
@@ -1292,8 +1291,8 @@ class SLRule_30(SLRule):
         self.beats[1] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,3+')  # '5,3+(7)')
-        self.figures[1] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3+')  # '5,3+(7)')
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_31(SLRule):
@@ -1321,9 +1320,9 @@ class SLRule_31(SLRule):
         self.beats[1] = [1]
 
         #Figures
-        self.figures[0] = notation.Notation('5,4')
-        self.figures[1] = notation.Notation('7,5,3+')
-        self.figures[2] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,4')
+        self.figures[1] = m21.figuredBass.notation.Notation('7,5,3+')
+        self.figures[2] = m21.figuredBass.notation.Notation('5,3')
 
 
 class SLRule_32(SLRule):
@@ -1355,10 +1354,10 @@ class SLRule_32(SLRule):
 
         #Figures
         self.figures[0] = ['split',
-                            notation.Notation('5,4'),
-                            notation.Notation('8,5,3+'),
-                            notation.Notation('7,5,3+')]
-        self.figures[2] = notation.Notation('5,3')
+                            m21.figuredBass.notation.Notation('5,4'),
+                            m21.figuredBass.notation.Notation('8,5,3+'),
+                            m21.figuredBass.notation.Notation('7,5,3+')]
+        self.figures[2] = m21.figuredBass.notation.Notation('5,3')
 
 #*************************
 

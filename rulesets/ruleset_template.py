@@ -4,8 +4,7 @@
 import rules
 import sys
 import inspect
-from music21 import interval
-from music21.figuredBass import notation
+import music21 as m21
 
 import logging_setup as Logging
 LOG = Logging.getLogger('rules')
@@ -61,8 +60,8 @@ class Yourrulename(YOURRule):            # ADJUST: "YOURRule", "Yourrulename"
         self.harmonic_content[1] = ['perfectTriadNoSeven']
 
         #Figures:
-        self.figures[0] = notation.Notation('6,3')
-        self.figures[1] = notation.Notation('5,3')
+        self.figures[0] = m21.figuredBass.notation.Notation('6,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3')
 
 #*************************
 
