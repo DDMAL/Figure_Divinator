@@ -4,33 +4,12 @@
 # Tests and applies the list of rules
 
 import music21 as m21
-# from music21 import interval
-# from music21 import note
-# from music21 import chord
-from rules import Rule
-from rules import Ruleset
+# from rules import Rule
+# from rules import Ruleset
+import rules
 
 import logging_setup as Logging
 LOG = Logging.getLogger('rules')
-
-#* * *IMPORT ALL POSSIBLE RULESETS* * *
-import ruleset_SL as SL
-import ruleset_octave as octave
-
-
-#Get specific rules
-def get_rules(ruleset):
-
-    if ruleset[0] == "SL":
-        extraction_rules = SL.all_rules()
-
-    elif ruleset[0] == "octave":
-        extraction_rules = octave.all_rules()
-
-    else:
-        extraction_rules = Ruleset(ruleset).rulelist
-
-    return extraction_rules
 
 
 #* * * * Interval key:
@@ -48,6 +27,7 @@ def get_rules(ruleset):
     # perfect fifth:     interval.ChromaticInterval(7)
     # minor sixth:       interval.ChromaticInterval(8)
     # major sixth:       interval.ChromaticInterval(9)
+
 
 class rule_crawler(object):
     def __init__(self, extraction_work, **kwargs):
@@ -254,7 +234,7 @@ class rule_crawler(object):
         self.rule_min = self.total_length
 
     def _load_rules(self, incomingrules):
-        self.ruleset = get_rules(incomingrules)
+        self.ruleset = rules.get_ruleset(incomingrules).rulelist
         self.score._allrules = self.ruleset  # Save to orig score, too.
         for rule in self.ruleset:
             if rule.size > self.rule_max:

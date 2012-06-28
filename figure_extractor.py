@@ -131,7 +131,7 @@ class ExtractionWork(object):
         self._fb_figureString = ['n' for x in range(basslength)]
 
         #Run through rules
-        ruler = rule_crawler(self)
+        ruler = rule_crawler.rule_crawler(self)
         ruler.full_check_rules()
         ruler.full_apply_rules()
 
