@@ -1,7 +1,5 @@
 import figure_extractor
-from music21 import stream
-from music21 import metadata
-from music21 import note
+import music21 as m21
 
 solutions = [
                 ('1a', 'BB2_6 C2_falsefifth'),
@@ -14,15 +12,15 @@ SIZE = 2  # Number of parts in the test files -- hardcoded!
 
 
 #Setup
-resultsscore = stream.Score()
-resultsscore.append(metadata.Metadata())
+resultsscore = m21.stream.Score()
+resultsscore.append(m21.metadata.Metadata())
 resultsscore.metadata.title = "Saint Lambert's examples"
 
 numparts = SIZE + 2
 numstrings = ['Solution key:', 'Our extraction:']
 for i in range(numparts):
-    resultsscore.append(stream.Part())
-    n = note.Note()
+    resultsscore.append(m21.stream.Part())
+    n = m21.note.Note()
     n.duration.type = "whole"
     n.color = 'blue'
     n.lyric = ':'
@@ -34,7 +32,7 @@ for i in range(numparts):
     if i == SIZE + 1:
         n.lyric = 'Our extraction:'
         n.color = 'black'
-    p = stream.Part()
+    p = m21.stream.Part()
     p.append(n)
     resultsscore.parts[i].append(p)
 
@@ -47,9 +45,9 @@ for x in solutions:
     score = figure_extractor.full_extraction(this_file, this_rule, solution=this_solution, display=False)
 
     #Label the extracted score
-    if score.output_score[2].flat.getElementsByClass(note.Note)[0]:
+    if score.output_score[2].flat.getElementsByClass(m21.note.Note)[0]:
         lyriclabel = '<File ' + x[0] + '>'
-        score.output_score[2].flat.getElementsByClass(note.Note)[0].lyric = lyriclabel
+        score.output_score[2].flat.getElementsByClass(m21.note.Note)[0].lyric = lyriclabel
 
     #Add this extracted score to full results
     for i in range(numparts):

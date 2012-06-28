@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
-from matplotlib.ticker import NullLocator
+import matplotlib.ticker as mpltick
 import os
-from music21 import note
+import music21 as m21
 
 
 def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
@@ -62,9 +61,9 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
 
     # Plot all the measures across the bottom
     start_index = 0
-    start_measure = score._bassline.flat.getElementsByClass(note.Note)[0].measureNumber
-    for i in range(len(score._bassline.flat.getElementsByClass(note.Note))):
-        n = score._bassline.flat.getElementsByClass(note.Note)[i]
+    start_measure = score._bassline.flat.getElementsByClass(m21.note.Note)[0].measureNumber
+    for i in range(len(score._bassline.flat.getElementsByClass(m21.note.Note))):
+        n = score._bassline.flat.getElementsByClass(m21.note.Note)[i]
         if n.measureNumber == start_measure:
             pass
         else:
@@ -72,7 +71,7 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
             start_index = i
             start_measure = n.measureNumber
     makemeasure(ax, start_index,
-        len(score._bassline.flat.getElementsByClass(note.Note)) - 1,
+        len(score._bassline.flat.getElementsByClass(m21.note.Note)) - 1,
         start_measure, len(yticks))
 
     #Plot each rule possible
@@ -95,8 +94,8 @@ def makePlot(score, allRules=False, filepath='temporary_rule_plot', viewResults=
     ax.set_xlabel('Note indicies: \nEach vertical dotted ' + \
                     'line represents a single note in the score\'s bass line)')
     ax.set_xlim(0, len(score.possible_rules) - 1)
-    ax.xaxis.set_major_locator(NullLocator())
-    ax.xaxis.set_minor_locator(MultipleLocator(1))
+    ax.xaxis.set_major_locator(mpltick.NullLocator())
+    ax.xaxis.set_minor_locator(mpltick.MultipleLocator(1))
     ax.grid(True, which='minor')
     ax.grid(True, linestyle='-')
 

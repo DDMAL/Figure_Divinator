@@ -3,9 +3,10 @@
 # depending on what rule set is called;
 # Tests and applies the list of rules
 
-from music21 import interval
-from music21 import note
-from music21 import chord
+import music21 as m21
+# from music21 import interval
+# from music21 import note
+# from music21 import chord
 from rules import Rule
 from rules import Ruleset
 
@@ -54,7 +55,7 @@ class rule_crawler(object):
         self.ruleset = []  # TODO  = kwargs.get('ruleset', [])
         #self.direction = kwargs.get('direction','backward')
 
-        self.total_length = len(self.score._bassline.flat.getElementsByClass(note.Note))
+        self.total_length = len(self.score._bassline.flat.getElementsByClass(m21.note.Note))
         self.rule_max = 0
         self.rule_min = 0
         self.possible_rules = [{} for i in range(self.total_length)]
@@ -249,7 +250,7 @@ class rule_crawler(object):
         return winner, loser
 
     def _load_score(self):
-        self.total_length = len(self.score._bassline.flat.getElementsByClass(note.Note))
+        self.total_length = len(self.score._bassline.flat.getElementsByClass(m21.note.Note))
         self.rule_min = self.total_length
 
     def _load_rules(self, incomingrules):
@@ -263,7 +264,7 @@ class rule_crawler(object):
 
     def _chunkify(self, start_index, end_index):
         L = end_index - start_index
-        bassfull = self.score._bassline.flat.getElementsByClass(note.Note)
+        bassfull = self.score._bassline.flat.getElementsByClass(m21.note.Note)
         chunk = bassfull[start_index:end_index]
         chunk.start_measure = chunk[0].measureNumber
         chunk.start_beat = chunk[0].beat
@@ -271,7 +272,7 @@ class rule_crawler(object):
         #Get intervals
         chunk.intervals = [False for x in range(L - 1)]
         for x in range(L - 1):
-            chunk.intervals[x] = interval.Interval(noteStart=chunk[x], noteEnd=chunk[x + 1])
+            chunk.intervals[x] = m21.interval.Interval(noteStart=chunk[x], noteEnd=chunk[x + 1])
 
         #Get beats
         chunk.beats = [x.beat for x in chunk]
@@ -281,7 +282,7 @@ class rule_crawler(object):
         chunk.harmonic_content = [False for x in range(L)]
         for x in range(L):
             o = chunk[x].offset
-            c = self.score._chordscore.flat.getElementsByClass(chord.Chord).getElementAtOrBefore(o)
+            c = self.score._chordscore.flat.getElementsByClass(m21.chord.Chord).getElementAtOrBefore(o)
             chunk.harmonic_content[x] = c
 
         #Get additional info
@@ -356,7 +357,7 @@ class rule_crawler(object):
 
                 elif r == 'hasSix':
                     #TODO: get rid of %12 semitones if direction matters!
-                    invls = [interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
+                    invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                     if 9 not in invls and 8 not in invls:
                         rbool = False
                         LOG.debug('   ...don\'t pass our hasSix()')
@@ -365,7 +366,7 @@ class rule_crawler(object):
 
                 elif r == 'notHasSix':
                     #TODO: get rid of %12 semitones if direction matters!
-                    invls = [interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
+                    invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                     if 9 in invls or 8 in invls:
                         rbool = False
                         LOG.debug('   ...don\'t pass our notHasSix()')
@@ -374,7 +375,7 @@ class rule_crawler(object):
 
                 elif r == 'hasSharpSix':
                     #TODO: get rid of %12 semitones if direction matters!
-                    invls = [interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
+                    invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                     if not 9 in invls:
                         rbool = False
                         LOG.debug('   ...don\'t pass our hasSharpSix()')
@@ -382,7 +383,7 @@ class rule_crawler(object):
                         LOG.debug('   ...pass our hasSharpSix()')
 
                 elif r == 'hasSeventh':
-                    invls = [interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
+                    invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                     if 10 not in invls and 11 not in invls:
                         rbool = False
                         LOG.debug('   ...don\'t pass our hasSeventh()')
@@ -390,7 +391,7 @@ class rule_crawler(object):
                         LOG.debug('   ...pass our hasSeventh()')
 
                 elif r == 'hasDiminishedFifth':
-                    invls = [interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
+                    invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                     if 6 not in invls:
                         rbool = False
                         LOG.debug('   ...don\'t pass our hasDiminishedFifth()')
