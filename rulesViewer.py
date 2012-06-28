@@ -2,7 +2,7 @@
 """
 
 import argparse
-import rule_crawler
+import rules
 import logging_setup as Logging
 
 LOG = Logging.getLogger('rulesViewer')
@@ -39,7 +39,7 @@ parser.add_argument('-content', action='store_true',
 parser.add_argument('-extras', action='store_true',
                     dest='viewExtra', default=False,
                     help='Just extras')
-parser.add_argument('-r', nargs='*', dest='rules_type', default=['SL'], help='Set of rules to list')
+parser.add_argument('-r', nargs='*', dest='rules_type', default='SL', help='Set of rules to list')
 
 #Set flags
 args = parser.parse_args()
@@ -57,84 +57,80 @@ if (args.viewTodo == False and args.viewSize == False and
         args.viewContent = True
         args.viewExtra = True
 
-try:
-    # Get the extraction rules
-    extraction_rules = rule_crawler.get_rules(ruleSet)
 
-    rules_umbrella = ""
+# Get the extraction rules
+extraction_rules = rules.get_ruleset(ruleSet).rulelist
 
-    for rule in extraction_rules:
-        if rules_umbrella != rule.umbrella:
-            rules_umbrella = rule.umbrella
-            LOG.info("* * RULE SET: %s * *", rules_umbrella)
+rules_umbrella = ""
 
-        named = False
+for rule in extraction_rules:
+    if rules_umbrella != rule.umbrella:
+        rules_umbrella = rule.umbrella
+        LOG.info("* * RULE SET: %s * *", rules_umbrella)
 
-        def not_all_false(items):
-            return not all(x == False for x in items)
+    named = False
 
-        if args.viewSize == True:
-            if named == False:
-                LOG.info("\n" + rule.__class__.__name__ + ":")
-                named = True
-            LOG.info("          size: " + str(rule.size))
+    def not_all_false(items):
+        return not all(x == False for x in items)
 
-        if args.viewIntervals == True and not_all_false(rule.intervals):
-            if named == False:
-                LOG.info("\n" + rule.__class__.__name__ + ":")
-                named = True
-            intstr = ''
-            for i in range(len(rule.intervals)):
-                intstr = intstr + '{'
-                for j in range(len(rule.intervals[i])):
-                    if j > 0:
-                        intstr = intstr + ' or '
-                    intstr = intstr + str(rule.intervals[i][j].simpleDirected)
-                intstr = intstr + '} '
-            LOG.info("     intervals: " + intstr)
+    if args.viewSize == True:
+        if named == False:
+            LOG.info("\n" + rule.__class__.__name__ + ":")
+            named = True
+        LOG.info("          size: " + str(rule.size))
 
-        if args.viewBeats == True and not_all_false(rule.beats):
-            if named == False:
-                LOG.info("\n" + rule.__class__.__name__ + ":")
-                named = True
-            LOG.info("         beats: " + str(rule.beats))
+    if args.viewIntervals == True and not_all_false(rule.intervals):
+        if named == False:
+            LOG.info("\n" + rule.__class__.__name__ + ":")
+            named = True
+        intstr = ''
+        for i in range(len(rule.intervals)):
+            intstr = intstr + '{'
+            for j in range(len(rule.intervals[i])):
+                if j > 0:
+                    intstr = intstr + ' or '
+                intstr = intstr + str(rule.intervals[i][j].simpleDirected)
+            intstr = intstr + '} '
+        LOG.info("     intervals: " + intstr)
 
-        if args.viewContent == True and not_all_false(rule.harmonic_content):
-            if named == False:
-                LOG.info("\n" + rule.__class__.__name__ + ":")
-                named = True
-            LOG.info("      hcontent: " + str(rule.harmonic_content))
+    if args.viewBeats == True and not_all_false(rule.beats):
+        if named == False:
+            LOG.info("\n" + rule.__class__.__name__ + ":")
+            named = True
+        LOG.info("         beats: " + str(rule.beats))
 
-        if args.viewExtra == True and not_all_false(rule.extras):
-            if named == False:
-                LOG.info("\n" + rule.__class__.__name__ + ":")
-                named = True
-            LOG.info("         extra: " + str(rule.extras))
+    if args.viewContent == True and not_all_false(rule.harmonic_content):
+        if named == False:
+            LOG.info("\n" + rule.__class__.__name__ + ":")
+            named = True
+        LOG.info("      hcontent: " + str(rule.harmonic_content))
 
-        if args.viewFigures == True and not_all_false(rule.figures):
-            if named == False:
-                LOG.info("\n" + rule.__class__.__name__ + ":")
-                named = True
-            try:
-                figstr = '[' + rule.figures[0].notationColumn + ']'
-            except:  # TODO - figure out type of exception
-                figstr = '[NA]'
-                for i in range(1, len(rule.figures)):
-                    try:
-                        figstr = figstr + '; [' + rule.figures[i].notationColumn + ']'
-                    except:  # TODO - figure out type of exception
-                        figstr = figstr + '; [NA]'
+    if args.viewExtra == True and not_all_false(rule.extras):
+        if named == False:
+            LOG.info("\n" + rule.__class__.__name__ + ":")
+            named = True
+        LOG.info("         extra: " + str(rule.extras))
 
-            LOG.info("       figures: " + figstr)
+    if args.viewFigures == True and not_all_false(rule.figures):
+        if named == False:
+            LOG.info("\n" + rule.__class__.__name__ + ":")
+            named = True
+        try:
+            figstr = '[' + rule.figures[0].notationColumn + ']'
+        except:  # TODO - figure out type of exception
+            figstr = '[NA]'
+            for i in range(1, len(rule.figures)):
+                try:
+                    figstr = figstr + '; [' + rule.figures[i].notationColumn + ']'
+                except:  # TODO - figure out type of exception
+                    figstr = figstr + '; [NA]'
 
-        if args.viewTodo == True and rule.todo != "undefined":
-            if named == False:
-                LOG.info("\n" + rule.__class__.__name__ + ":")
-                named = True
-            LOG.info("         to do: %s", rule.todo)
+        LOG.info("       figures: " + figstr)
 
-    LOG.info("* * DONE REVIEWING RULES. * *")
+    if args.viewTodo == True and rule.todo != "undefined":
+        if named == False:
+            LOG.info("\n" + rule.__class__.__name__ + ":")
+            named = True
+        LOG.info("         to do: %s", rule.todo)
 
-except rule_crawler.RuleImplementationError:
-    LOG.critical("cannot find extraction rule or rules are not all valid")
-    exit(1)
+LOG.info("* * DONE REVIEWING RULES. * *")
