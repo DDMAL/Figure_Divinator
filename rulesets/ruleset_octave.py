@@ -35,6 +35,9 @@ def full_ruleset():
         try:
             if issubclass(rule, octaveRule):
                 allrules.append(rule())
+
+                #Add rule to global rule dictionary
+                rules.full_rule_dictionary[name] = rule
         except TypeError:
             pass
 
@@ -96,4 +99,7 @@ class octave_2(octaveRule):
         self.figures[0] = notation.Notation('-')
         self.figures[1] = notation.Notation('--')
 
+#*************************
+
+#Create Ruleset from all these rules, add to dictionary
 rules.packagedRulesets[key_name] = full_ruleset()

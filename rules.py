@@ -30,10 +30,12 @@ class Ruleset(object):
             self.rulelist = rules
 
         else:
-            for rule in rules:
+            for r in rules:
                 #Try adding it from string
                 try:
+                    rule = full_rule_dictionary[r]
                     new_rule = rule()
+                    #new_rule = r()
                     self.rulelist.append(new_rule)
                 except Exception:
                     raise
@@ -45,6 +47,7 @@ class Ruleset(object):
 
 #Import all the rulesets in the 'rulesets' directory:
 packagedRulesets = {}
+full_rule_dictionary = {}
 for filename in os.listdir('rulesets'):
     if (filename == 'ruleset_template.py' or
         filename[-3:] != '.py' or filename == '__init__.py'):

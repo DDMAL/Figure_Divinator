@@ -36,6 +36,9 @@ def full_ruleset():
         try:
             if issubclass(rule, SLRule):
                 allrules.append(rule())
+
+                #Add rule to global rule dictionary
+                rules.full_rule_dictionary[name] = rule
         except TypeError:
             pass
 
@@ -64,8 +67,8 @@ class SLRule_3(SLRule):
         self.todo = 'interval to diatonic!'
 
         #Conditions:
-        self.intervals[0] = [interval.ChromaticInterval(1)] #TODO:diatonic semitone
-        self.harmonic_content[1] = ['perfectTriadNoSeven'] #TODO:diatonic semitone
+        self.intervals[0] = [interval.ChromaticInterval(1)]  # TODO:diatonic semitone
+        self.harmonic_content[1] = ['perfectTriadNoSeven']  # TODO:diatonic semitone
 
         #Figures:
         self.figures[0] = notation.Notation('6,3')
@@ -1356,6 +1359,8 @@ class SLRule_32(SLRule):
                             notation.Notation('8,5,3+'),
                             notation.Notation('7,5,3+')]
         self.figures[2] = notation.Notation('5,3')
+
+#*************************
 
 #Create Ruleset from all these rules, add to dictionary
 rules.packagedRulesets[key_name] = full_ruleset()

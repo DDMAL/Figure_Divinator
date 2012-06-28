@@ -13,6 +13,7 @@ LOG = Logging.getLogger('rules')
 key_name = "TEMP"                                       # ADJUST: "YOURRule"
 long_name = "FULL NAME"                                 # ADJUST: "YOURRule"
 
+
 class YOURRule(rules.Rule):                             # ADJUST: "YOURRule"
     def __init__(self, size):  # size=1
         rules.Rule.__init__(self)
@@ -35,6 +36,9 @@ def full_ruleset():
         try:
             if issubclass(rule, YOURRule):              # ADJUST: "YOURRule"
                 allrules.append(rule())
+
+                #Add rule to global rule dictionary
+                rules.full_rule_dictionary[name] = rule
         except TypeError:
             pass
 
@@ -60,7 +64,7 @@ class Yourrulename(YOURRule):            # ADJUST: "YOURRule", "Yourrulename"
         self.figures[0] = notation.Notation('6,3')
         self.figures[1] = notation.Notation('5,3')
 
-#* * * * * * * * *
-#* * * * * * * * *
+#*************************
 
+#Create Ruleset from all these rules, add to dictionary
 rules.packagedRulesets[key_name] = full_ruleset()
