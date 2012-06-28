@@ -220,7 +220,7 @@ class rule_crawler(object):
         if decision == False:
             loser = ruleB
             winner = ruleA
-            reason = 'random assignment'
+            reason = 'arbitrary assignment'
 
         LOG.info('  Compared %s and %s:',
                     ruleA.__class__.__name__, ruleB.__class__.__name__,)
@@ -247,7 +247,10 @@ class rule_crawler(object):
         bassfull = self.score._bassline.flat.getElementsByClass(m21.note.Note)
         chunk = bassfull[start_index:end_index]
         chunk.start_measure = chunk[0].measureNumber
-        chunk.start_beat = chunk[0].beat
+        try:
+            chunk.start_beat = chunk[0].beat
+        except:
+            chunk.start_beat = -1
 
         #Get intervals
         chunk.intervals = [False for x in range(L - 1)]
@@ -255,7 +258,12 @@ class rule_crawler(object):
             chunk.intervals[x] = m21.interval.Interval(noteStart=chunk[x], noteEnd=chunk[x + 1])
 
         #Get beats
-        chunk.beats = [x.beat for x in chunk]
+        chunk.beats = [-1 for x in chunk]
+        for x in range(len(chunk)):
+            try:
+                chunk.beats[x] = chunk[x].beat
+            except:
+                print ("can't find a beat for the %s note of chunk starting in measure", x, chunk.start_measure)
 
         #Get harmonic content
         #TODO:Note - currently, only gets direct chord (not all notes until next chord)
