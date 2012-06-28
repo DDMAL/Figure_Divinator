@@ -25,13 +25,13 @@ args=(sys.stdout,)
 class=FileHandler
 level=DEBUG
 formatter=plain
-args=("rule_results.log","w")
+args=("results/rule_results.log","w")
 
 [handler_logfile]
 class=FileHandler
 level=DEBUG
 formatter=module_only
-args=("figured_bass.log","w")
+args=("results/figured_bass.log","w")
 
 [handler_stdout_plain]
 class=StreamHandler

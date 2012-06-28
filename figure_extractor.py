@@ -76,7 +76,7 @@ class ExtractionWork(object):
         (input_base, ext_sep, input_ext) = self.score_input.rpartition(os.extsep)
 
         self.input_filename = input_base + ext_sep + input_ext
-        self.output_filename = (input_base + '_figured_bass' + ext_rule +
+        self.output_filename = ('results/' + input_base + '_figured_bass' + ext_rule +
                             ext_sep + input_ext)
 
         # Open score with Music21
