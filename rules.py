@@ -1,9 +1,14 @@
 # Figured bass extractor rules:
 # basic rule class; tests the list of rules
 import os
+import logging_setup as Logging
+
+LOG = Logging.getLogger('rules')
 
 packagedRulesets = {}
 full_rule_dictionary = {}
+extraCheck_dictionary = {}
+harmonicCheck_dictionary = {}
 
 
 class Rule(object):
@@ -95,21 +100,25 @@ def check_rules_coexist(ruleA, ruleB, indexA=0, indexB=0):
     overlap_length = min(ruleA.size - indexA, ruleB.size - indexB)
 
     #For each step compared, check the interval:
-    for i in range(overlap_length - 1):
+    for i in range(overlap_length - 1):  # TODO - make sure works!
         if (ruleA.intervals[indexA + i] and ruleB.intervals[indexB + i] and not
             lists_overlap(ruleA.intervals[indexA + i], ruleB.intervals[indexB + i])):
             return False
 
-    # ...check beat and harmonies: -- harmonies need more looking into
+    # For each rule note compared, check...
     for i in range(overlap_length):
+
+        # ...beats: TODO - make sure this is actually picked up by lists_overlap!
         if (ruleA.beats[indexA + i] and ruleB.beats[indexB + i] and not
             lists_overlap(ruleA.beats[indexA + i], ruleB.beats[indexB + i])):
             return False
+
+        # ...harmonic content: TODO - fix
         if (ruleA.harmonic_content[indexA + i] and ruleB.harmonic_content[indexB + i] and not
             lists_overlap(ruleA.harmonic_content[indexA + i], ruleB.harmonic_content[indexB + i])):
             return False
 
-    # ...check extras:
+        # ...extras:
         if ruleA.extras[indexA + i] and ruleB.extras[indexB + i]:
             #for each extra in A...
             for a in ruleA.extras[indexA + i]:
@@ -120,14 +129,17 @@ def check_rules_coexist(ruleA, ruleB, indexA=0, indexB=0):
     return True
 
 
-
 def lists_overlap(listA, listB):
     '''
     If the lists overlap, returns true; else returns false.
     '''
-    print set(listA)
-    print set(listB)
     return bool(set(listA) & set(listB))
+
+
+def beats_overlap(listA, listB):
+    '''
+    '''
+    return
 
 
 def compare_rules(ruleA, ruleB):
@@ -229,7 +241,7 @@ def compare_rules(ruleA, ruleB):
         return winner, loser
 
 
-# For each possible "extra" that a rule could contain, a list of the other extras that it can't coexist with
+# For each possible "extra" that a rule could contain, a list of the other extras that it CANNOT coexist with
 extraCheck_dictionary = {
     'accidental:flat': ['accidental:sharp'],
     'accidental:sharp': ['accidental:flat'],
@@ -241,16 +253,20 @@ extraCheck_dictionary = {
     'meter:triple': []
     }
 
-# For each possible "extra" that a rule could contain, a list of the other extras that it can't coexist with
+# For each possible "extra" that a rule could contain, a list of the other extras that it CAN coexist with
+# TODO - Hank, these need checking!
 harmonyCheck_dictionary = {
-    'accidental:flat': ['accidental:sharp'],
-    'accidental:sharp': ['accidental:flat'],
-    'duration:lessThanPreceding': ['duration:twiceAsPreviousTwo'],
-    'duration:twiceAsPreviousTwo': ['duration:lessThanPreceding'],
-    'scale:on5th': [],
-    'duration:two': [],
-    'duration:shortAgainstSignature': [],
-    'meter:triple': []
+    'isMajor': [],
+    'isPerfect': [],
+    'hasSix': [],
+    'notHasSix': [],
+    'hasSharpSix': [],
+    'hasSeventh': ['perfectMajorTriadOkSeven'],
+    'hasDiminishedFifth': [],
+    'perfectMajorTriadOkSeven': ['hasSeventh'],
+    'minorTriadNoSeven': ['perfectTriadNoSeven'],
+    'perfectMajorTriadNoSeven': ['perfectTriadNoSeven'],
+    'perfectTriadNoSeven': ['minorTriadNoSeven', 'perfectMajorTriadNoSeven']
     }
 
 #Import all the rulesets in the 'rulesets' directory:
