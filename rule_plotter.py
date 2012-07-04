@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mpltick
 import os
 import music21 as m21
+import rules
 
 
 def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
@@ -16,7 +17,7 @@ def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
     axes_handle.text(startIndex, 0.05, str(number))
 
 
-def makeline(axes_handle, startIndex, ruleIndex, ruleLength,
+def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength,
             chosen='maybe', H=.8, barcolor='yellow', stickcolor='purple'):
     """
     Function to plot each rule as a bar
@@ -81,7 +82,7 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
                 applied = 'maybe'
                 if r in score.chosen_rules[i]:
                     applied = 'yes'
-                makeline(ax, i, these_rules.index(r), r.size, applied)
+                makerulebox(ax, i, these_rules.index(r), r.size, chosen=applied)
 
     #Time to format plot!
     #Deal with y-axis
@@ -98,6 +99,84 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
     ax.xaxis.set_minor_locator(mpltick.MultipleLocator(1))
     ax.grid(True, which='minor')
     ax.grid(True, linestyle='-')
+
+    #Save it!
+    filepath = filepath + '.png'
+    fig.savefig(filepath, dpi=800)
+
+    #Open it?
+    if viewResults:
+        os.system("open " + filepath)
+
+
+def makePlotFromRuleset(ruleset, ruleOffset=False, filepath='results/temporary_ruleset_plot', viewResults=True):
+    """
+    Given a ruleset, show all rules and the chosen rules.
+    """
+    plottitle = (unicode('Rule interactions from rule set ') + unicode(str(ruleset.name)))
+    fig = plt.figure()
+    ax = fig.add_subplot(111, title=plottitle)
+    ax.set_axisbelow(True)
+
+    #What rules are we plotting here?
+    these_rules = ruleset.rulelist
+    yticks = [a.__class__.__name__ for a in these_rules]
+    #yticks.insert(0, 'Measures:\n')
+
+    # Plot all the measures across the bottom
+    # start_index = 0
+    # start_measure = score._bassline.flat.getElementsByClass(m21.note.Note)[0].measureNumber
+    # for i in range(len(score._bassline.flat.getElementsByClass(m21.note.Note))):
+    #     n = score._bassline.flat.getElementsByClass(m21.note.Note)[i]
+    #     if n.measureNumber == start_measure:
+    #         pass
+    #     else:
+    #         makemeasure(ax, start_index, i, start_measure, len(yticks))
+    #         start_index = i
+    #         start_measure = n.measureNumber
+    # makemeasure(ax, start_index,
+    #     len(score._bassline.flat.getElementsByClass(m21.note.Note)) - 1,
+    #     start_measure, len(yticks))
+
+    # Starting x value
+    current_x = 0
+    max_rule_length, min_rule_length = rules.rule_max_min(these_rules)
+
+    # For each rule in the ruleset...
+    for i in range(len(these_rules)):
+        ruleA = these_rules[i]
+
+        # ...matched against every other rule in the ruleset
+        for j in range(len(these_rules)):
+            ruleB = these_rules[j]
+            applied = 'no'
+
+            if ruleB in ruleset.coexistence_array[ruleA]:
+                applied = 'maybe'
+
+            if ruleB == ruleA:
+                applied = 'yes'
+
+            makerulebox(ax, current_x, these_rules.index(ruleB), ruleB.size, chosen=applied)
+
+        current_x = current_x + max_rule_length + 1
+
+    #Time to format plot!
+    #Deal with y-axis
+    ax.set_ylim(0, len(yticks))
+    ax.set_ylabel('Rule')
+    ax.set_yticks(range(len(yticks)))
+    ax.set_yticklabels(yticks)
+
+    #Deal with x-axis
+    ax.set_xlabel('Note indicies: \nEach vertical dotted ' + \
+                    'line represents a single note in the score\'s bass line)')
+    #ax.set_xlim(0, len(score.possible_rules) - 1)
+    ax.xaxis.set_major_locator(mpltick.MultipleLocator(max_rule_length + 1))
+    ax.xaxis.set_minor_locator(mpltick.MultipleLocator(1))
+    ax.set_xticklabels(yticks)
+    #ax.grid(True, which='minor')
+    #ax.grid(True, linestyle='-')
 
     #Save it!
     filepath = filepath + '.png'
