@@ -291,6 +291,17 @@ def compare_rules(ruleA, ruleB):
         return winner, loser
 
 
+def rule_max_min(rule_list):
+    maxsize = 0
+    minsize = 0
+    for rule in rule_list:
+        if rule.size > maxsize:
+            maxsize = rule.size
+        if rule.size < minsize:
+            minsize = rule.size
+    return maxsize, minsize
+
+
 # For each possible "extra" that a rule could contain, a list of the other extras that it CANNOT coexist with
 extraCheck_dictionary = {
     'accidental:flat': ['accidental:sharp'],

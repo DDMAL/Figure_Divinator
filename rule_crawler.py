@@ -136,11 +136,9 @@ class rule_crawler(object):
     def _load_rules(self, incomingrules):
         self.ruleset = rules.get_ruleset(incomingrules).rulelist
         self.score._allrules = self.ruleset  # Save to orig score, too.
-        for rule in self.ruleset:
-            if rule.size > self.rule_max:
-                self.rule_max = rule.size
-            if rule.size < self.rule_min:
-                self.rule_min = rule.size
+        self.rule_max, self.rule_min = rules.rule_max_min(self.ruleset)
+
+
 
     def _chunkify(self, start_index, end_index):
         L = end_index - start_index
