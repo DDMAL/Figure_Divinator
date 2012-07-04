@@ -9,7 +9,7 @@ LOG = Logging.getLogger('rules')
 packagedRulesets = {}
 full_rule_dictionary = {}
 extraCheck_dictionary = {}
-harmonicCheck_dictionary = {}
+harmonyCheck_dictionary = {}
 
 
 class Rule(object):
@@ -33,6 +33,8 @@ class Ruleset(object):
         self.rulelist = []
         self.name = kwargs.get('name', 'Unique Rule Set')
         self.metadata = kwargs.get('metadata', {})
+        self.coexistence_array = False
+        self.winner_array = False
         load = kwargs.get('from_module', False)
 
         # Load is true if this ruleset is being built from a module script
@@ -48,6 +50,10 @@ class Ruleset(object):
                     self.rulelist.append(new_rule)
                 except Exception:
                     print "Sorry, '" + r + "'' doesn't register as a rule..."
+
+    def introspection(self):
+        # Determine which rules can't coexist with each other
+        self.coexistence_array, self.winner_array = compare_rules_in_list(self.rulelist)
 
     def check_validity(self):
         pass  # TODO: make sure all rules are valid
@@ -76,9 +82,12 @@ def compare_rules_in_list(rule_list):
     For each rule in set, compare with each other rule in set.
     '''
     #Create filler return array
-    #returnArray = {}
+    coexistence_array = {}
+    winner_array = {}
     for ruleA in rule_list:
-        LOG.info("Rule %s...", ruleA.__class__.__name__)
+        LOG.info("* * * * *\n\t\tRule %s...", ruleA.__class__.__name__)
+        coexistence_array[ruleA] = []
+        winner_array[ruleA] = []
 
         #Compare with every other rule
         otherRules = [i for i in rule_list if i != ruleA]
@@ -87,13 +96,16 @@ def compare_rules_in_list(rule_list):
 
             #Figure out if they can coexist
             if not check_rules_coexist(ruleA, ruleB):
-                print ("\t\tMutually exclusive")  # TODO - save this thing
+                print ("\t\tMutually exclusive")
                 continue
-            print ("\t\tCoexist!")  # TODO - save this thing
+            print ("\t\tCoexist!")
+            coexistence_array[ruleA].append(ruleB)
 
             #Figure out which rule wins
             #winner, loser = compare_rules(ruleA, ruleB)
             #print ("Rule %s wins")  # TODO - save this thing
+
+    return coexistence_array, winner_array
 
 
 def check_rules_coexist(ruleA, ruleB, indexA=0, indexB=0):
@@ -114,10 +126,12 @@ def check_rules_coexist(ruleA, ruleB, indexA=0, indexB=0):
             lists_overlap(ruleA.beats[indexA + i], ruleB.beats[indexB + i])):
             return False
 
-        # ...harmonic content: TODO - fix
-        if (ruleA.harmonic_content[indexA + i] and ruleB.harmonic_content[indexB + i] and not
-            lists_overlap(ruleA.harmonic_content[indexA + i], ruleB.harmonic_content[indexB + i])):
-            return False
+        # ...harmonic content:
+        if (ruleA.harmonic_content[indexA + i] and ruleB.harmonic_content[indexB + i]):
+            for a in ruleA.harmonic_content[indexA + i]:
+                #If it is mutually exclusive with any in b, return false
+                if not lists_overlap(harmonyCheck_dictionary[a], ruleB.harmonic_content[indexB + i]):
+                    return False
 
         # ...extras:
         if ruleA.extras[indexA + i] and ruleB.extras[indexB + i]:
@@ -183,8 +197,8 @@ def intervals_overlap(intlistA, intlistB):
 
             #check them
             if A == B:
-                LOG.debug("Interval overlap check: Between %s and %s an intersection was found at %s and %s.",
-                          intlistA, intlistB, a, b)
+                #LOG.debug("Interval overlap check: Between %s and %s an intersection was found at %s and %s.",
+                          #intlistA, intlistB, a, b)
                 return True
 
     #If no overlaps have been found, return false
