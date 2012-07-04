@@ -2,6 +2,7 @@
 # basic rule class; tests the list of rules
 import os
 import logging_setup as Logging
+import music21 as m21
 
 LOG = Logging.getLogger('rules')
 
@@ -100,15 +101,15 @@ def check_rules_coexist(ruleA, ruleB, indexA=0, indexB=0):
     overlap_length = min(ruleA.size - indexA, ruleB.size - indexB)
 
     #For each step compared, check the interval:
-    for i in range(overlap_length - 1):  # TODO - make sure works!
+    for i in range(overlap_length - 1):
         if (ruleA.intervals[indexA + i] and ruleB.intervals[indexB + i] and not
-            lists_overlap(ruleA.intervals[indexA + i], ruleB.intervals[indexB + i])):
+            intervals_overlap(ruleA.intervals[indexA + i], ruleB.intervals[indexB + i])):
             return False
 
     # For each rule note compared, check...
     for i in range(overlap_length):
 
-        # ...beats: TODO - make sure this is actually picked up by lists_overlap!
+        # ...beats:
         if (ruleA.beats[indexA + i] and ruleB.beats[indexB + i] and not
             lists_overlap(ruleA.beats[indexA + i], ruleB.beats[indexB + i])):
             return False
@@ -140,6 +141,55 @@ def beats_overlap(listA, listB):
     '''
     '''
     return
+
+
+def intervals_overlap(intlistA, intlistB):
+    '''
+    Takes two lists of any music21 interval objects and returns True if
+    any interval in one list is compatible with any interval in the other.
+    '''
+    for a in intlistA:
+        for b in intlistB:
+
+            #If they're the same...
+            if a.__class__ == b.__class__:
+                A = a
+                B = b
+
+            #Else, if one is interval and the other is diatonic...
+            elif ((a.__class__ == m21.interval.Interval or
+                    b.__class__ == m21.interval.Interval) and
+                    (a.__class__ == m21.interval.diatonicInterval or
+                    b.__class__ == m21.interval.diatonicInterval)):
+                A = a.generic
+                B = b.generic
+
+            #Else, if one is interval and the other is chromatic
+            elif ((a.__class__ == m21.interval.Interval or
+                    b.__class__ == m21.interval.Interval) and
+                    (a.__class__ == m21.interval.chromaticInterval or
+                    b.__class__ == m21.interval.chromaticInterval)):
+                A = a.semitones
+                B = b.semitones
+
+            #Else, one is chromatic and the other is diatonic
+            else:
+                try:
+                    A = a.getDiatonic()
+                    B = b
+                except:
+                    A = a
+                    B = b.getDiatonic()
+
+            #check them
+            if A == B:
+                LOG.debug("Interval overlap check: Between %s and %s an intersection was found at %s and %s.",
+                          intlistA, intlistB, a, b)
+                return True
+
+    #If no overlaps have been found, return false
+    #LOG.debug("Interval overlap check: Between %s and %s no intersection was found.", intlistA, intlistB)
+    return False
 
 
 def compare_rules(ruleA, ruleB):
