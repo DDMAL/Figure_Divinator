@@ -35,14 +35,12 @@ def makeline(axes_handle, startIndex, ruleIndex, ruleLength,
         1 + ruleIndex + H / 2, linewidth=2, color=stickcolor)
 
 
-def makePlot(score, allRules=False, filepath='results/temporary_rule_plot', viewResults=True):
+def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_plot', viewResults=True):
     """
     Given a score (including extraction), show all rules and the chosen rules.
     """
     plottitle = (unicode('All rules that match score \'') + score.title.decode('utf-8') +
                     unicode(',\'\nfrom rule set ') + unicode(str(score.ruleset)))
-
-    #plottitle = 'yay'
     fig = plt.figure()
     ax = fig.add_subplot(111, title=plottitle)
     ax.set_axisbelow(True)

@@ -136,7 +136,7 @@ class ExtractionWork(object):
         ruler.full_apply_rules()
 
         #Plot the results
-        rule_plotter.makePlot(self)
+        rule_plotter.makePlotFromScore(self)
 
         #Add figures into score:
         for i in range(basslength):
