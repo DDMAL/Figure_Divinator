@@ -3,6 +3,7 @@
 
 import argparse
 import rules
+import rule_plotter
 import logging_setup as Logging
 
 LOG = Logging.getLogger('rulesViewer')
@@ -73,7 +74,8 @@ if (args.viewTodo == False and args.viewSize == False and
 
 
 # Get the extraction rules
-extraction_rules = rules.get_ruleset(ruleSet).rulelist
+extraction_ruleset = rules.get_ruleset(ruleSet)
+extraction_rules = extraction_ruleset.rulelist
 
 #Are we viewing the rules?
 if toView:
@@ -153,5 +155,10 @@ if toView:
 
 #Are we comparing the rules?
 if toCompare:
-    rules.compare_rules_in_list(extraction_rules)
+    LOG.info("* * COMPARING RULES. * *")
+    #If the rule set hasn't figured out it's coexistences yet, do that now
+    if not extraction_ruleset.coexistence_array:
+        extraction_ruleset.introspection()
+    #Plot it!
+    rule_plotter.makePlotFromRuleset(extraction_ruleset)
     LOG.info("* * DONE COMPARING RULES. * *")
