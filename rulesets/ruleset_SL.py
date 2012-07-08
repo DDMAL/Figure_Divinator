@@ -46,7 +46,7 @@ def full_ruleset():
 
 
 #* * * RULES * * *
-class SLRule_3(SLRule):
+class SLRule_03(SLRule):
     """
     K's rule:   1
     Page:       45
@@ -74,7 +74,7 @@ class SLRule_3(SLRule):
         self.figures[1] = m21.figuredBass.notation.Notation('5,3')
 
 
-class SLRule_4(SLRule):
+class SLRule_04(SLRule):
     """
     K's rule:   NA
     Page:       46
@@ -98,7 +98,7 @@ class SLRule_4(SLRule):
         self.figures[1] = m21.figuredBass.notation.Notation('6')
 
 
-class SLRule_5(SLRule):
+class SLRule_05(SLRule):
     """
     K's rule:   2
     Page:       46
@@ -116,6 +116,7 @@ class SLRule_5(SLRule):
 
         #Conditions
         self.intervals[0] = [m21.interval.ChromaticInterval(-1)]  # TODOdiatonic
+        #     self.intervals[0] = [m21.interval.DiatonicInterval('major', -2)]
         self.beats[1] = [1]
         self.harmonic_content[1] = ['perfectMajorTriadNoSeven']
 
@@ -124,21 +125,7 @@ class SLRule_5(SLRule):
         self.figures[1] = m21.figuredBass.notation.Notation('5,3+')
 
 
-    #     class SLRule_5(SLRule):
-    # def __init__(self):
-    #     SLRule.__init__(self,2)
-
-    #     #Conditions
-    #     self.intervals[0] = [m21.interval.DiatonicInterval('major', -2)]
-    #     self.beats[1] = [1]
-    #     self.harmonic_content[1] = ['perfectMajorTriadNoSeven']
-
-    #     #Figures"
-    #     self.figures[0] = m21.figuredBass.notation.Notation('6')
-    #     self.figures[1] = m21.figuredBass.notation.Notation('5,3+')
-
-
-class SLRule_6(SLRule):
+class SLRule_06(SLRule):
     """
     K's rule:   3
     Page:       46
@@ -163,7 +150,7 @@ class SLRule_6(SLRule):
         self.figures[1] = m21.figuredBass.notation.Notation('6')
 
 
-class SLRule_7(SLRule):
+class SLRule_07(SLRule):
     """
     K's rule:   4
     Page:       47
@@ -190,7 +177,7 @@ class SLRule_7(SLRule):
         self.figures[1] = m21.figuredBass.notation.Notation('5,3-')
 
 
-class SLRule_8a(SLRule):
+class SLRule_08a(SLRule):
     """
     K's rule:   NA
     Page:       47
@@ -217,7 +204,7 @@ class SLRule_8a(SLRule):
         self.figures[1] = m21.figuredBass.notation.Notation('5,3-')
 
 
-class SLRule_8b(SLRule):
+class SLRule_08b(SLRule):
     """
     K's rule:   NA
     Page:       47
