@@ -29,6 +29,7 @@ def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength,
         barcolor = _colors[1]
     elif chosen == 'no':
         barcolor = _colors[2]
+
     axes_handle.barh(ruleIndex, ruleLength, x=startIndex, \
         height=H, alpha=.7, align='center', color=barcolor)
     axes_handle.hlines(ruleIndex, startIndex, startIndex + ruleLength, \
@@ -107,7 +108,7 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
                 applied = 'maybe'
                 if r in score.chosen_rules[i]:
                     applied = 'yes'
-                makerulebox(ax, i, 1 +these_rules.index(r), r.size, chosen=applied)
+                makerulebox(ax, i, 1 + these_rules.index(r), r.size, chosen=applied)
 
     #Time to format plot!
     #Deal with y-axis
@@ -118,12 +119,12 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
 
     #Deal with x-axis
     ax.set_xlabel('Note indicies: \nEach vertical dotted ' + \
-                    'line represents a single note in the score\'s bass line)')
+                    'line represents a single note in the score\'s bass line.')
     ax.set_xlim(0, len(score.possible_rules) - 1)
     ax.xaxis.set_major_locator(mpltick.NullLocator())
     ax.xaxis.set_minor_locator(mpltick.MultipleLocator(1))
     ax.grid(True, which='minor')
-    ax.grid(True, linestyle='-')
+    ax.grid(True, linestyle='-', linewidth=10)
 
     #Add legend
     lgd = makerulelegend(ax)
@@ -141,7 +142,7 @@ def makePlotFromRuleset(ruleset, ruleOffset=False, filepath='results/temporary_r
     """
     Given a ruleset, show all rules and the chosen rules.
     """
-    plottitle = (unicode('Rule interactions from rule set ') + unicode(str(ruleset.name)))
+    plottitle = (unicode('Rule interactions from rule set "') + unicode(str(ruleset.name)) + unicode('"'))
     fig = plt.figure()
     ax = fig.add_subplot(111, title=plottitle)
     ax.set_axisbelow(True)
