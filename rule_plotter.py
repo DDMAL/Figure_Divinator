@@ -167,37 +167,48 @@ def makePlotFromRuleset(ruleset, ruleOffset=False, filepath='results/temporary_r
     for i in range(len(these_rules)):
         ruleA = these_rules[i]
 
+        # ...draw rule
+
+        makerule(ax, current_x + max_rule_length, ruleA.size, H=2 * len(yticks) + 2)
+
         # ...matched against every other rule in the ruleset
         for j in range(len(these_rules)):
             ruleB = these_rules[j]
-            applied = 'no'
+            numOffsets = ruleA.size + 2 * ruleB.size - 2  # TODO
+            offsetB = 0  # TODO
+            keycolor = 'no'
 
             if ruleB in ruleset.coexistence_array[ruleA]:
-                applied = 'maybe'
+                keycolor = 'maybe'
 
-            if ruleB == ruleA:
-                applied = 'yes'
+            elif ruleB == ruleA and offsetB == 0:
+                keycolor = 'yes'
 
-            makerulebox(ax, current_x, these_rules.index(ruleB), ruleB.size, chosen=applied)
+            makerulebox(ax, current_x, these_rules.index(ruleB), ruleB.size, chosen=keycolor)
 
-        current_x = current_x + max_rule_length + 1
+        current_x = current_x + 3 * max_rule_length
 
     #Time to format plot!
+    ylabels = yticks
+    print ruleset.name
+    if ruleset.name == 'Saint Lambert (Full)':
+        ylabels = [x.strip('SLRule_') for x in yticks]
+
     #Deal with y-axis
-    ax.set_ylim(0, len(yticks))
+    ax.set_ylim(-1, len(yticks))
     ax.set_ylabel('Rule')
     ax.set_yticks(range(len(yticks)))
-    ax.set_yticklabels(yticks)
+    ax.set_yticklabels(ylabels, va='center')
 
     #Deal with x-axis
-    ax.set_xlabel('Note indicies: \nEach vertical dotted ' + \
+    ax.set_xlabel('Rules \n(Each vertical dotted ' + \
                     'line represents a single note in the score\'s bass line)')
     #ax.set_xlim(0, len(score.possible_rules) - 1)
-    ax.xaxis.set_major_locator(mpltick.MultipleLocator(max_rule_length + 1))
+    ax.xaxis.set_major_locator(mpltick.MultipleLocator(3 * max_rule_length))
     ax.xaxis.set_minor_locator(mpltick.MultipleLocator(1))
-    ax.set_xticklabels(yticks)
-    #ax.grid(True, which='minor')
-    #ax.grid(True, linestyle='-')
+    ax.set_xticklabels(ylabels, ha='left')
+    ax.grid(True, which='minor')
+    ax.grid(True, linestyle='-', lw=3)
 
     #Add legend
     lgd = makerulelegend(ax, type='ruleset')
