@@ -98,7 +98,7 @@ class rule_crawler(object):
                 while len(poss_rules) > 1:
                     ruleA = poss_rules.keys()[0]
                     ruleB = poss_rules.keys()[1]
-                    winner, loser = self.compare_rules(ruleA, ruleB)
+                    winner, loser = rules.compare_rules(ruleA, ruleB)
                     del poss_rules[loser]
 
                 #Remaining rule is the chosen rule
