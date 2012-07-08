@@ -306,8 +306,8 @@ def compare_rules(ruleA, ruleB):
 
 
 def rule_max_min(rule_list):
-    maxsize = 0
-    minsize = 0
+    maxsize = rule_list[0].size
+    minsize = rule_list[0].size
     for rule in rule_list:
         if rule.size > maxsize:
             maxsize = rule.size
