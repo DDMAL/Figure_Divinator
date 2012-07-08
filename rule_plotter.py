@@ -4,6 +4,8 @@ import os
 import music21 as m21
 import rules
 
+_colors = ['yellow', 'green', 'red']  # maybe, yes, no
+
 
 def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
     """
@@ -18,14 +20,14 @@ def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
 
 
 def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength,
-            chosen='maybe', H=.8, barcolor='yellow', stickcolor='purple'):
+            chosen='maybe', H=.8, barcolor=_colors[0], stickcolor='purple'):
     """
     Function to plot each rule as a bar
     """
     if chosen == 'yes':
-        barcolor = 'green'
+        barcolor = _colors[1]
     elif chosen == 'no':
-        barcolor = 'red'
+        barcolor = _colors[2]
     axes_handle.barh(1 + ruleIndex, ruleLength, x=startIndex, \
         height=H, alpha=.7, align='center', color=barcolor)
     axes_handle.hlines(1 + ruleIndex, startIndex, startIndex + ruleLength, \
