@@ -28,14 +28,14 @@ def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength,
         barcolor = _colors[1]
     elif chosen == 'no':
         barcolor = _colors[2]
-    axes_handle.barh(1 + ruleIndex, ruleLength, x=startIndex, \
+    axes_handle.barh(ruleIndex, ruleLength, x=startIndex, \
         height=H, alpha=.7, align='center', color=barcolor)
-    axes_handle.hlines(1 + ruleIndex, startIndex, startIndex + ruleLength, \
+    axes_handle.hlines(ruleIndex, startIndex, startIndex + ruleLength, \
         linewidth=3, color=stickcolor)
-    axes_handle.vlines(startIndex, 1 + ruleIndex - H / 2, 1 + ruleIndex + H / 2, \
+    axes_handle.vlines(startIndex, ruleIndex - H / 2, ruleIndex + H / 2, \
         color=stickcolor, linewidth=4)
-    axes_handle.vlines(startIndex + ruleLength, 1 + ruleIndex - H / 2, \
-        1 + ruleIndex + H / 2, linewidth=2, color=stickcolor)
+    axes_handle.vlines(startIndex + ruleLength, ruleIndex - H / 2, \
+        ruleIndex + H / 2, linewidth=2, color=stickcolor)
 
 
 def makerulelegend(axes_handle, type='score'):
@@ -106,7 +106,7 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
                 applied = 'maybe'
                 if r in score.chosen_rules[i]:
                     applied = 'yes'
-                makerulebox(ax, i, these_rules.index(r), r.size, chosen=applied)
+                makerulebox(ax, i, 1 +these_rules.index(r), r.size, chosen=applied)
 
     #Time to format plot!
     #Deal with y-axis
