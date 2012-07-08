@@ -38,6 +38,28 @@ def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength,
         1 + ruleIndex + H / 2, linewidth=2, color=stickcolor)
 
 
+def makerulelegend(axes_handle, type='score'):
+    if type == 'score':
+        plotlabels = ['Rule matches score', 'Rule applied']
+    elif type == 'ruleset':
+        plotlabels = ['Can coexist', 'Self', 'Mutually exclusive']
+        # plotlabels = ['Can coexist', 'Can coexist (trumps)', 'Mutually exclusive']
+
+    #make fake plot to get legend info
+    fig2 = plt.figure()
+    ax2 = fig2.add_subplot(111)
+    b1 = ax2.bar([0, 1, 2], [0.2, 0.3, 0.1], color=_colors[0])
+    b2 = ax2.bar([0, 1, 2], [0.2, 0.3, 0.1], color=_colors[1])
+    if type == 'ruleset':
+        b3 = ax2.bar([0, 1, 2], [0.2, 0.3, 0.1], color=_colors[2])
+        plots = [b1, b2, b3]
+    else:
+        plots = [b1, b2]
+    lgd = axes_handle.legend(plots, plotlabels, bbox_to_anchor=(1, 0.5),
+         loc='center left')
+    return lgd
+
+
 def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_plot', viewResults=True):
     """
     Given a score (including extraction), show all rules and the chosen rules.
@@ -102,9 +124,12 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
     ax.grid(True, which='minor')
     ax.grid(True, linestyle='-')
 
+    #Add legend
+    lgd = makerulelegend(ax)
+
     #Save it!
     filepath = filepath + '.png'
-    fig.savefig(filepath, dpi=800)
+    fig.savefig(filepath, dpi=800, bbox_extra_artists=(lgd,), bbox_inches='tight')
 
     #Open it?
     if viewResults:
@@ -180,9 +205,12 @@ def makePlotFromRuleset(ruleset, ruleOffset=False, filepath='results/temporary_r
     #ax.grid(True, which='minor')
     #ax.grid(True, linestyle='-')
 
+    #Add legend
+    lgd = makerulelegend(ax, type='ruleset')
+
     #Save it!
     filepath = filepath + '.png'
-    fig.savefig(filepath, dpi=800)
+    fig.savefig(filepath, dpi=800, bbox_extra_artists=(lgd,), bbox_inches='tight')
 
     #Open it?
     if viewResults:
