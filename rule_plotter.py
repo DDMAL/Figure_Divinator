@@ -5,6 +5,7 @@ import music21 as m21
 import rules
 
 _colors = ['yellow', 'green', 'red']  # maybe, yes, no
+DEBUG = 1
 
 
 def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
@@ -208,10 +209,15 @@ def makePlotFromRuleset(ruleset, ruleOffset=False, filepath='results/temporary_r
     #Add legend
     lgd = makerulelegend(ax, type='ruleset')
 
-    #Save it!
-    filepath = filepath + '.png'
-    fig.savefig(filepath, dpi=800, bbox_extra_artists=(lgd,), bbox_inches='tight')
+#########
 
-    #Open it?
-    if viewResults:
-        os.system("open " + filepath)
+    if DEBUG == 1:
+        fig.show()
+    else:
+        #Save it!
+        filepath = filepath + '.png'
+        fig.savefig(filepath, dpi=800, bbox_extra_artists=(lgd,), bbox_inches='tight')
+
+        #Open it?
+        if viewResults:
+            os.system("open " + filepath)
