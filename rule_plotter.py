@@ -40,6 +40,14 @@ def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength,
         ruleIndex + H / 2, linewidth=2, color=stickcolor)
 
 
+def makerule(axes_handle, startIndex, ruleLength, H=.8, barcolor=_colors[1]):
+    """
+    Function to plot each rule as a column
+    """
+    axes_handle.barh(-1, ruleLength, left=startIndex, \
+        height=H, alpha=.2, align='center', color=barcolor)
+
+
 def makerulelegend(axes_handle, type='score'):
     if type == 'score':
         plotlabels = ['Rule matches score', 'Rule applied']
@@ -150,22 +158,6 @@ def makePlotFromRuleset(ruleset, ruleOffset=False, filepath='results/temporary_r
     #What rules are we plotting here?
     these_rules = ruleset.rulelist
     yticks = [a.__class__.__name__ for a in these_rules]
-    #yticks.insert(0, 'Measures:\n')
-
-    # Plot all the measures across the bottom
-    # start_index = 0
-    # start_measure = score._bassline.flat.getElementsByClass(m21.note.Note)[0].measureNumber
-    # for i in range(len(score._bassline.flat.getElementsByClass(m21.note.Note))):
-    #     n = score._bassline.flat.getElementsByClass(m21.note.Note)[i]
-    #     if n.measureNumber == start_measure:
-    #         pass
-    #     else:
-    #         makemeasure(ax, start_index, i, start_measure, len(yticks))
-    #         start_index = i
-    #         start_measure = n.measureNumber
-    # makemeasure(ax, start_index,
-    #     len(score._bassline.flat.getElementsByClass(m21.note.Note)) - 1,
-    #     start_measure, len(yticks))
 
     # Starting x value
     current_x = 0
