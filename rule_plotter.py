@@ -184,7 +184,13 @@ def makePlotFromRuleset(ruleset, ruleOffset=False, filepath='results/temporary_r
             elif ruleB == ruleA and offsetB == 0:
                 keycolor = 'yes'
 
-            makerulebox(ax, current_x, these_rules.index(ruleB), ruleB.size, chosen=keycolor)
+            #Show all the rules, or just the ones that can coexist?
+            if allRules == True:
+                makerulebox(ax, current_x, these_rules.index(ruleB), ruleB.size, chosen=keycolor)
+            elif keycolor != 'no':
+                makerulebox(ax, current_x, these_rules.index(ruleB), ruleB.size, chosen=keycolor)
+
+
 
         current_x = current_x + 3 * max_rule_length
 
