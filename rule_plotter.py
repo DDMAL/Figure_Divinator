@@ -20,7 +20,7 @@ def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
     axes_handle.text(startIndex, 0.05, str(number))
 
 
-def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength,
+def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength, alpha=0.7,
             chosen='maybe', H=.8, barcolor=_colors[0], stickcolor='purple'):
     """
     Function to plot each rule as a bar
@@ -30,14 +30,19 @@ def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength,
     elif chosen == 'no':
         barcolor = _colors[2]
 
-    axes_handle.barh(ruleIndex, ruleLength, x=startIndex, \
-        height=H, alpha=.7, align='center', color=barcolor)
-    axes_handle.hlines(ruleIndex, startIndex, startIndex + ruleLength, \
-        linewidth=3, color=stickcolor)
-    axes_handle.vlines(startIndex, ruleIndex - H / 2, ruleIndex + H / 2, \
-        color=stickcolor, linewidth=4)
-    axes_handle.vlines(startIndex + ruleLength, ruleIndex - H / 2, \
-        ruleIndex + H / 2, linewidth=2, color=stickcolor)
+    #Only draw bounding lines if stickcolor has been set
+    if stickcolor:
+        axes_handle.barh(ruleIndex, ruleLength, x=startIndex, \
+            height=H, alpha=alpha, align='center', color=barcolor, lw=3)
+        axes_handle.hlines(ruleIndex, startIndex, startIndex + ruleLength, \
+            linewidth=3, color=stickcolor)
+        axes_handle.vlines(startIndex, ruleIndex - H / 2, ruleIndex + H / 2, \
+            color=stickcolor, linewidth=4)
+        axes_handle.vlines(startIndex + ruleLength, ruleIndex - H / 2, \
+            ruleIndex + H / 2, linewidth=2, color=stickcolor)
+    else:
+        axes_handle.barh(ruleIndex, ruleLength, x=startIndex, \
+            height=H, alpha=alpha, color=barcolor, lw=3, align='center')
 
 
 def makerule(axes_handle, startIndex, ruleLength, H=.8, barcolor=_colors[1]):
