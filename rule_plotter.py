@@ -81,7 +81,7 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
     Given a score (including extraction), show all rules and the chosen rules.
     """
     plottitle = (unicode('All rules that match score \'') + score.title.decode('utf-8') +
-                    unicode(',\'\nfrom rule set ') + unicode(str(score.ruleset)))
+                    unicode(',\'\nfrom ') + unicode(str(score.ruleset)))
     fig = plt.figure()
     ax = fig.add_subplot(111, title=plottitle)
     ax.set_axisbelow(True)
@@ -138,7 +138,7 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
     ax.xaxis.set_major_locator(mpltick.NullLocator())
     ax.xaxis.set_minor_locator(mpltick.MultipleLocator(1))
     ax.grid(True, which='minor')
-    ax.grid(True, linestyle='-', linewidth=10)
+    ax.grid(True, linestyle='-')
 
     #Add legend
     lgd = makerulelegend(ax)
@@ -152,10 +152,8 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
         os.system("open " + filepath)
 
 
-def makePlotFromRuleset(ruleset, allRules=True,
+def makePlotFromRuleset(ruleset, allRules=False,
                 filepath='results/temporary_ruleset_plot', viewResults=True):
-
-    ##TODO - deal with "rulesetA,B"
     """
     Given a ruleset, show all rules and the chosen rules.
     """
@@ -188,8 +186,8 @@ def makePlotFromRuleset(ruleset, allRules=True,
             ruleB = these_rules[j]
 
             # ...in every possible offset possibility
-            os = range(-1 * (ruleB.size - 1), ruleA.size)
-            for o in os:
+            all_o = range(-1 * (ruleB.size - 1), ruleA.size)
+            for o in all_o:
                 keycolor = 'no'
 
                 if (ruleB, o) in ruleset.coexistence_array[ruleA]:
@@ -205,7 +203,7 @@ def makePlotFromRuleset(ruleset, allRules=True,
                                 ruleB.size, H=rule_bar_height, chosen=keycolor,
                                 stickcolor=False, alpha=.5)
                 elif keycolor != 'no':
-                    this_y = these_rules.index(ruleB) + (o * .1) + min(os)
+                    this_y = these_rules.index(ruleB) + .1 * o - .5
                     makerulebox(ax, rule_start_x + o, this_y,
                                 ruleB.size, H=rule_bar_height, chosen=keycolor,
                                 stickcolor=False, alpha=.5)
@@ -219,7 +217,7 @@ def makePlotFromRuleset(ruleset, allRules=True,
 
     #Deal with y-axis
     ax.set_ylim(-1, len(yticks) - 1)
-    ax.set_ylabel('Rule')
+    ax.set_ylabel('Rules')
 
     ax.yaxis.set_major_locator(mpltick.MultipleLocator(1))
     ax.yaxis.set_minor_locator(mpltick.IndexLocator(1, .5))
@@ -234,7 +232,7 @@ def makePlotFromRuleset(ruleset, allRules=True,
     ax.xaxis.set_minor_locator(mpltick.MultipleLocator(1))
     ax.set_xticklabels(ylabels, ha='left')
     ax.xaxis.grid(True, which='minor')
-    ax.grid(True, ls='--', lw=3)
+    ax.grid(True, ls='--')
 
     #Add legend
     lgd = makerulelegend(ax, type='ruleset', allRules=allRules)
