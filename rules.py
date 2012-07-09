@@ -94,12 +94,26 @@ def compare_rules_in_list(rule_list):
         for ruleB in otherRules:
             LOG.info("...compared with rule %s:", ruleB.__class__.__name__)
 
-            #Figure out if they can coexist
-            if not check_rules_coexist(ruleA, ruleB):
-                print ("\t\tMutually exclusive")
-                continue
-            print ("\t\tCoexist!")
-            coexistence_array[ruleA].append(ruleB)
+            #...at every offset:
+            min_overlap_index = -1 * (ruleB.size - 1)
+            max_overlap_index = ruleA.size
+            for offset in range(min_overlap_index, max_overlap_index):
+                if offset < 0:
+                    indA = 0
+                    indB = offset * -1
+                elif offset == 0:
+                    indA = 0
+                    indB = 0
+                else:
+                    indA = offset
+                    indB = 0
+
+                #Figure out if they can coexist
+                if not check_rules_coexist(ruleA, ruleB, indexA=indA, indexB=indB):
+                    print ("\t\tMutually exclusive (offset " + str(offset) + ")")
+                    continue
+                print ("\t\tCoexists (offset " + str(offset) + ")!")
+                coexistence_array[ruleA].append((ruleB, offset))
 
             #Figure out which rule wins
             #winner, loser = compare_rules(ruleA, ruleB)
