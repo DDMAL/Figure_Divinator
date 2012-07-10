@@ -5,7 +5,7 @@ import music21 as m21
 import rules
 
 _colors = ['yellow', 'green', 'red']  # maybe, yes, no
-DEBUG = 1
+DEBUG = 0
 
 
 def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
@@ -152,7 +152,7 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
         os.system("open " + filepath)
 
 
-def makePlotFromRuleset(ruleset, allRules=False,
+def makePlotFromRuleset(ruleset, allRules=True,
                 filepath='results/temporary_ruleset_plot', viewResults=True):
     """
     Given a ruleset, show all rules and the chosen rules.
