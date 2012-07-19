@@ -4,7 +4,7 @@ import os
 import music21 as m21
 import rules
 
-_colors = ['yellow', 'green', 'red']  # maybe, yes, no
+_colors = ['yellow', 'green', 'red', 'grey', '#66ff99']  # unknown, coexist, conflict, never, self
 DEBUG = 0
 
 
@@ -41,15 +41,43 @@ def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength, alpha=0.7,
         axes_handle.vlines(startIndex + ruleLength, ruleIndex - H / 2, \
             ruleIndex + H / 2, linewidth=2, color=stickcolor)
     else:
-        axes_handle.barh(ruleIndex, ruleLength, x=startIndex, \
-            height=H, alpha=alpha, color=barcolor, lw=3, align='center')
+        axes_handle.hlines(ruleIndex, startIndex, startIndex + ruleLength, \
+            linewidth=10, color=barcolor)
+
+
+def makeruleline(axes_handle, startIndex, ruleIndex, ruleLength, alpha=1,
+            existance='unknown', H=.8, barcolor=_colors[0], choice=0,
+            marker='o', markersize=8, lw=5):
+    """
+    Function to plot each rule as a line
+    """
+    if existance == 'coexist':
+        barcolor = _colors[2]
+    elif existance == 'conflict':
+        barcolor = _colors[2]
+    elif existance == 'self':
+        barcolor = _colors[4]
+    elif existance == 'never':
+        barcolor = _colors[3]
+
+    x = range(startIndex, startIndex + ruleLength)
+    y = [ruleIndex for i in x]
+
+    # #Only draw bounding lines if stickcolor has been set
+    # if choice == 1:
+    #     lw = 3
+    # else:
+    #     lw = 10
+
+    axes_handle.plot(x, y, c=barcolor, lw=lw, ls='-',
+                    marker=marker, alpha=alpha)
 
 
 def makerule(axes_handle, startIndex, ruleLength, H=.8, barcolor=_colors[1]):
     """
     Function to plot each rule as a column
     """
-    axes_handle.barh(-1, ruleLength, left=startIndex, \
+    axes_handle.barh(-1, ruleLength - 1, left=startIndex, \
         height=H, alpha=.2, align='center', color=barcolor)
 
 
@@ -57,22 +85,31 @@ def makerulelegend(axes_handle, type='score', allRules='True'):
     if type == 'score':
         plotlabels = ['Rule matches score', 'Rule applied']
     elif type == 'ruleset' and allRules == True:
-        plotlabels = ['Can coexist', 'Self', 'Mutually exclusive']
+        plotlabels = ['Conflict', 'Coexist', 'Self', 'Never overlap']
     else:
-        plotlabels = ['Can coexist', 'Self']
+        plotlabels = ['Conflict', 'Coexist', 'Self']
 
     #make fake plot to get legend info
     fig2 = plt.figure()
     ax2 = fig2.add_subplot(111)
-    b1 = ax2.bar([0, 1, 2], [0.2, 0.3, 0.1], color=_colors[0])
-    b2 = ax2.bar([0, 1, 2], [0.2, 0.3, 0.1], color=_colors[1])
-    if type == 'ruleset' and allRules == True:
-        b3 = ax2.bar([0, 1, 2], [0.2, 0.3, 0.1], color=_colors[2])
-        plots = [b1, b2, b3]
+
+    if type == 'ruleset':
+        b1 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[2])
+        b2 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[1])
+        b3 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[4])
+        b4 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[3])
+        plots = [b1, b2, b3, b4]
+        if allRules == False:
+            plots = plots[:2]
+
+        lgd = axes_handle.legend(plots, plotlabels, bbox_to_anchor=(1, 0.5),
+            loc='center left')
     else:
+        b1 = ax2.bar([0, 1, 2], [0.2, 0.3, 0.1], color=_colors[0])
+        b2 = ax2.bar([0, 1, 2], [0.2, 0.3, 0.1], color=_colors[1])
         plots = [b1, b2]
-    lgd = axes_handle.legend(plots, plotlabels, bbox_to_anchor=(1, 0.5),
-         loc='center left')
+        lgd = axes_handle.legend(plots, plotlabels, bbox_to_anchor=(1, 0.5),
+            loc='center left')
     return lgd
 
 
@@ -172,6 +209,7 @@ def makePlotFromRuleset(ruleset, allRules=True,
     current_x = 0
     max_rule_length, min_rule_length = rules.rule_max_min(these_rules)
     rule_bar_height = 2.3 / (8 + max_rule_length * 2.0)  # To keep bars from overlapping, set 1.8 to 1
+    rule_jump = 3 * max_rule_length - 1
 
     # For each rule in the ruleset...
     for i in range(len(these_rules)):
@@ -188,27 +226,27 @@ def makePlotFromRuleset(ruleset, allRules=True,
             # ...in every possible offset possibility
             all_o = range(-1 * (ruleB.size - 1), ruleA.size)
             for o in all_o:
-                keycolor = 'no'
+                keycolor = 'never'
 
                 if (ruleB, o) in ruleset.coexistence_array[ruleA]:
-                    keycolor = 'maybe'
+                    keycolor = 'unknown'
 
                 if ruleB == ruleA and o == 0:
-                    keycolor = 'yes'
+                    keycolor = 'self'
 
                 #Show all the rules, or just the ones that can coexist?
                 if allRules == True:
                     this_y = these_rules.index(ruleB) + .1 * o - .5
-                    makerulebox(ax, rule_start_x + o, this_y,
-                                ruleB.size, H=rule_bar_height, chosen=keycolor,
-                                stickcolor=False, alpha=.5)
+                    makeruleline(ax, rule_start_x + o, this_y,
+                                ruleB.size, H=rule_bar_height, existance=keycolor,
+                                )
                 elif keycolor != 'no':
                     this_y = these_rules.index(ruleB) + .1 * o - .5
-                    makerulebox(ax, rule_start_x + o, this_y,
-                                ruleB.size, H=rule_bar_height, chosen=keycolor,
-                                stickcolor=False, alpha=.5)
+                    makeruleline(ax, rule_start_x + o, this_y,
+                                ruleB.size, H=rule_bar_height, existance=keycolor,
+                                )
 
-        current_x = current_x + 3 * max_rule_length
+        current_x = current_x + rule_jump
 
     #Time to format plot!
     ylabels = yticks
@@ -227,8 +265,8 @@ def makePlotFromRuleset(ruleset, allRules=True,
     #Deal with x-axis
     ax.set_xlabel('Rules \n(Each vertical dotted ' + \
                     'line represents a single bass note to be figured)')
-    ax.set_xlim(0, max_rule_length * 3 * len(yticks))
-    ax.xaxis.set_major_locator(mpltick.MultipleLocator(3 * max_rule_length))
+    ax.set_xlim(0, rule_jump * len(yticks))
+    ax.xaxis.set_major_locator(mpltick.MultipleLocator(rule_jump))
     ax.xaxis.set_minor_locator(mpltick.MultipleLocator(1))
     ax.set_xticklabels(ylabels, ha='left')
     ax.xaxis.grid(True, which='minor')
