@@ -1,0 +1,6 @@
+#####
+Rules
+#####
+
+.. automodule:: fake
+    :members:

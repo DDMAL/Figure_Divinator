@@ -1,0 +1,13 @@
+###############
+Getting started
+###############
+
+************
+Dependencies
+************
+Music21
+Matplotlib
+
+************
+Installation
+************

@@ -1,0 +1,18 @@
+#######
+Modules
+#######
+
+************
+Rules
+************
+
+.. automodule:: fake
+    :members:
+
+************
+Rules
+************
+
+
+.. automodule:: fake
+    :members:
