@@ -15,7 +15,16 @@ import sys
 import os
 
 #Import my stuff
+print 'trying fake'
+sys.path.append(os.getcwd())  # to get fake
+figdiv_module_path = os.path.split(os.getcwd())
+sys.path.append(figdiv_module_path[0])
+# for p in sys.path:
+#     print p
 import fake
+import figure_extractor
+
+
 #import figure_extractor
 # import rule_crawler, rule_plotter, rules, rulesViewer
 # TODO: http://code.activestate.com/recipes/436873-import-modulesdiscover-methods-from-a-directory-na/
@@ -128,7 +137,7 @@ html_short_title = 'FigDiv'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ['documentation/_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.

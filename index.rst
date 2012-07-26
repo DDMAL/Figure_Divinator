@@ -17,8 +17,8 @@ FigDiv Documentation
 .. toctree::
    :maxdepth: 2
 
-   intro
-   tutorial
+   documentation/intro
+   documentation/tutorial
 
 Installation
 ==================
@@ -32,7 +32,7 @@ Module Reference
 .. toctree::
    :maxdepth: 1
 
-   moduleRules
+   documentation/moduleRules
 
 
 Indices and tables
