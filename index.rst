@@ -33,6 +33,7 @@ Module Reference
    :maxdepth: 1
 
    documentation/moduleRules
+   documentation/moduleRulesets
 
 
 Indices and tables
