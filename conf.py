@@ -14,26 +14,10 @@
 import sys
 import os
 
-#Import my stuff
-print 'trying fake'
-sys.path.append(os.getcwd())  # to get fake
-figdiv_module_path = os.path.split(os.getcwd())
-sys.path.append(figdiv_module_path[0])
-# for p in sys.path:
-#     print p
-import fake
-import figure_extractor
-
-
-#import figure_extractor
-# import rule_crawler, rule_plotter, rules, rulesViewer
-# TODO: http://code.activestate.com/recipes/436873-import-modulesdiscover-methods-from-a-directory-na/
-
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('.'))
 
 # -- General configuration -----------------------------------------------------
 
@@ -91,7 +75,7 @@ exclude_patterns = ['_build']
 
 # If true, the current module name will be prepended to all description
 # unit titles (such as .. function::).
-#add_module_names = True
+add_module_names = True
 
 # If true, sectionauthor and moduleauthor directives will be shown in the
 # output. They are ignored by default.
