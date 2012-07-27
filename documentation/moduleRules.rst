@@ -2,5 +2,5 @@
 Rules
 #####
 
-.. automodule:: fake
+.. automodule:: figure_extractor
     :members:
