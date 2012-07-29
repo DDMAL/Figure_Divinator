@@ -5,7 +5,6 @@ import music21 as m21
 import rules
 
 _colors = ['yellow', 'green', 'red', 'grey', '#66ff99']  # unknown, coexist, conflict, never, self
-DEBUG = 0
 
 
 def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
@@ -188,20 +187,33 @@ def makePlotFromScore(extraction_work, allRules=False, filepath='results/tempora
     #Add legend
     lgd = makerulelegend(ax)
 
-    #Save it!
-    filepath = filepath + '.png'
-    fig.savefig(filepath, dpi=800, bbox_extra_artists=(lgd,), bbox_inches='tight')
+    #Deal with output
+    #Show it?
+    if viewResults == True and calledFromInterpreter == True:
+        fig.show()
 
-    #Open it?
-    if viewResults:
-        os.system("open " + filepath)
+    #Save it?
+    if saveResults == True:
+        filepath = filepath + '.png'
+        fig.savefig(filepath, dpi=800, bbox_extra_artists=(lgd,), bbox_inches='tight')
+
+        #Open saved version?
+        if viewResults:
+            os.system("open " + filepath)
 
 
 def makePlotFromRuleset(ruleset, allRules=True,
-                filepath='results/temporary_ruleset_plot', viewResults=True):
+                filepath='results/temporary_ruleset_plot', viewResults=True, saveResults=False):
     """
     Given a ruleset, show all rules and the chosen rules.
     """
+    if __name__ == '__main__':
+        calledFromInterpreter = True
+    else:
+        calledFromInterpreter = False
+
+    if filepath != 'results/temporary_rule_plot':
+        saveResults = True
 
     #What rules are we plotting here?
     these_rules = ruleset.rulelist
@@ -283,15 +295,16 @@ def makePlotFromRuleset(ruleset, allRules=True,
     #Add legend
     lgd = makerulelegend(ax, type='ruleset', allRules=allRules)
 
-#########
-
-    if DEBUG == 1:
+    #Deal with output
+    #Show it?
+    if viewResults == True and calledFromInterpreter == True:
         fig.show()
-    else:
-        #Save it!
+
+    #Save it?
+    if saveResults == True:
         filepath = filepath + '.png'
         fig.savefig(filepath, dpi=800, bbox_extra_artists=(lgd,), bbox_inches='tight')
 
-        #Open it?
+        #Open saved version?
         if viewResults:
             os.system("open " + filepath)
