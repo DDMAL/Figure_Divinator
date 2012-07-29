@@ -139,7 +139,7 @@ class ExtractionWork(object):
         ruler.full_apply_rules()
 
         #Plot the results
-        rule_plotter.makePlotFromScore(self)
+        rule_plotter.makePlotFromScore(self, filepath=self.output_filename, viewResults=self.display_option)
 
         #Add figures into score:
         for i in range(basslength):
