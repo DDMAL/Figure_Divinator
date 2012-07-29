@@ -40,6 +40,7 @@ class ExtractionWork(object):
         self.solution = kwargs.get('solution', False)
         self.bass_options = kwargs.get('type_of_bass', 'all')
         self.display_option = kwargs.get('display', True)
+        self.create_fb_object = kwargs.get('make_fb_object', False)
 
         #Output
         self.output_filename = ''
@@ -119,10 +120,22 @@ class ExtractionWork(object):
                 raise InputError('Cannot extract bass line from score')
 
     def process_bassline(self):
-        #Post-processing:
+        """
+        Currently does nothing; eventually should look for and exclude passing
+        tones.
         #TODO - keep all notes? eliminate passing tones?
         #TODO - check to make sure aren't multiple bass notes/voicing
+        """
         pass
+
+    def makeFiguredBassObject(self):
+        """
+        Given a bass line with figures stored as lyrics, converts it to a
+        music21 figuredBass object, which will aid in the realization stage
+        (a future project!).
+        """
+        self.fb = m21.figuredBass.realizer.figuredBassFromStream(self._bassline)
+
 
     def extract(self):
         """When given a score, this method extracts and returns the figured bass"""
@@ -150,7 +163,11 @@ class ExtractionWork(object):
             except KeyError as e:
                 print e
 
-        self.fb = m21.figuredBass.realizer.figuredBassFromStream(self._bassline)
+        #Going to realize the figures soon? Make it a figuredBass object!
+        if self.create_fb_object:
+            print 'makin fb'
+            ruler.makeFiguredBassObject()
+
         return object
 
     def _setup_output(self):  # TODO-Hh{non-critical: metadata fail!}
@@ -239,7 +256,7 @@ def full_extraction(scorefile, *args, **kwargs):
 
 # Run from command line
 if __name__ == '__main__':
-    LOG.info('cl start')
+    LOG.debug('cl start')
 
     #Get, parse arguments
     parser = argparse.ArgumentParser()
