@@ -113,12 +113,20 @@ def makerulelegend(axes_handle, type='score', allRules='True'):
     return lgd
 
 
-def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_plot', viewResults=True):
+def makePlotFromScore(extraction_work, allRules=False, filepath='results/temporary_rule_plot', viewResults=True, saveResults=False):
     """
-    Given a score (including extraction), show all rules and the chosen rules.
+    Given an ExtractionWork object, show all rules and the chosen rules.
     """
-    plottitle = (unicode('All rules that match score \'') + score.title.decode('utf-8') +
-                    unicode(',\'\nfrom ') + unicode(str(score.ruleset)))
+    if __name__ == '__main__':
+        calledFromInterpreter = True
+    else:
+        calledFromInterpreter = False
+
+    if filepath != 'results/temporary_rule_plot':
+        saveResults = True
+
+    plottitle = (unicode('All rules that match score \'') + extraction_work.title.decode('utf-8') +
+                    unicode(',\'\nfrom ') + unicode(str(extraction_work.ruleset)))
     fig = plt.figure()
     ax = fig.add_subplot(111, title=plottitle)
     ax.set_axisbelow(True)
@@ -126,22 +134,22 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
     #What rules are we plotting here?
     these_rules = []
     if allRules:
-        these_rules = score._allrules
+        these_rules = extraction_work._allrules
     else:
         temp_rules = []
-        for i in range(len(score.possible_rules)):
-            if score.possible_rules[i]:
-                for r in score.possible_rules[i]:
+        for i in range(len(extraction_work.possible_rules)):
+            if extraction_work.possible_rules[i]:
+                for r in extraction_work.possible_rules[i]:
                     temp_rules.append(r)
-        these_rules = [x for x in score._allrules if x in temp_rules]
+        these_rules = [x for x in extraction_work._allrules if x in temp_rules]
     yticks = [a.__class__.__name__ for a in these_rules]
     yticks.insert(0, 'Measures:\n')
 
     # Plot all the measures across the bottom
     start_index = 0
-    start_measure = score._bassline.flat.getElementsByClass(m21.note.Note)[0].measureNumber
-    for i in range(len(score._bassline.flat.getElementsByClass(m21.note.Note))):
-        n = score._bassline.flat.getElementsByClass(m21.note.Note)[i]
+    start_measure = extraction_work._bassline.flat.getElementsByClass(m21.note.Note)[0].measureNumber
+    for i in range(len(extraction_work._bassline.flat.getElementsByClass(m21.note.Note))):
+        n = extraction_work._bassline.flat.getElementsByClass(m21.note.Note)[i]
         if n.measureNumber == start_measure:
             pass
         else:
@@ -149,15 +157,15 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
             start_index = i
             start_measure = n.measureNumber
     makemeasure(ax, start_index,
-        len(score._bassline.flat.getElementsByClass(m21.note.Note)) - 1,
+        len(extraction_work._bassline.flat.getElementsByClass(m21.note.Note)) - 1,
         start_measure, len(yticks))
 
     #Plot each rule possible
-    for i in range(len(score.possible_rules)):
-        if score.possible_rules[i]:
-            for r in score.possible_rules[i]:
+    for i in range(len(extraction_work.possible_rules)):
+        if extraction_work.possible_rules[i]:
+            for r in extraction_work.possible_rules[i]:
                 applied = 'maybe'
-                if r in score.chosen_rules[i]:
+                if r in extraction_work.chosen_rules[i]:
                     applied = 'yes'
                 makerulebox(ax, i, 1 + these_rules.index(r), r.size, chosen=applied)
 
@@ -171,7 +179,7 @@ def makePlotFromScore(score, allRules=False, filepath='results/temporary_rule_pl
     #Deal with x-axis
     ax.set_xlabel('Note indicies: \nEach vertical dotted ' + \
                     'line represents a single note in the score\'s bass line.')
-    ax.set_xlim(0, len(score.possible_rules) - 1)
+    ax.set_xlim(0, len(extraction_work.possible_rules) - 1)
     ax.xaxis.set_major_locator(mpltick.NullLocator())
     ax.xaxis.set_minor_locator(mpltick.MultipleLocator(1))
     ax.grid(True, which='minor')
