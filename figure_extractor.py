@@ -2,6 +2,7 @@
 """
 
 import os
+import sys
 import argparse
 import copy
 import music21 as m21
@@ -73,11 +74,13 @@ class ExtractionWork(object):
         if not os.path.isfile(self.score_input):
             raise FileNotFoundError(self.score_input)
 
-        (input_base, ext_sep, input_ext) = self.score_input.rpartition(os.extsep)
+        (base, filename) = os.path.split(self.score_input)
+        if len(base) > 0:
+            base = base + '/'
+        (input_base, ext_sep, input_ext) = filename.rpartition(os.extsep)
 
-        self.input_filename = input_base + ext_sep + input_ext
-        self.output_filename = ('results/' + input_base + '_figured_bass' + ext_rule +
-                            ext_sep + input_ext)
+        self.input_filename = base + input_base + ext_sep + input_ext
+        self.output_filename = ('results/' + input_base + '_figured_bass' + ext_rule)
 
         # Open score with Music21
         try:
