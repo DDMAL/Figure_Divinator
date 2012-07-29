@@ -1,11 +1,13 @@
-"""Get and print rule information
+"""
+This module displays information about rules
+and how a set of rules interact with one another.
 """
 
 import argparse
 import rules
 import rule_plotter
-import logging_setup as Logging
 
+import logging_setup as Logging
 LOG = Logging.getLogger('rulesViewer')
 
 

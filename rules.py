@@ -1,5 +1,8 @@
-# Figured bass extractor rules:
-# basic rule class; tests the list of rules
+"""
+Figured bass extractor rules:
+basic rule class; tests the list of rules
+"""
+
 import os
 import logging_setup as Logging
 import music21 as m21
@@ -78,9 +81,9 @@ def get_ruleset(input_item):
 
 
 def compare_rules_in_list(rule_list):
-    '''
+    """
     For each rule in set, compare with each other rule in set.
-    '''
+    """
     #Create filler return array
     coexistence_array = {}
     winner_array = {}
@@ -159,23 +162,23 @@ def check_rules_coexist(ruleA, ruleB, indexA=0, indexB=0):
 
 
 def lists_overlap(listA, listB):
-    '''
+    """
     If the lists overlap, returns true; else returns false.
-    '''
+    """
     return bool(set(listA) & set(listB))
 
 
 def beats_overlap(listA, listB):
-    '''
-    '''
+    """
+    """
     return
 
 
 def intervals_overlap(intlistA, intlistB):
-    '''
+    """
     Takes two lists of any music21 interval objects and returns True if
     any interval in one list is compatible with any interval in the other.
-    '''
+    """
     for a in intlistA:
         for b in intlistB:
 
