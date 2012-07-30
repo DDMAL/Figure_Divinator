@@ -41,6 +41,9 @@ class ExtractionWork(object):
         self.bass_options = kwargs.get('type_of_bass', 'all')
         self.display_option = kwargs.get('display', True)
         self.create_fb_object = kwargs.get('make_fb_object', False)
+        self.rule_application_direction = kwargs.get('rule_direction', 'forward')
+        if self.rule_application_direction != 'backward':
+            self.rule_application_direction = 'forward'
 
         #Output
         self.output_filename = ''
@@ -149,10 +152,10 @@ class ExtractionWork(object):
         #Run through rules
         ruler = rule_crawler.rule_crawler(self)
         ruler.full_check_rules()
-        ruler.full_apply_rules()
+        ruler.full_apply_rules(direction=self.rule_application_direction)
 
         #Plot the results
-        rule_plotter.makePlotFromScore(self, filepath=self.output_filename, viewResults=self.display_option)
+        rule_plotter.makePlotFromScore(self, filepath=self.output_filename, viewResults=self.display_option, direction=self.rule_application_direction)
 
         #Add figures into score:
         for i in range(basslength):
@@ -275,6 +278,7 @@ if __name__ == '__main__':
     ruleSet = args.rules_type
     testString = args.test_string
     viewOutput = args.viewOutput
+    #ruleDirection   # TODO: add rule direction flag
 
-    full_extraction(scoreFile, ruleSet, testString, True)
+    full_extraction(scoreFile, ruleSet, testString, True)  # TODO - fix so flags are actually being passed
     LOG.info('cl done')

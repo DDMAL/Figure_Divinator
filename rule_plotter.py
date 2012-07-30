@@ -112,7 +112,10 @@ def makerulelegend(axes_handle, type='score', allRules='True'):
     return lgd
 
 
-def makePlotFromScore(extraction_work, allRules=False, filepath='results/temporary_rule_plot', viewResults=True, saveResults=False):
+def makePlotFromScore(extraction_work, allRules=False,
+                        filepath='results/temporary_rule_plot',
+                        viewResults=True, saveResults=False,
+                        direction='unknown'):
     """
     Given an ExtractionWork object, show all rules and the chosen rules.
     """
@@ -124,8 +127,9 @@ def makePlotFromScore(extraction_work, allRules=False, filepath='results/tempora
     if filepath != 'results/temporary_rule_plot':
         saveResults = True
 
-    plottitle = (unicode('All rules that match score \'') + extraction_work.title.decode('utf-8') +
-                    unicode(',\'\nfrom ') + unicode(str(extraction_work.ruleset)))
+    plottitle = (unicode('All rules that match score \'') + extraction_work.title.decode('utf-8') + \
+                    unicode(',\'\nfrom ') + unicode(str(extraction_work.ruleset))) + \
+                    unicode(',\'applied in ') + unicode(str(direction)) + unicode(' direction.')
     fig = plt.figure()
     ax = fig.add_subplot(111, title=plottitle)
     ax.set_axisbelow(True)
@@ -194,7 +198,7 @@ def makePlotFromScore(extraction_work, allRules=False, filepath='results/tempora
 
     #Save it?
     if saveResults == True:
-        filepath = filepath + '.png'
+        filepath = filepath + '-' + direction + '.png'
         fig.savefig(filepath, dpi=800, bbox_extra_artists=(lgd,), bbox_inches='tight')
 
         #Open saved version?

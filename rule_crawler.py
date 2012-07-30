@@ -83,13 +83,27 @@ class rule_crawler(object):
         #Return possible rules to the original score
         self.score.possible_rules = self.possible_rules
 
-    def full_apply_rules(self):
-        LOG.info("\n* * * Rule Selection/Application * * *")
-        c_start = 0  # TODO -- go through all chunks, not just first one! :)
+    def full_apply_rules(self, direction='forward'):
+        """ADD DESCRIPTION"""
+        #Set start index
+        c_start = 0
+        if direction == 'backward':
+            c_start = self.total_length - 1
+            last_successful_start = c_start
 
         #For the entirety of the piece...
-        while c_start < self.total_length:
+        LOG.info('\n* * * Rule Selection/Application: * * *')
+        LOG.info('Note: application direction is %s' % direction)
+
+        while 0 <= c_start < self.total_length:
             poss_rules = self.possible_rules[c_start]
+
+            #If direction is backward, delete the rules that are too long for space
+            if direction == 'backward':
+                max_size = last_successful_start - c_start
+                too_large = [r for r in poss_rules if r.size > max_size]
+                for t in too_large:
+                    del poss_rules[t]
 
             #Is there a choice of rules at this start?
             if len(poss_rules) > 0:
@@ -118,12 +132,21 @@ class rule_crawler(object):
                             print 'split note? ' + str(these_figures[x])
                         #TODO - deal with split notes
 
-                #Increase start index by length of applied rule
-                c_start = c_start + this_rule.size
+                #Change start index
+                if direction == 'forward':
+                    #Increase start index by length of applied rule
+                    c_start = c_start + this_rule.size
+                elif direction == 'backward':
+                    last_successful_start = c_start
+                    c_start = c_start - 1
+
             else:
-                #LOG.info("@Note index %s: No rule to apply.", str(c_start))
-                #Increase start index by one
-                c_start = c_start + 1
+                LOG.debug("@Note index %s: No rule to apply.", str(c_start))
+                #Change start index
+                if direction == 'forward':
+                    c_start = c_start + 1
+                elif direction == 'backward':
+                    c_start = c_start - 1
 
         LOG.info("\n* * * * * * * * * * * * * *.")
         self.score.chosen_rules = self.chosen_rules
