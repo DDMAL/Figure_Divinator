@@ -129,7 +129,7 @@ def makePlotFromScore(extraction_work, allRules=False,
 
     plottitle = (unicode('All rules that match score \'') + extraction_work.title.decode('utf-8') + \
                     unicode(',\'\nfrom ') + unicode(str(extraction_work.ruleset))) + \
-                    unicode(',\'applied in ') + unicode(str(direction)) + unicode(' direction.')
+                    unicode(',\' applied in ') + unicode(str(direction)) + unicode(' direction.')
     fig = plt.figure()
     ax = fig.add_subplot(111, title=plottitle)
     ax.set_axisbelow(True)
@@ -168,7 +168,8 @@ def makePlotFromScore(extraction_work, allRules=False,
         if extraction_work.possible_rules[i]:
             for r in extraction_work.possible_rules[i]:
                 applied = 'maybe'
-                if r in extraction_work.chosen_rules[i]:
+                applied_rules = [x.__class__.__name__ for x in extraction_work.chosen_rules[i]]
+                if r.__class__.__name__ in applied_rules:
                     applied = 'yes'
                 makerulebox(ax, i, 1 + these_rules.index(r), r.size, chosen=applied)
 
