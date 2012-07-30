@@ -169,7 +169,7 @@ class ExtractionWork(object):
         #Going to realize the figures soon? Make it a figuredBass object!
         if self.create_fb_object:
             print 'makin fb'
-            ruler.makeFiguredBassObject()
+            self.makeFiguredBassObject()
 
         return object
 
