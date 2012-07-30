@@ -83,30 +83,40 @@ class rule_crawler(object):
         self.score.possible_rules = self.possible_rules
 
     def full_apply_rules(self, direction='forward'):
-        """ADD DESCRIPTION"""
-        #Set start index
-        c_start = 0
-        if direction == 'backward':
-            c_start = self.total_length - 1
-            last_successful_start = self.total_length
+        """
+        ADD DESCRIPTION
 
+        Args:
+
+        * direction: Direction the rules are applied. Default is forward.
+
+            * If 'forward,' starts at beginning of score and chooses the best of all rules at each index before jumping ahead the length of the chosen rule.
+
+            * If 'backward,' starts at end of score and works backwards, applying (or choosing between, if multiple) the longest rule that extends over index.
+
+        """
         #Display heading
         LOG.info('\n* * * Rule Selection/Application: * * *')
         LOG.info('Note: application direction is %s' % direction)
 
+        if direction == 'backward':
+            self._apply_rules_backward()
+        else:
+            self._apply_rules_forward()
+
+        LOG.info("\n* * * * * * * * * * * * * *.")
+        self.score.chosen_rules = self.chosen_rules
+
+    def _apply_rules_forward(self):
         #Copy the possible rules
         rules_to_choose_from = copy.deepcopy(self.possible_rules)
+
+        #Set start index
+        c_start = 0
 
         #For the entirety of the piece...
         while 0 <= c_start < self.total_length:
             poss_rules = rules_to_choose_from[c_start]
-
-            #If direction is backward, delete the rules that are too long for space
-            if direction == 'backward':
-                max_size = last_successful_start - c_start
-                too_large = [r for r in poss_rules if r.size > max_size]
-                for t in too_large:
-                    del poss_rules[t]
 
             #Is there a choice of rules at this start?
             if len(poss_rules) > 0:
@@ -135,25 +145,82 @@ class rule_crawler(object):
                             print 'split note? ' + str(these_figures[x])
                         #TODO - deal with split notes
 
-                #Change start index
-                if direction == 'forward':
-                    #Increase start index by length of applied rule
-                    c_start = c_start + this_rule.size
-                elif direction == 'backward':
-                    last_successful_start = c_start
-                    c_start = c_start - 1
+                #Increase start index by length of applied rule
+                c_start = c_start + this_rule.size
 
             else:
                 LOG.debug("@Note index %s: No rule to apply.", str(c_start))
                 #Change start index
-                if direction == 'forward':
-                    c_start = c_start + 1
-                elif direction == 'backward':
-                    c_start = c_start - 1
+                c_start = c_start + 1
 
-        LOG.info("\n* * * * * * * * * * * * * *.")
-        self.score.chosen_rules = self.chosen_rules
+    def _apply_rules_backward(self):
+        #Copy the possible rules
+        rules_to_choose_from = copy.deepcopy(self.possible_rules)
 
+        #Figure out what rules are available at each index
+        each_index_option = [[] for x in range(self.total_length)]
+        for start_index in range(self.total_length):
+            #add that rule's index (and its length) to all indices it covers
+            for r in rules_to_choose_from[start_index]:
+                for i in range(r.size):
+                    each_index_option[start_index + i].append(start_index)
+
+        #Set first start index
+        next_start_i = self.total_length - 1
+        while len(each_index_option[next_start_i]) == 0 and next_start_i > 0:
+            next_start_i = next_start_i - 1
+
+        #Set the first goal index
+        next_start_i = min(each_index_option[next_start_i])
+
+        #For the entirety of the piece...
+        while 0 <= next_start_i < self.total_length:
+
+            #Set the next goal index
+            next_start_i = min(each_index_option[next_start_i])
+
+            #What are the possible rules at this NEW location?
+            poss_rules = rules_to_choose_from[next_start_i]
+
+            #Is there a choice of rules at this start?
+            if len(poss_rules) > 0:
+                #Determine which rule to actually apply to the chunk
+                while len(poss_rules) > 1:
+                    ruleA = poss_rules.keys()[0]
+                    ruleB = poss_rules.keys()[1]
+                    winner, loser = rules.compare_rules(ruleA, ruleB)
+                    del poss_rules[loser]
+
+                #Remaining rule is the chosen rule
+                this_rule = poss_rules.keys()[0]
+                these_figures = poss_rules.values()[0]
+                self.chosen_rules[next_start_i] = poss_rules
+                LOG.info('@Note index %s: Applied %s.',
+                            str(next_start_i), this_rule.__class__.__name__)
+
+                #Apply it to the score
+                for x in range(len(these_figures)):
+                    if these_figures[x]:
+                        try:
+                            self.score._fb_figureString[next_start_i + x] = these_figures[x].notationColumn
+                        except AttributeError as e:
+                            print e
+                            print 'split note? ' + str(these_figures[x])
+                        #TODO - deal with split notes
+
+                #Re-figure out what rules are available at each index NOW
+                each_index_option = [[] for x in range(next_start_i)]
+                for x in range(next_start_i):
+                    #add that rule's index (and its length) to all indices it covers
+                    for r in rules_to_choose_from[x]:
+                        if r.size + x < next_start_i:
+                            for i in range(r.size):
+                                each_index_option[x + i].append(x)
+
+            #Figure out where to start next rule application:
+            next_start_i = next_start_i - 1
+            while len(each_index_option[next_start_i]) == 0 and next_start_i >= 0:
+                next_start_i = next_start_i - 1
 
     def _load_score(self):
         self.total_length = len(self.score._bassline.flat.getElementsByClass(m21.note.Note))
@@ -163,8 +230,6 @@ class rule_crawler(object):
         self.ruleset = rules.get_ruleset(incomingrules).rulelist
         self.score._allrules = self.ruleset  # Save to orig score, too.
         self.rule_max, self.rule_min = rules.rule_max_min(self.ruleset)
-
-
 
     def _chunkify(self, start_index, end_index):
         L = end_index - start_index
