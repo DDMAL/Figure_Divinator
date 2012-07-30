@@ -4,9 +4,8 @@
 # Tests and applies the list of rules
 
 import music21 as m21
-# from rules import Rule
-# from rules import Ruleset
 import rules
+import copy
 
 import logging_setup as Logging
 LOG = Logging.getLogger('rules')
@@ -91,12 +90,16 @@ class rule_crawler(object):
             c_start = self.total_length - 1
             last_successful_start = c_start
 
-        #For the entirety of the piece...
+        #Display heading
         LOG.info('\n* * * Rule Selection/Application: * * *')
         LOG.info('Note: application direction is %s' % direction)
 
+        #Copy the possible rules
+        rules_to_choose_from = copy.deepcopy(self.possible_rules)
+
+        #For the entirety of the piece...
         while 0 <= c_start < self.total_length:
-            poss_rules = self.possible_rules[c_start]
+            poss_rules = rules_to_choose_from[c_start]
 
             #If direction is backward, delete the rules that are too long for space
             if direction == 'backward':
