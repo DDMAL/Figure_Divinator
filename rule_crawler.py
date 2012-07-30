@@ -88,7 +88,7 @@ class rule_crawler(object):
         c_start = 0
         if direction == 'backward':
             c_start = self.total_length - 1
-            last_successful_start = c_start
+            last_successful_start = self.total_length
 
         #Display heading
         LOG.info('\n* * * Rule Selection/Application: * * *')
