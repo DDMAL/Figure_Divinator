@@ -107,8 +107,14 @@ class ExtractionWork(object):
         self._chordscore = self.original_score.chordify()
 
     def extract_bassline_from_score(self):
-        """Extract the full bassline from the score"""  # TODO-Hh{f:additional methods?}
+        """
+        Extracts bassline from self.original_score, saves it to self._bassline.
 
+        The bassline is simply the part labeled 'bass' (if present) or the
+        bottom-most part in the score (if none is specifically labeled).
+        If part is polyphonic, only return lowest notes.
+
+        """
         try:
             self._bassline = copy.deepcopy(self.original_score['bass'])
             LOG.debug('Bassline is pre-labeled bass line')
@@ -121,6 +127,7 @@ class ExtractionWork(object):
                 LOG.debug('Bassline is lowest part')
             except:  # TODO - figure out type of exception
                 raise InputError('Cannot extract bass line from score')
+        #If there is more than one note at any point in time, pick the lower note  # TODO - doesn't work yet!
 
     def process_bassline(self):
         """
