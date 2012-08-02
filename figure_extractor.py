@@ -160,7 +160,6 @@ class ExtractionWork(object):
         rule_plotter.makePlotFromScore(self, filepath=self.output_filename, viewResults=self.display_option, direction=self.rule_application_direction)
 
         #Add figures into score:
-        self._bassline.show()
         for i in range(basslength):
             n = self._bassline.flat.getElementsByClass(m21.note.Note)[i]
             f = self._fb_figureString[i]
@@ -168,7 +167,6 @@ class ExtractionWork(object):
                 m21.figuredBass.realizer.addLyricsToBassNote(n, f)
             except KeyError as e:
                 print e
-        self._bassline.show()
 
         #Going to realize the figures soon? Make it a figuredBass object!
         if self.create_fb_object:
