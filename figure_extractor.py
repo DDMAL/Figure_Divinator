@@ -2,7 +2,6 @@
 """
 
 import os
-import sys
 import argparse
 import copy
 import music21 as m21
@@ -48,7 +47,7 @@ class ExtractionWork(object):
         #Output
         self.output_filename = ''
         self._fb_figureString = []
-        self.fb = m21.figuredBass.realizer.FiguredBassLine()
+        self.fb = False
         self.output_score = m21.stream.Score()
         self.output_fb_score = m21.stream.Score()
         self.possible_rules = []
@@ -133,12 +132,15 @@ class ExtractionWork(object):
 
     def makeFiguredBassObject(self):
         """
-        Given a bass line with figures stored as lyrics, converts it to a
-        music21 figuredBass object, which will aid in the realization stage
+        Converts self._bassline stream to music21 figuredBass object self.fb.
+
+        Input self._bassline consists of a line with figures stored as lyrics.
+        The figuredBass object which will aid in the figure realization stage
         (a future project!).
         """
+        LOG.debug('doing \'makeFiguredBassObject.\'')
         self.fb = m21.figuredBass.realizer.figuredBassFromStream(self._bassline)
-
+        #to get actual score: self.fb.generateBassLine()
 
     def extract(self):
         """When given a score, this method extracts and returns the figured bass"""
@@ -158,13 +160,15 @@ class ExtractionWork(object):
         rule_plotter.makePlotFromScore(self, filepath=self.output_filename, viewResults=self.display_option, direction=self.rule_application_direction)
 
         #Add figures into score:
+        self._bassline.show()
         for i in range(basslength):
             n = self._bassline.flat.getElementsByClass(m21.note.Note)[i]
             f = self._fb_figureString[i]
             try:
-                self.fb.addElement(n, f)
+                m21.figuredBass.realizer.addLyricsToBassNote(n, f)
             except KeyError as e:
                 print e
+        self._bassline.show()
 
         #Going to realize the figures soon? Make it a figuredBass object!
         if self.create_fb_object:
@@ -213,8 +217,8 @@ class ExtractionWork(object):
         self.append_to_extraction()
 
         #Make score from bassline
-        self.output_score.insert(0, self.fb.generateBassLine())
-        self.output_fb_score.insert(0, self.fb.generateBassLine())
+        self.output_score.insert(0, self._bassline)
+        self.output_fb_score.insert(0, self._bassline)
         #self.output_score.show()
 
         #save the file
