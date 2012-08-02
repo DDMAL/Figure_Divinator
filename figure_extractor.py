@@ -25,7 +25,6 @@ class InputError(Exception):
 class ExtractionWork(object):
     """A class that holds both the original score and newly extracted portion"""
     def __init__(self, score_file_input, *args, **kwargs):
-        #Possible kwargs: ruleset, solution, type_of_bass,
 
         #Input score details
         self.score_input = score_file_input
@@ -37,10 +36,12 @@ class ExtractionWork(object):
         #Input options
         self.ruleset = kwargs.get('ruleset', ['SL'])
         self.solution = kwargs.get('solution', False)
-        self.bass_options = kwargs.get('type_of_bass', 'all')
-        self.display_option = kwargs.get('display', True)
+        self.display_option = kwargs.get('display', False)
         self.create_fb_object = kwargs.get('make_fb_object', False)
         self.rule_application_direction = kwargs.get('rule_direction', 'forward')
+
+
+
         if self.rule_application_direction != 'backward':
             self.rule_application_direction = 'forward'
 
@@ -261,28 +262,37 @@ def full_extraction(scorefile, *args, **kwargs):
     return my_work
 
 
-# Run from command line
+# Run from command line:
 if __name__ == '__main__':
-    LOG.debug('cl start')
-
     #Get, parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('input_file')
-    parser.add_argument('-o', action='store_true',
-                    dest='viewOutput', default=False,
-                    help='View output in MusicXML interface?')
-    parser.add_argument('-t', nargs='?', const='x', default=False, dest='test_string')
-    parser.add_argument('-r', nargs='*', dest='rules_type', default=['dummyrules'], help='Set of rules to apply')
+    parser.add_argument('-o', action='store_false',
+                    dest='display_outputs', default=True,
+                    help='View outputs in MusicXML interface?')
+    parser.add_argument('-t', nargs='?', const='x',
+                    dest='solution_notation_string', default=False,
+                    help='TODO')
+    parser.add_argument('-r', nargs='*',
+                    dest='rule_set_or_list', default='SL',
+                    help='Set of rules to apply')
+    parser.add_argument('-b', nargs='?', const='backward',
+                    dest='rule_direction', default='forward',
+                    help='Direction rules are applied: forward or backward')
 
     LOG.debug('Arguments: %s\n', parser.parse_args())
 
     #Set flags
     args = parser.parse_args()
-    scoreFile = args.input_file
-    ruleSet = args.rules_type
-    testString = args.test_string
-    viewOutput = args.viewOutput
-    #ruleDirection   # TODO: add rule direction flag
+    input_file_name = args.input_file  # The un-figured xml file to be parsed
+    ruleset = args.rule_set_or_list  # The name of a rule set or list of rules to apply
+    solution = args.solution_notation_string  # A solution string (in music21 tiny notation)
+    display = args.display_outputs  # If true, displays score and visualisation
+    rule_direction = args.rule_direction  # Direction rules are applied (default forward)
 
-    full_extraction(scoreFile, ruleSet, testString, True)  # TODO - fix so flags are actually being passed
-    LOG.info('cl done')
+    full_extraction(input_file_name, \
+                    ruleset=ruleset, \
+                    solution=solution, \
+                    display=display, \
+                    rule_direction=rule_direction
+                    )
