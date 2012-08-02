@@ -219,18 +219,20 @@ class ExtractionWork(object):
         #Make score from bassline
         self.output_score.insert(0, self._bassline)
         self.output_fb_score.insert(0, self._bassline)
-        #self.output_score.show()
 
         #save the file
         LOG.debug('\tSaving the file!')
-        self.output_score.write(fmt='musicxml', fp=str(self.output_filename))
+        xmlfilename = self.output_filename + '.xml'
+        self.output_score.write(fmt='musicxml', fp=xmlfilename)
+        print 'File saved to %s in the figured_bass_extractor/'
 
         #display the new file?
         if self.display_option == True:
             try:
-                new_score = m21.converter.parse(self.output_filename)
-                #new_score.show()
-                self.output_score.show()
+                print self.output_filename
+                new_score = m21.converter.parse(xmlfilename)
+                new_score.show()
+                #self.output_score.show()
                 LOG.info('Displaying output if xml viewer has been installed.')
             except:  # TODO - figure out type of exception
                 LOG.info('Unable to show .xml output through MusicXML,')
