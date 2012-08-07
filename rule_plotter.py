@@ -51,7 +51,7 @@ def makeruleline(axes_handle, startIndex, ruleIndex, ruleLength, alpha=1,
     Function to plot each rule as a line
     """
     if existance == 'coexist':
-        barcolor = _colors[2]
+        barcolor = _colors[1]
     elif existance == 'conflict':
         barcolor = _colors[2]
     elif existance == 'self':
@@ -81,33 +81,27 @@ def makerule(axes_handle, startIndex, ruleLength, H=.8, barcolor=_colors[1]):
 
 
 def makerulelegend(axes_handle, type='score', allRules='True'):
-    if type == 'score':
-        plotlabels = ['Rule matches score', 'Rule applied']
-    elif type == 'ruleset' and allRules == True:
-        plotlabels = ['Conflict', 'Coexist', 'Self', 'Never overlap']
-    else:
-        plotlabels = ['Conflict', 'Coexist', 'Self']
-
     #make fake plot to get legend info
     fig2 = plt.figure()
     ax2 = fig2.add_subplot(111)
+    b1 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[2])
+    b2 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[1])
+    b3 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[4])
+    b4 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[3])
 
-    if type == 'ruleset':
-        b1 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[2])
-        b2 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[1])
-        b3 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[4])
-        b4 = ax2.bar([0.2, 0.3, 0.1], [0.2, 0.3, 0.1], linewidth=0, color=_colors[3])
+    if type == 'ruleset' and allRules == True:
         plots = [b1, b2, b3, b4]
-        if allRules == False:
-            plots = plots[:2]
-
-        lgd = axes_handle.legend(plots, plotlabels, bbox_to_anchor=(1, 0.5),
-            loc='center left')
+        plotlabels = ['Conflict', 'Coexist', 'Self', 'Never overlap']
+    elif type == 'ruleset' and allRules == False:
+        plots = [b1, b2, b3]
+        plotlabels = ['Conflict', 'Coexist', 'Self']
     else:
         b1 = ax2.bar([0, 1, 2], [0.2, 0.3, 0.1], color=_colors[0])
         b2 = ax2.bar([0, 1, 2], [0.2, 0.3, 0.1], color=_colors[1])
         plots = [b1, b2]
-        lgd = axes_handle.legend(plots, plotlabels, bbox_to_anchor=(1, 0.5),
+        plotlabels = ['Rule matches score', 'Rule applied']
+
+    lgd = axes_handle.legend(plots, plotlabels, bbox_to_anchor=(1, 0.5),
             loc='center left')
     return lgd
 
@@ -256,6 +250,12 @@ def makePlotFromRuleset(ruleset, allRules=True,
                 if (ruleB, o) in ruleset.coexistence_array[ruleA]:
                     keycolor = 'unknown'
 
+                if (ruleB, o, 'coexist') in ruleset.coexistence_array[ruleA]:
+                    keycolor = 'coexist'
+
+                if (ruleB, o, 'conflict') in ruleset.coexistence_array[ruleA]:
+                    keycolor = 'conflict'
+
                 if ruleB == ruleA and o == 0:
                     keycolor = 'self'
 
@@ -265,7 +265,7 @@ def makePlotFromRuleset(ruleset, allRules=True,
                     makeruleline(ax, rule_start_x + o, this_y,
                                 ruleB.size, H=rule_bar_height, existance=keycolor,
                                 )
-                elif keycolor != 'no':
+                elif keycolor != 'never':
                     this_y = these_rules.index(ruleB) + .1 * o - .5
                     makeruleline(ax, rule_start_x + o, this_y,
                                 ruleB.size, H=rule_bar_height, existance=keycolor,
