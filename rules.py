@@ -113,16 +113,45 @@ def compare_rules_in_list(rule_list):
 
                 #Figure out if they can coexist
                 if not check_rules_coexist(ruleA, ruleB, indexA=indA, indexB=indB):
-                    print ("\t\tMutually exclusive (offset " + str(offset) + ")")
+                    print ("\t\tMutually exclusive (offset " + str(offset) + ").")
                     continue
-                print ("\t\tCoexists (offset " + str(offset) + ")!")
-                coexistence_array[ruleA].append((ruleB, offset))
+
+                #Figure out if they conflict or coexist
+                coexist_type = 'coexist'
+                if not check_figures_coexist(ruleA, ruleB, indexA=indA, indexB=indB):
+                    coexist_type = 'conflict'
+                    print ("\t\tConflicts (offset " + str(offset) + ")!")
+                else:
+                    print ("\t\tCoexists (offset " + str(offset) + ").")
+                coexistence_array[ruleA].append((ruleB, offset, coexist_type))
 
             #Figure out which rule wins
             #winner, loser = compare_rules(ruleA, ruleB)
             #print ("Rule %s wins")  # TODO - save this thing
 
     return coexistence_array, winner_array
+
+
+def check_figures_coexist(ruleA, ruleB, indexA=0, indexB=0):
+    #Figure out the length to be compared
+    overlap_length = min(ruleA.size - indexA, ruleB.size - indexB)
+
+    #For each step compared, check the figure:
+    for i in range(overlap_length):
+        if ruleA.figures[indexA + i] and ruleB.figures[indexB + i]:
+
+            try:
+                figA = ruleA.figures[indexA + i][1].notationColumn
+            except:
+                figA = ruleA.figures[indexA + i].notationColumn
+            try:
+                figB = ruleB.figures[indexB + i][1].notationColumn
+            except:
+                figB = ruleB.figures[indexB + i].notationColumn
+
+            if figA != figB:
+                return False
+    return True
 
 
 def check_rules_coexist(ruleA, ruleB, indexA=0, indexB=0):
