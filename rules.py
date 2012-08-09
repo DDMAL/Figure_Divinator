@@ -5,6 +5,7 @@ basic rule class; tests the list of rules
 
 import os
 import logging_setup as Logging
+import logging
 import music21 as m21
 
 LOG = Logging.getLogger('rules')
@@ -52,7 +53,13 @@ class Ruleset(object):
                     new_rule = rule()
                     self.rulelist.append(new_rule)
                 except Exception:
-                    print "Sorry, '" + r + "'' doesn't register as a rule..."
+                    LOG.info("Sorry, '" + r + "'' doesn't register as a rule...")
+
+        #Compare all rules (while suppressing output)
+        oldLog = LOG.level
+        LOG.setLevel(logging.CRITICAL)
+        self.introspection()
+        LOG.setLevel(oldLog)
 
     def introspection(self):
         # Determine which rules can't coexist with each other
@@ -113,16 +120,16 @@ def compare_rules_in_list(rule_list):
 
                 #Figure out if they can coexist
                 if not check_rules_coexist(ruleA, ruleB, indexA=indA, indexB=indB):
-                    print ("\t\tMutually exclusive (offset " + str(offset) + ").")
+                    LOG.info("\t\tMutually exclusive (offset " + str(offset) + ").")
                     continue
 
                 #Figure out if they conflict or coexist
                 coexist_type = 'coexist'
                 if not check_figures_coexist(ruleA, ruleB, indexA=indA, indexB=indB):
                     coexist_type = 'conflict'
-                    print ("\t\tConflicts (offset " + str(offset) + ")!")
+                    LOG.info("\t\tConflicts (offset " + str(offset) + ")!")
                 else:
-                    print ("\t\tCoexists (offset " + str(offset) + ").")
+                    LOG.info("\t\tCoexists (offset " + str(offset) + ").")
                 coexistence_array[ruleA].append((ruleB, offset, coexist_type))
 
             #Figure out which rule wins
