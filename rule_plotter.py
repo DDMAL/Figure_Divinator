@@ -187,10 +187,6 @@ def makePlotFromScore(extraction_work, allRules=False,
     lgd = makerulelegend(ax)
 
     #Deal with output
-    #Show it?
-    if viewResults == True and calledFromInterpreter == True:
-        fig.show()
-
     #Save it?
     if saveResults == True:
         filepath = filepath + '-' + direction + '.png'
@@ -199,6 +195,10 @@ def makePlotFromScore(extraction_work, allRules=False,
         #Open saved version?
         if viewResults:
             os.system("open " + filepath)
+
+    #Show it?
+    if viewResults == True and calledFromInterpreter == True:
+        fig.show()
 
 
 def makePlotFromRuleset(ruleset, allRules=True, filepath='results/temporary_ruleset_plot', viewResults=True, saveResults=False):
@@ -317,10 +317,6 @@ def makePlotFromRuleset(ruleset, allRules=True, filepath='results/temporary_rule
     #Add legend
     lgd = makerulelegend(ax, type='ruleset', allRules=allRules)
 
-    #Deal with output
-    #Show it?
-    if viewResults == True and calledFromInterpreter == True:
-        fig.show()
 
     #Save it?
     if saveResults == True:
@@ -331,3 +327,7 @@ def makePlotFromRuleset(ruleset, allRules=True, filepath='results/temporary_rule
         #Open saved version?
         if viewResults:
             os.system("open " + filepath)
+
+    #Show it?
+    if viewResults == True and calledFromInterpreter == True:
+        fig.show()
