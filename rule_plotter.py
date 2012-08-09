@@ -210,7 +210,7 @@ def makePlotFromRuleset(ruleset, allRules=True, filepath='results/temporary_rule
     else:
         calledFromInterpreter = False
 
-    if filepath != 'results/temporary_rule_plot':
+    if filepath != 'results/temporary_ruleset_plot':
         saveResults = True
 
     #What rules are we plotting here?
@@ -229,7 +229,7 @@ def makePlotFromRuleset(ruleset, allRules=True, filepath='results/temporary_rule
     yticks = [' ' for x in range(1 + len(these_rules_offset))]
     for x in range(len(these_rules_offset)):
         if these_rules_offset[x]:
-            (r,o) = these_rules_offset[x]
+            (r, o) = these_rules_offset[x]
             yticks[x] = '%s (offset %s)' % (r.__class__.__name__, str(o))
     print 'got y'
 
@@ -320,8 +320,8 @@ def makePlotFromRuleset(ruleset, allRules=True, filepath='results/temporary_rule
 
     #Save it?
     if saveResults == True:
-        filepath = filepath + '.png'
-        fig.savefig(filepath, dpi=800, bbox_extra_artists=(lgd,), bbox_inches='tight')
+        filepath = filepath + '.pdf'
+        fig.savefig(filepath, dpi=fig.dpi, bbox_extra_artists=(lgd,), bbox_inches='tight')
         print 'saved at %s' % filepath
 
         #Open saved version?
