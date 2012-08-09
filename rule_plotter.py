@@ -317,6 +317,8 @@ def makePlotFromRuleset(ruleset, allRules=True, filepath='results/temporary_rule
     #Add legend
     lgd = makerulelegend(ax, type='ruleset', allRules=allRules)
 
+    #Make sure image is sized in accordance with the number of rows/columns.
+    fig.set_size_inches(3 * len(xticks), .5 * len(yticks))
 
     #Save it?
     if saveResults == True:
