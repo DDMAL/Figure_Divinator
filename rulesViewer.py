@@ -109,27 +109,25 @@ def _view_rules(extraction_ruleset, args='x'):
     LOG.info("* * DONE REVIEWING RULES. * *")
 
 
-def _compare_rules(extraction_ruleset, args='x'):
+def _compare_rules(extraction_ruleset, args=False):
     if extraction_ruleset.__class__.__name__ != 'Ruleset':
         extraction_ruleset = rules.get_ruleset(extraction_ruleset)
 
-    # if args == 'x':
-    #     p = argparse.ArgumentParser()
-    #     args = p.parse_args()
-    #     args.viewTodo = True
-    #     args.viewSize = True
-    #     args.viewIntervals = True
-    #     args.viewBeats = True
-    #     args.viewFigures = True
-    #     args.viewContent = True
-    #     args.viewExtra = True
+    if not args:
+        p = argparse.ArgumentParser()
+        args = p.parse_args()
+        args.viewTodo = True
+        args.viewSize = True
+        args.viewIntervals = True
+        args.viewBeats = True
+        args.viewFigures = True
+        args.viewContent = True
+        args.viewExtra = True
 
     LOG.info("* * COMPARING RULES. * *")
-    #If the rule set hasn't figured out it's coexistences yet, do that now
-    if not extraction_ruleset.coexistence_array:
-        extraction_ruleset.introspection()
+
     #Plot it!
-    rule_plotter.makePlotFromRuleset(extraction_ruleset)
+    rule_plotter.makePlotFromRuleset(extraction_ruleset, saveResults=True)
     LOG.info("* * DONE COMPARING RULES. * *")
 
 
