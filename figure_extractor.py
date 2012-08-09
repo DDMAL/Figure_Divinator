@@ -230,7 +230,7 @@ class ExtractionWork(object):
         LOG.debug('\tSaving the file!')
         xmlfilename = self.output_filename + '.xml'
         self.output_score.write(fmt='musicxml', fp=xmlfilename)
-        print 'File saved to %s in the figured_bass_extractor/'
+        print 'File saved to %s in the figured_bass_extractor/ directory' % xmlfilename
 
         #display the new file?
         if self.display_option == True:

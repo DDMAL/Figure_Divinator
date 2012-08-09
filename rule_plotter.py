@@ -309,6 +309,7 @@ def makePlotFromRuleset(ruleset, allRules=True,
     if saveResults == True:
         filepath = filepath + '.png'
         fig.savefig(filepath, dpi=800, bbox_extra_artists=(lgd,), bbox_inches='tight')
+        print 'saved at %s' % filepath
 
         #Open saved version?
         if viewResults:

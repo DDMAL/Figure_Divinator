@@ -104,7 +104,7 @@ class rule_crawler(object):
         else:
             self._apply_rules_forward()
 
-        LOG.info("\n* * * * * * * * * * * * * *.")
+        LOG.info("\n* * * * * * * * * * * * * *")
         self.score.chosen_rules = self.chosen_rules
 
     def _apply_rules_forward(self):
