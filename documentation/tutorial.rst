@@ -2,6 +2,38 @@
 Tutorials
 #########
 
+To apply a set of rules to a score, do
+
+python figure_extrator yourscore.xml [-r RULESET]
+
+To visualise a set of rules, do
+
+python rulesViewer -compare [-r RULESET]
+
+
+
+
+Choosing a set of rules
+-----------------------
+
+
+Choosing a score
+----------------
+Input scores can be in any format accepted by music21: musicxml,
+
+Either a filepath or a URL can be given. For example, for example file bwv307.xml in the main figured_bass_extractor directory, use
+
+    ``python figure_extractor bwv307.xml``
+
+To get the same score from a URL, such as from the `Kern Scores library <http://kern.ccarh.org/>`_, use
+
+    ``python figure_extractor 'http://kern.ccarh.org/cgi-bin/ksdata?l=osu/classical/bach/chorale/chorales.all&file=bwv0307.krn&f=kern'``
+
+To get a file a filepath outside of the figured_bass_extractor directory, such as in foo directory on the Desktop, use
+
+    ``python figure_exctractor ~/Desktop/foo/bwv307.xml``
+
+
 
 *******************
 Working with scores

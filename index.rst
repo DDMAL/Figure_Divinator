@@ -21,27 +21,22 @@ Documentation
 
    documentation/intro
    documentation/tutorial
+   documentation/moduleRules
 
 
+==================
 Included Rule Sets
-------------------
+==================
 
 .. toctree::
    :maxdepth: 1
 
    documentation/moduleRulesets
 
-Module Reference
-----------------
 
-.. toctree::
-   :maxdepth: 1
-
-   documentation/moduleRules
-
-
+==================
 Indices and tables
-------------------
+==================
 
 * :ref:`genindex`
 * :ref:`modindex`
