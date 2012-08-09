@@ -201,10 +201,9 @@ def makePlotFromScore(extraction_work, allRules=False,
             os.system("open " + filepath)
 
 
-def makePlotFromRuleset(ruleset, allRules=True,
-                filepath='results/temporary_ruleset_plot', viewResults=True, saveResults=False):
+def makePlotFromRuleset(ruleset, allRules=True, filepath='results/temporary_ruleset_plot', viewResults=True, saveResults=False):
     """
-    Given a ruleset, show all rules and the chosen rules.
+    Given a rule set, show all rules and the chosen rules.
     """
     if __name__ == '__main__':
         calledFromInterpreter = True
@@ -215,8 +214,24 @@ def makePlotFromRuleset(ruleset, allRules=True,
         saveResults = True
 
     #What rules are we plotting here?
+    #For x:
     these_rules = ruleset.rulelist
-    yticks = [a.__class__.__name__ for a in these_rules]
+    xticks = [a.__class__.__name__ for a in these_rules]
+    print 'got x'
+
+    #For y: What are the rules with all offsets that we're plotting here
+    these_rules_offset = []
+    max_rule_length, min_rule_length = rules.rule_max_min(these_rules)
+    for r in these_rules:
+        for o in range(1 - r.size, max_rule_length):
+            these_rules_offset.append((r, o))
+        these_rules_offset.append(False)
+    yticks = [' ' for x in range(1 + len(these_rules_offset))]
+    for x in range(len(these_rules_offset)):
+        if these_rules_offset[x]:
+            (r,o) = these_rules_offset[x]
+            yticks[x] = '%s (offset %s)' % (r.__class__.__name__, str(o))
+    print 'got y'
 
     #Set up the plot
     plottitle = (unicode('Matrix of rule interactions from rule set "') + unicode(str(ruleset.name)) + unicode('"'))
@@ -226,7 +241,7 @@ def makePlotFromRuleset(ruleset, allRules=True,
 
     # Starting x value
     current_x = 0
-    max_rule_length, min_rule_length = rules.rule_max_min(these_rules)
+
     rule_bar_height = 2.3 / (8 + max_rule_length * 2.0)  # To keep bars from overlapping, set 1.8 to 1
     rule_jump = 3 * max_rule_length - 1
 
@@ -261,12 +276,12 @@ def makePlotFromRuleset(ruleset, allRules=True,
 
                 #Show all the rules, or just the ones that can coexist?
                 if allRules == True:
-                    this_y = these_rules.index(ruleB) + .1 * o - .5
+                    this_y = these_rules_offset.index((ruleB, o))
                     makeruleline(ax, rule_start_x + o, this_y,
                                 ruleB.size, H=rule_bar_height, existance=keycolor,
                                 )
                 elif keycolor != 'never':
-                    this_y = these_rules.index(ruleB) + .1 * o - .5
+                    this_y = these_rules_offset.index((ruleB, o))
                     makeruleline(ax, rule_start_x + o, this_y,
                                 ruleB.size, H=rule_bar_height, existance=keycolor,
                                 )
@@ -274,26 +289,28 @@ def makePlotFromRuleset(ruleset, allRules=True,
         current_x = current_x + rule_jump
 
     #Time to format plot!
-    ylabels = yticks
     if ruleset.name == 'Saint Lambert (Full)':
-        ylabels = [x.strip('SLRule_') for x in yticks]
+        yticks = [y.strip('SLRule_') for y in yticks]
 
     #Deal with y-axis
-    ax.set_ylim(-1, len(yticks) - 1)
-    ax.set_ylabel('Rules')
 
+    ax.set_ylabel('Rules')
+    ax.set_ylim(0, len(yticks))
     ax.yaxis.set_major_locator(mpltick.MultipleLocator(1))
-    ax.yaxis.set_minor_locator(mpltick.IndexLocator(1, .5))
-    ax.yaxis.set_minor_formatter(mpltick.IndexFormatter(ylabels))
+    ax.yaxis.set_minor_locator(mpltick.MultipleLocator(1))
+
+    ax.yaxis.set_minor_formatter(mpltick.IndexFormatter(yticks))
     ax.yaxis.set_major_formatter(mpltick.NullFormatter())
+    ax.set_ylim(-1, len(yticks) - 1)
 
     #Deal with x-axis
     ax.set_xlabel('Rules \n(Each vertical dotted ' + \
                     'line represents a single bass note to be figured)')
-    ax.set_xlim(0, rule_jump * len(yticks))
-    ax.xaxis.set_major_locator(mpltick.MultipleLocator(rule_jump))
+    ax.set_xlim(0, rule_jump * len(xticks))
+    #ax.xaxis.set_major_locator(mpltick.MultipleLocator(rule_jump))
+    ax.xaxis.set_major_locator(mpltick.IndexLocator(rule_jump, max_rule_length - 1))
     ax.xaxis.set_minor_locator(mpltick.MultipleLocator(1))
-    ax.set_xticklabels(ylabels, ha='left')
+    ax.set_xticklabels(xticks, ha='left')
     ax.xaxis.grid(True, which='minor')
     ax.grid(True, ls='--')
 
