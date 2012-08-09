@@ -18,54 +18,14 @@ class FileNotFoundError(Exception):
 class InputError(Exception):
     pass
 
-LOG.info("\n")
-#Get, parse arguments
-parser = argparse.ArgumentParser()
-parser.add_argument('-todo', action='store_true',
-                    dest='viewTodo', default=False,
-                    help='Just todo')
-parser.add_argument('-size', action='store_true',
-                    dest='viewSize', default=False,
-                    help='Just size')
-parser.add_argument('-intervals', action='store_true',
-                    dest='viewIntervals', default=False,
-                    help='Just intervals')
-parser.add_argument('-beats', action='store_true',
-                    dest='viewBeats', default=False,
-                    help='Just intervals')
-parser.add_argument('-figures', action='store_true',
-                    dest='viewFigures', default=False,
-                    help='Just intervals')
-parser.add_argument('-content', action='store_true',
-                    dest='viewContent', default=False,
-                    help='Just harmonic content')
-parser.add_argument('-extras', action='store_true',
-                    dest='viewExtra', default=False,
-                    help='Just extras')
-parser.add_argument('-compare', action='store_true',
-                    dest='compare', default=False,
-                    help='Show rule comparisons?')
-parser.add_argument('-r', nargs='*', dest='rules_type', default='SL', help='Set of rules to list')
 
-#Set flags
-args = parser.parse_args()
-ruleSet = args.rules_type
+def _view_rules(extraction_ruleset, args='x'):
+    if extraction_ruleset.__class__.__name__ != 'Ruleset':
+        extraction_ruleset = rules.get_ruleset(extraction_ruleset)
 
-toView = False
-toCompare = args.compare
-
-if (args.viewTodo == True or args.viewSize == True or
-    args.viewIntervals == True or args.viewBeats == True or
-    args.viewFigures == True or args.viewContent == True or
-    args.viewExtra == True):
-    toView = True
-
-
-if (args.viewTodo == False and args.viewSize == False and
-    args.viewIntervals == False and args.viewBeats == False and
-    args.viewFigures == False and args.viewContent == False and
-    args.viewExtra == False and args.compare == False):
-        toView = True
+    if args == 'x':
+        p = argparse.ArgumentParser()
+        args = p.parse_args()
         args.viewTodo = True
         args.viewSize = True
         args.viewIntervals = True
@@ -74,19 +34,12 @@ if (args.viewTodo == False and args.viewSize == False and
         args.viewContent = True
         args.viewExtra = True
 
-
-# Get the extraction rules
-extraction_ruleset = rules.get_ruleset(ruleSet)
-extraction_rules = extraction_ruleset.rulelist
-
-#Are we viewing the rules?
-if toView:
     #Run through and list the various qualities of the rules
     rules_umbrella = ""
-    for rule in extraction_rules:
+    for rule in extraction_ruleset.rulelist:
         if rules_umbrella != rule.umbrella:
             rules_umbrella = rule.umbrella
-            LOG.info("* * RULE SET: %s * *", rules_umbrella)
+            LOG.info("\n* * RULE SET: %s * *", rules_umbrella)
 
         named = False
 
@@ -155,8 +108,22 @@ if toView:
 
     LOG.info("* * DONE REVIEWING RULES. * *")
 
-#Are we comparing the rules?
-if toCompare:
+
+def _compare_rules(extraction_ruleset, args='x'):
+    if extraction_ruleset.__class__.__name__ != 'Ruleset':
+        extraction_ruleset = rules.get_ruleset(extraction_ruleset)
+
+    # if args == 'x':
+    #     p = argparse.ArgumentParser()
+    #     args = p.parse_args()
+    #     args.viewTodo = True
+    #     args.viewSize = True
+    #     args.viewIntervals = True
+    #     args.viewBeats = True
+    #     args.viewFigures = True
+    #     args.viewContent = True
+    #     args.viewExtra = True
+
     LOG.info("* * COMPARING RULES. * *")
     #If the rule set hasn't figured out it's coexistences yet, do that now
     if not extraction_ruleset.coexistence_array:
@@ -164,3 +131,72 @@ if toCompare:
     #Plot it!
     rule_plotter.makePlotFromRuleset(extraction_ruleset)
     LOG.info("* * DONE COMPARING RULES. * *")
+
+
+# Run from command line:
+if __name__ == '__main__':
+    #Get, parse arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-todo', action='store_true',
+                        dest='viewTodo', default=False,
+                        help='Just todo')
+    parser.add_argument('-size', action='store_true',
+                        dest='viewSize', default=False,
+                        help='Just size')
+    parser.add_argument('-intervals', action='store_true',
+                        dest='viewIntervals', default=False,
+                        help='Just intervals')
+    parser.add_argument('-beats', action='store_true',
+                        dest='viewBeats', default=False,
+                        help='Just intervals')
+    parser.add_argument('-figures', action='store_true',
+                        dest='viewFigures', default=False,
+                        help='Just intervals')
+    parser.add_argument('-content', action='store_true',
+                        dest='viewContent', default=False,
+                        help='Just harmonic content')
+    parser.add_argument('-extras', action='store_true',
+                        dest='viewExtra', default=False,
+                        help='Just extras')
+    parser.add_argument('-compare', action='store_true',
+                        dest='compare', default=False,
+                        help='Show rule comparisons?')
+    parser.add_argument('-r', nargs='*', dest='rules_type',
+                        default='SL',
+                        help='Set of rules to list')
+
+    #Set flags
+    args = parser.parse_args()
+    ruleSet = args.rules_type
+    toView = False
+    toCompare = args.compare
+
+    if (args.viewTodo == True or args.viewSize == True or
+        args.viewIntervals == True or args.viewBeats == True or
+        args.viewFigures == True or args.viewContent == True or
+        args.viewExtra == True):
+        toView = True
+
+    if (args.viewTodo == False and args.viewSize == False and
+        args.viewIntervals == False and args.viewBeats == False and
+        args.viewFigures == False and args.viewContent == False and
+        args.viewExtra == False and args.compare == False):
+            toView = True
+            args.viewTodo = True
+            args.viewSize = True
+            args.viewIntervals = True
+            args.viewBeats = True
+            args.viewFigures = True
+            args.viewContent = True
+            args.viewExtra = True
+
+    # Get the extraction rules
+    extraction_ruleset = rules.get_ruleset(ruleSet)
+
+    #Show info from rules
+    if toView:
+        _view_rules(extraction_ruleset, args)
+
+    #Are we comparing the rules?
+    if toCompare:
+        _compare_rules(extraction_ruleset, args)
