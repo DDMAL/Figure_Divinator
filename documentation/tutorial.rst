@@ -37,7 +37,7 @@ To see what rules are available, use
 
 Choosing a score
 ----------------
-Input scores can be in any format accepted by music21: musicxml,
+Input scores can be in `any format accepted by music21 <http://mit.edu/music21/doc/html/overviewFormats.html>`_: MusicXML, Humdrum, ABC, Musedata, and MIDI.
 
 Either a filepath or a URL can be given. For example, for example file bwv307.xml in the main figured_bass_extractor directory, use
 
@@ -56,28 +56,9 @@ To get a file a filepath outside of the figured_bass_extractor directory, such a
 *******************
 Working with scores
 *******************
-
+TODO - describe all flags
 
 **********************
 Working with rule sets
 **********************
-To see details about a rule set:
-
-    python rulesViewer.py [-r [rule] [rule] ...]
-
-For full usage description:
-
-    python rulesViewer.py -h
-
-Example useage:
-
-    python rulesViewer.py
-    (All SL rules)
-
-    python rulesViewer.py -size -R SLRule_6 SLRule_8
-    (Just the size of SL rules 6 and 8)
-
-
-***********************************
-Creation of new rules and rule sets
-***********************************
+TODO - describe all flags

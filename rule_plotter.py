@@ -201,7 +201,7 @@ def makePlotFromScore(extraction_work, allRules=False,
         fig.show()
 
 
-def makePlotFromRuleset(ruleset, allRules=True, filepath='results/temporary_ruleset_plot', viewResults=True, saveResults=False):
+def makePlotFromRuleset(ruleset, allRules=False, filepath='results/temporary_ruleset_plot', viewResults=True, saveResults=False):
     """
     Given a rule set, show all rules and the chosen rules.
     """

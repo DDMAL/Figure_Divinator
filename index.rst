@@ -10,7 +10,7 @@ FigDiv was created as part of the `Centre de Recherche sur l'Interprétation au 
 Installation
 ------------
 
-Make sure you're running Python (2.7), and then install Music21 (http://mit.edu/music21/) and MATPLOTLIB. Download the FigDiv source code (www.CRIC.yadda.com - TODO). In terminal, type ``python Hh_test.py``.
+Install `Music21 <http://mit.edu/music21/doc/html/install.html#install>`_ and `MATPLOTLIB <http://matplotlib.sourceforge.net/>`_, then download the FigDiv source code (www.CRIC.yadda.com - TODO).
 
 =============
 Documentation
