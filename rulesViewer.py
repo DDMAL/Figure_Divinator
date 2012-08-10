@@ -3,9 +3,11 @@ This module displays information about rules
 and how a set of rules interact with one another.
 """
 
+import sys
 import argparse
 import rules
 import rule_plotter
+
 
 import logging_setup as Logging
 LOG = Logging.getLogger('rulesViewer')
@@ -19,11 +21,11 @@ class InputError(Exception):
     pass
 
 
-def _view_rules(extraction_ruleset, args='x'):
+def _view_rules(extraction_ruleset, args=False):
     if extraction_ruleset.__class__.__name__ != 'Ruleset':
         extraction_ruleset = rules.get_ruleset(extraction_ruleset)
 
-    if args == 'x':
+    if not args:
         p = argparse.ArgumentParser()
         args = p.parse_args()
         args.viewTodo = True
@@ -141,6 +143,9 @@ if __name__ == '__main__':
     parser.add_argument('-size', action='store_true',
                         dest='viewSize', default=False,
                         help='Just size')
+    parser.add_argument('-list', action='store_true',
+                        dest='listAll', default=False,
+                        help='List all available rules.')
     parser.add_argument('-intervals', action='store_true',
                         dest='viewIntervals', default=False,
                         help='Just intervals')
@@ -168,6 +173,11 @@ if __name__ == '__main__':
     ruleSet = args.rules_type
     toView = False
     toCompare = args.compare
+
+    if args.listAll == True:
+        for r in rules.full_rule_dictionary:
+            print r
+        sys.exit(0)
 
     if (args.viewTodo == True or args.viewSize == True or
         args.viewIntervals == True or args.viewBeats == True or
