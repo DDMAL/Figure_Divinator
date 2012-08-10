@@ -1,20 +1,38 @@
-#########
-Tutorials
-#########
+##################
+Command-line usage
+##################
 
-To apply a set of rules to a score, do
+To apply a set of rules to an unfigured score, do
 
-python figure_extrator yourscore.xml [-r RULESET]
+    ``python figure_extrator ~\path\to\yourscore [-r RULE_SET]``
 
 To visualise a set of rules, do
 
-python rulesViewer -compare [-r RULESET]
+    ``python rulesViewer -compare [-r RULE_SET]``
 
+To see a print-out of a set of rules, do
 
+    ``python rulesViewer [-r RULE_SET]``
+
+In all use cases, if a special rule set is not indicated the program will default to the full Saint Lambert rule set.
 
 
 Choosing a set of rules
 -----------------------
+For both use cases (figure divination and rule set investigation), the rule set flag allows for a specific set or subset of rules to be chosen.
+
+To choose a set of rules, type its name. Currently, the only full rule set include is the Saint Lambert set, named 'SL'.
+
+    ``python figure_extractor \path\to\score -r SL``
+
+To choose several individual rules, list them after the -r flag. If any additional option flags are chosen, make sure -r is the last in the list.
+
+    ``python rulesViewer -r SLRule_03 SLRule_28 SLRule_10a``
+
+To see what rules are available, use
+
+    ``python rulesViewer -list``
+
 
 
 Choosing a score
