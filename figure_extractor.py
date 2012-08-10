@@ -75,8 +75,8 @@ class ExtractionWork(object):
             ext_rule = '_unique'
 
         #read in score file
-        if not os.path.isfile(self.score_input):
-            raise FileNotFoundError(self.score_input)
+        # if not os.path.isfile(self.score_input):
+        #     raise FileNotFoundError(self.score_input)
 
         (base, filename) = os.path.split(self.score_input)
         if len(base) > 0:
@@ -286,8 +286,6 @@ if __name__ == '__main__':
     parser.add_argument('-b', nargs='?', const='backward',
                     dest='rule_direction', default='forward',
                     help='Direction rules are applied: forward or backward')
-
-    LOG.debug('Arguments: %s\n', parser.parse_args())
 
     #Set flags
     args = parser.parse_args()
