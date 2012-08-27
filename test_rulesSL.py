@@ -2,6 +2,12 @@ import figure_extractor
 import music21 as m21
 import argparse
 
+import logging_setup as Logging
+import logging
+LOG = Logging.getLogger('rules')
+LOG2 = Logging.getLogger('f_extractor')
+
+
 def _SL_full_test(rules=False):
 
     if rules != False:
@@ -70,7 +76,6 @@ def _SL_full_test(rules=False):
     resultsscore.metadata.title = "Saint Lambert's examples"
 
     numparts = SIZE + 2
-    numstrings = ['Solution key:', 'Our extraction:']
     for i in range(numparts):
         resultsscore.append(m21.stream.Part())
         n = m21.note.Note()
@@ -102,11 +107,19 @@ def _SL_full_test(rules=False):
             print "\n- - - - - - ->Starting rule " + rule_number_split[0] + " (" + rule_number_split[1] + ") <- - - - - - -"
 
         try:
-            #Get the extraction
+            #Set up the extraction
             this_rule = 'SLRule_' + rule_number_split[0]
             this_file = 'examplefiles_SL/SLRule_' + rule_number + '.xml'
             this_solution = solutions[rule_number]
+
+            #Get extraction (while suppressing output)
+            oldLog = LOG.level
+            oldLog2 = LOG2.level
+            LOG.setLevel(logging.CRITICAL)
+            LOG2.setLevel(logging.CRITICAL)
             score = figure_extractor.full_extraction(this_file, this_rule, solution=this_solution, display=False, save=False)
+            LOG.setLevel(oldLog)
+            LOG2.setLevel(oldLog2)
 
             #Label the extracted score
             if score.output_score[2].flat.getElementsByClass(m21.note.Note)[0]:
@@ -120,7 +133,7 @@ def _SL_full_test(rules=False):
             print "Nope, problems with %s. On to the next one." % rule_number
 
     resultsscore.show()
-    print 'done'
+    print 'Done with SL test.'
 
 
 # Run from command line:
