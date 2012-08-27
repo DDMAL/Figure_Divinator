@@ -1,6 +1,7 @@
 import figure_extractor
 import music21 as m21
 import argparse
+import string
 
 import logging_setup as Logging
 import logging
@@ -100,13 +101,14 @@ def _SL_full_test(chosen_rules=False):
         rule_number = item[0]
 
         rule_number_split = rule_number.split('_')
-        if chosen_rules != False and rule_number_split[0] not in chosen_rules:
+        just_number = rule_number_split[0].translate(None, string.letters)
+        if chosen_rules != False and just_number not in chosen_rules:
             continue
 
         if len(rule_number_split) == 1:
-            print "\n- - ->Doing rule/excerpt " + rule_number_split[0]
+            print "- - ->Testing rule/excerpt " + rule_number_split[0]
         else:
-            print "\n- - ->Doing rule/excerpt " + rule_number_split[0] + " (" + rule_number_split[1] + ")"
+            print "- - ->Testing rule/excerpt " + rule_number_split[0] + " (" + rule_number_split[1] + ")"
 
         try:
             #Set up the extraction
