@@ -6,6 +6,10 @@ def _SL_full_test(rules=False):
 
     if rules != False:
         chosen_rules = rules
+        for x in range(len(chosen_rules)):
+            r = chosen_rules[x]
+            if len(r) == 1 or not r[1].isdigit():
+                chosen_rules[x] = '0' + r
 
     # Number of parts in each .xml test files -- hard-coded!
     SIZE = 2
@@ -85,11 +89,11 @@ def _SL_full_test(rules=False):
         p.append(n)
         resultsscore.parts[i].append(p)
 
-    for rule_number in sorted(solutions.iteritems()):
+    for item in sorted(solutions.iteritems()):
+        rule_number = item[0]
 
         rule_number_split = rule_number.split('_')
         if chosen_rules != False and rule_number_split[0] not in chosen_rules:
-            print '\nNope, not doing ' + rule_number
             continue
 
         if len(rule_number_split) == 1:
