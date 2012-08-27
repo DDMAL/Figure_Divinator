@@ -164,7 +164,8 @@ class ExtractionWork(object):
         ruler.full_apply_rules(direction=self.rule_application_direction)
 
         #Plot the results
-        rule_plotter.makePlotFromScore(self, filepath=self.output_filename, viewResults=self.display_option, direction=self.rule_application_direction)
+        if self.save_option == True or self.display_option == True:
+            rule_plotter.makePlotFromScore(self, filepath=self.output_filename, viewResults=self.display_option, direction=self.rule_application_direction)
 
         #Add figures into score:
         for i in range(basslength):
