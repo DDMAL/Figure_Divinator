@@ -85,7 +85,7 @@ def _SL_full_test(rules=False):
         p.append(n)
         resultsscore.parts[i].append(p)
 
-    for rule_number in solutions.keys():
+    for rule_number in sorted(solutions.iteritems()):
 
         rule_number_split = rule_number.split('_')
         if chosen_rules != False and rule_number_split[0] not in chosen_rules:
