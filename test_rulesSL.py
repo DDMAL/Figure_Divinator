@@ -11,23 +11,23 @@ def _SL_full_test(rules=False):
     SIZE = 2
     solutions = {
      #  'RULE_NAME_.xml'    : "SOLUTION STRING",                # Page number: #
-        '3_1'    : "A2_6 Bb2",                       # Page number: 45
-        '3_2'    : "D2_6 Eb2",                       # Page number: 45
-        '3_3'    : "G2_6 Ab2",                       # Page number: 45
-        '4_1'    : "A2 Bb2_6",                       # Page number: 46
-        '4_2'    : "A2 Bb2_6",                       # Page number: 46
-        '5_1'    : "F2_6 E2",                        # Page number: 46
-        '5_2'    : "Bb2_6 A2",                       # Page number: 46
-        '6_1'    : "E2_#6 F2_6",                     # Page number: 46
-        '6_2'    : "B2_#6 C2_6",                     # Page number: 46
-        '6_3'    : "E2_#6 F2_6",                     # Page number: 46
-        '6_4'    : "B2_#6 C2_6",                     # Page number: 46
-        '7_1'    : "D2 B2 C2_b A2 Bb1",              # Page number: 47
-        '7_2'    : "G2_b E2 F2_b Eb1",               # Page number: 47
-        '8b_1'   : "F2 D2_6,b Eb2 C2_6 D1_#",        # Page number: 47
-        '8b_2'   : "F4 Eb4 D2_6,b Eb4 D4 C2_6 D1_#",  # Page number: 47
-        '8a_1'   : "F2 D2 Eb2 C2 D1_#",              # Page number: 47
-        '8a_2'   : "F4 Eb4 D2 Eb4 D4 C2 D1_#",       # Page number: 47
+        '03_1'    : "A2_6 Bb2",                       # Page number: 45
+        '03_2'    : "D2_6 Eb2",                       # Page number: 45
+        '03_3'    : "G2_6 Ab2",                       # Page number: 45
+        '04_1'    : "A2 Bb2_6",                       # Page number: 46
+        '04_2'    : "A2 Bb2_6",                       # Page number: 46
+        '05_1'    : "F2_6 E2",                        # Page number: 46
+        '05_2'    : "Bb2_6 A2",                       # Page number: 46
+        '06_1'    : "E2_#6 F2_6",                     # Page number: 46
+        '06_2'    : "B2_#6 C2_6",                     # Page number: 46
+        '06_3'    : "E2_#6 F2_6",                     # Page number: 46
+        '06_4'    : "B2_#6 C2_6",                     # Page number: 46
+        '07_1'    : "D2 B2 C2_b A2 Bb1",              # Page number: 47
+        '07_2'    : "G2_b E2 F2_b Eb1",               # Page number: 47
+        '08b_1'   : "F2 D2_6,b Eb2 C2_6 D1_#",        # Page number: 47
+        '08b_2'   : "F4 Eb4 D2_6,b Eb4 D4 C2_6 D1_#",  # Page number: 47
+        '08a_1'   : "F2 D2 Eb2 C2 D1_#",              # Page number: 47
+        '08a_2'   : "F4 Eb4 D2 Eb4 D4 C2 D1_#",       # Page number: 47
         '10_a'   : "A4 F#4_6 D4 E4_# C#4_6 A4 D8 C#8 D8 E8 F#8 D8 E8_# F#8 E8 D8 C#8 B8 A4_# E4_# E4_7 A2+4_#",  # Page number: 47
         '11'     : "C2 A2_6",                        # Page number: 47
         '12'     : "F2 B2",                          # Page number: 48
