@@ -8,14 +8,16 @@ LOG = Logging.getLogger('rules')
 LOG2 = Logging.getLogger('f_extractor')
 
 
-def _SL_full_test(rules=False):
+def _SL_full_test(chosen_rules=False):
 
-    if rules != False:
-        chosen_rules = rules
-        for x in range(len(chosen_rules)):
-            r = chosen_rules[x]
-            if len(r) == 1 or not r[1].isdigit():
-                chosen_rules[x] = '0' + r
+    if chosen_rules != False:
+        if chosen_rules[0] == False:
+            chosen_rules = False
+        else:
+            for x in range(len(chosen_rules)):
+                r = chosen_rules[x]
+                if len(r) == 1 or not r[1].isdigit():
+                    chosen_rules[x] = '0' + r
 
     # Number of parts in each .xml test files -- hard-coded!
     SIZE = 2
@@ -38,7 +40,7 @@ def _SL_full_test(rules=False):
         '08b_2'   : "F4 Eb4 D2_6,b Eb4 D4 C2_6 D1_#",  # Page number: 47
         '08a_1'   : "F2 D2 Eb2 C2 D1_#",              # Page number: 47
         '08a_2'   : "F4 Eb4 D2 Eb4 D4 C2 D1_#",       # Page number: 47
-        '10_a'   : "A4 F#4_6 D4 E4_# C#4_6 A4 D8 C#8 D8 E8 F#8 D8 E8_# F#8 E8 D8 C#8 B8 A4_# E4_# E4_7 A2+4_#",  # Page number: 47
+        '10a'   : "A4 F#4_6 D4 E4_# C#4_6 A4 D8 C#8 D8 E8 F#8 D8 E8_# F#8 E8 D8 C#8 B8 A4_# E4_# E4_7 A2+4_#",  # Page number: 47
         '11'     : "C2 A2_6",                        # Page number: 47
         '12'     : "F2 B2",                          # Page number: 48
         '13'     : "C2 E2_6",                        # Page number: 48
@@ -102,9 +104,9 @@ def _SL_full_test(rules=False):
             continue
 
         if len(rule_number_split) == 1:
-            print "\n- - - - - - ->Starting rule " + rule_number_split[0] + "<- - - - - - -"
+            print "\n- - ->Doing rule/excerpt " + rule_number_split[0]
         else:
-            print "\n- - - - - - ->Starting rule " + rule_number_split[0] + " (" + rule_number_split[1] + ") <- - - - - - -"
+            print "\n- - ->Doing rule/excerpt " + rule_number_split[0] + " (" + rule_number_split[1] + ")"
 
         try:
             #Set up the extraction
@@ -141,7 +143,7 @@ if __name__ == '__main__':
     #Get, parse argument
     parser = argparse.ArgumentParser()
     parser.add_argument('-r', nargs='*', dest='rules',
-                        default='False',
+                        default=False,
                         help='Set of rules to list')
     args = parser.parse_args()
 
