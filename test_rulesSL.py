@@ -79,22 +79,31 @@ for i in range(numparts):
     p.append(n)
     resultsscore.parts[i].append(p)
 
-for x in solutions:
-    print "* * * *Starting sample " + x[0] + "* * * * *"
-    #Get the extraction
-    this_rule = 'SLRule' + x[0]
-    this_file = 'xml_test_files_SL/Lambert ' + x[0] + '.xml'
-    this_solution = x[1]
-    score = figure_extractor.full_extraction(this_file, this_rule, solution=this_solution, display=False)
+for rule_number in solutions.keys():
 
-    #Label the extracted score
-    if score.output_score[2].flat.getElementsByClass(m21.note.Note)[0]:
-        lyriclabel = '<File ' + x[0] + '>'
-        score.output_score[2].flat.getElementsByClass(m21.note.Note)[0].lyric = lyriclabel
+    rule_number_split = rule_number.split('_')
+    if len(rule_number_split) == 1:
+        print "\n- - - - - - ->Starting rule " + rule_number_split[0] + "<- - - - - - -"
+    else:
+        print "\n- - - - - - ->Starting rule " + rule_number_split[0] + " (" + rule_number_split[1] + ") <- - - - - - -"
 
-    #Add this extracted score to full results
-    for i in range(numparts):
-        resultsscore.parts[i].append(score.output_score[i + 1])
+    try:
+        #Get the extraction
+        this_rule = 'SLRule_' + rule_number_split[0]
+        this_file = 'examplefiles_SL/SLRule_' + rule_number + '.xml'
+        this_solution = solutions[rule_number]
+        score = figure_extractor.full_extraction(this_file, this_rule, solution=this_solution, display=False, save=False)
+
+        #Label the extracted score
+        if score.output_score[2].flat.getElementsByClass(m21.note.Note)[0]:
+            lyriclabel = '<File ' + rule_number + '>'
+            score.output_score[2].flat.getElementsByClass(m21.note.Note)[0].lyric = lyriclabel
+
+        #Add this extracted score to full results
+        for i in range(numparts):
+            resultsscore.parts[i].append(score.output_score[i + 1])
+    except:
+        print "Nope, problems with %s. On to the next one." % rule_number
 
 resultsscore.show()
 print 'done'
