@@ -37,10 +37,9 @@ class ExtractionWork(object):
         self.ruleset = kwargs.get('ruleset', ['SL'])
         self.solution = kwargs.get('solution', False)
         self.display_option = kwargs.get('display', False)
+        self.save_option = kwargs.get('save', True)
         self.create_fb_object = kwargs.get('make_fb_object', False)
         self.rule_application_direction = kwargs.get('rule_direction', 'forward')
-
-
 
         if self.rule_application_direction != 'backward':
             self.rule_application_direction = 'forward'
@@ -226,23 +225,29 @@ class ExtractionWork(object):
         self.output_score.insert(0, self._bassline)
         self.output_fb_score.insert(0, self._bassline)
 
-        #save the file
-        LOG.debug('\tSaving the file!')
-        xmlfilename = self.output_filename + '.xml'
-        self.output_score.write(fmt='musicxml', fp=xmlfilename)
-        print 'File saved to %s in the figured_bass_extractor/ directory' % xmlfilename
+        #save the file?
+        if self.save_option == True:
+            LOG.debug('\tSaving the file!')
+            xmlfilename = self.output_filename + '.xml'
+            self.output_score.write(fmt='musicxml', fp=xmlfilename)
+            print 'File saved to %s in the figured_bass_extractor/ directory' % xmlfilename
 
         #display the new file?
         if self.display_option == True:
-            try:
-                print self.output_filename
-                new_score = m21.converter.parse(xmlfilename)
-                new_score.show()
-                #self.output_score.show()
-                LOG.info('Displaying output if xml viewer has been installed.')
-            except:  # TODO - figure out type of exception
-                LOG.info('Unable to show .xml output through MusicXML,')
-                LOG.info('try opening the file directly.')
+            if self.save_option == True:
+                try:
+                    print self.output_filename
+                    new_score = m21.converter.parse(xmlfilename)
+                    new_score.show()
+                    #self.output_score.show()
+                    LOG.info('Displaying output if xml viewer has been installed.')
+                except:  # TODO - figure out type of exception
+                    LOG.info('Unable to show .xml output through MusicXML,')
+                    LOG.info('try opening the file directly.')
+            #If file hasn't been saved, can't show it by opening old file; must open current object
+            else:
+                self.output_score.show()
+
         else:
             LOG.info('Not displaying file.')
         #TODO - selfcomparison = score
@@ -277,6 +282,9 @@ if __name__ == '__main__':
     parser.add_argument('-o', action='store_false',
                     dest='display_outputs', default=True,
                     help='View outputs in MusicXML interface?')
+    parser.add_argument('-s', action='store_false',
+                    dest='save_outputs', default=True,
+                    help='Save output in MusicXML interface?')
     parser.add_argument('-t', nargs='?', const='x',
                     dest='solution_notation_string', default=False,
                     help='TODO')
@@ -293,11 +301,13 @@ if __name__ == '__main__':
     ruleset = args.rule_set_or_list  # The name of a rule set or list of rules to apply
     solution = args.solution_notation_string  # A solution string (in music21 tiny notation)
     display = args.display_outputs  # If true, displays score and visualisation
+    save = args.save_outputs  # If true, saves .xml file
     rule_direction = args.rule_direction  # Direction rules are applied (default forward)
 
     full_extraction(input_file_name, \
                     ruleset=ruleset, \
                     solution=solution, \
+                    save=save, \
                     display=display, \
                     rule_direction=rule_direction
                     )
