@@ -4,7 +4,7 @@
   <identification>
     <encoding>
       <software>MuseScore 1.2</software>
-      <encoding-date>2012-06-28</encoding-date>
+      <encoding-date>2012-08-28</encoding-date>
       </encoding>
     </identification>
   <defaults>
@@ -30,7 +30,7 @@
       </page-layout>
     </defaults>
   <credit page="1">
-    <credit-words default-x="595.276" default-y="1627.09" font-size="24" justify="center" valign="top">SLRule_3_1</credit-words>
+    <credit-words default-x="595.275" default-y="1627.09" font-size="24" justify="center" valign="top">SLRule_3_1</credit-words>
     </credit>
   <part-list>
     <score-part id="P1">
@@ -48,12 +48,12 @@
       </score-part>
     </part-list>
   <part id="P1">
-    <measure number="0" implicit="yes" width="101.33">
+    <measure number="1" width="540.44">
       <print>
         <system-layout>
           <system-margins>
-            <left-margin>90.12</left-margin>
-            <right-margin>820.21</right-margin>
+            <left-margin>87.12</left-margin>
+            <right-margin>0.00</right-margin>
             </system-margins>
           <top-system-distance>180.00</top-system-distance>
           </system-layout>
@@ -81,7 +81,20 @@
           <line>4</line>
           </clef>
         </attributes>
-      <note default-x="75.83" default-y="-50.00">
+      <note>
+        <rest/>
+        <duration>2</duration>
+        <voice>1</voice>
+        <type>half</type>
+        <staff>1</staff>
+        </note>
+      <backup>
+        <duration>6</duration>
+        </backup>
+      <forward>
+        <duration>6</duration>
+        </forward>
+      <note default-x="325.33" default-y="-50.00">
         <pitch>
           <step>C</step>
           <octave>4</octave>
@@ -92,7 +105,7 @@
         <stem>up</stem>
         <staff>1</staff>
         </note>
-      <note default-x="75.83" default-y="-35.00">
+      <note default-x="325.33" default-y="-35.00">
         <chord/>
         <pitch>
           <step>F</step>
@@ -104,7 +117,7 @@
         <stem>up</stem>
         <staff>1</staff>
         </note>
-      <note default-x="75.83" default-y="-15.00">
+      <note default-x="325.33" default-y="-15.00">
         <chord/>
         <pitch>
           <step>C</step>
@@ -117,9 +130,22 @@
         <staff>1</staff>
         </note>
       <backup>
-        <duration>2</duration>
+        <duration>4</duration>
         </backup>
-      <note default-x="75.83" default-y="-105.00">
+      <backup>
+        <duration>4</duration>
+        </backup>
+      <forward>
+        <duration>4</duration>
+        </forward>
+      <note>
+        <rest/>
+        <duration>2</duration>
+        <voice>5</voice>
+        <type>half</type>
+        <staff>2</staff>
+        </note>
+      <note default-x="325.33" default-y="-105.00">
         <pitch>
           <step>A</step>
           <octave>3</octave>
@@ -131,7 +157,7 @@
         <staff>2</staff>
         </note>
       </measure>
-    <measure number="1" width="65.50">
+    <measure number="2" width="449.60">
       <note default-x="15.00" default-y="-45.00">
         <pitch>
           <step>D</step>
