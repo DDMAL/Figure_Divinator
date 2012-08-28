@@ -112,7 +112,7 @@ def _SL_full_test(chosen_rules=False):
 
         try:
             #Set up the extraction
-            this_rule = 'SLRule_' + rule_number_split[0]
+            this_rule = ['SLRule_' + rule_number_split[0]]
             this_file = 'examplefiles_SL/SLRule_' + rule_number + '.xml'
             this_solution = solutions[rule_number]
 
@@ -121,7 +121,7 @@ def _SL_full_test(chosen_rules=False):
             oldLog2 = LOG2.level
             LOG.setLevel(logging.CRITICAL)
             LOG2.setLevel(logging.CRITICAL)
-            score = figure_extractor.full_extraction(this_file, this_rule, solution=this_solution, display=False, save=False)
+            score = figure_extractor.full_extraction(this_file, ruleset=this_rule, solution=this_solution, display=False, save=False)
             LOG.setLevel(oldLog)
             LOG2.setLevel(oldLog2)
 
