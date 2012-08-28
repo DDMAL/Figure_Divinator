@@ -39,6 +39,7 @@ class ExtractionWork(object):
         self.display_option = kwargs.get('display', False)
         self.save_option = kwargs.get('save', True)
         self.create_fb_object = kwargs.get('make_fb_object', False)
+        self.clean_option = kwargs.get('clean', True)
         self.rule_application_direction = kwargs.get('rule_direction', 'forward')
 
         if self.rule_application_direction != 'backward':
@@ -167,6 +168,10 @@ class ExtractionWork(object):
         if self.save_option == True or self.display_option == True:
             rule_plotter.makePlotFromScore(self, filepath=self.output_filename, viewResults=self.display_option, direction=self.rule_application_direction)
 
+        #Clean up figures
+        if self.clean_option == True:
+            self._clean_figures()
+
         #Add figures into score:
         for i in range(basslength):
             n = self._bassline.flat.getElementsByClass(m21.note.Note)[i]
@@ -182,6 +187,26 @@ class ExtractionWork(object):
             self.makeFiguredBassObject()
 
         return object
+
+    def _clean_figures(self):
+        """Delete 'hidden' figures"""
+        for i in range(len(self._fb_figureString)):
+            fig = self._fb_figureString[i]
+
+            #TODO - in all cases? dependent on the key quality??
+            if fig in ['5,3', '5,3+', '5,3-', '3-']:
+                self._fb_figureString[i] = ''
+
+            if fig == '6,5,3':  # TODO - 27b; etc.
+                self._fb_figureString[i] = '6,5'
+
+            if fig == '6,3':
+                self._fb_figureString[i] = '6'
+
+            if fig == '7,3+':
+                self._fb_figureString[i] = '7'
+
+
 
     def _setup_output(self):  # TODO-Hh{non-critical: metadata fail!}
         """Attempts to add metadata to new score. Doesn't work."""
@@ -286,6 +311,9 @@ if __name__ == '__main__':
     parser.add_argument('-s', action='store_false',
                     dest='save_outputs', default=True,
                     help='Save output in MusicXML interface?')
+    parser.add_argument('-c', action='store_false',
+                    dest='clean_figure_string', default=True,
+                    help='Visually remove redundant figures from output?')
     parser.add_argument('-t', nargs='?', const='x',
                     dest='solution_notation_string', default=False,
                     help='TODO')
@@ -301,6 +329,7 @@ if __name__ == '__main__':
     input_file_name = args.input_file  # The un-figured xml file to be parsed
     ruleset = args.rule_set_or_list  # The name of a rule set or list of rules to apply
     solution = args.solution_notation_string  # A solution string (in music21 tiny notation)
+    clean = args.clean_figure_string  # If true, makes result visually cleaner by removing '3,5' etc.
     display = args.display_outputs  # If true, displays score and visualisation
     save = args.save_outputs  # If true, saves .xml file
     rule_direction = args.rule_direction  # Direction rules are applied (default forward)
@@ -308,6 +337,7 @@ if __name__ == '__main__':
     full_extraction(input_file_name, \
                     ruleset=ruleset, \
                     solution=solution, \
+                    clean=clean, \
                     save=save, \
                     display=display, \
                     rule_direction=rule_direction
