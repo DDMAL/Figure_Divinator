@@ -9,7 +9,7 @@ LOG = Logging.getLogger('rules')
 LOG2 = Logging.getLogger('f_extractor')
 
 
-def _SL_full_test(chosen_rules=False):
+def _SL_full_test(chosen_rules=False, clean=True):
 
     if chosen_rules != False:
         if chosen_rules[0] == False:
@@ -122,7 +122,7 @@ def _SL_full_test(chosen_rules=False):
             oldLog2 = LOG2.level
             LOG.setLevel(logging.CRITICAL)
             LOG2.setLevel(logging.CRITICAL)
-            score = figure_extractor.full_extraction(this_file, ruleset=this_rule, solution=this_solution, display=False, save=False)
+            score = figure_extractor.full_extraction(this_file, ruleset=this_rule, solution=this_solution, clean=clean, display=False, save=False)
             LOG.setLevel(oldLog)
             LOG2.setLevel(oldLog2)
 
@@ -145,9 +145,12 @@ def _SL_full_test(chosen_rules=False):
 if __name__ == '__main__':
     #Get, parse argument
     parser = argparse.ArgumentParser()
+    parser.add_argument('-c', action='store_false',
+                    dest='clean_figure_string', default=True,
+                    help='Visually remove redundant figures from output?')
     parser.add_argument('-r', nargs='*', dest='rules',
                         default=False,
                         help='Set of rules to list')
     args = parser.parse_args()
 
-    _SL_full_test(args.rules)
+    _SL_full_test(chosen_rules=args.rules, clean=args.clean_figure_string)
