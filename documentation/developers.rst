@@ -2,43 +2,82 @@
 Notes for developers
 ####################
 
+FigDiv was developed in Python 2.7.1 on OS X 10.7.4 (Lion), using music21
+version 1.0.0.
+
 Building documentation
-----------------------
-Documentation has been created with Sphinx. To install, use TODO
+======================
+Documentation is created with `Sphinx <http://sphinx.pocoo.org/>`_.
+To install Sphinx, in Terminal run ::
 
-To rebuild documentation, from the FigDiv program directory, type
+    easy_install sphinx
 
-make <type>
+To rebuild documentation, from the FigDiv program directory type ::
 
-where <type> is the type of documentation: html, TODO.
+    make <target>
 
-Once the html has been rebuilt, it will be found in the FigDiv/documentation/_build/<html/doctrees/etc> folder, and can be uploaded  to Documentation_Website_Location (TODO).
+where <target> is the type of documentation desired: html, latex, latexpdf,
+or text. (For a full list of documentation types, type make help from the
+FigDiv directory.)
+
+Output will be saved to FigDiv/documentation/_build/<target>. Rebuilt html documentation should be uploaded to the project documentation page, Documentation_Website_Location (TODO).
 
 Note:
--- All doc-string documentation for classes is built automatically, assuming the class is listed in FigDiv/documentation/moduleRules.rst or FigDiv/documentation/moduleRulesets.rst. Any new files will need to be listed in one of these files in order to be included in the documentation.
+    * All class and method documentation is built automatically from docstrings, once the class is listed in FigDiv/documentation/moduleRules.rst or FigDiv/documentation/moduleRulesets.rst. Any new files must be listed there in order to be included in the documentation.
 
--- All non-auto-generated documentation is written as .rst files and stored in FigDiv/documentation. In order to include any new .rst files in the documentation, be sure to add its file name to FigDiv/index.rst.
-
-
-Running unit tests
-------------------
-Testing is done with nosetests. To install, use easy_install nose. Documentation is found here: http://nose.readthedocs.org/en/latest/usage.html.
-
-To run tests, while in the main FigDiv program directory, type
-
-nosetests
-
-or
-
-nosetests -v to see which tests were run.
+    * All non-auto-generated pages are saved as `.rst files <http://matplotlib.sourceforge.net/sampledoc/cheatsheet.html>`_ and saved in FigDiv/documentation. Any new .rst files must be added to the documentation index (FigDiv/index.rst).
 
 
-Note that nosetests will run any file that contains 'test' or 'Test' within the figdiv directory. To specify only a certain test, use
+Testing
+=======
+Testing is done with
+`nosetests <http://nose.readthedocs.org/en/latest/usage.html>`_.
+To install, use ::
 
-nosetests only_test_this_test.py
+    easy_install nose
 
-or to change the directory tested from, use
+To run tests, from the main FigDiv program directory type ::
 
-nosetests -w /path/to/tests
+    nosetests
+
+or, to see which tests were run, ::
+
+    nosetests -v
+
+
+Note that nosetests will run any file that contains 'test' or 'Test'
+within the figdiv directory. To specify only a certain test, use::
+
+    nosetests only_test_this_test.py
+
+or to change the directory tested from, use ::
+
+    nosetests -w /path/to/tests
+
+
+Developer Task list
+==========
+Documentation
+-------------
+* Write tutorial for building new rule sets
+* Write tutorial for investigating rule sets
+* Write tutorial for figuring a score
+* Make sure all docstrings are uniform
+
+Code
+----
+* Complete rule-related functions needed for SL rule set
+
+* Modules:
+
+    * Remove passing tones from bass lines
+
+    * Build in rule-trumping (no more 'chosen at random')
+
+* Testing:
+
+    * Functions that compare rules
+
+    * Test rule set for self-sufficiency
 
 

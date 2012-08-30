@@ -12,32 +12,34 @@ Installation
 
 Install `Music21 <http://mit.edu/music21/doc/html/install.html#install>`_ and `MATPLOTLIB <http://matplotlib.sourceforge.net/>`_, then download the FigDiv source code (www.CRIC.yadda.com - TODO).
 
-=============
-Documentation
-=============
+Tutorials
+---------
 
 .. toctree::
    :maxdepth: 2
 
    documentation/intro
    documentation/tutorial
-   documentation/moduleRules
-   documentation/developers
 
-
-==================
-Included Rule Sets
-==================
+Included Rule Sets:
 
 .. toctree::
    :maxdepth: 1
 
    documentation/moduleRulesets
 
+Developers
+----------
 
-==================
-Indices and tables
-==================
+.. toctree::
+   :maxdepth: 1
+
+   Development notes and task list <documentation/developers>
+   documentation/moduleRules
+
+
+Indices and Search
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
