@@ -40,6 +40,7 @@ class ExtractionWork(object):
         self.save_option = kwargs.get('save', True)
         self.create_fb_object = kwargs.get('make_fb_object', False)
         self.clean_option = kwargs.get('clean', True)
+        self.remove_passing_option = kwargs.get('remove_passing', False)
         self.rule_application_direction = kwargs.get('rule_direction', 'forward')
 
         if self.rule_application_direction != 'backward':
@@ -127,14 +128,14 @@ class ExtractionWork(object):
                 LOG.debug('Bassline is lowest part')
             except:  # TODO - figure out type of exception
                 raise InputError('Cannot extract bass line from score')
-        #If there is more than one note at any point in time, pick the lower note  # TODO - doesn't work yet!
 
-    def process_bassline(self):
+        self._clean_bassline_single_voice()
+
+    def _clean_bassline_single_voice(self):
         """
-        Currently does nothing; eventually should look for and exclude passing
-        tones.
-        #TODO - keep all notes? eliminate passing tones?
-        #TODO - check to make sure aren't multiple bass notes/voicing
+        Rewrites bassline as lowest line of multi-voice bassline.
+
+        Only if there are multiple voices in the bass part.
         """
         pass
 
@@ -152,8 +153,9 @@ class ExtractionWork(object):
 
     def extract(self):
         """When given a score, this method extracts and returns the figured bass"""
-        #Process the bassline?
-        self.process_bassline()
+        #Remove passing tones?
+        if self.remove_passing_option:
+            self._clean_bassline_remove_passing_tones()
 
         #Set up the figure strings:
         basslength = len(self._bassline.flat.getElementsByClass(m21.note.Note))
@@ -187,6 +189,12 @@ class ExtractionWork(object):
             self.makeFiguredBassObject()
 
         return object
+
+    def _clean_bassline_remove_passing_tones(self):
+        """
+        Removes identified passing tones from bassline using music21 methods.
+        """
+        pass # TODO - Thursday
 
     def _clean_figures(self):
         """Delete 'hidden' figures"""
@@ -314,6 +322,9 @@ if __name__ == '__main__':
     parser.add_argument('-c', action='store_false',
                     dest='clean_figure_string', default=True,
                     help='Visually remove redundant figures from output?')
+    parser.add_argument('-p', action='store_true',
+                    dest='remove_passing', default=False,
+                    help='Remove passing tones from bassline?')
     parser.add_argument('-t', nargs='?', const='x',
                     dest='solution_notation_string', default=False,
                     help='TODO')
@@ -330,6 +341,7 @@ if __name__ == '__main__':
     ruleset = args.rule_set_or_list  # The name of a rule set or list of rules to apply
     solution = args.solution_notation_string  # A solution string (in music21 tiny notation)
     clean = args.clean_figure_string  # If true, makes result visually cleaner by removing '3,5' etc.
+    remove_passing = args.remove_passing  # If true, removes passing tones from bassline
     display = args.display_outputs  # If true, displays score and visualisation
     save = args.save_outputs  # If true, saves .xml file
     rule_direction = args.rule_direction  # Direction rules are applied (default forward)
@@ -338,6 +350,7 @@ if __name__ == '__main__':
                     ruleset=ruleset, \
                     solution=solution, \
                     clean=clean, \
+                    remove_passing=remove_passing, \
                     save=save, \
                     display=display, \
                     rule_direction=rule_direction
