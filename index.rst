@@ -22,6 +22,7 @@ Documentation
    documentation/intro
    documentation/tutorial
    documentation/moduleRules
+   documentation/developers
 
 
 ==================

@@ -140,6 +140,15 @@ def compare_rules_in_list(rule_list):
 
 
 def check_figures_coexist(ruleA, ruleB, indexA=0, indexB=0):
+    """
+    Returns true if figures are identical over length of rule overlap.
+
+    Args:
+        ruleA: First rule to compare.
+        ruleB: Second rule to compare.
+        indexA: Starting index of ruleA [Default 0].
+        indexB: Starting index of ruleB [Default 0].
+    """
     #Figure out the length to be compared
     overlap_length = min(ruleA.size - indexA, ruleB.size - indexB)
 
@@ -162,6 +171,16 @@ def check_figures_coexist(ruleA, ruleB, indexA=0, indexB=0):
 
 
 def check_rules_coexist(ruleA, ruleB, indexA=0, indexB=0):
+    """
+    Returns true if both rules are applicable over length of overlap.
+
+    Args:
+        ruleA: First rule to compare.
+        ruleB: Second rule to compare.
+        indexA: Starting index of ruleA [Default 0].
+        indexB: Starting index of ruleB [Default 0].
+    """
+
     #Figure out the length to be compared
     overlap_length = min(ruleA.size - indexA, ruleB.size - indexB)
 
@@ -199,21 +218,18 @@ def check_rules_coexist(ruleA, ruleB, indexA=0, indexB=0):
 
 def lists_overlap(listA, listB):
     """
-    If the lists overlap, returns true; else returns false.
+    Returns true if there is overlap between the two lists.
     """
     return bool(set(listA) & set(listB))
 
 
-def beats_overlap(listA, listB):
-    """
-    """
-    return
-
-
 def intervals_overlap(intlistA, intlistB):
     """
-    Takes two lists of any music21 interval objects and returns True if
-    any interval in one list is compatible with any interval in the other.
+    Returns true if there is any overlap between two lists of music21 intervals.
+
+    intlistA and inlistB can contain any combination of music21 interval types:
+    music21.interval.Interval, music21.interval.diatonicInterval,
+    or music21.interval.chromaticInterval.
     """
     for a in intlistA:
         for b in intlistB:
@@ -260,102 +276,115 @@ def intervals_overlap(intlistA, intlistB):
 
 
 def compare_rules(ruleA, ruleB):
-        #NOTE: right now, gives winner and loser
-        #TODO: needs to take into account figure equivalences
-        #TODO: assumes rules are same length
+    """
+    Returns (winner, loser) between two rules, based on numbers of restrictions.
 
-        loser = False
-        winner = False
-        reason = ''
-        decision = False
+    Note: an extremely coarse comparison;
+    """
+    #NOTE: right now, gives winner and loser
+    #TODO: needs to take into account figure equivalences
+    #TODO: assumes rules are same length
 
-        #Check to see if one is more specific than another!
-        #Count things:
-        dictA = {}
-        dictB = {}
-        dictA['intervals'] = sum(x > 0 for x in ruleA.intervals)
-        dictB['intervals'] = sum(x > 0 for x in ruleB.intervals)
-        dictA['beats'] = sum(x > 0 for x in ruleA.beats)
-        dictB['beats'] = sum(x > 0 for x in ruleB.beats)
-        dictA['content'] = sum(x > 0 for x in ruleA.harmonic_content)
-        dictB['content'] = sum(x > 0 for x in ruleB.harmonic_content)
-        dictA['extras'] = sum(x > 0 for x in ruleA.extras)
-        dictB['extras'] = sum(x > 0 for x in ruleB.extras)
+    loser = False
+    winner = False
+    reason = ''
+    decision = False
 
-        #If they don't have the same number, preference the winner
-        if dictA['intervals'] > dictB['intervals']:
+    #Check to see if one is longer than another (assumed more specific)
+    if ruleA.size > ruleB.size:
+        winner = ruleA
+        loser = ruleB
+    elif ruleA.size < ruleB.size:
+        winner = ruleB
+        loser = ruleA
+
+    #Check to see if one is more specific than another!
+    #Count things:
+    dictA = {}
+    dictB = {}
+    dictA['intervals'] = sum(x > 0 for x in ruleA.intervals)
+    dictB['intervals'] = sum(x > 0 for x in ruleB.intervals)
+    dictA['beats'] = sum(x > 0 for x in ruleA.beats)
+    dictB['beats'] = sum(x > 0 for x in ruleB.beats)
+    dictA['content'] = sum(x > 0 for x in ruleA.harmonic_content)
+    dictB['content'] = sum(x > 0 for x in ruleB.harmonic_content)
+    dictA['extras'] = sum(x > 0 for x in ruleA.extras)
+    dictB['extras'] = sum(x > 0 for x in ruleB.extras)
+
+    #If they don't have the same number, preference the winner
+    if dictA['intervals'] > dictB['intervals']:
+        winner = ruleA
+        loser = ruleB
+        reason += "more interval restrictions"
+        decision = True
+    elif dictA['intervals'] < dictB['intervals']:
+        winner = ruleB
+        loser = ruleA
+        reason += "more interval restrictions"
+        decision = True
+
+    if dictA['beats'] > dictB['beats']:
+        if decision == False:
             winner = ruleA
             loser = ruleB
-            reason += "more interval restrictions"
+            reason += "more beat restrictions"
             decision = True
-        elif dictA['intervals'] < dictB['intervals']:
+        else:
+            reason += " (not included: beat restrictions)"
+    elif dictA['beats'] < dictB['beats']:
+        if decision == False:
             winner = ruleB
             loser = ruleA
-            reason += "more interval restrictions"
+            reason += "more beat restrictions"
             decision = True
+        else:
+            reason += " (not included: beat restrictions)"
 
-        if dictA['beats'] > dictB['beats']:
-            if decision == False:
-                winner = ruleA
-                loser = ruleB
-                reason += "more beat restrictions"
-                decision = True
-            else:
-                reason += " (not included: beat restrictions)"
-        elif dictA['beats'] < dictB['beats']:
-            if decision == False:
-                winner = ruleB
-                loser = ruleA
-                reason += "more beat restrictions"
-                decision = True
-            else:
-                reason += " (not included: beat restrictions)"
-
-        if dictA['content'] > dictB['content']:
-            if decision == False:
-                winner = ruleA
-                loser = ruleB
-                reason += "more harmonic content restrictions"
-                decision = True
-            else:
-                reason += " (not included: content restrictions)"
-        elif dictA['content'] < dictB['content']:
-            if decision == False:
-                winner = ruleB
-                loser = ruleA
-                reason += "more harmonic content restrictions"
-                decision = True
-            else:
-                reason += " (not included: content restrictions)"
-
-        if dictA['extras'] > dictB['extras']:
-            if decision == False:
-                winner = ruleA
-                loser = ruleB
-                reason += "more extras restrictions"
-                decision = True
-            else:
-                reason += " (not included: extras restrictions)"
-        elif dictA['extras'] < dictB['extras']:
-            if decision == False:
-                winner = ruleB
-                loser = ruleA
-                reason += "more extras restrictions"
-                decision = True
-            else:
-                reason += " (not included: extras restrictions)"
-
+    if dictA['content'] > dictB['content']:
         if decision == False:
-            loser = ruleB
             winner = ruleA
-            reason = 'arbitrary assignment'
+            loser = ruleB
+            reason += "more harmonic content restrictions"
+            decision = True
+        else:
+            reason += " (not included: content restrictions)"
+    elif dictA['content'] < dictB['content']:
+        if decision == False:
+            winner = ruleB
+            loser = ruleA
+            reason += "more harmonic content restrictions"
+            decision = True
+        else:
+            reason += " (not included: content restrictions)"
 
-        LOG.info('  Compared %s and %s:',
-                    ruleA.__class__.__name__, ruleB.__class__.__name__,)
-        LOG.info('    %s trumps because of %s.',
-                    winner.__class__.__name__, reason)
+    if dictA['extras'] > dictB['extras']:
+        if decision == False:
+            winner = ruleA
+            loser = ruleB
+            reason += "more extras restrictions"
+            decision = True
+        else:
+            reason += " (not included: extras restrictions)"
+    elif dictA['extras'] < dictB['extras']:
+        if decision == False:
+            winner = ruleB
+            loser = ruleA
+            reason += "more extras restrictions"
+            decision = True
+        else:
+            reason += " (not included: extras restrictions)"
 
-        return winner, loser
+    if decision == False:
+        loser = ruleB
+        winner = ruleA
+        reason = 'arbitrary assignment'
+
+    LOG.info('  Compared %s and %s:',
+                ruleA.__class__.__name__, ruleB.__class__.__name__,)
+    LOG.info('    %s trumps because of %s.',
+                winner.__class__.__name__, reason)
+
+    return winner, loser
 
 
 def rule_max_min(rule_list):

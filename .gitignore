@@ -6,3 +6,4 @@ log.conf
 test_script_SL.py
 Lambert 2_orig.xml
 graphtrials.py
+documentation/_build
