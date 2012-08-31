@@ -35,7 +35,7 @@ class Rule(object):
         self.figures = []
         self.extras = []
 
-    def show_it_off(self):
+    def _show_it_off(self):
         from pprint import pprint
         pprint(vars(self))
 
@@ -433,7 +433,8 @@ def rule_max_min(rule_list):
     return maxsize, minsize
 
 
-# For each possible "extra" that a rule could contain, a list of the other extras that it CANNOT coexist with
+# For each possible "extra" that a rule could contain,
+# a list of the other extras that it CANNOT coexist with
 extraCheck_dictionary = {
     'accidental:flat': ['accidental:sharp'],
     'accidental:sharp': ['accidental:flat'],
@@ -445,7 +446,8 @@ extraCheck_dictionary = {
     'meter:triple': []
     }
 
-# For each possible "extra" that a rule could contain, a list of the other extras that it CAN coexist with
+# For each possible "extra" that a rule could contain,
+# a list of the other extras that it CAN coexist with
 # TODO - Hank, these need checking!
 harmonyCheck_dictionary = {
     'isMajor': [],
@@ -461,7 +463,7 @@ harmonyCheck_dictionary = {
     'perfectTriadNoSeven': ['minorTriadNoSeven', 'perfectMajorTriadNoSeven']
     }
 
-#Import all the rulesets in the 'rulesets' directory:
+# Upon loading, auto-import all the rule sets in the 'rulesets' directory:
 for filename in os.listdir('rulesets'):
     if (filename == 'ruleset_template.py' or
         filename[-3:] != '.py' or filename == '__init__.py'):
