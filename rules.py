@@ -60,14 +60,14 @@ class Ruleset(object):
         self.name = kwargs.get('name', 'Unique Rule Set')
         self.metadata = kwargs.get('metadata', {})
         self.coexistence_array = False
-        self.winner_array = False
+        self.dominance_array = False
         load = kwargs.get('from_module', False)
 
         # Load is true if this ruleset is being built from a module script
         if load:
             self.rulelist = rules
 
-        # Otherwise, ruleset is being built from individual rules
+        # Otherwise, ruleset is being built from a list of individual rules
         else:
             for r in rules:
                 try:
@@ -80,15 +80,8 @@ class Ruleset(object):
         #Compare all rules (while suppressing output)
         oldLog = LOG.level
         LOG.setLevel(logging.CRITICAL)
-        self.introspection()
+        self.coexistence_array, self.dominance_array = compare_rules_in_list(self.rulelist)
         LOG.setLevel(oldLog)
-
-    def introspection(self):
-        # Determine which rules can't coexist with each other
-        self.coexistence_array, self.winner_array = compare_rules_in_list(self.rulelist)
-
-    def check_validity(self):
-        pass  # TODO: make sure all rules are valid
 
 
 def get_ruleset(input_item):
@@ -119,11 +112,11 @@ def compare_rules_in_list(rule_list):
     """
     #Create filler return array
     coexistence_array = {}
-    winner_array = {}
+    dominance_array = {}
     for ruleA in rule_list:
         LOG.info("* * * * *\n\t\tRule %s...", ruleA.__class__.__name__)
         coexistence_array[ruleA] = []
-        winner_array[ruleA] = []
+        dominance_array[ruleA] = []
 
         #Compare with every other rule
         otherRules = [i for i in rule_list if i != ruleA]
@@ -162,7 +155,7 @@ def compare_rules_in_list(rule_list):
             #winner, loser = compare_rules(ruleA, ruleB)
             #print ("Rule %s wins")  # TODO - save this thing
 
-    return coexistence_array, winner_array
+    return coexistence_array, dominance_array
 
 
 def check_figures_coexist(ruleA, ruleB, indexA=0, indexB=0):
