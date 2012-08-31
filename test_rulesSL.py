@@ -101,7 +101,7 @@ def _SL_full_test(chosen_rules=False, clean=True):
         rule_number = item[0]
 
         rule_number_split = rule_number.split('_')
-        just_number = rule_number_split[0].translate(None, string.letters)
+        just_number = rule_number_split[0][:2]
         if chosen_rules != False and just_number not in chosen_rules:
             continue
 
