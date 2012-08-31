@@ -1,4 +1,7 @@
-"""Python figured bass extractor using Music21 for score processing
+# Copyright (C) 2012 by Hannah Robertson
+"""
+Sets up and runs score processing for figure divination.
+
 """
 
 import os
@@ -23,9 +26,36 @@ class InputError(Exception):
 
 
 class ExtractionWork(object):
-    """A class that holds both the original score and newly extracted portion"""
-    def __init__(self, score_file_input, *args, **kwargs):
+    """
+    Holds the original score, figured output, and intermediate steps.
 
+    Args:
+        **score_file_input**: Local path or URL to input file.
+        File can be of any type supported by :mod:`music21`: musicXML,
+        Humdrum (kern), ABC, Musedata, and MIDI
+        (`full list <http://mit.edu/music21/doc/html/overviewFormats.html>`_).
+
+    kwargs:
+        **ruleset**:
+
+        **solution**:
+
+        **display**:
+
+        **save**:
+
+        **make_fb_object**:
+
+        **clean**:
+
+        **remove_passing**:
+
+        **rule_direction**:
+
+    """
+
+    def __init__(self, score_file_input, **kwargs):
+        #TODO - add teststring??
         #Input score details
         self.score_input = score_file_input
         self.input_filename = ''
@@ -47,7 +77,7 @@ class ExtractionWork(object):
             self.rule_application_direction = 'forward'
 
         #Output
-        self.output_filename = ''
+        self.output_filename = '' ##TODO - make user option
         self._fb_figureString = []
         self.fb = False
         self.output_score = m21.stream.Score()
@@ -61,7 +91,7 @@ class ExtractionWork(object):
         self._allrules = []
 
         #Load the file, get the original bassline!
-        self._load_score_from_file()      # ...TODO-Hh{future:accept straight score?}
+        self._load_score_from_file()
         self.extract_bassline_from_score()
 
     def _load_score_from_file(self):
@@ -214,8 +244,6 @@ class ExtractionWork(object):
             if fig == '7,3+':
                 self._fb_figureString[i] = '7'
 
-
-
     def _setup_output(self):  # TODO-Hh{non-critical: metadata fail!}
         """Attempts to add metadata to new score. Doesn't work."""
         #Create output metadata
@@ -228,6 +256,9 @@ class ExtractionWork(object):
         self.output_fb_score.metadata = my_metadata
 
     def append_to_extraction(self):
+        """
+        TODO
+        """
 
         #append the original to the extraction?
         LOG.debug('appending original!')
@@ -248,6 +279,9 @@ class ExtractionWork(object):
             self.output_score.insert(solutionline)
 
     def create_output(self):
+        """
+        TODO
+        """
         #Set up output
         self._setup_output()
 
@@ -287,11 +321,17 @@ class ExtractionWork(object):
         #TODO - selfcomparison = score
 
 
-def full_extraction(scorefile, *args, **kwargs):
-#optional kwargs: ruleset, teststring, display
+def full_extraction(scorefile, **kwargs):
+    #TODO - make full_extraction_with_solution
+    """
+    Creates ExtractionWork object and runs the full figure divination process.
 
+    Same kwargs as ExtractionWork:
+
+    #optional kwargs: ruleset, display
+    """
     #Get, load score
-    my_work = ExtractionWork(scorefile, *args, **kwargs)
+    my_work = ExtractionWork(scorefile, **kwargs)
 
     #Prepare output
     my_work._setup_output()
