@@ -1,6 +1,10 @@
+# Copyright (C) 2012 by Hannah Robertson
 """
-Figured bass extractor rules:
-basic rule class; tests the list of rules
+This module sets up rules and sets of rules, as well rule comparison functions.
+
+In addition, upon import it loads all pre-made rule sets stored in the
+``rulesets`` directory.
+
 """
 
 import os
@@ -17,6 +21,10 @@ harmonyCheck_dictionary = {}
 
 
 class Rule(object):
+    """
+    The parent class for all figure divination rule objects.
+
+    """
     def __init__(self):
         self.umbrella = "undefined"
         self.todo = "undefined"
@@ -33,6 +41,20 @@ class Rule(object):
 
 
 class Ruleset(object):
+    """
+    A class for managing a list of figure divination Rule objects.
+
+    In addition, a Ruleset manages interactions between all of the rules it
+    contains.
+
+    kwargs:
+        **name**: (Optional) The name of the rule set (default 'Unique Rule Set').
+
+        **metadata**: (Optional) A dictionary that holds additional information about the set.
+
+        **from_module**: (Optional) Only set as true if Ruleset is created from a script in the ``ruleset`` directory (default False).
+
+    """
     def __init__(self, rules, **kwargs):
         self.rulelist = []
         self.name = kwargs.get('name', 'Unique Rule Set')
@@ -71,8 +93,11 @@ class Ruleset(object):
 
 def get_ruleset(input_item):
     """
-    Given the key to a packaged rule set or a list of rules,
-    return (or create and then return) a rule set.
+    Returns a Ruleset object when given Ruleset id key or list of rules.
+
+    input_item can be an id string, e.g. ``get_ruleset('SL')``, or an array of rule
+    names, e.g. ``get_ruleset(['SLRule_03', 'SLRule_08a'])``.
+
     """
     try:
         return packagedRulesets[input_item]
@@ -89,7 +114,8 @@ def get_ruleset(input_item):
 
 def compare_rules_in_list(rule_list):
     """
-    For each rule in set, compare with each other rule in set.
+    Returns coexistence and dominance interaction arrays from a list of rules.
+
     """
     #Create filler return array
     coexistence_array = {}
@@ -141,13 +167,17 @@ def compare_rules_in_list(rule_list):
 
 def check_figures_coexist(ruleA, ruleB, indexA=0, indexB=0):
     """
-    Returns true if figures are identical over length of rule overlap.
+    Returns true if rules' figures are identical over length of their overlap.
 
     Args:
-        ruleA: First rule to compare.
-        ruleB: Second rule to compare.
-        indexA: Starting index of ruleA [Default 0].
-        indexB: Starting index of ruleB [Default 0].
+        **ruleA**: First rule to compare.
+
+        **ruleB**: Second rule to compare.
+
+        **indexA**: (Optional) Starting index of ruleA (default 0).
+
+        **indexB**: (Optional) Starting index of ruleB (default 0).
+
     """
     #Figure out the length to be compared
     overlap_length = min(ruleA.size - indexA, ruleB.size - indexB)
@@ -172,13 +202,17 @@ def check_figures_coexist(ruleA, ruleB, indexA=0, indexB=0):
 
 def check_rules_coexist(ruleA, ruleB, indexA=0, indexB=0):
     """
-    Returns true if both rules are applicable over length of overlap.
+    Returns true if both rules are applicable over length of their overlap.
 
     Args:
-        ruleA: First rule to compare.
-        ruleB: Second rule to compare.
-        indexA: Starting index of ruleA [Default 0].
-        indexB: Starting index of ruleB [Default 0].
+        **ruleA**: First rule to compare.
+
+        **ruleB**: Second rule to compare.
+
+        **indexA**: (Optional) Starting index of ruleA (default 0).
+
+        **indexB**: (Optional) Starting index of ruleB (default 0).
+
     """
 
     #Figure out the length to be compared
@@ -218,18 +252,21 @@ def check_rules_coexist(ruleA, ruleB, indexA=0, indexB=0):
 
 def lists_overlap(listA, listB):
     """
-    Returns true if there is overlap between the two lists.
+    Returns true if the two lists intersect.
+
     """
     return bool(set(listA) & set(listB))
 
 
 def intervals_overlap(intlistA, intlistB):
     """
-    Returns true if there is any overlap between two lists of music21 intervals.
+    Returns true if the two lists of :mod:`music21` intervals intersect.
 
-    intlistA and inlistB can contain any combination of music21 interval types:
-    music21.interval.Interval, music21.interval.diatonicInterval,
-    or music21.interval.chromaticInterval.
+    This function checks for equivalence among any combination of the three
+    :mod:`music21` interval classes: :class:`music21.interval.Interval`,
+    :class:`music21.interval.diatonicInterval`, and
+    :class:`music21.interval.chromaticInterval`.
+
     """
     for a in intlistA:
         for b in intlistB:
@@ -277,9 +314,10 @@ def intervals_overlap(intlistA, intlistB):
 
 def compare_rules(ruleA, ruleB):
     """
-    Returns (winner, loser) between two rules, based on numbers of restrictions.
+    Returns (winner, loser) of two rules, based on numbers of restrictions.
 
-    Note: an extremely coarse comparison;
+    Note: an extremely coarse comparison.
+
     """
     #NOTE: right now, gives winner and loser
     #TODO: needs to take into account figure equivalences
@@ -388,6 +426,10 @@ def compare_rules(ruleA, ruleB):
 
 
 def rule_max_min(rule_list):
+    """
+    Returns max, min rule lengths of a list of rules.
+
+    """
     maxsize = rule_list[0].size
     minsize = rule_list[0].size
     for rule in rule_list:
