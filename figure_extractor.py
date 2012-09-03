@@ -12,6 +12,7 @@ import argparse
 import copy
 import music21 as m21
 
+import rules
 import rule_crawler
 import rule_plotter
 
@@ -113,6 +114,10 @@ class ExtractionWork(object):
         #Load the file, get the original bassline!
         self._load_score_from_file()
         self.extract_bassline_from_score()
+
+        #Load the rule set
+        self.ruleset = rules.get_ruleset(self.ruleset)
+        self._allrules = self.ruleset.rulelist
 
     def _load_score_from_file(self):
         """Reads score into music21, harvests metadata."""
