@@ -215,4 +215,4 @@ if __name__ == '__main__':
 
     #Are we comparing the rules?
     if toCompare:
-        _compare_rules(extraction_ruleset, args)
+        _compare_rules(extraction_ruleset)
