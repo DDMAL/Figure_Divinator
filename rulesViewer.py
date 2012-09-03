@@ -3,15 +3,18 @@
 Displays and plots information about rule sets.
 
 When run from command line, does :func:`full_extraction`. For full command line
-option flags, in terminal run ``python rulesViewer.py -h``.
+option flags, in terminal run
+    ``python rulesViewer.py -h``
 
-To show text info about a list of rules, run ::
-    python rulesViewer.py <-r rule_key_or_list_of_rules>
+To show text info about a list of rules, run
+    ``python rulesViewer.py [-r ruleset_name_or_list_of_rules]``
 
-To plot rule comparison, run ::
-    python rulesViewer.py -compare <-r rule_key_or_list_of_rules>
+To plot rule comparison, run
+    ``python rulesViewer.py -compare [-r ruleset_name_or_list_of_rules]``
 
-Default rule set is the full set of Saint Lambert rules.
+Flag for ``ruleset_name_or_list_of_rules`` can be either the name key (e.g.
+``-r SL``) or a list of specific rules (e.g. ``-r SLRule_03 SLRule_08a``).
+Default is the full set of Saint Lambert rules.
 
 """
 
@@ -35,7 +38,7 @@ class InputError(Exception):
 
 def _view_rules(extraction_ruleset, args=False):
     """
-    Writes information about rules in extraction_ruleset to the console and log.
+    Prints information about rules in extraction_ruleset to the console and log.
 
     """
     if extraction_ruleset.__class__.__name__ != 'Ruleset':
