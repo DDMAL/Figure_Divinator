@@ -31,8 +31,7 @@ LOG = Logging.getLogger('rules')
 class rule_crawler(object):
     def __init__(self, extraction_work, **kwargs):
         self.score = extraction_work
-        self.ruleset = []  # TODO  = kwargs.get('ruleset', [])
-        #self.direction = kwargs.get('direction','backward')
+        self.ruleset = []
 
         self.total_length = len(self.score._bassline.flat.getElementsByClass(m21.note.Note))
         self.rule_max = 0
@@ -40,8 +39,7 @@ class rule_crawler(object):
         self.possible_rules = [{} for i in range(self.total_length)]
         self.chosen_rules = [{} for i in range(self.total_length)]
 
-        self._load_score()
-        self._load_rules(extraction_work.ruleset)
+        self._load_score_and_rules()
 
     def full_check_rules(self):
         LOG.info("\n* * * Matching rules to score: %s * * *", self.score.title)
@@ -222,13 +220,13 @@ class rule_crawler(object):
             while len(each_index_option[next_start_i]) == 0 and next_start_i >= 0:
                 next_start_i = next_start_i - 1
 
-    def _load_score(self):
-        self.total_length = len(self.score._bassline.flat.getElementsByClass(m21.note.Note))
-        self.rule_min = self.total_length
+    def _load_score_and_rules(self):
+        """
+        Loads score and rules from ExtractionWork object.
 
-    def _load_rules(self, incomingrules):
-        self.ruleset = rules.get_ruleset(incomingrules).rulelist
-        self.score._allrules = self.ruleset  # Save to orig score, too.
+        """
+        self.total_length = len(self.score._bassline.flat.getElementsByClass(m21.note.Note))
+        self.ruleset = self.score._allrules
         self.rule_max, self.rule_min = rules.rule_max_min(self.ruleset)
 
     def _chunkify(self, start_index, end_index):
