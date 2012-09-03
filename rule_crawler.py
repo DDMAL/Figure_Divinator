@@ -63,7 +63,7 @@ class rule_crawler(object):
             #Test each rule in the ruleset on it
             for rule in self.ruleset:
                 if rule.size <= L:
-                    if not self.test_rule(chunk, rule):
+                    if not test_rule(chunk, rule):
                         continue
 
                     LOG.info('  Passes: Rule %s (length %s).',
@@ -282,217 +282,251 @@ class rule_crawler(object):
                     str(chunk.beats), cstring)
         return chunk
 
-    def check_intervals(self, chunk, rule):
-        #Note: currently only checks chromatic intervals
-        for i in range(rule.size - 1):
 
-            #If the rule doesn't care about this note's interval, next up!
-            if not rule.intervals[i]:
-                continue
+def check_intervals(chunk, rule):
+    """
+    Returns True if the rule's intervals match the chunk of score.
 
-            #If the chunk doesn't fit this rule's interval, return false
-            if chunk.intervals[i].chromatic not in rule.intervals[i]:
-                return False
+    TO-DO! Currently only checks chromatic intervals. Hannah
 
-        return True
+    """
+    for i in range(rule.size - 1):
 
-    def check_qualities(self, chunk, rule):
-        for i in range(rule.size):
+        #If the rule doesn't care about this note's interval, next up!
+        if not rule.intervals[i]:
+            continue
 
-            #If the rule doesn't care about this note's quality, next up!
-            if not rule.harmonic_content[i]:
-                continue
-
-            #Easier names
-            chord = chunk.harmonic_content[i]
-            rules = rule.harmonic_content[i]
-
-            chordstr = '  chord notes {'
-            for x in reversed(chord.pitches):
-                chordstr = chordstr + ' ' + str(x)
-            chordstr = chordstr + ' }...'
-            LOG.debug(chordstr)
-
-            rbool = True
-            for r in rules:
-                #Based on: http://mit.edu/music21/doc/html/moduleChord.html
-                #HANK! This is your bit to check.
-
-                if r == 'isMajor':  # TODO: okay to rely on music21?
-                    if not chord.quality == 'major':
-                        rbool = False
-                        LOG.debug('   ...don\'t pass music21\'s chord.quality==major')
-                    else:
-                        LOG.debug('   ...pass music21\'s chord.quality==major')
-
-                elif r == 'isPerfect':  # TODO: okay to rely on music21?
-                    if not chord.isConsonant():
-                        rbool = False
-                        LOG.debug('   ...don\'t pass music21\'s chord.isConsonant()')
-                    else:
-                        LOG.debug('   ...pass music21\'s chord.isConsonant()')
-
-                elif r == 'hasSix':
-                    #TODO: get rid of %12 semitones if direction matters!
-                    invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
-                    if 9 not in invls and 8 not in invls:
-                        rbool = False
-                        LOG.debug('   ...don\'t pass our hasSix()')
-                    else:
-                        LOG.debug('   ...pass our hasSix()')
-
-                elif r == 'notHasSix':
-                    #TODO: get rid of %12 semitones if direction matters!
-                    invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
-                    if 9 in invls or 8 in invls:
-                        rbool = False
-                        LOG.debug('   ...don\'t pass our notHasSix()')
-                    else:
-                        LOG.debug('   ...pass our notHasSix()')
-
-                elif r == 'hasSharpSix':
-                    #TODO: get rid of %12 semitones if direction matters!
-                    invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
-                    if not 9 in invls:
-                        rbool = False
-                        LOG.debug('   ...don\'t pass our hasSharpSix()')
-                    else:
-                        LOG.debug('   ...pass our hasSharpSix()')
-
-                elif r == 'hasSeventh':
-                    invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
-                    if 10 not in invls and 11 not in invls:
-                        rbool = False
-                        LOG.debug('   ...don\'t pass our hasSeventh()')
-                    else:
-                        LOG.debug('   ...pass our hasSeventh()')
-
-                elif r == 'hasDiminishedFifth':
-                    invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
-                    if 6 not in invls:
-                        rbool = False
-                        LOG.debug('   ...don\'t pass our hasDiminishedFifth()')
-                    else:
-                        LOG.debug('   ...pass our hasDiminishedFifth()')
-
-                elif r == 'perfectMajorTriadOkSeven':  # TODO: okay to rely on music21?
-                    #"chord is a Major Triad or a Dominant Seventh"
-                    if not chord.canBeDominantV():
-                        rbool = False
-                        LOG.debug('   ...don\'t pass music21\'s chord.canBeDominantV()')
-                    else:
-                        LOG.debug('   ...pass music21\'s chord.canBeDominantV()')
-
-                elif r == 'minorTriadNoSeven':  # TODO: okay to rely on music21?
-                    #"chord is a minor triad, no 7"
-                    if not chord.isMinorTriad():
-                        rbool = False
-                        LOG.debug('   ...don\'t pass music21\'s chord.isMinorTriad()')
-                    else:
-                        LOG.debug('   ...pass music21\'s chord.isMinorTriad()')
-
-                elif r == 'perfectMajorTriadNoSeven':  # TODO: okay to rely on music21?
-                    #"chord is a Major Triad, that is, if it contains only notes that are either in unison with the root, a major third above the root, or a perfect fifth above the root. Additionally, must contain at least one of each third and fifth above the root."
-                    if not chord.isMajorTriad():
-                        rbool = False
-                        LOG.debug('   ...don\'t pass music21\'s chord.isMajorTriad()')
-                    else:
-                        LOG.debug('   ...pass music21\'s chord.isMajorTriad()')
-
-                elif r == 'perfectTriadNoSeven':  # TODO: okay to rely on music21?
-                    #"chord is a major or minor triad"
-                    if not chord.canBeTonic():
-                        rbool = False
-                        LOG.debug('   ...don\'t pass music21\'s chord.canBeTonic()')
-                    else:
-                        LOG.debug('   ...pass music21\'s chord.canBeTonic()')
-
-                else:
-                    LOG.warning('Cannot yet check for rule property %s', r)
-
-            #If the chunk doesn't fit this rule's quality, return false
-            if rbool == False:
-                return False
-
-        return True
-
-    def check_beats(self, chunk, rule):
-        for i in range(rule.size):
-
-            #If the rule doesn't care about this note's beat, next up!
-            if not rule.beats[i]:
-                continue
-
-            #If the chunk doesn't fit this rule's beat needs, return false
-            if chunk.beats[i] not in rule.beats[i]:
-                return False
-
-        return True
-
-    def check_extras(self, chunk, rule):  # TODO-2ndTier-currently all false
-        for i in range(rule.size):
-
-            #If the rule doesn't care about this note's extras, next up!
-            if not rule.extras[i]:
-                continue
-
-            rbool = False  # True
-            for e in rule.extras[i]:
-
-                if e == 'accidental:flat':  # TODO
-                    pass
-                    #if not chord.quality == 'major': rbool = False
-
-                elif e == 'accidental:sharp':  # TODO
-                    pass
-                    #if not chord.quality == 'major': rbool = False
-
-                elif e == 'scale:on5th':  # TODO
-                    pass
-                    #if not chord.quality == 'major': rbool = False
-
-                elif e == 'duration:two':  # TODO  ("working hypothesis": half a measure in length or bigger or worth two of the denominator of the time signature)
-                    pass
-                    #if not chord.isConsonant(): rbool = False
-
-                elif e == 'duration:lessThanPreceding':  # TODO
-                    pass
-                    #if not chord.isConsonant(): rbool = False
-
-                elif e == 'duration:twicePreviousTwo':  # TODO
-                    pass
-                    #if not chord.isConsonant(): rbool = False
-
-                elif e == 'duration:shortAgainstSignature':  # TODO #either only one or half of the denominator
-                    pass
-                    #if not chord.isConsonant(): rbool = False
-
-                elif e == 'meter:triple':  # TODO
-                    pass
-                    #if not chord.isConsonant(): rbool = False
-
-                else:
-                    LOG.warning('Cannot yet check for rule extra %s', e)
-
-            #If the chunk doesn't fit this rule's extras, return false
-            if rbool == False:
-                return False
-
-        return True
-
-    def check_pre_figures(self, chunk, rule):  # TODO-2ndTier
-        """Make sure there are no conflicts with pre-existing figures."""
-        return True
-
-    def test_rule(self, chunk, rule):
-        if (
-            self.check_intervals(chunk, rule) and
-            self.check_qualities(chunk, rule) and
-            self.check_beats(chunk, rule) and
-            self.check_extras(chunk, rule) and
-            self.check_pre_figures(chunk, rule)
-            ):
-            return rule.figures
-        else:
+        #If the chunk doesn't fit this rule's interval, return false
+        if chunk.intervals[i].chromatic not in rule.intervals[i]:
             return False
+
+    return True
+
+
+def check_qualities(chunk, rule):
+    """
+    Returns True if the rule's harmonic chord qualities match the chunk of score.
+
+    """
+    for i in range(rule.size):
+
+        #If the rule doesn't care about this note's quality, next up!
+        if not rule.harmonic_content[i]:
+            continue
+
+        #Easier names
+        chord = chunk.harmonic_content[i]
+        rules = rule.harmonic_content[i]
+
+        chordstr = '  chord notes {'
+        for x in reversed(chord.pitches):
+            chordstr = chordstr + ' ' + str(x)
+        chordstr = chordstr + ' }...'
+        LOG.debug(chordstr)
+
+        rbool = True
+        for r in rules:
+            #Based on: http://mit.edu/music21/doc/html/moduleChord.html
+            #HANK! This is your bit to check.
+
+            if r == 'isMajor':  # TODO: okay to rely on music21?
+                if not chord.quality == 'major':
+                    rbool = False
+                    LOG.debug('   ...don\'t pass music21\'s chord.quality==major')
+                else:
+                    LOG.debug('   ...pass music21\'s chord.quality==major')
+
+            elif r == 'isPerfect':  # TODO: okay to rely on music21?
+                if not chord.isConsonant():
+                    rbool = False
+                    LOG.debug('   ...don\'t pass music21\'s chord.isConsonant()')
+                else:
+                    LOG.debug('   ...pass music21\'s chord.isConsonant()')
+
+            elif r == 'hasSix':
+                #TODO: get rid of %12 semitones if direction matters!
+                invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
+                if 9 not in invls and 8 not in invls:
+                    rbool = False
+                    LOG.debug('   ...don\'t pass our hasSix()')
+                else:
+                    LOG.debug('   ...pass our hasSix()')
+
+            elif r == 'notHasSix':
+                #TODO: get rid of %12 semitones if direction matters!
+                invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
+                if 9 in invls or 8 in invls:
+                    rbool = False
+                    LOG.debug('   ...don\'t pass our notHasSix()')
+                else:
+                    LOG.debug('   ...pass our notHasSix()')
+
+            elif r == 'hasSharpSix':
+                #TODO: get rid of %12 semitones if direction matters!
+                invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
+                if not 9 in invls:
+                    rbool = False
+                    LOG.debug('   ...don\'t pass our hasSharpSix()')
+                else:
+                    LOG.debug('   ...pass our hasSharpSix()')
+
+            elif r == 'hasSeventh':
+                invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
+                if 10 not in invls and 11 not in invls:
+                    rbool = False
+                    LOG.debug('   ...don\'t pass our hasSeventh()')
+                else:
+                    LOG.debug('   ...pass our hasSeventh()')
+
+            elif r == 'hasDiminishedFifth':
+                invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
+                if 6 not in invls:
+                    rbool = False
+                    LOG.debug('   ...don\'t pass our hasDiminishedFifth()')
+                else:
+                    LOG.debug('   ...pass our hasDiminishedFifth()')
+
+            elif r == 'perfectMajorTriadOkSeven':  # TODO: okay to rely on music21?
+                #"chord is a Major Triad or a Dominant Seventh"
+                if not chord.canBeDominantV():
+                    rbool = False
+                    LOG.debug('   ...don\'t pass music21\'s chord.canBeDominantV()')
+                else:
+                    LOG.debug('   ...pass music21\'s chord.canBeDominantV()')
+
+            elif r == 'minorTriadNoSeven':  # TODO: okay to rely on music21?
+                #"chord is a minor triad, no 7"
+                if not chord.isMinorTriad():
+                    rbool = False
+                    LOG.debug('   ...don\'t pass music21\'s chord.isMinorTriad()')
+                else:
+                    LOG.debug('   ...pass music21\'s chord.isMinorTriad()')
+
+            elif r == 'perfectMajorTriadNoSeven':  # TODO: okay to rely on music21?
+                #"chord is a Major Triad, that is, if it contains only notes that are either in unison with the root, a major third above the root, or a perfect fifth above the root. Additionally, must contain at least one of each third and fifth above the root."
+                if not chord.isMajorTriad():
+                    rbool = False
+                    LOG.debug('   ...don\'t pass music21\'s chord.isMajorTriad()')
+                else:
+                    LOG.debug('   ...pass music21\'s chord.isMajorTriad()')
+
+            elif r == 'perfectTriadNoSeven':  # TODO: okay to rely on music21?
+                #"chord is a major or minor triad"
+                if not chord.canBeTonic():
+                    rbool = False
+                    LOG.debug('   ...don\'t pass music21\'s chord.canBeTonic()')
+                else:
+                    LOG.debug('   ...pass music21\'s chord.canBeTonic()')
+
+            else:
+                LOG.warning('Cannot yet check for rule property %s', r)
+
+        #If the chunk doesn't fit this rule's quality, return false
+        if rbool == False:
+            return False
+
+    return True
+
+
+def check_beats(chunk, rule):
+    """
+    Returns True if the rule's beats match the chunk of score.
+
+    """
+    for i in range(rule.size):
+
+        #If the rule doesn't care about this note's beat, next up!
+        if not rule.beats[i]:
+            continue
+
+        #If the chunk doesn't fit this rule's beat needs, return false
+        if chunk.beats[i] not in rule.beats[i]:
+            return False
+
+    return True
+
+
+def check_extras(chunk, rule):
+    """
+    Returns True if the rule's extras match the chunk of score.
+
+    TO-DO! - Hannah # TODO-2ndTier-currently all false
+
+    """
+    for i in range(rule.size):
+
+        #If the rule doesn't care about this note's extras, next up!
+        if not rule.extras[i]:
+            continue
+
+        rbool = False  # True
+        for e in rule.extras[i]:
+
+            if e == 'accidental:flat':  # TODO
+                pass
+                #if not chord.quality == 'major': rbool = False
+
+            elif e == 'accidental:sharp':  # TODO
+                pass
+                #if not chord.quality == 'major': rbool = False
+
+            elif e == 'scale:on5th':  # TODO
+                pass
+                #if not chord.quality == 'major': rbool = False
+
+            elif e == 'duration:two':  # TODO  ("working hypothesis": half a measure in length or bigger or worth two of the denominator of the time signature)
+                pass
+                #if not chord.isConsonant(): rbool = False
+
+            elif e == 'duration:lessThanPreceding':  # TODO
+                pass
+                #if not chord.isConsonant(): rbool = False
+
+            elif e == 'duration:twicePreviousTwo':  # TODO
+                pass
+                #if not chord.isConsonant(): rbool = False
+
+            elif e == 'duration:shortAgainstSignature':  # TODO #either only one or half of the denominator
+                pass
+                #if not chord.isConsonant(): rbool = False
+
+            elif e == 'meter:triple':  # TODO
+                pass
+                #if not chord.isConsonant(): rbool = False
+
+            else:
+                LOG.warning('Cannot yet check for rule extra %s', e)
+
+        #If the chunk doesn't fit this rule's extras, return false
+        if rbool == False:
+            return False
+
+    return True
+
+
+def check_pre_figures(chunk, rule):
+    """
+    Make sure there are no conflicts with pre-existing figures.
+
+    TO-DO!
+
+    """
+    return True
+
+
+def test_rule(chunk, rule):
+    """
+    Returns ``rule.figures`` if the rule matches matches the chunk of score.
+
+    """
+    if (
+        check_intervals(chunk, rule) and
+        check_qualities(chunk, rule) and
+        check_beats(chunk, rule) and
+        check_extras(chunk, rule) and
+        check_pre_figures(chunk, rule)
+        ):
+        return rule.figures
+    else:
+        return False
 
