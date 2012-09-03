@@ -1,6 +1,18 @@
+# Copyright (C) 2012 by Hannah Robertson
 """
-This module displays information about rules
-and how a set of rules interact with one another.
+Displays and plots information about rule sets.
+
+When run from command line, does :func:`full_extraction`. For full command line
+option flags, in terminal run ``python rulesViewer.py -h``.
+
+To show text info about a list of rules, run ::
+    python rulesViewer.py <-r rule_key_or_list_of_rules>
+
+To plot rule comparison, run ::
+    python rulesViewer.py -compare <-r rule_key_or_list_of_rules>
+
+Default rule set is the full set of Saint Lambert rules.
+
 """
 
 import sys
@@ -22,6 +34,10 @@ class InputError(Exception):
 
 
 def _view_rules(extraction_ruleset, args=False):
+    """
+    Writes information about rules in extraction_ruleset to the console and log.
+
+    """
     if extraction_ruleset.__class__.__name__ != 'Ruleset':
         extraction_ruleset = rules.get_ruleset(extraction_ruleset)
 
@@ -111,24 +127,16 @@ def _view_rules(extraction_ruleset, args=False):
     LOG.info("* * DONE REVIEWING RULES. * *")
 
 
-def _compare_rules(extraction_ruleset, args=False):
+def _compare_rules(extraction_ruleset):
+    """
+    Plots extraction_ruleset with :func:`rule_plotter.makePlotFromRuleset`.
+
+    """
     if extraction_ruleset.__class__.__name__ != 'Ruleset':
         extraction_ruleset = rules.get_ruleset(extraction_ruleset)
 
-    if not args:
-        p = argparse.ArgumentParser()
-        args = p.parse_args()
-        args.viewTodo = True
-        args.viewSize = True
-        args.viewIntervals = True
-        args.viewBeats = True
-        args.viewFigures = True
-        args.viewContent = True
-        args.viewExtra = True
-
-    LOG.info("* * COMPARING RULES. * *")
-
     #Plot it!
+    LOG.info("* * COMPARING RULES. * *")
     rule_plotter.makePlotFromRuleset(extraction_ruleset, saveResults=True)
     LOG.info("* * DONE COMPARING RULES. * *")
 
