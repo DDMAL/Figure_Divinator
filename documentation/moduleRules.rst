@@ -25,5 +25,5 @@ rule_plotter
 ############
 .. automodule:: rule_plotter
     :members:
-    :undoc-members:
+    :private-members:
 

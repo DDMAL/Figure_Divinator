@@ -1,3 +1,9 @@
+# Copyright (C) 2012 by Hannah Robertson
+"""
+Creates visualisations of rules matching a score and internal rule set relationships.
+
+"""
+
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mpltick
 import os
@@ -7,9 +13,20 @@ import rules
 _colors = ['yellow', 'green', 'red', 'grey', '#66ff99']  # unknown, coexist, conflict, never, self
 
 
-def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
+def _makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
     """
-    Function to plot each measure as a bar
+    Plots a measure as a bar in the axis given by ``axes_handle``.
+
+    **Args**:
+        **startIndex**: Index of measure's first note.
+
+        **endIndex**: Index of measure's last note.
+
+        **number**: Measure number; used for text label.
+
+    **kwargs**:
+        **H**: (Optional) Height of bar drawn. Default .8.
+
     """
     L = endIndex - startIndex
     if H != .8:
@@ -19,10 +36,32 @@ def makemeasure(axes_handle, startIndex, endIndex, number, H=.8):
     axes_handle.text(startIndex, 0.05, str(number))
 
 
-def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength, alpha=0.7,
+def _makerulebox(axes_handle, startIndex, ruleIndex, ruleLength, alpha=0.7,
             chosen='maybe', H=.8, barcolor=_colors[0], stickcolor='purple'):
     """
-    Function to plot each rule as a bar
+    Plots a rule as a bar.
+
+    **Args**:
+        **axes_handle**: Handle of axis to plot in.
+
+        **startIndex**: Index of rule's first note.
+
+        **ruleIndex**: y-value that rule will be plotted at.
+
+        **ruleLength**: Number of note indecies rule covers.
+
+    **kwargs**:
+        **alpha**: (Optional) Transparency of bar. Default .7.
+
+        **chosen**: (Optional) TODO. Default 'maybe'.
+
+        **barcolor**: (Optional) Color of bar. Defaults to 'maybe' color.
+
+        **stickcolor**: (Optional) Color of horizontal line through bar.
+        Default 'purple'.
+
+        **H**: (Optional) Height of bar drawn. Default .8.
+
     """
     if chosen == 'yes':
         barcolor = _colors[1]
@@ -44,11 +83,36 @@ def makerulebox(axes_handle, startIndex, ruleIndex, ruleLength, alpha=0.7,
             linewidth=10, color=barcolor)
 
 
-def makeruleline(axes_handle, startIndex, ruleIndex, ruleLength, alpha=1,
-            existance='unknown', H=.8, barcolor=_colors[0], choice=0,
+def _makeruleline(axes_handle, startIndex, ruleIndex, ruleLength, alpha=1,
+            existance='unknown', H=.8, barcolor=_colors[0],
             marker='o', markersize=8, lw=5):
     """
-    Function to plot each rule as a line
+    Plots a rule as a line.
+
+    **Args**:
+        **axes_handle**: Handle of axis to plot in.
+
+        **startIndex**: Index of rule's first note.
+
+        **ruleIndex**: y-value that rule will be plotted at.
+
+        **ruleLength**: Number of note indecies rule covers.
+
+    **kwargs**:
+        **alpha**: (Optional) Transparency of line. Default .7.
+
+        **existance**: (Optional) Determine's color; choices are 'coexist',
+        'conflict', 'self', and 'never'. Default 'unknown'.
+
+        **barcolor**: (Optional) Default color of bar if existance is 'unknown'.
+        Defaults to 'yellow'.
+
+        **lw**: (Optional) Line width. Default 5.
+
+        **markersize**: (Optional) Default 8.
+
+        **marker**: (Optional) Shape of marker on each index. Default 'o'.
+
     """
     if existance == 'coexist':
         barcolor = _colors[1]
@@ -62,25 +126,45 @@ def makeruleline(axes_handle, startIndex, ruleIndex, ruleLength, alpha=1,
     x = range(startIndex, startIndex + ruleLength)
     y = [ruleIndex for i in x]
 
-    # #Only draw bounding lines if stickcolor has been set
-    # if choice == 1:
-    #     lw = 3
-    # else:
-    #     lw = 10
-
     axes_handle.plot(x, y, c=barcolor, lw=lw, ls='-',
                     marker=marker, alpha=alpha)
 
 
-def makerule(axes_handle, startIndex, ruleLength, H=.8, barcolor=_colors[1]):
+def _makerule(axes_handle, startIndex, ruleLength, H=.8, barcolor=_colors[1]):
     """
-    Function to plot each rule as a column
+    Plots a rule as a column.
+
+    **Args**:
+        **axes_handle**: Handle of axis to plot in.
+
+        **startIndex**: Index of rule's first note.
+
+        **ruleLength**: Number of note indecies rule covers.
+
+    **kargs**:
+
+        **H**: (Optional) Height of bar drawn. Default .8.
+
+        **barcolor**: (Optional) Color of bar. Defaults to 'green'.
+
     """
     axes_handle.barh(-1, ruleLength - 1, left=startIndex, \
         height=H, alpha=.2, align='center', color=barcolor)
 
 
-def makerulelegend(axes_handle, type='score', allRules='True'):
+def _makerulelegend(axes_handle, type='score', allRules='True'):
+    """
+    Creates, returns legend for plot.
+
+    Args:
+
+        **type**: (Optional) Choices: 'score' or 'ruleset'. Default is 'score'.
+
+        **allRules**: (Optional) Boolean. If legend type is for a 'ruleset'
+        plot, sets whether to include all rule types or only ones without
+        conflict. Default is True.
+
+    """
     #make fake plot to get legend info
     fig2 = plt.figure()
     ax2 = fig2.add_subplot(111)
@@ -111,7 +195,27 @@ def makePlotFromScore(extraction_work, allRules=False,
                         viewResults=True, saveResults=False,
                         direction='unknown'):
     """
-    Given an ExtractionWork object, show all rules and the chosen rules.
+    Plots a score's possible and applied rules.
+
+    **Args**:
+        **extraction_work**: :class:`ExtractionWork` object that contains the
+        score and rule set.
+
+    **kwargs**:
+        **allRules**: (Optional) If true, show all possible rules on y-axis,
+        even if rules never match score. Default False.
+
+        **filepath**: (Optional) Path/name at which to save the plot. Default
+        ``results/temporary_rule_plot``.
+
+        **viewResults**: (Optional) If true, displays plot immediately after
+        creation. Default True.
+
+        **saveResults**: (Optional) If true, saves plot. Default False.
+
+        **direction**: (Optional) Direction in which rules were applied,
+        used only to correctly title plot. Default 'unknown'.
+
     """
     if __name__ == '__main__':
         calledFromInterpreter = True
@@ -150,10 +254,10 @@ def makePlotFromScore(extraction_work, allRules=False,
         if n.measureNumber == start_measure:
             pass
         else:
-            makemeasure(ax, start_index, i, start_measure, len(yticks))
+            _makemeasure(ax, start_index, i, start_measure, len(yticks))
             start_index = i
             start_measure = n.measureNumber
-    makemeasure(ax, start_index,
+    _makemeasure(ax, start_index,
         len(extraction_work._bassline.flat.getElementsByClass(m21.note.Note)) - 1,
         start_measure, len(yticks))
 
@@ -165,7 +269,7 @@ def makePlotFromScore(extraction_work, allRules=False,
                 applied_rules = [x.__class__.__name__ for x in extraction_work.chosen_rules[i]]
                 if r.__class__.__name__ in applied_rules:
                     applied = 'yes'
-                makerulebox(ax, i, 1 + these_rules.index(r), r.size, chosen=applied)
+                _makerulebox(ax, i, 1 + these_rules.index(r), r.size, chosen=applied)
 
     #Time to format plot!
     #Deal with y-axis
@@ -184,7 +288,7 @@ def makePlotFromScore(extraction_work, allRules=False,
     ax.grid(True, linestyle='-')
 
     #Add legend
-    lgd = makerulelegend(ax)
+    lgd = _makerulelegend(ax)
 
     #Deal with output
     #Save it?
@@ -201,9 +305,30 @@ def makePlotFromScore(extraction_work, allRules=False,
         fig.show()
 
 
-def makePlotFromRuleset(ruleset, allRules=False, filepath='results/temporary_ruleset_plot', viewResults=True, saveResults=False):
+def makePlotFromRuleset(ruleset, allRules=False,
+                        filepath='results/temporary_ruleset_plot',
+                        viewResults=True, saveResults=False):
     """
-    Given a rule set, show all rules and the chosen rules.
+    Plots a rule set's similarity matrix of rule interactions and dominances.
+
+    **Args**:
+        **ruleset**: :class:`rules.Ruleset` object that contains the
+        list of rules and the rule interaction arrays.
+
+    **kwargs**:
+        **allRules**: (Optional) If true, shows even interactions that never
+        occur because rule definitions are mutually exclusive. 'True' gives
+        the most accurate plot, but can be overwhelminly busy if the ruleset is
+        large (>5 rules or so). Default False.
+
+        **filepath**: (Optional) Path/name at which to save plot. Default
+        ``results/temporary_rule_plot``.
+
+        **viewResults**: (Optional) If true, displays plot immediately after
+        creation. Default True.
+
+        **saveResults**: (Optional) If true, save plot. Default False.
+
     """
     if __name__ == '__main__':
         calledFromInterpreter = True
@@ -251,7 +376,7 @@ def makePlotFromRuleset(ruleset, allRules=False, filepath='results/temporary_rul
 
         # ...draw rule column
         rule_start_x = current_x + max_rule_length
-        makerule(ax, rule_start_x, ruleA.size, H=2 * len(yticks) + 2)
+        _makerule(ax, rule_start_x, ruleA.size, H=2 * len(yticks) + 2)
 
         # ...matched against every other rule in the ruleset
         for j in range(len(these_rules)):
@@ -277,12 +402,12 @@ def makePlotFromRuleset(ruleset, allRules=False, filepath='results/temporary_rul
                 #Show all the rules, or just the ones that can coexist?
                 if allRules == True:
                     this_y = these_rules_offset.index((ruleB, o))
-                    makeruleline(ax, rule_start_x + o, this_y,
+                    _makeruleline(ax, rule_start_x + o, this_y,
                                 ruleB.size, H=rule_bar_height, existance=keycolor,
                                 )
                 elif keycolor != 'never':
                     this_y = these_rules_offset.index((ruleB, o))
-                    makeruleline(ax, rule_start_x + o, this_y,
+                    _makeruleline(ax, rule_start_x + o, this_y,
                                 ruleB.size, H=rule_bar_height, existance=keycolor,
                                 )
 
@@ -315,7 +440,7 @@ def makePlotFromRuleset(ruleset, allRules=False, filepath='results/temporary_rul
     ax.grid(True, ls='--')
 
     #Add legend
-    lgd = makerulelegend(ax, type='ruleset', allRules=allRules)
+    lgd = _makerulelegend(ax, type='ruleset', allRules=allRules)
 
     #Make sure image is sized in accordance with the number of rows/columns.
     fig.set_size_inches(3 * len(xticks), .5 * len(yticks))
