@@ -342,7 +342,6 @@ def makePlotFromRuleset(ruleset, allRules=False,
     #For x:
     these_rules = ruleset.rulelist
     xticks = [a.__class__.__name__ for a in these_rules]
-    print 'got x'
 
     #For y: What are the rules with all offsets that we're plotting here
     these_rules_offset = []
@@ -356,7 +355,6 @@ def makePlotFromRuleset(ruleset, allRules=False,
         if these_rules_offset[x]:
             (r, o) = these_rules_offset[x]
             yticks[x] = '%s (offset %s)' % (r.__class__.__name__, str(o))
-    print 'got y'
 
     #Set up the plot
     plottitle = (unicode('Matrix of rule interactions from rule set "') + unicode(str(ruleset.name)) + unicode('"'))

@@ -98,10 +98,9 @@ class rule_crawler(object):
         """
         Manages rule dominance when conflicting rules apply to same score indeces.
 
-        kwarg:
-
-        **direction**: (Optional) Direction in which the rules are applied.
-            Default is 'forward'.
+        **kwargs**:
+            **direction**: (Optional) Direction in which the rules are applied;
+            choice of 'forward' or 'backward'. Default is 'forward'.
 
         """
         #Display heading

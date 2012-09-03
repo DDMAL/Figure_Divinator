@@ -3,7 +3,7 @@
 Sets up and runs score processing for figure divination.
 
 When run from command line, does :func:`full_extraction`. For command line
-option flags, in terminal run ``python figure_extractor -h``.
+option flags, in terminal run ``python figure_extractor.py -h``.
 
 """
 
