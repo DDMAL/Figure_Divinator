@@ -2,6 +2,9 @@
 """
 Sets up and runs score processing for figure divination.
 
+When run from command line, does :func:`full_extraction`. For command line
+option flags, in terminal run ``python figure_extractor -h``.
+
 """
 
 import os
@@ -27,35 +30,52 @@ class InputError(Exception):
 
 class ExtractionWork(object):
     """
-    Holds the original score, figured output, and intermediate steps.
+    Holds the original score and manages the intermediate extraction steps.
 
-    Args:
+    **Args**
         **score_file_input**: Local path or URL to input file.
         File can be of any type supported by :mod:`music21`: musicXML,
         Humdrum (kern), ABC, Musedata, and MIDI
-        (`full list <http://mit.edu/music21/doc/html/overviewFormats.html>`_).
+        (`full list of music21's accepted file types
+        <http://mit.edu/music21/doc/html/overviewFormats.html>`_).
 
-    kwargs:
-        **ruleset**:
+    **kwargs**
+        **ruleset**: (Optional) The name of a rule set or list of rules to be
+        applied to score. Can be given as either a rule set id string,
+        e.g. 'SL', or an array of rule names, e.g.
+        ``['SLRule_03', 'SLRule_08a']``, as in :func:`rules.get_ruleset`.
+        Default is the full Saint Lambert rule set.
 
-        **solution**:
+        **display**: (Optional) Boolean. If true, displays score and
+        graphical visualisation of output. Default False.
 
-        **display**:
+        **save**: (Optional) Boolean. If true, saves the output score as an .xml
+        file. Default True.
 
-        **save**:
+        **remove_passing**: (Optional) Boolean. If true, removes passing tones
+        from bassline using :mod:`music21` analysis methods. Default False.
 
-        **make_fb_object**:
+        **rule_direction**: (Optional) Direction rules are applied to score,
+        either 'forward' (starting at the beginning and working towards the end)
+        or 'backward' (starting on the last note and working towards the first).
+        Default 'forward'.
 
-        **clean**:
+        **clean**: (Optional) Boolean. If true, makes output score visually
+        cleaner by hiding implied figures such as '3,5'. Default True.
 
-        **remove_passing**:
+        **solution**: (Optional) A `music21.tinyNotation
+        <http://mit.edu/music21/doc/html/moduleTinyNotation.html>`_ string. If
+        present, solution will be appended to final output score for easy
+        comparison between given solution and figure divination output. Default
+        False.
 
-        **rule_direction**:
+        **make_fb_object**: (Optional) Boolean. In future, useful for piping
+        output from this figure divination module to a module for figure
+        realization. Default False.
 
     """
 
     def __init__(self, score_file_input, **kwargs):
-        #TODO - add teststring??
         #Input score details
         self.score_input = score_file_input
         self.input_filename = ''
@@ -95,7 +115,7 @@ class ExtractionWork(object):
         self.extract_bassline_from_score()
 
     def _load_score_from_file(self):
-        """Reads score into music21, harvests metadata"""
+        """Reads score into music21, harvests metadata."""
         #set output file additional suffix
         ext_rule = ''
         if self.ruleset[0] == 'SL':
@@ -139,11 +159,14 @@ class ExtractionWork(object):
 
     def extract_bassline_from_score(self):
         """
-        Extracts bassline from self.original_score, saves it to self._bassline.
+        Extracts bassline from ``self.original_score``, saves to ``self._bassline``.
 
-        The bassline is simply the part labeled 'bass' (if present) or the
-        bottom-most part in the score (if none is specifically labeled).
-        If part is polyphonic, only return lowest notes.
+        The bassline is simply the part in the original_score labeled 'bass',
+        if present, or the bottom-most part in the score if none is specifically
+        labeled.
+
+        TO-DO in :func:`_clean_bassline_single_voice`: If the part is polyphonic,
+        only returns the lowest notes.
 
         """
         try:
@@ -165,24 +188,33 @@ class ExtractionWork(object):
         """
         Rewrites bassline as lowest line of multi-voice bassline.
 
-        Only if there are multiple voices in the bass part.
+        TO-DO!
+
         """
         pass
 
     def makeFiguredBassObject(self):
         """
-        Converts self._bassline stream to music21 figuredBass object self.fb.
+        Converts ``self._bassline`` stream to :mod:`music21.figuredBass` object ``self.fb``.
 
-        Input self._bassline consists of a line with figures stored as lyrics.
-        The figuredBass object which will aid in the figure realization stage
-        (a future project!).
+
+        In future, useful for piping output from this figure divination module
+        to a module for figure realization.
+
         """
         LOG.debug('doing \'makeFiguredBassObject.\'')
-        self.fb = m21.figuredBass.realizer.figuredBassFromStream(self._bassline)
-        #to get actual score: self.fb.generateBassLine()
+        try:
+            self.fb = m21.figuredBass.realizer.figuredBassFromStream(self._bassline)
+        except:
+            LOG.debug('Could not convert to figured bass object!')
+        # Programmer note: to get the actual score from figuredbass object,
+        # do self.fb.generateBassLine()
 
     def extract(self):
-        """When given a score, this method extracts and returns the figured bass"""
+        """
+        Main ExtractionWork method; extracts the figured bass from score.
+
+        """
         #Remove passing tones?
         if self.remove_passing_option:
             self._clean_bassline_remove_passing_tones()
@@ -218,16 +250,19 @@ class ExtractionWork(object):
             print 'makin fb'
             self.makeFiguredBassObject()
 
-        return object
-
     def _clean_bassline_remove_passing_tones(self):
         """
         Removes identified passing tones from bassline using music21 methods.
+
+        TO-DO!
         """
-        pass # TODO - Thursday
+        pass
 
     def _clean_figures(self):
-        """Delete 'hidden' figures"""
+        """
+        Makes figured output cleaner by hiding implied figures (e.g. '5,3').
+
+        """
         for i in range(len(self._fb_figureString)):
             fig = self._fb_figureString[i]
 
@@ -245,7 +280,12 @@ class ExtractionWork(object):
                 self._fb_figureString[i] = '7'
 
     def _setup_output(self):  # TODO-Hh{non-critical: metadata fail!}
-        """Attempts to add metadata to new score. Doesn't work."""
+        """
+        Attempts to add metadata to new score. Doesn't work.
+
+        TO-DO! Fix this. :)
+
+        """
         #Create output metadata
         my_metadata = m21.metadata.Metadata()
         my_metadata.title = 'Figured bass reduction of \n' + str(self.title)
@@ -255,12 +295,12 @@ class ExtractionWork(object):
         self.output_score.metadata = my_metadata
         self.output_fb_score.metadata = my_metadata
 
-    def append_to_extraction(self):
+    def _append_to_extraction(self):
         """
-        TODO
-        """
+        Appends original score and user-input solution to figured output.
 
-        #append the original to the extraction?
+        """
+        #append the original to the extraction
         LOG.debug('appending original!')
         for partline in (self.original_score.getElementsByClass(m21.stream.Part)):
             self.output_score.insert(partline)
@@ -280,14 +320,15 @@ class ExtractionWork(object):
 
     def create_output(self):
         """
-        TODO
+        Creates, formats, and saves/displays figured output score.
+
         """
         #Set up output
         self._setup_output()
 
         #Showing solution and/or original with old?
         #append original score and/or solution to test file
-        self.append_to_extraction()
+        self._append_to_extraction()
 
         #Make score from bassline
         self.output_score.insert(0, self._bassline)
@@ -318,17 +359,16 @@ class ExtractionWork(object):
 
         else:
             LOG.info('Not displaying file.')
-        #TODO - selfcomparison = score
 
 
 def full_extraction(scorefile, **kwargs):
     #TODO - make full_extraction_with_solution
     """
-    Creates ExtractionWork object and runs the full figure divination process.
+    Creates an ExtractionWork object and runs the full figure divination process.
 
-    Same kwargs as ExtractionWork:
+    Same kwargs as :mod:`ExtractionWork`: ruleset, display, save,
+    remove_passing, rule_direction, clean, solution, and make_fb_object.
 
-    #optional kwargs: ruleset, display
     """
     #Get, load score
     my_work = ExtractionWork(scorefile, **kwargs)
@@ -350,6 +390,8 @@ def full_extraction(scorefile, **kwargs):
 
 # Run from command line:
 if __name__ == '__main__':
+    #Run full_extraction function.
+
     #Get, parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('input_file')
