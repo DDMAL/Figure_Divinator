@@ -19,7 +19,7 @@ rule_crawler
 ############
 .. automodule:: rule_crawler
     :members:
-    :undoc-members:
+    :private-members:
 
 rule_plotter
 ############

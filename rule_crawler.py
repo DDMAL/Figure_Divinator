@@ -1,7 +1,8 @@
-# Figured bass extractor rule crawlers:
-# imports specialized rule classes
-# depending on what rule set is called;
-# Tests and applies the list of rules
+# Copyright (C) 2012 by Hannah Robertson
+"""
+Tests and applies a list of rules to a musical score.
+
+"""
 
 import music21 as m21
 import rules
@@ -29,7 +30,16 @@ LOG = Logging.getLogger('rules')
 
 
 class rule_crawler(object):
-    def __init__(self, extraction_work, **kwargs):
+    """
+    Manages the rule matching and rule application procedures.
+
+    **Args**
+        **extraction_work**: :class:`ExtractionWork` object that contains the
+        score and rule set.
+
+    """
+
+    def __init__(self, extraction_work):
         self.score = extraction_work
         self.ruleset = []
 
@@ -42,6 +52,10 @@ class rule_crawler(object):
         self._load_score_and_rules()
 
     def full_check_rules(self):
+        """
+        Checks all rules at each score location, saves matches as ``self.possible_rules``.
+
+        """
         LOG.info("\n* * * Matching rules to score: %s * * *", self.score.title)
 
         #Initialize temporary variables
@@ -82,15 +96,12 @@ class rule_crawler(object):
 
     def full_apply_rules(self, direction='forward'):
         """
-        ADD DESCRIPTION
+        Manages rule dominance when conflicting rules apply to same score indeces.
 
-        Args:
+        kwarg:
 
-        * direction: Direction the rules are applied. Default is forward.
-
-            * If 'forward,' starts at beginning of score and chooses the best of all rules at each index before jumping ahead the length of the chosen rule.
-
-            * If 'backward,' starts at end of score and works backwards, applying (or choosing between, if multiple) the longest rule that extends over index.
+        **direction**: (Optional) Direction in which the rules are applied.
+            Default is 'forward'.
 
         """
         #Display heading
@@ -106,6 +117,13 @@ class rule_crawler(object):
         self.score.chosen_rules = self.chosen_rules
 
     def _apply_rules_forward(self):
+        """
+        Determine rule dominance in a forward direction.
+
+        Starts at beginning of score and chooses the best of all rules at each
+        index before jumping ahead the length of the chosen rule.
+
+        """
         #Copy the possible rules
         rules_to_choose_from = copy.deepcopy(self.possible_rules)
 
@@ -152,6 +170,13 @@ class rule_crawler(object):
                 c_start = c_start + 1
 
     def _apply_rules_backward(self):
+        """
+        Determine rule dominance in a backward direction.
+
+        Starts at end of score and chooses the best of all rules at each
+        index before sliding backwards.
+
+        """
         #Copy the possible rules
         rules_to_choose_from = copy.deepcopy(self.possible_rules)
 
@@ -230,6 +255,10 @@ class rule_crawler(object):
         self.rule_max, self.rule_min = rules.rule_max_min(self.ruleset)
 
     def _chunkify(self, start_index, end_index):
+        """
+        Returns chunk of score between bassline note indecies start_index and end_index.
+
+        """
         L = end_index - start_index
         bassfull = self.score._bassline.flat.getElementsByClass(m21.note.Note)
         chunk = bassfull[start_index:end_index]
@@ -283,7 +312,7 @@ class rule_crawler(object):
 
 def check_intervals(chunk, rule):
     """
-    Returns True if the rule's intervals match the chunk of score.
+    Returns True if the rule's intervals match those of the chunk of score.
 
     TO-DO! Currently only checks chromatic intervals. Hannah
 
@@ -303,7 +332,7 @@ def check_intervals(chunk, rule):
 
 def check_qualities(chunk, rule):
     """
-    Returns True if the rule's harmonic chord qualities match the chunk of score.
+    Returns True if the rule's harmonic qualities match those of the chunk of score.
 
     """
     for i in range(rule.size):
@@ -428,7 +457,7 @@ def check_qualities(chunk, rule):
 
 def check_beats(chunk, rule):
     """
-    Returns True if the rule's beats match the chunk of score.
+    Returns True if the rule's beats match those of the chunk of score.
 
     """
     for i in range(rule.size):
@@ -446,7 +475,7 @@ def check_beats(chunk, rule):
 
 def check_extras(chunk, rule):
     """
-    Returns True if the rule's extras match the chunk of score.
+    Returns True if the rule's extras match those of the chunk of score.
 
     TO-DO! - Hannah # TODO-2ndTier-currently all false
 
@@ -514,7 +543,7 @@ def check_pre_figures(chunk, rule):
 
 def test_rule(chunk, rule):
     """
-    Returns ``rule.figures`` if the rule matches matches the chunk of score.
+    Returns ``rule.figures`` if the rule matches the chunk of score.
 
     """
     if (
