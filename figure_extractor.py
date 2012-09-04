@@ -193,10 +193,14 @@ class ExtractionWork(object):
         """
         Rewrites bassline as lowest line of multi-voice bassline.
 
-        TO-DO!
+        TO-DO: currently throws error; need to actually FIX this!
 
         """
-        pass
+        newline = self._bassline.chordify()
+        chords = newline.flat.getElementsByClass(m21.chord.Chord)
+        for c in chords:
+            if len(c) > 1:
+                raise InputError('Bass line is not monophonic!')
 
     def makeFiguredBassObject(self):
         """
@@ -344,13 +348,12 @@ class ExtractionWork(object):
             LOG.debug('\tSaving the file!')
             xmlfilename = self.output_filename + '.xml'
             self.output_score.write(fmt='musicxml', fp=xmlfilename)
-            print 'File saved to %s in the figured_bass_extractor/ directory' % xmlfilename
+            LOG.info('File saved to %s in the figured_bass_extractor/ directory' % xmlfilename)
 
         #display the new file?
         if self.display_option == True:
             if self.save_option == True:
                 try:
-                    print self.output_filename
                     new_score = m21.converter.parse(xmlfilename)
                     new_score.show()
                     #self.output_score.show()
