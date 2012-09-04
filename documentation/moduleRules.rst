@@ -35,8 +35,6 @@ rulesViewer
 
 test_rulesSL
 ############
-When given a set of test yadda, use the following script as an example. TODO.
 .. automodule:: test_rulesSL
     :members:
     :private-members:
-    :undoc-members:
