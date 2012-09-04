@@ -55,20 +55,18 @@ or to change the directory tested from, use ::
     nosetests -w /path/to/tests
 
 
-Additional Notes
+Additional notes
 ================
 * All testing has been done on .xml files. All files accepted by music21 should work, but it is possible that there are unexpected incompatibilities (imprecise midi recordings, for example, might be difficult for extracting the bass line). It might be worth testing these file types explicitly or making it clear that users should be wary.
 
-Developer Task list
+Task list
 ===================
 Documentation
 -------------
 * Write tutorial for building new rule sets
 * Write tutorial for investigating rule sets
 * Write tutorial for figuring a score
-* Make sure all docstrings are uniform
-    * Done: rules
-    * In progress: figure_extractor
+
 --> http://ivory.idyll.org/articles/nose-intro.html
 --> http://nose.readthedocs.org/en/latest/writing_tests.html
 --> http://docs.python.org/dev/library/unittest.html#unittest.TestCase
@@ -85,7 +83,7 @@ Code
 
     * Make sure rules.compare_rules isn't bogus
 
-    * Several TO-DO sections in rule_crawler
+    * Several TO-DO functions; search modules
 
 * Testing:
 

@@ -33,9 +33,9 @@ Developers
 ----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   Development notes and task list <documentation/developers>
+   Development notes <documentation/developers>
    documentation/moduleRules
 
 

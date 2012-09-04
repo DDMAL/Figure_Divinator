@@ -1,18 +1,1 @@
-TO-DO: List included files, e.g.,
-+file.py    Thing it does
-
-
-******
-
-Usage (basic):
-
-    python test_rulesSL.py
-
-
-The Music21 python library must be installed for the figured bass extractor to run: http://mit.edu/music21/
-
-******
-
-
-
-Trying to create/rebuild Sphinx documentation? From the 'documentation' directory, type 'make html'.
+See documentation and installation information at TODO_LINK_TO_DOCUMENTATION.

@@ -38,3 +38,8 @@ test_rulesSL
 .. automodule:: test_rulesSL
     :members:
     :private-members:
+
+logging_setup
+#############
+.. automodule:: logging_setup
+    :members:
