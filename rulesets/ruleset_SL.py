@@ -1,7 +1,7 @@
 """
-The following are Monsieur Michel de Saint Lambert's "Rules for divining
-the figures when the bass is not figured," from chapter 7 of his *Nouveau
-traite de l'accompagnement du clavecin, de l'orgue, et des autres instruments* (1707).
+Monsieur Michel de Saint Lambert's "Rules for divining the figures when the
+bass is not figured," from chapter 7 of his *Nouveau traite de l'accompagnement
+du clavecin, de l'orgue, et des autres instruments* (1707).
 
 Encoded by K. Bozhinov, H. Knox, and H. Robertson, 2012.
 """
@@ -53,13 +53,11 @@ def full_ruleset():
 #* * * RULES * * *
 class SLRule_03(SLRule):
     """
-    K's rule: 1
-
     Page: 45
 
     Conditions:
 
-    * When the bass note goes up by a diatonic semitone
+    * Bass note goes up by a diatonic semitone
     * Second chord should be a triad (maj or min)(no 7)TODO
 
     Figures:
@@ -87,8 +85,6 @@ class SLRule_03(SLRule):
 
 class SLRule_04(SLRule):
     """
-    K's rule: NA
-
     Page: 46
 
     Conditions:
@@ -116,8 +112,6 @@ class SLRule_04(SLRule):
 
 class SLRule_05(SLRule):
     """
-    K's rule: 2
-
     Page: 46
 
     Conditions:
@@ -148,8 +142,6 @@ class SLRule_05(SLRule):
 
 class SLRule_06(SLRule):
     """
-    K's rule: 3
-
     Page: 46
 
     Conditions:
@@ -178,8 +170,6 @@ class SLRule_06(SLRule):
 
 class SLRule_07(SLRule):
     """
-    K's rule: 4
-
     Page: 47
 
     Conditions:
@@ -211,8 +201,6 @@ class SLRule_07(SLRule):
 
 class SLRule_08a(SLRule):
     """
-    K's rule: NA
-
     Page: 47
 
     Conditions:
@@ -245,8 +233,6 @@ class SLRule_08a(SLRule):
 
 class SLRule_08b(SLRule):
     """
-    K's rule: NA
-
     Page: 47
 
     Conditions:
@@ -279,8 +265,6 @@ class SLRule_08b(SLRule):
 
 class SLRule_10a(SLRule):
     """
-    K's rule: NA
-
     Page: 47
 
     Conditions:
@@ -313,8 +297,6 @@ class SLRule_10a(SLRule):
 
 class SLRule_10b(SLRule):
     """
-    K's rule: NA
-
     Page: 47
 
     Conditions:
@@ -347,8 +329,6 @@ class SLRule_10b(SLRule):
 
 class SLRule_11(SLRule):
     """
-    K's rule: 5
-
     Page: 47
 
     Conditions:
@@ -377,8 +357,6 @@ class SLRule_11(SLRule):
 
 class SLRule_12(SLRule):
     """
-    K's rule: 6
-
     Page: 48
 
     Conditions:
@@ -403,8 +381,6 @@ class SLRule_12(SLRule):
 
 class SLRule_13(SLRule):
     """
-    K's rule: 7
-
     Page: 48
 
     Conditions:
@@ -434,8 +410,6 @@ class SLRule_13(SLRule):
 
 class SLRule_14(SLRule):
     """
-    K's rule: 8
-
     Page: 48
 
     Conditions:
@@ -466,8 +440,6 @@ class SLRule_14(SLRule):
 
 class SLRule_15(SLRule):
     """
-    K's rule: 9
-
     Page: 49
 
     Conditions:
@@ -493,8 +465,6 @@ class SLRule_15(SLRule):
 
 class SLRule_16(SLRule):
     """
-    K's rule: 10
-
     Page: 49
 
     Conditions:
@@ -528,8 +498,6 @@ class SLRule_16(SLRule):
 
 class SLRule_17(SLRule):
     """
-    K's rule: 11
-
     Page: ?
 
     Conditions:
@@ -560,8 +528,6 @@ class SLRule_17(SLRule):
 
 class SLRule_18(SLRule):
     """
-    K's rule: 12
-
     Page: 50
 
     Conditions:
@@ -593,8 +559,6 @@ class SLRule_18(SLRule):
 
 class SLRule_19(SLRule):
     """
-    K's rule: 14
-
     Page: 50
 
     Conditions:
@@ -624,8 +588,6 @@ class SLRule_19(SLRule):
 
 class SLRule_20(SLRule):
     """
-    K's rule: 13
-
     Page: 50
 
     Conditions:
@@ -659,8 +621,6 @@ class SLRule_20(SLRule):
 
 class SLRule_21(SLRule):
     """
-    K's rule: 15
-
     Page: 51
 
     Conditions:
@@ -691,8 +651,6 @@ class SLRule_21(SLRule):
 
 class SLRule_22(SLRule):
     """
-    K's rule: 16
-
     Page: 51
 
     Conditions:
@@ -725,8 +683,6 @@ class SLRule_22(SLRule):
 
 class SLRule_23(SLRule):
     """
-    K's rule: 17
-
     Page:  51
 
     Conditions:
@@ -761,8 +717,6 @@ class SLRule_23(SLRule):
 
 class SLRule_24a(SLRule):
     """
-    K's rule: 18
-
     Page: 52
 
     Conditions:
@@ -802,8 +756,6 @@ class SLRule_24a(SLRule):
 
 class SLRule_24a1(SLRule):
     """
-    K's rule: 18
-
     Page: 52
 
     Conditions:
@@ -841,8 +793,6 @@ class SLRule_24a1(SLRule):
 
 class SLRule_24b1(SLRule):
     """
-    K's rule: 19
-
     Page: 52-3
 
     Conditions:
@@ -885,8 +835,6 @@ class SLRule_24b1(SLRule):
 
 class SLRule_24b2(SLRule):
     """
-    K's rule: 19
-
     Page: 52-3
 
     Conditions:
@@ -929,8 +877,6 @@ class SLRule_24b2(SLRule):
 
 class SLRule_24c(SLRule):
     """
-    K's rule: 20
-
     Page: 53
 
     Conditions:
@@ -970,8 +916,6 @@ class SLRule_24c(SLRule):
 
 class SLRule_24c1(SLRule):
     """
-    K's rule: 20
-
     Page: 53
 
     Conditions:
@@ -1016,8 +960,6 @@ class SLRule_24c1(SLRule):
 
 class SLRule_25a(SLRule):
     """
-    K's rule: 21
-
     Page: 54
 
     Conditions:
@@ -1068,8 +1010,6 @@ class SLRule_25a(SLRule):
 
 class SLRule_25b(SLRule):
     """
-    K's rule: 21
-
     Page: 54
 
     Conditions:
@@ -1120,8 +1060,6 @@ class SLRule_25b(SLRule):
 
 class SLRule_26a1(SLRule):
     """
-    K's rule: 22
-
     Page: 54
 
     Conditions:
@@ -1165,8 +1103,6 @@ class SLRule_26a1(SLRule):
 
 class SLRule_26a2(SLRule):
     """
-    K's rule: 22
-
     Page: 54
 
     Conditions:
@@ -1211,8 +1147,6 @@ class SLRule_26a2(SLRule):
 
 class SLRule_26b1(SLRule):
     """
-    K's rule: 22
-
     Page: 54
 
     Conditions:
@@ -1256,8 +1190,6 @@ class SLRule_26b1(SLRule):
 
 class SLRule_26b2(SLRule):
     """
-    K's rule: 22
-
     Page: 54
 
     Conditions:
@@ -1302,8 +1234,6 @@ class SLRule_26b2(SLRule):
 
 class SLRule_27a(SLRule):
     """
-    K's rule: 23
-
     Page: 55
 
     Conditions:
@@ -1346,8 +1276,6 @@ class SLRule_27a(SLRule):
 
 class SLRule_27b(SLRule):
     """
-    K's rule: 24
-
     Page: 55
 
     Conditions:
@@ -1389,8 +1317,6 @@ class SLRule_27b(SLRule):
 
 class SLRule_28(SLRule):
     """
-    K's rule: 25
-
     Page: 55
 
     Conditions:
@@ -1430,8 +1356,6 @@ class SLRule_28(SLRule):
 
 class SLRule_29(SLRule):
     """
-    K's rule: 26
-
     Page: 55
 
     Conditions:
@@ -1469,8 +1393,6 @@ class SLRule_29(SLRule):
 
 class SLRule_30(SLRule):
     """
-    K's rule: 27
-
     Page: 56
 
     Conditions:
@@ -1504,8 +1426,6 @@ class SLRule_30(SLRule):
 
 class SLRule_31(SLRule):
     """
-    K's rule: 28
-
     Page: 56
 
     Conditions:
@@ -1541,8 +1461,6 @@ class SLRule_31(SLRule):
 
 class SLRule_32(SLRule):
     """
-    K's rule: NA
-
     Page: 56
 
     Conditions:
