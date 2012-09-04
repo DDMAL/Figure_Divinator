@@ -20,11 +20,12 @@ Tutorials
 
    documentation/intro
    documentation/tutorial
+   documentation/tutorialRulesets
 
 Included Rule Sets:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    documentation/moduleRulesets
 
