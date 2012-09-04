@@ -3,14 +3,17 @@
 Displays and plots information about rule sets.
 
 When run from command line, does :func:`full_extraction`. For full command line
-option flags, in terminal run
-    ``python rulesViewer.py -h``
+option flags, in terminal run ::
 
-To show text info about a list of rules, run
-    ``python rulesViewer.py [-r ruleset_name_or_list_of_rules]``
+    python rulesViewer.py -h
 
-To plot rule comparison, run
-    ``python rulesViewer.py -compare [-r ruleset_name_or_list_of_rules]``
+To show text info about a list of rules, run ::
+
+    python rulesViewer.py [-r ruleset_name_or_list_of_rules]
+
+To plot rule comparison, run ::
+
+    python rulesViewer.py -compare [-r ruleset_name_or_list_of_rules]
 
 Flag for ``ruleset_name_or_list_of_rules`` can be either the name key (e.g.
 ``-r SL``) or a list of specific rules (e.g. ``-r SLRule_03 SLRule_08a``).
