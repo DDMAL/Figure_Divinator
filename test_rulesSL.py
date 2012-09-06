@@ -34,7 +34,7 @@ LOG2 = Logging.getLogger('f_extractor')
 SIZE = 2        # Number of parts in each .xml test file (piano scores prob. have 2)
 OUTPUT_TITLE = "Saint Lambert's examples"
 RULE_PREFIX = "SLRule_"    # Prefix for all rules being tested. If none, use ''
-XML_FILE_LOCATION_AND_PREFIX = "examplefiles_SL/SLRule_"  # Where the test files are stored
+XML_FILE_LOCATION_AND_PREFIX = "examplefiles_SL/SLRule_"  # Where the test files are stored from within the Figure_Divinator directory
 
 # Solution dictionary should be of the form 'rulekey': 'solutionNotationString'
 # ruleKey should be the name of the rule number (w/out prefix). If there are multiple
@@ -182,7 +182,7 @@ def _SL_full_test(chosen_rules=False, clean=True, show_all_output=False):
     #Save result score - TODO
     xmlfilename = 'results/unit_testing_' + RULE_PREFIX + 'rules.xml'
     resultsscore.write(fmt='musicxml', fp=xmlfilename)
-    print 'File saved to figured_bass_extractor/%s' % xmlfilename
+    print 'File saved to Figure_Divinator/%s' % xmlfilename
 
     #Show result score
     resultsscore.show()

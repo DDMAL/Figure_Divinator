@@ -22,7 +22,7 @@ harmonyCheck_dictionary = {}
 
 class Rule(object):
     """
-    The parent class for all figure divination rule objects.
+    The parent class for all Figure Divination Rule objects.
 
     """
     def __init__(self):

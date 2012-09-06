@@ -67,11 +67,11 @@ class ExtractionWork(object):
         **solution**: (Optional) A `music21.tinyNotation
         <http://mit.edu/music21/doc/html/moduleTinyNotation.html>`_ string. If
         present, solution will be appended to final output score for easy
-        comparison between given solution and figure divination output. Default
+        comparison between given solution and Figure Divinator output. Default
         False.
 
         **make_fb_object**: (Optional) Boolean. In future, useful for piping
-        output from this figure divination module to a module for figure
+        output from this Figure Divinator module to a module for figure
         realization. Default False.
 
     """
@@ -207,7 +207,7 @@ class ExtractionWork(object):
         Converts ``self._bassline`` stream to :mod:`music21.figuredBass` object ``self.fb``.
 
 
-        In future, useful for piping output from this figure divination module
+        In future, useful for piping output from this Figure Divinator module
         to a module for figure realization.
 
         """
@@ -348,7 +348,7 @@ class ExtractionWork(object):
             LOG.debug('\tSaving the file!')
             xmlfilename = self.output_filename + '.xml'
             self.output_score.write(fmt='musicxml', fp=xmlfilename)
-            LOG.info('File saved to %s in the figured_bass_extractor/ directory' % xmlfilename)
+            LOG.info('File saved to %s in the Figure_Divinator/ directory' % xmlfilename)
 
         #display the new file?
         if self.display_option == True:

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# FigDiv documentation build configuration file, created by
+# Figure Divinator documentation build configuration file, created by
 # sphinx-quickstart on Fri Jul 20 12:32:21 2012.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -41,7 +41,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'FigDiv'
+project = u'Figure Divinator'
 copyright = u'2012, Hannah Robertson'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -107,7 +107,7 @@ html_theme = 'sphinxdoc'
 #html_title = None
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-html_short_title = 'FigDiv'
+html_short_title = 'Figure Divinator'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
@@ -165,7 +165,7 @@ html_last_updated_fmt = '%b %d, %Y'
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'FigDivdoc'
+htmlhelp_basename = 'FigureDivinatordoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -184,7 +184,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'FigDiv.tex', u'FigDiv Documentation',
+  ('index', 'FigureDivinator.tex', u'Figure Divinator Documentation',
    u'Hannah Robertson', 'manual'),
 ]
 
@@ -214,7 +214,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'figdiv', u'FigDiv Documentation',
+    ('index', 'FigureDivinator', u'Figure Divinator Documentation',
      [u'Hannah Robertson'], 1)
 ]
 
@@ -228,8 +228,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'FigDiv', u'FigDiv Documentation',
-   u'Hannah Robertson', 'FigDiv', 'One line description of project.',
+  ('index', 'FigureDivinator', u'Figure Divinator Documentation',
+   u'Hannah Robertson', 'Figure Divinator', 'One line description of project.',
    'Miscellaneous'),
 ]
 

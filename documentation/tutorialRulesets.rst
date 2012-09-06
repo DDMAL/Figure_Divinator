@@ -4,7 +4,7 @@ Creating new rule sets
 
 Set-up
 ------
-A template for creating new rule sets can be found at ``figured_bass_extractor\rulesets\ruleset_template.py``.
+A template for creating new rule sets can be found at ``Figure_Divinator\rulesets\ruleset_template.py``.
 
 In order to be automatically imported into the Figure Divination program, the rule set must be named using the convention 'ruleset_[yourRulesetName].py'.
 

@@ -39,7 +39,7 @@ Choosing a score
 ----------------
 Input scores can be in `any format accepted by music21 <http://mit.edu/music21/doc/html/overviewFormats.html>`_: MusicXML, Humdrum, ABC, Musedata, and MIDI.
 
-Either a filepath or a URL can be given. For example, for example file bwv307.xml in the main figured_bass_extractor directory, use
+Either a filepath or a URL can be given. For example, for example file bwv307.xml in the main Figure_Divinator directory, use
 
     ``python figure_extractor bwv307.xml``
 
@@ -47,7 +47,7 @@ To get the same score from a URL, such as from the `Kern Scores library <http://
 
     ``python figure_extractor 'http://kern.ccarh.org/cgi-bin/ksdata?l=osu/classical/bach/chorale/chorales.all&file=bwv0307.krn&f=kern'``
 
-To get a file a filepath outside of the figured_bass_extractor directory, such as in foo directory on the Desktop, use
+To get a file a filepath outside of the Figure_Divinator directory, such as in foo directory on the Desktop, use
 
     ``python figure_exctractor ~/Desktop/foo/bwv307.xml``
 

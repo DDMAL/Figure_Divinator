@@ -1,7 +1,7 @@
 #########
 Rule sets
 #########
-This page lists the rule sets and rules included in the Figure Divination
+This page lists the rule sets and rules included with the Figure Divinator
 program.
 
 Saint Lambert Rule Set
