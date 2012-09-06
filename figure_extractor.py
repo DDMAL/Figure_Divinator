@@ -418,12 +418,12 @@ if __name__ == '__main__':
     parser.add_argument('-t', nargs='?', const='x',
                     dest='solution_notation_string', default=False,
                     help='TODO')
-    parser.add_argument('-r', nargs='*',
-                    dest='rule_set_or_list', default='SL',
-                    help='Set of rules to apply')
     parser.add_argument('-b', nargs='?', const='backward',
                     dest='rule_direction', default='forward',
                     help='Direction rules are applied: forward or backward')
+    parser.add_argument('-r', nargs='*',
+                    dest='rule_set_or_list', default='SL',
+                    help='Set of rules to apply')
 
     #Set flags
     args = parser.parse_args()
