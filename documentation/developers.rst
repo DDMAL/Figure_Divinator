@@ -61,19 +61,24 @@ Additional notes
 
 Task list
 ===================
+
+H's remaining hours:
+--------------------
+* Discuss priorities with Hank.
+
+* Bullets with (H) after them!
+
+
 Documentation
 -------------
-* Write tutorial for building new rule sets
-* Write tutorial for investigating rule sets
-* Write tutorial for figuring a score
+* Write tutorial for building new rule sets (H-1)
+* Write tutorial for investigating rule sets (H-1)
+* Write tutorial for figuring a score (H-1)
 
---> http://ivory.idyll.org/articles/nose-intro.html
---> http://nose.readthedocs.org/en/latest/writing_tests.html
---> http://docs.python.org/dev/library/unittest.html#unittest.TestCase
 
 Code
 ----
-* Complete rule-related functions needed for SL rule set
+* Complete rule-related functions needed for SL rule set (H-2)
 
 * Modules:
 
@@ -85,13 +90,30 @@ Code
 
     * Several TO-DO functions; search modules
 
+    * Make sure co-app
+
 * Testing:
 
     * Functions that compare rules
 
     * Test rule set for self-sufficiency
 
+    * Make sure coexisting rules don't accidentally cancel one another out. (Possibly re-write rule application so that preferencing happens BEFORE selection....)
+
+* Nit-picky:
+
+    * There doesn't seem to be a "dash" option in music21. Currently, the hacked solution in our figured-bass-extractor is to use a quadruple flat instead (notation.Notation('----')), as a quadruple flat is acceptable to the figured bass class whereas 'dash' or 'NA' or any other non-number, non-modifier string is not. Once '-' is added to possible figures, add a clean-up option that determines which figures could be dashes and simplifies them down before output. [This is probably the best plan of action.]
+
+
+* Wish list (non-critical but nice):
+
+    * When displaying a solution string, currently only music21.tinyNote.Notation type is accepted; make it possible to input a score, maybe.
+
+    * Allow pre-existing figures to be utilized (for full figuring of partially-figured scores).
+
 Hank
 ----
-* rules.extraCheck_dictionary
+* Look through rules.extraCheck_dictionary
+
+* Provide test score (.xml) with figured solution
 
