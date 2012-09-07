@@ -35,6 +35,7 @@ Tutorials
 
    documentation/tutorial
    documentation/tutorialRulesets
+   documentation/examples
 
 Included Rule Sets:
 
