@@ -130,10 +130,10 @@ def _SL_full_test(chosen_rules=False, clean=True, show_all_output=False):
         if i == 0:
             n.lyric = '   Original:'
         if i == SIZE:
-            n.lyric = 'Given Solution:'
+            n.lyric = 'Ground truth:'
             n.color = 'red'
         if i == SIZE + 1:
-            n.lyric = 'Figure Divination:'
+            n.lyric = 'Divined figures:'
             n.color = 'black'
         p = m21.stream.Part()
         p.append(n)

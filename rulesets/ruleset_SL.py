@@ -179,8 +179,8 @@ class SLRule_07(SLRule):
 
     Figures:
 
-    * First gets 3-
-    * Second gets false fifth (5,3-) "fausse quinte"
+    * First gets 3b
+    * Second gets false fifth (5,3b) "fausse quinte"
 
     Notes:
 
@@ -195,8 +195,8 @@ class SLRule_07(SLRule):
         self.harmonic_content[0] = ['isPerfect']
 
         #Figures
-        self.figures[0] = m21.figuredBass.notation.Notation('3-')
-        self.figures[1] = m21.figuredBass.notation.Notation('5,3-')
+        self.figures[0] = m21.figuredBass.notation.Notation('3b')
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3b')
 
 
 class SLRule_08a(SLRule):
@@ -212,7 +212,7 @@ class SLRule_08a(SLRule):
     Figures:
 
     * first chord gets a 5,3
-    * second chord gets a 5,3-
+    * second chord gets a 5,3b
 
     Notes:
 
@@ -228,7 +228,7 @@ class SLRule_08a(SLRule):
 
         #Figures
         self.figures[0] = m21.figuredBass.notation.Notation('5,3')
-        self.figures[1] = m21.figuredBass.notation.Notation('5,3-')
+        self.figures[1] = m21.figuredBass.notation.Notation('5,3b')
 
 
 class SLRule_08b(SLRule):
@@ -244,7 +244,7 @@ class SLRule_08b(SLRule):
     Figures:
 
     * first chord gets a 5,3
-    * second chord gets a 6,3-
+    * second chord gets a 6,3b
 
     Notes:
 
@@ -260,7 +260,7 @@ class SLRule_08b(SLRule):
 
         #Figures
         self.figures[0] = m21.figuredBass.notation.Notation('5,3')
-        self.figures[1] = m21.figuredBass.notation.Notation('6,3-')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,3b')
 
 
 class SLRule_10a(SLRule):
@@ -365,7 +365,7 @@ class SLRule_12(SLRule):
 
     Figures:
     * 1st gets 5,3
-    * 2nd gets 5-
+    * 2nd gets 5b
     """
 
     def __init__(self):
@@ -376,7 +376,7 @@ class SLRule_12(SLRule):
 
         #Figures
         self.figures[0] = m21.figuredBass.notation.Notation('5,3')
-        self.figures[1] = m21.figuredBass.notation.Notation('5-')
+        self.figures[1] = m21.figuredBass.notation.Notation('5b')
 
 
 class SLRule_13(SLRule):
@@ -750,7 +750,7 @@ class SLRule_24a(SLRule):
         #Figures
         self.figures[0] = m21.figuredBass.notation.Notation('5,3')
         self.figures[1] = m21.figuredBass.notation.Notation('6')
-        self.figures[2] = m21.figuredBass.notation.Notation('6+')  # TODO'6+(5-)')
+        self.figures[2] = m21.figuredBass.notation.Notation('6+')  # TODO'6+(5b)')
         self.figures[3] = m21.figuredBass.notation.Notation('5,3+')
 
 
@@ -787,7 +787,7 @@ class SLRule_24a1(SLRule):
         #Figures
         self.figures[0] = m21.figuredBass.notation.Notation('5,3')
         self.figures[1] = m21.figuredBass.notation.Notation('6,4,2')
-        self.figures[2] = m21.figuredBass.notation.Notation('6+')  # TODO'6+(5-)')
+        self.figures[2] = m21.figuredBass.notation.Notation('6+')  # TODO'6+(5b)')
         self.figures[3] = m21.figuredBass.notation.Notation('5,3+')
 
 
@@ -808,7 +808,7 @@ class SLRule_24b1(SLRule):
     * 1st note gets root position major triad (5,3+)
     * 2nd note get a (6,4+,2)
     * 3rd note gets a #6
-    * 4th note gets minor triad (5,3-)
+    * 4th note gets minor triad (5,3b)
 
     Note:
 
@@ -830,7 +830,7 @@ class SLRule_24b1(SLRule):
         self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
         self.figures[1] = m21.figuredBass.notation.Notation('6,4+,2')
         self.figures[2] = m21.figuredBass.notation.Notation('6+')
-        self.figures[3] = m21.figuredBass.notation.Notation('5,3-')
+        self.figures[3] = m21.figuredBass.notation.Notation('5,3b')
 
 
 class SLRule_24b2(SLRule):
@@ -850,7 +850,7 @@ class SLRule_24b2(SLRule):
     * 1st note gets root position major triad (5,3+)
     * 2nd note get a (6,4,2)
     * 3rd note gets a #6,4,3 (petit accord)
-    * 4th note gets minor triad (5,3-)
+    * 4th note gets minor triad (5,3b)
 
     Note:
 
@@ -872,7 +872,7 @@ class SLRule_24b2(SLRule):
         self.figures[0] = m21.figuredBass.notation.Notation('5,3+')
         self.figures[1] = m21.figuredBass.notation.Notation('6,4,2')
         self.figures[2] = m21.figuredBass.notation.Notation('6+,4,3')
-        self.figures[3] = m21.figuredBass.notation.Notation('5,3-')
+        self.figures[3] = m21.figuredBass.notation.Notation('5,3b')
 
 
 class SLRule_24c(SLRule):
@@ -888,7 +888,7 @@ class SLRule_24c(SLRule):
 
     Figures:
 
-    * 1st note gets minor triad (5,3-)
+    * 1st note gets minor triad (5,3b)
     * 2nd note gets perfect major triad (5,3+)  or (in paren (6,4,2))
     * 3rd note gets a 6 or (in paren (6,4+,3) "le petit accord")
     * 4th note gets major triad (5,3+) ("l'accord parfait majeur")
@@ -908,7 +908,7 @@ class SLRule_24c(SLRule):
         self.beats[3] = [1]
 
         #Figures
-        self.figures[0] = m21.figuredBass.notation.Notation('5,3-')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3b')
         self.figures[1] = m21.figuredBass.notation.Notation('5,3+')
         self.figures[2] = m21.figuredBass.notation.Notation('6,4+,3')
         self.figures[3] = m21.figuredBass.notation.Notation('5,3+')
@@ -928,7 +928,7 @@ class SLRule_24c1(SLRule):
 
     Figures:
 
-    * 1st note gets minor triad (5,3-)
+    * 1st note gets minor triad (5,3b)
     * 2nd note gets nothing or (6,4,2)
     * 3rd note gets two figures:(in two halves)
     * (7,5)
@@ -951,7 +951,7 @@ class SLRule_24c1(SLRule):
         self.extras[2] = ['duration:twiceAsPreviousTwo']
 
         #Figures
-        self.figures[0] = m21.figuredBass.notation.Notation('5,3-')
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3b')
         self.figures[1] = m21.figuredBass.notation.Notation('6,4,2')
         self.figures[2] = ['split', m21.figuredBass.notation.Notation('7,5'),
                             m21.figuredBass.notation.Notation('6,4,3')]
