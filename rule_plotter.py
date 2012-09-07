@@ -344,12 +344,11 @@ def makePlotFromRuleset(ruleset, allRules=False,
     xticks = [a.__class__.__name__ for a in these_rules]
 
     #For y: What are the rules with all offsets that we're plotting here
-    these_rules_offset = []
+    these_rules_offset = [False]
     max_rule_length, min_rule_length = rules.rule_max_min(these_rules)
     for r in these_rules:
         for o in range(1 - r.size, max_rule_length):
             these_rules_offset.append((r, o))
-        these_rules_offset.append(False)
     yticks = [' ' for x in range(1 + len(these_rules_offset))]
     for x in range(len(these_rules_offset)):
         if these_rules_offset[x]:
@@ -416,15 +415,13 @@ def makePlotFromRuleset(ruleset, allRules=False,
         yticks = [y.strip('SLRule_') for y in yticks]
 
     #Deal with y-axis
-
     ax.set_ylabel('Rules')
-    ax.set_ylim(0, len(yticks))
     ax.yaxis.set_major_locator(mpltick.MultipleLocator(1))
     ax.yaxis.set_minor_locator(mpltick.MultipleLocator(1))
 
     ax.yaxis.set_minor_formatter(mpltick.IndexFormatter(yticks))
     ax.yaxis.set_major_formatter(mpltick.NullFormatter())
-    ax.set_ylim(-1, len(yticks) - 1)
+    ax.set_ylim(0, len(yticks) - 1)
 
     #Deal with x-axis
     ax.set_xlabel('Rules \n(Each vertical dotted ' + \
@@ -444,7 +441,7 @@ def makePlotFromRuleset(ruleset, allRules=False,
     fig.set_size_inches(3 * len(xticks), .5 * len(yticks))
 
     #Save it?
-    if saveResults == True:
+    if saveResults:
         filepath = filepath + '.pdf'
         fig.savefig(filepath, dpi=fig.dpi, bbox_extra_artists=(lgd,), bbox_inches='tight')
         print 'saved at %s' % filepath
