@@ -133,7 +133,7 @@ def _view_rules(extraction_ruleset, args=False):
     LOG.info("* * DONE REVIEWING RULES. * *")
 
 
-def _compare_rules(extraction_ruleset):
+def _compare_rules(extraction_ruleset, allRules):
     """
     Plots extraction_ruleset with :func:`rule_plotter.makePlotFromRuleset`.
 
@@ -143,7 +143,9 @@ def _compare_rules(extraction_ruleset):
 
     #Plot it!
     LOG.info("* * COMPARING RULES. * *")
-    rule_plotter.makePlotFromRuleset(extraction_ruleset, saveResults=True)
+    rule_plotter.makePlotFromRuleset(extraction_ruleset,
+                                        saveResults=True,
+                                        allRules=allRules)
     LOG.info("* * DONE COMPARING RULES. * *")
 
 
@@ -177,7 +179,10 @@ if __name__ == '__main__':
                         help='Just extras')
     parser.add_argument('-compare', action='store_true',
                         dest='compare', default=False,
-                        help='Show rule comparisons?')
+                        help='Visualise rule comparisons')
+    parser.add_argument('-all', action='store_true',
+                        dest='all', default=False,
+                        help='In visualisation, show all pairings')
     parser.add_argument('-r', nargs='*', dest='rules_type',
                         default='SL',
                         help='Set of rules to list')
@@ -221,4 +226,4 @@ if __name__ == '__main__':
 
     #Are we comparing the rules?
     if toCompare:
-        _compare_rules(extraction_ruleset)
+        _compare_rules(extraction_ruleset, args.all)
