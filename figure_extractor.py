@@ -62,7 +62,7 @@ class ExtractionWork(object):
         Default 'forward'.
 
         **clean**: (Optional) Boolean. If true, makes output score visually
-        cleaner by hiding implied figures such as '3,5'. Default True.
+        cleaner by hiding implied figures such as '5,3'. Default True.
 
         **solution**: (Optional) A `music21.tinyNotation
         <http://mit.edu/music21/doc/html/moduleTinyNotation.html>`_ string. If
@@ -230,7 +230,7 @@ class ExtractionWork(object):
 
         #Set up the figure strings:
         basslength = len(self._bassline.flat.getElementsByClass(m21.note.Note))
-        self._fb_figureString = ['n' for x in range(basslength)]
+        self._fb_figureString = ['5,3' for x in range(basslength)] ##TODO!!!! N!
 
         #Run through rules
         ruler = rule_crawler.rule_crawler(self)
@@ -430,7 +430,7 @@ if __name__ == '__main__':
     input_file_name = args.input_file  # The un-figured xml file to be parsed
     ruleset = args.rule_set_or_list  # The name of a rule set or list of rules to apply
     solution = args.solution_notation_string  # A solution string (in music21 tiny notation)
-    clean = args.clean_figure_string  # If true, makes result visually cleaner by removing '3,5' etc.
+    clean = args.clean_figure_string  # If true, makes result visually cleaner by removing '5,3' etc.
     remove_passing = args.remove_passing  # If true, removes passing tones from bassline
     display = args.display_outputs  # If true, displays score and visualisation
     save = args.save_outputs  # If true, saves .xml file
