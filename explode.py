@@ -1,7 +1,14 @@
-#script!
+# Copyright (C) 2012 by Hannah Robertson
+"""
+Basic script showing how to realize score from Figure Divinator output.
 
-#Get figures from score
+More info on the :class:`music21.figuredBass` can be found at
+http://mit.edu/music21/doc/html/moduleFiguredBassExamples.html.
 
+To run from command line, do ``python explode.py [PATH/TO/SCORE]``.
+If no score is given, defaults to ``bwv307.xml``.
+
+"""
 
 import sys
 import figure_extractor
@@ -14,48 +21,31 @@ def divine_and_realize(url='bwv'):
         this_file = url
 
     #Get the extraction
-    print 'making extraction'
-    score = figure_extractor.full_extraction(this_file, display=True)
+    print 'Getting divination:'
+    score = figure_extractor.full_extraction(this_file,
+                                            display=True, logging=False)
+
+    #Make a music21.figuredBass object from the divination output
     score.makeFiguredBassObject()
 
-    #create realization
-    print 'showing bassline'
+    #Show figured bass line
+    print 'Displaying bass line'
     score.fb.generateBassLine().show()
 
-    print 'making realization with default rule set'
+    #Make the realizations with the default rule set
+    print 'Creating realizations'
     bassline = score.fb.realize()
+    print '-->There are %s possible solutions using default rule set' % \
+            str(bassline.getNumSolutions())
 
-
-    print 'there are %s possible solutions using default rule set' % str(bassline.getNumSolutions())
-    print 'showing a random realization'
+    #Show one of these realizations
+    print 'Showing a random realization'
     bassline.generateRandomRealization().show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # Run from command line
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        Hh_test(sys.argv[1])
+        divine_and_realize(sys.argv[1])
     else:
         divine_and_realize()
