@@ -349,6 +349,7 @@ def makePlotFromRuleset(ruleset, allRules=False,
     for r in these_rules:
         for o in range(1 - r.size, max_rule_length):
             these_rules_offset.append((r, o))
+        these_rules_offset.append(False)
     yticks = [' ' for x in range(1 + len(these_rules_offset))]
     for x in range(len(these_rules_offset)):
         if these_rules_offset[x]:
@@ -421,13 +422,12 @@ def makePlotFromRuleset(ruleset, allRules=False,
 
     ax.yaxis.set_minor_formatter(mpltick.IndexFormatter(yticks))
     ax.yaxis.set_major_formatter(mpltick.NullFormatter())
-    ax.set_ylim(0, len(yticks) - 1)
+    ax.set_ylim(0, len(yticks) - 2)
 
     #Deal with x-axis
     ax.set_xlabel('Rules \n(Each vertical dotted ' + \
                     'line represents a single bass note to be figured)')
     ax.set_xlim(0, rule_jump * len(xticks))
-    #ax.xaxis.set_major_locator(mpltick.MultipleLocator(rule_jump))
     ax.xaxis.set_major_locator(mpltick.IndexLocator(rule_jump, max_rule_length - 1))
     ax.xaxis.set_minor_locator(mpltick.MultipleLocator(1))
     ax.set_xticklabels(xticks, ha='left')
