@@ -82,15 +82,13 @@ Code
 
 * Modules:
 
-    * Remove passing tones from bass lines
+    * Remove passing tones from bass lines (well, figure out how to include this or bypass it...)
 
     * Build in rule-trumping (no more 'chosen at random')
 
     * Make sure rules.compare_rules isn't bogus
 
-    * Several TO-DO functions; search modules
-
-    * Make sure co-app
+    * Several TO-DO functions; search modules to find them
 
 * Testing:
 
@@ -99,6 +97,20 @@ Code
     * Test rule set for self-sufficiency
 
     * Make sure coexisting rules don't accidentally cancel one another out. (Possibly re-write rule application so that preferencing happens BEFORE selection....)
+
+    * Make sure all interval checks are modulo
+
+    * Make sure intervals are appropriate chromatic/diatonic variation
+
+* Music21-based figuredbass module needs:
+
+    * See if music21 has a glyph for 5/ (5 with slash), which would be better than 5b (which we're currently using). If it doesn't, we should ask music21 for it.
+
+    * Also, would like parenthesis around chord options...
+
+    * Also, would like to be able to stretch figures across beats of held bass note (like how lyrics are split across syllables)
+
+    * __cmp__ methods for intervals?
 
 * Nit-picky:
 
@@ -110,6 +122,8 @@ Code
     * When displaying a solution string, currently only music21.tinyNote.Notation type is accepted; make it possible to input a score, maybe.
 
     * Allow pre-existing figures to be utilized (for full figuring of partially-figured scores).
+
+    * More rule sets needed! :)
 
 Hank
 ----
