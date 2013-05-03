@@ -96,7 +96,7 @@ class rule_crawler(object):
 
     def full_apply_rules(self, direction='forward'):
         """
-        Manages rule dominance when conflicting rules apply to same score indeces.
+        Manages rule dominance when conflicting rules apply to same score indices.
 
         **kwargs**:
             **direction**: (Optional) Direction in which the rules are applied;
@@ -255,7 +255,7 @@ class rule_crawler(object):
 
     def _chunkify(self, start_index, end_index):
         """
-        Returns chunk of score between bassline note indecies start_index and end_index.
+        Returns chunk of score between bassline note indices start_index and end_index.
 
         """
         L = end_index - start_index
@@ -301,7 +301,7 @@ class rule_crawler(object):
         for i in chunk.harmonic_content:
             cstring = cstring + str(i.pitches)
 
-        LOG.info('CHUNK@ measure %s, beat %s\n\t indecies: %s-%s \n\tintervals: %s;'
+        LOG.info('CHUNK@ measure %s, beat %s\n\t indices: %s-%s \n\tintervals: %s;'
                     ' \n\t    beats: %s; \n\t   chords: %s',
                     str(chunk.start_measure), str(chunk.start_beat),
                     str(start_index), str(end_index), istring,
@@ -328,6 +328,13 @@ def check_intervals(chunk, rule):
 
     return True
 
+#returns true if the root note is the lowest in pitch
+#NOTE: Does NOT check for major triad-ness
+def isRootPosition(chord):
+    rbool = True
+    if chord.root() != chord.sortAscending()[0]:
+        rbool = False
+    return rbool
 
 def check_qualities(chunk, rule):
     """
@@ -358,91 +365,108 @@ def check_qualities(chunk, rule):
             if r == 'isMajor':  # TODO: okay to rely on music21?
                 if not chord.quality == 'major':
                     rbool = False
-                    LOG.debug('   ...don\'t pass music21\'s chord.quality==major')
+                    LOG.debug('   ...doesn\'t pass music21\'s chord.quality==major')
                 else:
-                    LOG.debug('   ...pass music21\'s chord.quality==major')
+                    LOG.debug('   ...passes music21\'s chord.quality==major')
 
             elif r == 'isPerfect':  # TODO: okay to rely on music21?
                 if not chord.isConsonant():
                     rbool = False
-                    LOG.debug('   ...don\'t pass music21\'s chord.isConsonant()')
+                    LOG.debug('   ...doesn\'t pass music21\'s chord.isConsonant()')
                 else:
-                    LOG.debug('   ...pass music21\'s chord.isConsonant()')
+                    #also have to make sure its in _root_ position. isConsonant() allows 1st inversions
+                    if not isRootPosition(chord):
+                        rbool = False
+                        LOG.debug('   ...doesn\'t pass music21\'s chord.isRootPosition()')
+                    else:
+                        LOG.debug('   ...passes music21\'s chord.isConsonant()')
 
             elif r == 'hasSix':
                 #TODO: get rid of %12 semitones if direction matters!
                 invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                 if 9 not in invls and 8 not in invls:
                     rbool = False
-                    LOG.debug('   ...don\'t pass our hasSix()')
+                    LOG.debug('   ...doesn\'t pass our hasSix()')
                 else:
-                    LOG.debug('   ...pass our hasSix()')
+                    LOG.debug('   ...passes our hasSix()')
 
             elif r == 'notHasSix':
                 #TODO: get rid of %12 semitones if direction matters!
                 invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                 if 9 in invls or 8 in invls:
                     rbool = False
-                    LOG.debug('   ...don\'t pass our notHasSix()')
+                    LOG.debug('   ...doesn\'t pass our notHasSix()')
                 else:
-                    LOG.debug('   ...pass our notHasSix()')
+                    LOG.debug('   ...passes our notHasSix()')
 
             elif r == 'hasSharpSix':
                 #TODO: get rid of %12 semitones if direction matters!
                 invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                 if not 9 in invls:
                     rbool = False
-                    LOG.debug('   ...don\'t pass our hasSharpSix()')
+                    LOG.debug('   ...doesn\'t pass our hasSharpSix()')
                 else:
-                    LOG.debug('   ...pass our hasSharpSix()')
+                    LOG.debug('   ...passes our hasSharpSix()')
 
             elif r == 'hasSeventh':
                 invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                 if 10 not in invls and 11 not in invls:
                     rbool = False
-                    LOG.debug('   ...don\'t pass our hasSeventh()')
+                    LOG.debug('   ...doesn\'t pass our hasSeventh()')
                 else:
-                    LOG.debug('   ...pass our hasSeventh()')
+                    LOG.debug('   ...passes our hasSeventh()')
 
             elif r == 'hasDiminishedFifth':
                 invls = [m21.interval.Interval(noteStart=chunk[i], noteEnd=p).semitones % 12 for p in chord.pitches]
                 if 6 not in invls:
                     rbool = False
-                    LOG.debug('   ...don\'t pass our hasDiminishedFifth()')
+                    LOG.debug('   ...doesn\'t pass our hasDiminishedFifth()')
                 else:
-                    LOG.debug('   ...pass our hasDiminishedFifth()')
+                    LOG.debug('   ...passes our hasDiminishedFifth()')
 
             elif r == 'perfectMajorTriadOkSeven':  # TODO: okay to rely on music21?
                 #"chord is a Major Triad or a Dominant Seventh"
                 if not chord.canBeDominantV():
                     rbool = False
-                    LOG.debug('   ...don\'t pass music21\'s chord.canBeDominantV()')
+                    LOG.debug('   ...doesn\'t pass music21\'s chord.canBeDominantV()')
                 else:
-                    LOG.debug('   ...pass music21\'s chord.canBeDominantV()')
+                    if not isRootPosition(chord):
+                        rbool = False
+                        LOG.debug('   ...doesn\'t pass music21\'s chord.isRootPosition()')
+                    else:
+                        LOG.debug('   ...passes music21\'s chord.canBeDominantV()')
 
             elif r == 'minorTriadNoSeven':  # TODO: okay to rely on music21?
                 #"chord is a minor triad, no 7"
                 if not chord.isMinorTriad():
                     rbool = False
-                    LOG.debug('   ...don\'t pass music21\'s chord.isMinorTriad()')
+                    LOG.debug('   ...doesn\'t pass music21\'s chord.isMinorTriad()')
                 else:
-                    LOG.debug('   ...pass music21\'s chord.isMinorTriad()')
+                    LOG.debug('   ...passes music21\'s chord.isMinorTriad()')
 
             elif r == 'perfectMajorTriadNoSeven':  # TODO: okay to rely on music21?
                 #"chord is a Major Triad, that is, if it contains only notes that are either in unison with the root, a major third above the root, or a perfect fifth above the root. Additionally, must contain at least one of each third and fifth above the root."
                 if not chord.isMajorTriad():
                     rbool = False
-                    LOG.debug('   ...don\'t pass music21\'s chord.isMajorTriad()')
+                    LOG.debug('   ...doesn\'t pass music21\'s chord.isMajorTriad()')
                 else:
-                    LOG.debug('   ...pass music21\'s chord.isMajorTriad()')
+                    if not isRootPosition(chord):
+                        rbool = False
+                        LOG.debug('   ...doesn\'t pass music21\'s chord.isRootPosition()')
+                    else:
+                        LOG.debug('   ...passes music21\'s chord.isMajorTriad()')
 
             elif r == 'perfectTriadNoSeven':  # TODO: okay to rely on music21?
                 #"chord is a major or minor triad"
                 if not chord.canBeTonic():
                     rbool = False
-                    LOG.debug('   ...don\'t pass music21\'s chord.canBeTonic()')
+                    LOG.debug('   ...doesn\'t pass music21\'s chord.canBeTonic()')
                 else:
-                    LOG.debug('   ...pass music21\'s chord.canBeTonic()')
+                    if not isRootPosition(chord):
+                        rbool = False
+                        LOG.debug('   ...doesn\'t pass music21\'s chord.isRootPosition()')
+                    else:
+                        LOG.debug('   ...passes music21\'s chord.canBeTonic()')
 
             else:
                 LOG.warning('Cannot yet check for rule property %s', r)
