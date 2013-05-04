@@ -37,6 +37,8 @@ class Rule(object):
 
     def _show_it_off(self):
         from pprint import pprint
+        #a rule's name is stored in self.__class__.__name__
+        pprint(str(self.__class__.__name__))
         pprint(vars(self))
 
 
