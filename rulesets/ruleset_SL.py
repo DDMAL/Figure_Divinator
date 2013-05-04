@@ -51,6 +51,88 @@ def full_ruleset():
 
 
 #* * * RULES * * *
+class SLRule_6_05(SLRule):
+    """
+    Page: 36 (from chapter 6)
+
+    Conditions:
+
+    * Bass note goes up by a chromatic semitone
+        *TODO: Accidentals:  flat on the first note, natural on second note OR None on first note, sharp on second note
+    * First chord should be a major triad (maj or min)(no 7)TODO
+
+    Figures:
+
+    * First note gets 5,3
+    * Second gets a 6 (6,3) -> Realization: l'accord double or accord simple.
+
+    """
+    def __init__(self):
+        SLRule.__init__(self, 2)
+
+        #Conditions:
+        self.intervals[0] = [m21.interval.ChromaticInterval(1)] 
+        self.harmonic_content[0] = ['perfectTriadNoSeven']
+
+        #Figures:
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,3')
+
+class SLRule_6_06(SLRule):
+    """
+    Page: 36 (from chapter 6)
+
+    Conditions:
+
+    * Bass note goes down by a chromatic semitone
+        *TODO: Accidentals:  sharp on the first note, natural on second note OR None on first note, flat on second note
+    * First chord should be a 6
+
+    Figures:
+
+    * First note gets a 6 (6,3) -> Realization: l'accord double or accord simple.
+    * Second gets a 6 (6,3) -> Realization: l'accord double or accord simple.
+
+    """
+    def __init__(self):
+        SLRule.__init__(self, 2)
+
+        #Conditions:
+        self.intervals[0] = [m21.interval.ChromaticInterval(-1)] 
+        self.harmonic_content[0] = ['hasSix']
+        self.harmonic_content[1] = ['hasSix']
+
+        #Figures:
+        self.figures[0] = m21.figuredBass.notation.Notation('6,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,3')
+
+class SLRule_6_10(SLRule):
+    """
+    Page: 36 (from chapter 6)
+
+    Conditions:
+
+    * Bass note goes down by a tone
+    * First chord is a perfect major triad  no sevens 
+
+    Figures:
+
+    * First note gets a (5,3)
+    * Second gets a 6 (6,4+,2) -> Realization: l'accord double or accord simple.
+
+    """
+    def __init__(self):
+        SLRule.__init__(self, 2)
+
+        #Conditions:
+        self.intervals[0] = [m21.interval.ChromaticInterval(-2)] 
+        self.harmonic_content[0] = ['perfectMajorTriadNoSeven']
+
+        #Figures:
+        self.figures[0] = m21.figuredBass.notation.Notation('5,3')
+        self.figures[1] = m21.figuredBass.notation.Notation('6,4+,3')
+
+
 class SLRule_03(SLRule):
     """
     Page: 45
